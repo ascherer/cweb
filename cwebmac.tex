@@ -199,8 +199,8 @@
 
 \let\page=\pagebody \raggedbottom
 % \def\page{\box255 }\normalbottom % faster, but loses plain TeX footnotes
-\def\normaloutput#1#2#3{\shipout\vbox{
-  \ifodd\pageno\hoffset=\pageshift\fi
+\def\normaloutput#1#2#3{\ifodd\pageno\hoffset=\pageshift\fi
+ \shipout\vbox{
   \vbox to\fullpageheight{
   \iftitle\global\titlefalse
   \else\hbox to\pagewidth{\vbox to10pt{}\ifodd\pageno #3\else#2\fi}\fi

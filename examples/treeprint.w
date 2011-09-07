@@ -215,7 +215,7 @@ print_node(fp, indent_string, node)
 @#
     /* Add vertical bar or space for this sibling (claim |*is=='\0'|) */
     *is++ = (is_last(node) ? ' ' : vert);
-    *is=='\0';
+    *is='\0';
    
     print_node(fp, indent_string, node->child); /* extended |indent_string| */
     *--is='\0';

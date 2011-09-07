@@ -498,7 +498,8 @@ char *s;
 {
   char *k,*l; /* pointers into |buffer| */
   fprintf(stderr,*s=='!'? "\n%s" : "%s",s);
-  if(web_file_open) @<Print error location based on input buffer@>;
+  if(web_file_open) @<Print error location based on input buffer@>@;
+  else putc('\n',stderr);
   update_terminal; mark_error;
 }
 
