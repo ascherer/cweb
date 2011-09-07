@@ -24,6 +24,7 @@ comm-amiga.ch
 comm-bs.ch
 comm-man.ch
 comm-pc.ch
+comm-ql.ch
 comm-vms.ch
 common.c
 common.h
@@ -31,12 +32,14 @@ common.w
 ctang-bs.ch
 ctang-man.ch
 ctang-pc.ch
+ctang-ql.ch
 ctang-vms.ch
 ctangle.c
 ctangle.w
 cweav-bs.ch
 cweav-man.ch
 cweav-pc.ch
+cweav-ql.ch
 cweav-vms.ch
 cweave.w
 cweb.1
@@ -46,6 +49,7 @@ cwebman.tex
 examples/
 makefile.bs
 prod.w
+readme.ql
 
 (If you got cweb by mail, you may have cweave.w.1 and cweave.w.2
 instead of cweave.w.  The first thing to say then is
@@ -62,6 +66,7 @@ The file cweb.el is suggested for GNU-Emacs users.
 The files *-man.ch are used if you want to make the full 228-page CWEB manual.
 The files *-bs.ch are used instead of *-pc.ch if you are doing BIG programs.
 You can use makefile.bs to make CWEB with *-bs.ch.
+The files *-ql.ch are for QDOS/SMSQ systems; see readme.ql for further info.
 The other files named *.ch are sample change files for local customization.
 
 IMPORTANT: Please touch *.c before proceeding.
