@@ -56,7 +56,7 @@ int main(argc,argv)
   char *argv[]; /* the arguments (|*argv| is the program name) */
 {
   @<Local variables@>;
-  if (strcmp(*argv,"excweb")==0) {
+  if (strlen(*argv)>=6 && strcmp(*argv+strlen(*argv)-6,"excweb")==0) {
     web=1;
     @<Adjust tables for \.{CWEB} mode@>;
   } else web=0;
