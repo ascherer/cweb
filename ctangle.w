@@ -2,7 +2,8 @@
 % This program by Silvio Levy and Donald E. Knuth
 % is based on a program by Knuth.
 % It is distributed WITHOUT ANY WARRANTY, express or implied.
-% Version 3.5 --- December 1999
+% Version 3.6 --- May 2000
+% (same as Version 3.5 except for minor typographic/stylistic corrections)
 
 % Copyright (C) 1987,1990,1993 Silvio Levy and Donald E. Knuth
 
@@ -22,11 +23,11 @@
 \mathchardef\RA="3221 % right arrow
 \mathchardef\BA="3224 % double arrow
 
-\def\title{CTANGLE (Version 3.5)}
+\def\title{CTANGLE (Version 3.6)}
 \def\topofcontents{\null\vfill
   \centerline{\titlefont The {\ttitlefont CTANGLE} processor}
   \vskip 15pt
-  \centerline{(Version 3.5)}
+  \centerline{(Version 3.6)}
   \vfill}
 \def\botofcontents{\vfill
 \noindent
@@ -57,7 +58,7 @@ Joachim Schrod, Lee Wittenberg, and others who have contributed improvements.
 The ``banner line'' defined here should be changed whenever \.{CTANGLE}
 is modified.
 
-@d banner "This is CTANGLE (Version 3.5)\n"
+@d banner "This is CTANGLE (Version 3.6)\n"
 
 @c
 @<Include files@>@/
@@ -80,8 +81,8 @@ extern int strncmp(); /* compare up to $n$ string characters */
 extern char* strncpy(); /* copy up to $n$ string characters */
 
 @ \.{CTANGLE} has a fairly straightforward outline.  It operates in
-two phases: first it reads the source file, saving the \CEE/ code in
-compressed form; then outputs the code, after shuffling it around.
+two phases: First it reads the source file, saving the \CEE/ code in
+compressed form; then it shuffles and outputs the code.
 
 Please read the documentation for \.{common}, the set of routines common
 to \.{CTANGLE} and \.{CWEAVE}, before proceeding further.
@@ -104,7 +105,7 @@ char **av;
 @ The following parameters were sufficient in the original \.{TANGLE} to
 handle \TEX/,
 so they should be sufficient for most applications of \.{CTANGLE}.
-If you change |max_bytes|, |max_names| or |hash_size| you should also
+If you change |max_bytes|, |max_names|, or |hash_size| you should also
 change them in the file |"common.w"|.
 
 @d max_bytes 90000 /* the number of bytes in identifiers,
@@ -308,7 +309,7 @@ typedef output_state *stack_pointer;
 @d cur_section cur_state.section_field /* current section number being expanded */
 
 @<Global...@>=
-output_state cur_state; /* |cur_end|, |cur_byte|, |cur_name|, |cur_repl|
+output_state cur_state; /* |cur_end|, |cur_byte|, |cur_name|, |cur_repl|,
   and |cur_section| */
 output_state stack[stack_size+1]; /* info for non-current levels */
 stack_pointer stack_ptr; /* first unused location in the output state stack */
@@ -1415,7 +1416,7 @@ while (next_control<definition)
 code is forthcoming: the section is being cited, not being
 defined.  This use is illegal after the definition part of the
 current section has started, except inside a comment, but
-\.{CTANGLE} does not enforce this rule: it simply ignores the offending
+\.{CTANGLE} does not enforce this rule; it simply ignores the offending
 section name and everything following it, up to the next significant
 control code.
 

@@ -15,7 +15,7 @@
 % entire resulting derived work is distributed under the terms of a
 % permission notice identical to this one.
 
-% Please send comments, suggestions, etc. to levy@@geom.umn.edu.
+% Please send comments, suggestions, etc. to levy@@math.berkeley.edu.
 
 % The next few sections contain stuff from the file |"common.w"| that has
 % to be included in both |"ctangle.w"| and |"cweave.w"|. It appears in this

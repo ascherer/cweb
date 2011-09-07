@@ -1,8 +1,7 @@
 % This file is part of CWEB.
 % The CWEB programs by Silvio Levy are based on programs by D. E. Knuth.
 % They are distributed WITHOUT ANY WARRANTY, express or implied.
-% This README file last updated August 1994 by Don Knuth
-% [with a trivial update also in December 1999]
+% This README file last updated May 2000 by Don Knuth
 
 % Copyright (C) 1987,1990,1993 Silvio Levy and Donald E. Knuth
 
@@ -15,7 +14,7 @@
 % entire resulting derived work is given a different name and distributed
 % under the terms of a permission notice identical to this one.
 
-% Please send comments, suggestions, etc. to levy@geom.umn.edu.
+% Please send comments, suggestions, etc. to levy@math.berkeley.edu.
 
 This directory contains the following files:
 
@@ -51,20 +50,15 @@ examples/
 makefile.bs
 prod.w
 readme.ql
-
-(If you got cweb by mail, you may have cweave.w.1 and cweave.w.2
-instead of cweave.w.  The first thing to say then is
-
-cat cweave.w.[12] > cweave.w
-
-)
+c++lib.w
 
 The file cwebman.tex is the user manual.
 The examples directory contains additional examples of the use of CWEB.
 The files common.c and ctangle.c are used for bootstrapping.
 The file cweb.1 is a manual page.
 The file cweb.el is suggested for GNU-Emacs users.
-The files *-man.ch are used if you want to make the full 228-page CWEB manual.
+The file c++lib.w is for C++ users (say `@i c++lib.w' at beginning of program).
+The files *-man.ch are used if you want to make the full 234-page CWEB manual.
 The files *-bs.ch are used instead of *-pc.ch if you are doing BIG programs.
 You can use makefile.bs to make CWEB with *-bs.ch.
 The files *-ql.ch are for QDOS/SMSQ systems; see readme.ql for further info.
@@ -96,6 +90,3 @@ Note that change files for VMS, AMIGA, and PCs are provided.  When you are
 first bootstrapping to a new system, you may need to edit common.c and
 ctangle.c by hand, but the vast majority of the change-file changes are
 minor refinements that are not necessary for a rudimentary ctangle.
-
-A new macro file cwebmac-pdf.tex can be substituted for cwebmac.tex
-if you want to make hypertext documents with dvipdfm for the Acrobat reader.

@@ -18,7 +18,7 @@
 #
 
 # directory for TeX inputs (cwebmac.tex goes here)
-MACROSDIR= /usr/local/lib/tex/inputs
+MACROSDIR= /usr/local/texmf/tex/generic
 
 # directory for CWEB inputs in @i files
 CWEBINPUTS= /usr/local/lib/cweb
@@ -67,16 +67,16 @@ CP= /bin/cp
 CWEAVE = ./cweave
 CTANGLE = ./ctangle
 SOURCES = cweave.w common.w ctangle.w
-ALMOSTALL =  common.w ctangle.w Makefile README common.c common.h ctangle.c \
-	cwebman.tex cwebmac.tex examples comm-vms.ch ctang-vms.ch \
+ALL =  common.w ctangle.w cweave.w prod.w \
+	Makefile common.c common.h ctangle.c \
+	cwebman.tex cwebmac.tex comm-vms.ch ctang-vms.ch \
 	cweav-vms.ch comm-man.ch ctang-man.ch cweav-man.ch \
 	comm-pc.ch ctang-pc.ch cweav-pc.ch comm-amiga.ch \
         comm-bs.ch ctang-bs.ch cweav-bs.ch makefile.bs \
 	comm-ql.ch ctang-ql.ch cweav-ql.ch readme.ql \
-	comm-os2.ch cweb.1 cweb.el prod.w cwebmac-pdf.tex
-ALL =  $(ALMOSTALL) cweave.w
+	comm-os2.ch cweb.1 cweb.el c++lib.w README
 
-.SUFFIXES: .dvi .tex .w
+.SUFFIXES: .dvi .tex .w .pdf
 
 .w.tex:
 	$(CWEAVE) $*
@@ -94,6 +94,11 @@ ALL =  $(ALMOSTALL) cweave.w
 .w.o:
 	make $*.c
 	make $*.o
+
+.w.pdf:
+	make $*.tex
+	tex "\let\pdf+ \input $*"
+	dvipdfm $*
 
 all: ctangle cweave
 
@@ -161,19 +166,18 @@ install: all
 	chmod 644 $(MACROSDIR)/cwebmac.tex
 	$(CP) cweb.el $(EMACSDIR)
 	chmod 644 $(EMACSDIR)/cweb.el
+	$(CP) c++lib.w $(CWEBINPUTS)
+	chmod 644 $(CWEBINPUTS)/c++lib.w
 
-bundle: $(ALL)
-	sed -n '1,2200 p' cweave.w > cweave.w.1
-	sed -n '2201,$$ p' cweave.w > cweave.w.2
-	/usr/local/bin/shar -m100000 -c -v -f cweb $(ALMOSTALL) cweave.w.[12]
-
-tags: $(ALL)
-	etags -z $(ALL)
-
-cweb.tar: $(ALL)
-	tar cvhf cweb.tar $(ALL)
-
-floppy: $(ALL)
-	bar cvhf /dev/rfd0 $(ALL)
+floppy: $(ALL) examples
+	bar cvhf /dev/rfd0 $(ALL) examples
 	bar tvf /dev/rfd0
 	eject
+
+tags: $(ALL)
+	etags -lnone $(ALL)
+
+tarfile: $(ALL) examples
+	tar cvhf /tmp/cweb.tar $(ALL) examples
+	gzip -9 /tmp/cweb.tar
+

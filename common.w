@@ -2,7 +2,7 @@
 % This program by Silvio Levy and Donald E. Knuth
 % is based on a program by Knuth.
 % It is distributed WITHOUT ANY WARRANTY, express or implied.
-% Version 3.5 --- December 1999 (works with later versions too)
+% Version 3.6 --- May 2000 (works with later versions too)
 
 % Copyright (C) 1987,1990,1993 Silvio Levy and Donald E. Knuth
 
@@ -17,12 +17,12 @@
 
 \def\v{\char'174} % vertical (|) in typewriter font
 
-\def\title{Common code for CTANGLE and CWEAVE (Version 3.5)}
+\def\title{Common code for CTANGLE and CWEAVE (Version 3.6)}
 \def\topofcontents{\null\vfill
   \centerline{\titlefont Common code for {\ttitlefont CTANGLE} and
     {\ttitlefont CWEAVE}}
   \vskip 15pt
-  \centerline{(Version 3.5)}
+  \centerline{(Version 3.6)}
   \vfill}
 \def\botofcontents{\vfill
 \noindent
@@ -74,7 +74,7 @@ both, differentiating between the two by means of the global variable
 typedef short boolean;
 boolean program; /* \.{CWEAVE} or \.{CTANGLE}? */
 
-@ \.{CWEAVE} operates in three phases: first it inputs the source
+@ \.{CWEAVE} operates in three phases: First it inputs the source
 file and stores cross-reference data, then it inputs the source once again and
 produces the \TEX/ output file, and finally it sorts and outputs the index.
 Similarly, \.{CTANGLE} operates in two phases.
@@ -95,7 +95,7 @@ common_init()
   @<Scan arguments and open output files@>;
 }
 
-@*1 The character set.
+@* The character set.
 \.{CWEB} uses the conventions of \CEE/ programs found in the standard
 \.{ctype.h} header file.
 
@@ -260,7 +260,7 @@ prime_the_change_buffer()
 
 @ While looking for a line that begins with \.{@@x} in the change file, we
 allow lines that begin with \.{@@}, as long as they don't begin with \.{@@y},
-\.{@@z} or \.{@@i} (which would probably mean that the change file is fouled up).
+\.{@@z}, or \.{@@i} (which would probably mean that the change file is fouled up).
 
 @<Skip over comment lines in the change file...@>=
 while(1) {
@@ -834,7 +834,7 @@ int web_strcmp(j,j_len,k,k_len) /* fuller comparison than |strcmp| */
 parent and whether it's the |rlink| or |llink| of the parent.  As a
 special case, when the name is the first section being added, we set the
 ``parent'' to |NULL|.  When a section name is created, it has only one
-chunk, which however may be just a prefix: the full name will
+chunk, which however may be just a prefix; the full name will
 hopefully be unveiled later.  Obviously, |prefix_length| starts
 out as the length of the first chunk, though it may decrease later.
 
@@ -996,7 +996,7 @@ switch(section_name_cmp(&first,name_len,r)) {
 the full name of a section, are those of |web_strcmp| plus
 |bad_extension|, used when the string is an extension of a
 supposedly already complete section name.  This function has a side
-effect when the comparison string is an extension: it advances the
+effect when the comparison string is an extension: It advances the
 address of the first character of the string by an amount equal to
 the length of the known part of the section name.
 
@@ -1253,7 +1253,7 @@ scan_args()
   char *name_pos; /* file name beginning, sans directory */
   register char *s; /* register for scanning strings */
   boolean found_web=0,found_change=0,found_out=0;
-             /* have these names have been seen? */
+             /* have these names been seen? */
   boolean flag_change;
 
   while (--argc > 0) {
@@ -1266,7 +1266,7 @@ scan_args()
         else s++;
       }
       if (!found_web) @<Make
-       |web_file_name|, |tex_file_name| and |C_file_name|@>@;
+       |web_file_name|, |tex_file_name|, and |C_file_name|@>@;
       else if (!found_change) @<Make |change_file_name| from |fname|@>@;
       else if (!found_out) @<Override |tex_file_name| and |C_file_name|@>@;
         else @<Print usage error message and quit@>;

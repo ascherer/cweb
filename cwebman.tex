@@ -34,7 +34,7 @@
 
 \def\lheader{\mainfont\the\pageno\hfill\sc\runninghead\hfill}
 \def\rheader{\hfill\sc\runninghead\hfill\mainfont\the\pageno}
-\def\runninghead{{\tentt CWEB} USER MANUAL (VERSION 3.5)}
+\def\runninghead{{\tentt CWEB} USER MANUAL (VERSION 3.6)}
 
 % This verbatim mode assumes that ! marks are !! in the text being copied.
 \def\verbatim{\begingroup
@@ -48,7 +48,7 @@
 \null\vfill
 \centerline{\titlefont The {\ttitlefont CWEB} System of
     Structured Documentation}
-\vskip 18pt\centerline{(Version 3.5)}
+\vskip 18pt\centerline{(Version 3.6 --- May 2000)}
 \vskip 24pt
 \centerline{\authorfont Donald E. Knuth and Silvio Levy}
 \vfill
@@ -78,6 +78,10 @@ of a permission notice identical to this one.
 Individuals may make copies of the documentation from the electronic files
 for their own personal use.
 
+\smallskip\noindent
+Internet page \.{http://www-cs-faculty.stanford.edu/\char`\~knuth/cweb.html}
+contains current info about \.{CWEB} and related topics.
+
 \pageno=0 \titletrue\eject
 
 \titletrue
@@ -94,7 +98,7 @@ adapted to \CEE/ by Silvio Levy.  Since its creation in 1987, \.{CWEB}
 has been revised and enhanced in various ways, by both Knuth and Levy.
 We now believe that its evolution is near an end; however, bug
 reports, suggestions and comments are still welcome, and
-should be sent to Levy (\.{levy@geom.umn.edu}).
+should be sent to Levy (\.{levy@math.berkeley.edu}).
 
 Readers who are familiar with Knuth's memo ``The \.{WEB} System of Structured
 Documentation'' will be able
@@ -111,13 +115,17 @@ retained, and new features have been added.
 
 We thank all who contributed suggestions and criticism to
 the development of \.{CWEB}. We are especially grateful to Steve
-Avery, Nelson Beebe, Hans-Hermann Bode, Klaus Guntermann, Norman Ramsey and
-Joachim Schnitter, who contributed code, and to Cameron Smith, who
+Avery, Nelson Beebe, Hans-Hermann Bode, Klaus Guntermann, Norman Ramsey,
+Joachim Schnitter, and Saroj Mahapatra,
+who contributed code, and to Cameron Smith, who
 made many suggestions improving the manual.  Ramsey has made
 literate programming accessible to users of yet other languages by means of
 his \.{SPIDER} system [see {\sl Communications of the ACM\/ \bf32} (1989),
-1051--1055].  Bode adapted \.{CWEB} so that it works for \CPLUSPLUS/ as
-well, so in the text below you can read \CPLUSPLUS/ for \CEE/ if you so desire.
+1051--1055]. The book {\sl Literate Programming\/} by Knuth (1992) contains
+a comprehensive bibliography of related early work.
+Bode, Schnitter, and Mahapatra adapted \.{CWEB} so that it works
+for \CPLUSPLUS/ as well; therefore in the text below you can read \CPLUSPLUS/
+for \CEE/ if you so desire.
 
 \section Introduction.
 The philosophy behind \.{CWEB} is
@@ -284,8 +292,8 @@ said to be {\sl unnamed}.
 
 The construct `\.{@<section name@>}' can appear
 any number of times in the \CEE/ part of a section:
-subsequent appearances indicate that the named section is being
-``used'' rather than ``defined'', that is, that the
+Subsequent appearances indicate that a named section is being
+``used'' rather than ``defined.'' In other words, the
 \CEE/ code for the named section, presumably defined elsewhere, should be
 spliced in at this point in the \CEE/ program.  Indeed,
 the main idea of \.{CTANGLE} is to make a \CEE/ program out of
@@ -477,15 +485,14 @@ list them more methodically.
 In the following list,
 the letters in brackets after a control code indicate in what contexts that
 code is allowed.  $L$ indicates that the code is allowed in limbo; $T$
-(for \TEX/), $M$ (for middle) and $C$ mean that the code is allowed in
-each of the three parts of a section, at top level---that is, outside
-such constructs as `\pb' and section names.  An arrow $\to$ means
-that the control code terminates the present part of the \.{CWEB}
+(for \TEX/), $M$ (for middle), and $C$ (for \CEE/) mean that the code is
+allowed in each of the three parts of a section, at top level---that
+is, outside such constructs as `\pb' and section names.  An arrow $\to$
+means that the control code terminates the present part of the \.{CWEB}
 file, and inaugurates the part indicated by the letter following the
 arrow.  Thus $[LTMC\to T]$ next to \.{@\ } indicates that this control
 code can occur in limbo, or in any of the three parts of a section, and
-that it starts the (possibly empty) \TEX/ part of the following
-section.
+that it starts the (possibly empty) \TEX/ part of the following section.
 
 Two other abbreviations can occur in these brackets: The letter $r$ stands for
 {\it restricted context}, that is, material inside \CEE/ comments, section
@@ -497,7 +504,7 @@ the brackets means
 that the context from this control code to the matching \.{@>} is
 restricted.
 
-Control codes involving letters are case-insensitive: thus \.{@d} and
+Control codes involving letters are case-insensitive; thus \.{@d} and
 \.{@D} are equivalent. Only the lowercase versions are mentioned
 specifically below.
 
@@ -509,7 +516,7 @@ specifically below.
 \@@ [LTMCrc] A double \.@ denotes the single character `\.@'. This is
 the only control code that is legal everywhere.
 Note that you must use this convention if you are giving an internet
-email address in a \.{CWEB} file (e.g., \.{levy@@geom.umn.edu}).
+email address in a \.{CWEB} file (e.g., \.{levy@@math.berkeley.edu}).
 
 \subsec
 Here are the codes that introduce the \TEX/ part of a section.
@@ -556,7 +563,14 @@ an identifier and optional parameters and \CEE/ text as explained earlier.
 are identifiers; \.{CWEAVE} will subsequently treat identifier \|l as it
 currently treats \|r. This feature allows a \.{CWEB} programmer to invent
 new reserved words and/or to unreserve some of \CEE/'s reserved
-identifiers. If \|r is the special identifier `\\{TeX}', identifier \|l
+identifiers. For example, the common words `error' and `line'
+have been given a special meaning in the \CEE/ preprocessor,
+so \.{CWEAVE} is set up to format them specially; if you want a variable
+named \\{error} or \\{line}, you should say
+$$\.{@f error normal}\qquad\qquad\.{@f line normal}$$
+somewhere in your program.
+
+\more If \|r is the special identifier `\\{TeX}', identifier \|l
 will be formatted as a \TEX/ control sequence; for example,
 `\.{@f foo TeX}' in the \.{CWEB} file will cause identifier \\{foo} to
 be output as \.{\\foo} by \.{CWEAVE}. The programmer should define
@@ -569,6 +583,11 @@ are left untranslated, so \TEX/ will consider them as macro parameters,
 not as part of the control sequence itself. For example,
 $$\.{\\def\\x\#1\{x\_\{\#1\}\} @f x1 TeX @f x2 TeX}$$
 will format \.{x1} and \.{x2} not as \\{x1} and \\{x2} but as $x_1$ and $x_2$.)
+
+\more If \|r is the special identifier `\\{make\_pair}', identifier \|l will
+be treated as a \CPLUSPLUS/ function template. For example, after
+\.{@f}~\.{convert}~\.{make\_pair} one can say `\.{convert<int>(2.5)}' without
+having \.< and \.> misunderstood as less-than and greater-than signs.
 
 \more \.{CWEAVE} knows that identifiers being
 defined with a \&{typedef} should become reserved words; thus you
@@ -642,7 +661,7 @@ say. (Ignored by \.{CTANGLE} inside `\pb'.)
 
 \subsec
 The next several control codes introduce ``control
-texts'', which end with the next `\.{@>}'.  The closing `\.{@>}' must be on
+texts,'' which end with the next `\.{@>}'.  The closing `\.{@>}' must be on
 the same line of the \.{CWEB} file as the line where the control text began.
 The context from each of these control codes to the matching \.{@>} is
 restricted.
@@ -699,6 +718,12 @@ the arguments will, however, be considered to be defined
 (i.e., their index entries will be underlined) if their types are
 declared before the body of the function in the usual way
 (e.g., `\&{int}~\\{argc}; \&{char}~${*}\\{argv}[\,]$; $\{\,\ldots\,\}$').
+Thus \.{@!} is not needed very often, except in unusual constructions
+or in cases like
+$$\.{enum boolean \{@!false, @!true\};}$$
+here \.{@!} gives the best results because individual constants enumerated
+by \.{enum} are not automatically underlined in the index at their
+point of definition.
 
 \subsec
 We now turn to control codes that affect only the operation of
@@ -952,9 +977,10 @@ the \.{@f} that defines it. The reason is that \.{CWEAVE} operates in two
 passes; it processes \.{@f}'s and cross-references on the first pass and
 it does the output on the second.  (However, identifiers that
 implicitly get a boldface format, thanks to a \.{typedef} declaration,
-don't obey this rule: they are printed differently before and after
+don't obey this rule; they are printed differently before and after
 the relevant \.{typedef}.  This is unfortunate, but hard to fix. You can
-get around the restriction by using \.{@s}, before or after the \.{typedef}.)
+get around the restriction by saying, say, `\.{@s} \.{foo} \.{int}',
+before or after the \.{typedef}.)
 
 9. Sometimes it is desirable to insert spacing into formatted \CEE/ code that
 is more general than the thin space provided by `\.{@,}'. The \.{@t} feature
@@ -1001,6 +1027,10 @@ options are currently implemented:
 
 \option b Print a banner line at the beginning of execution. (On
 by default.)
+
+\option e Enclose \CEE/ material formatted by \.{CWEAVE} in
+brackets \.{\\PB\{...\}}, so that special hooks can be used.
+(Off by default; has no effect on \.{CTANGLE}.)
 
 \option f Force line breaks after each \CEE/ statement formatted
 by \.{CWEAVE}. (On by default; \.{-f} saves paper but looks less \CEE/-like
@@ -1093,6 +1123,32 @@ $$\vbox{\halign{#\hfil\cr
 \.{@<Other locals@>@;@\#}\cr}}$$
 the `\.{@\#}' will put extra space after `$\langle\,$Other locals$\,\rangle$'.
 
+\section Hypertext and hyperdocumentation.
+
+Many people have of course noticed analogies between \.{CWEB} and the
+World Wide Web. The \.{CWEB} macros are in fact set up so that the output of
+\.{CWEAVE} can be converted easily into Portable Document Format,
+with clickable hyperlinks that can be read with Adobe's Acrobat Reader,
+using a widely available open-source program called \.{dvipdfm} developed
+by Mark~A. Wicks. After using \.{CWEAVE} to convert \.{cob.w} into
+\.{cob.tex}, you can prepare and view a hypertext version of the program
+by giving the commands
+$$\vbox{\halign{\.{#}\hfil\cr
+tex "\\let\\pdf+ \\input cob"\cr
+dvipdfm cob\cr
+acroread cob.pdf\cr}}$$
+instead of invoking \TeX\ in the normal way. (Thanks to Hans Hagen and
+C\'esar Augusto Rorato Crusius for the macros that make this work.)
+
+A more elaborate system called \.{CTWILL}, which extends the usual cross
+references of \.{CWEAVE} by preparing links from the uses of identifiers
+to their definitions, is also available---provided that you are willing
+to work a bit harder in cases where an identifier is multiply defined.
+\.{CTWILL} is intended primarily for hardcopy output, but its principles
+could be used for hypertext as well.
+See Chapter 11 of {\sl Digital Typography\/} by D.~E. Knuth (1999), and
+the program sources at \.{ftp://labrea.stanford.edu/pub/ctwill}.
+
 \section Appendices.
 
 As an example of a real program written in \.{CWEB}, Appendix~A
@@ -1150,7 +1206,7 @@ prime_the_change_buffer()
 
 @ While looking for a line that begins with \.{@@x} in the change file, we
 allow lines that begin with \.{@@}, as long as they don't begin with \.{@@y},
-\.{@@z} or \.{@@i} (which would probably mean that the change file is fouled up).
+\.{@@z}, or \.{@@i} (which would probably mean that the change file is fouled up).
 
 @<Skip over comment lines in the change file...@>=
 while(1) {
@@ -1286,7 +1342,8 @@ change file ends }\6
 !vskip-.5!baselineskip
 \M{13}While looking for a line that begins with \.{@x} in the change file, we
 allow lines that begin with \.{@}, as long as they don't begin with \.{@y},
-\.{@z} or \.{@i} (which would probably mean that the change file is fouled up).
+\.{@z}, or \.{@i} (which would probably mean that the change file is fouled
+up).
 !vskip-.5!baselineskip
 \Y\B\4\X13:Skip over comment lines in the change file; \PB{\&{return}} if end
 of file\X${}\E{}$\6
@@ -1365,7 +1422,7 @@ change file ends }\6
 
 \M{13}While looking for a line that begins with \.{@x} in the change file, we
 allow lines that begin with \.{@}, as long as they don't begin with \.{@y},
-\.{@z} or \.{@i} (which would probably mean that the change file is fouled up).
+\.{@z}, or \.{@i} (which would probably mean that the change file is fouled up).
 
 \Y\B\4\X13:Skip over comment lines in the change file; \PB{\&{return}} if end
 of file\X${}\E{}$\6
@@ -1508,7 +1565,7 @@ $$\lpile{\.{\\def\\topofcontents\{\\null\\vfill}\cr
   \.{ { }\\titlefalse \% include headline on the contents page}\cr
   \.{ { }\\def\\rheader\{\\mainfont The \{\\tt CWEAVE\}{ }processor\\hfil\}}\cr
   \.{ { }\\centerline\{\\titlefont The \{\\ttitlefont CWEAVE\}{ }processor\}}\cr
-  \.{ { }\\vskip 15pt \\centerline\{(Version 3.5)\}{ }\\vfill\}}\cr}$$
+  \.{ { }\\vskip 15pt \\centerline\{(Version 3.6)\}{ }\\vfill\}}\cr}$$
 Redefining \.{\\rheader}, which is the headline for right-hand pages,
 suffices in this case to put the desired information at the top of the
 contents page.
@@ -1516,8 +1573,8 @@ contents page.
 \point 9. Data for the table of contents is written to a file that
 is read after the indexes have been \TEX/ed; there's one line of data
 for every starred section. The file \.{common.toc} might look like this:
-$$\lpile{\.{\\ZZ \{Introduction\}\{0\}\{1\}\{23\}}\cr
-  \.{\\ZZ \{The character set\}\{2\}\{5\}\{24\}}\cr}$$
+$$\lpile{\.{\\ZZ \{Introduction\}\{0\}\{1\}\{26\}}\cr
+  \.{\\ZZ \{The character set\}\{2\}\{5\}\{27\}}\cr}$$
 and so on. The \.{\\topofcontents} macro could
 redefine \.{\\ZZ} so that the information appears in any desired format.
 
@@ -1580,7 +1637,7 @@ the sort key isn't printed.
 A similar idea can be used to insert hidden material into section
 names so that they are alphabetized in whatever way you might wish.
 Some people call these tricks ``special refinements''; others call
-them ``kludges''.
+them ``kludges.''
 
 \point 12. The control sequence \.{\\secno} is set to the number of the
 section being typeset.
@@ -1590,9 +1647,25 @@ together with the index, put the command `\.{\\let\\maybe=\\iffalse}' in
 the limbo section before the first section of your \.{CWEB} file. It's
 customary to make this the first change in your change file.
 
+This feature has a \TeX nical limitation, however: You cannot use it
+together with control sequences like \.{\\proclaim} or \.{\\+} or
+\.{\\newcount} that plain \TeX\ has declared to be `\.{\\outer}',
+because \TeX\ refuses to skip silently over such control sequences.
+One way to work around this limitation is to say
+$$\.{\\fi \\let\\proclaim\\relax \\def\\proclaim\{...\} \\ifon}$$
+where \.{\\proclaim} is redefined to be the same as usual but without
+an \.{\\outer} qualification. (The \.{\\fi} here stops the conditional
+skipping, and the \.{\\ifon} turns it back on again.) Similarly,
+$$\.{\\fi \\newcount\\n \\ifon}$$
+is a safe way to use \.{\\newcount}. Plain \TeX\ already provides a
+non-outer macro \.{\\tabalign} that does the work of \.{\\+}; you can say
+$$\postdisplaypenalty=10000
+\.{\\fi \\let\\+\\tabalign \\ifon}$$
+if you prefer the shorter notation \.{\\+}.
+
 \point 14. To get output in languages other than English, redefine the
-macros \.{\\A}, \.{\\ET}, \.{\\Q}, \.{\\U},
-\.{\\ch}, \.{\\fin}, \.{\\con}, \.{\\today}, \.{\\datethis}, and
+macros \.{\\A}, \.{\\As}, \.{\\ET}, \.{\\ETs}, \.{\\Q}, \.{\\Qs}, \.{\\U},
+\.{\\Us}, \.{\\ch}, \.{\\fin}, \.{\\con}, \.{\\today}, \.{\\datethis}, and
 \.{\\datecontentspage}. \.{CWEAVE} itself need not be changed.
 
 \point 15. Some output can be selectively suppressed with the macros
