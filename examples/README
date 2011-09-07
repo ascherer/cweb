@@ -37,7 +37,7 @@ for TeX files would be
    cat foo.tex | extex | spell
 Even better is to replace "spell" by "wordtest /usr/local/lib/dict/words",
 if you have a suitable dictionary. One such dictionary in the public domain
-can be found in directory ~ftp/pub/dict at labrea.stanford.edu, available
+can be found in directory ~ftp/pub/dict at ftp.cs.stanford.edu, available
 via anonymous ftp. To make your own dictionary from given ones,
    cat dict1 dict2 dict3 dict4 | wordtest > words
 is quick and effective. See the documentation of wordtest for more info.

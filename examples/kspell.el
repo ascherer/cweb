@@ -1,7 +1,7 @@
 ;; Alternative spelling enterface for Emacs, contributed by Don Knuth
 ;; (Uses the wordtest and extex programs, which are
 ;;  supplied as examples with the CWEB distribution,
-;;  available by anonymous ftp from labrea.stanford.edu)
+;;  available by anonymous ftp from ftp.cs.stanford.edu)
 
 ;; Based in part on "spell.el" from GNU Emacs; redistributed under
 ;; the terms of the GNU General Public License; NO WARRANTY implied.
@@ -10,7 +10,7 @@
 ;; install wordtest and extex in /usr/local/bin, then say
 ;; "ln /usr/local/bin/extex /usr/local/bin/excweb", then install
 ;; a suitable dictionary in /usr/local/lib/dict/words; one such
-;; dictionary can be found in ~ftp/pub/dict/words at labrea.stanford.edu.
+;; dictionary can be found in ~ftp/pub/dict/words at ftp.cs.stanford.edu.
 ;; Also create an empty file called .words in your home directory.
 ;; Finally, add (load-library "kspell") to your .emacs file, or
 ;; include such a line in site-init.el if kspell is to be used by everybody.

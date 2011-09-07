@@ -65,7 +65,7 @@ than |buf_size|, so that |buffer[buf_size-1]| is never filled.
 Some of the routines use the fact that it is safe to refer to
 |*(limit+2)| without overstepping the bounds of the array.
 
-@d buf_size 1024
+@d buf_size 4096
 
 @<Definitions...@>=
 ASCII buffer[buf_size]; /* where each line of input goes */

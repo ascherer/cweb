@@ -39,7 +39,7 @@ WFILES = extex.w treeprint.w wc.w wmerge.w wordtest.w oemacs.w
 
 #======================================================================
 
-all: $(WFILES: .w=) excweb
+all: $(WFILES:.w=) excweb
 
 excweb: extex
 	ln extex excweb

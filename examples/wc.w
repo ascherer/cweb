@@ -6,7 +6,7 @@
 
 @* An example of {\tt CWEB}.  This example, based on a program by
 Klaus Guntermann and Joachim Schrod [{\sl TUGboat\/ \bf7} (1986),
-135--137] presents the ``word count'' program from \UNIX/, rewritten in
+134--137] presents the ``word count'' program from \UNIX/, rewritten in
 \.{CWEB} to demonstrate literate programming in \CEE/.  The level of
 detail in this document is intentionally high, for didactic purposes;
 many of the things spelled out here don't need to be explained in
