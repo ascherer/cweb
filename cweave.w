@@ -2,10 +2,11 @@
 % This program by Silvio Levy and Donald E. Knuth
 % is based on a program by Knuth.
 % It is distributed WITHOUT ANY WARRANTY, express or implied.
-% Version 3.6 --- May 2000
-% (adds recently introduced features of standard C++ to version 3.4)
+% Version 3.61 --- July 2000
+% (essentially the same as version 3.6, which added
+%  recently introduced features of standard C++ to version 3.4)
 
-% Copyright (C) 1987,1990,1993 Silvio Levy and Donald E. Knuth
+% Copyright (C) 1987,1990,1993,2000 Silvio Levy and Donald E. Knuth
 
 % Permission is granted to make and distribute verbatim copies of this
 % document provided that the copyright notice and this permission notice
@@ -28,15 +29,15 @@
 \def\skipxTeX{\\{skip\_\TEX/}}
 \def\copyxTeX{\\{copy\_\TEX/}}
 
-\def\title{CWEAVE (Version 3.6)}
+\def\title{CWEAVE (Version 3.61)}
 \def\topofcontents{\null\vfill
   \centerline{\titlefont The {\ttitlefont CWEAVE} processor}
   \vskip 15pt
-  \centerline{(Version 3.6)}
+  \centerline{(Version 3.61)}
   \vfill}
 \def\botofcontents{\vfill
 \noindent
-Copyright \copyright\ 1987, 1990, 1993 Silvio Levy and Donald E. Knuth
+Copyright \copyright\ 1987, 1990, 1993, 2000 Silvio Levy and Donald E. Knuth
 \bigskip\noindent
 Permission is granted to make and distribute verbatim copies of this
 document provided that the copyright notice and this permission notice
@@ -64,7 +65,7 @@ Crusius, and others who have contributed improvements.
 The ``banner line'' defined here should be changed whenever \.{CWEAVE}
 is modified.
 
-@d banner "This is CWEAVE (Version 3.6)\n"
+@d banner "This is CWEAVE (Version 3.61)\n"
 
 @c @<Include files@>@/
 @h

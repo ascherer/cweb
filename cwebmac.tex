@@ -1,12 +1,16 @@
 % standard macros for CWEB listings (in addition to plain.tex)
-% Version 3.6 --- May 2000
+% Version 3.61 --- July 2000
 \ifx\documentstyle\undefined\else\endinput\fi % LaTeX will use other macros
-\xdef\fmtversion{\fmtversion+CWEB3.6}
+\xdef\fmtversion{\fmtversion+CWEB3.61}
 \newif\ifpdf
 \ifx\pdf+\pdftrue\fi
 % Uncomment the following line if you want PDF goodies to be the default
 %\ifx\pdf-\else\pdftrue\fi
 \def\pdflinkcolor{0 0 1} % the RGB values for hyperlink color
+\newif\ifpdftex
+\ifx\pdfoutput\undefined \pdftexfalse
+\else \pdftextrue \pdfoutput=1 \pdfcompresslevel=9 \input pdfcolor \fi
+\newif\ifacro \ifpdf\acrotrue\fi \ifpdftex\acrotrue\fi
 
 \let\:=\. % preserve a way to get the dot accent
  % (all other accents will still work as usual)
@@ -115,18 +119,23 @@
 \let\yskip=\smallskip
 \def\?{\mathrel?}
 \def\note#1#2.{\Y\noindent{\hangindent2em%
-    \baselineskip10pt\eightrm#1~\ifpdf{\pdfnote#2.}\else#2\fi.\par}}
+    \baselineskip10pt\eightrm#1~\ifacro{\pdfnote#2.}\else#2\fi.\par}}
 % The following are pdf macros
 \newtoks\toksA \newtoks\toksB \newtoks\toksC
 \newtoks\toksD \newcount\countA \countA=0
 \def\thewidth{\the\wd0\space}
 \def\theheight{\the\ht0\space}
 \def\thedepth{\the\dp0\space}
-\def\pdflink#1#2{\setbox0\hbox{\special{pdf: bc [ \pdflinkcolor ]}{#1}%
-    \special{pdf: ec}}\special{pdf: ann width \thewidth\space height \theheight\space
-    depth \thedepth\space << /Type /Annot /Subtype /Link /Border [0 0 0] /A
-    << /S /GoTo /D (#2) >> >>}\box0\relax}
+\ifpdftex\def\pdflink#1#2{\hbox{\pdfannotlink attr{/Border [0 0 0]} goto num #1
+    \BlueGreen #1\Black\pdfendlink}}
+\else\def\pdflink#1#2{\setbox0=\hbox{\special{pdf: bc [ \pdflinkcolor ]}{#1}%
+    \special{pdf: ec}}\special{pdf: ann width \thewidth\space height \theheight
+      \space depth \thedepth\space << /Type /Annot /Subtype /Link
+      /Border [0 0 0] /A << /S /GoTo /D (#2) >> >>}\box0\relax}\fi
 \def\pdfnote#1.{\setbox0=\hbox{\toksA={#1.}\toksB={}\maketoks}\the\toksA}
+\def\firstsecno#1.{\setbox0=\hbox{\toksA={#1.}\toksB={}
+    \def\makenote{\addtokens{\toksB}{\the\toksC}\def\makenote{\toksD={}
+      \toksC={}\let\space\empty}\makenote}\maketoks}}
 \def\addtokens#1#2{\edef\addtoks{\noexpand#1={\the#1#2}}\addtoks}
 \def\adn#1{\addtokens{\toksC}{#1}\global\countA=1\let\next=\maketoks}
 \def\poptoks#1#2|ENDTOKS|{\let\first=#1\toksD={#1}\toksA={#2}}
@@ -154,9 +163,11 @@
 \def\stsec{\rightskip=0pt % get out of C mode (cf. \B)
   \sfcode`;=1500 \pretolerance 200 \hyphenpenalty 50 \exhyphenpenalty 50
   \noindent{\let\*=\lapstar\bf\secstar.\quad}%
-  \ifpdf{\raise\baselineskip\hbox to0pt{%
+  \ifpdftex\smash{\raise\baselineskip\hbox to0pt{%
+     \let\*=\empty\pdfdest num \secstar fith}}
+  \else\ifpdf\smash{\raise\baselineskip\hbox to0pt{%
      \let\*=\empty\special{%
-       pdf: dest (\romannumeral\secstar) [ @thispage /FitH @ypos ]}}}\fi}
+       pdf: dest (\romannumeral\secstar) [ @thispage /FitH @ypos ]}}}\fi\fi}
 \let\startsection=\stsec
 \def\defin#1{\global\advance\ind by 2 \1\&{#1 } } % begin `define' or `format'
 \def\A{\note{See also section}} % xref for doubly defined section name
@@ -191,7 +202,9 @@
   \message{*\secno} % progress report
   \edef\next{\write\cont{\ZZ{#3}{#1}{\secno}% write to contents file
                    {\noexpand\the\pageno}}}\next % \ZZ{title}{depth}{sec}{page}
-  \ifpdf\special{pdf: outline #1 << /Title (#3) /Dest [ @thispage /FitH @ypos ] >>}\fi
+  \ifpdftex\pdfoutline goto num \secno {#3}
+  \else\ifpdf\special{pdf: outline #1 << /Title (#3) /Dest
+    [ @thispage /FitH @ypos ] >>}\fi\fi
   \ifon\startsection{\bf#3.\quad}\ignorespaces}
 \def\MN#1{\par % common code for \M, \N
   {\xdef\secstar{#1}\let\*=\empty\xdef\secno{#1}}% remove \* from section name
@@ -214,7 +227,8 @@
 \let\V=\lor % logical or
 \let\W=\land % logical and
 \def\X#1:#2\X{\ifmmode\gdef\XX{\null$\null}\else\gdef\XX{}\fi %$% section name
-  \XX$\langle\,${\let\I=\ne#2\eightrm\kern.5em\ifpdf{\pdfnote#1.}\else#1\fi}$\,\rangle$\XX}
+  \XX$\langle\,${\let\I=\ne#2\eightrm\kern.5em
+    \ifacro{\pdfnote#1.}\else#1\fi}$\,\rangle$\XX}
 \def\Y{\par\yskip}
 \let\Z=\le
 \let\ZZ=\let % now you can \write the control sequence \ZZ
@@ -269,8 +283,9 @@
 \mark{\noexpand\nullsec0{\the\gtitle}}
 \def\title{\expandafter\uppercase\expandafter{\jobname}}
 \def\topofcontents{\centerline{\titlefont\title}\vskip.7in
-  \ifpdf{\special{pdf: docview << /PageMode /UseOutlines >>}}\fi
   \vfill} % this material will start the table of contents page
+\def\startpdf{\ifpdftex\pdfcatalog{/PageMode /UseOutlines}\else
+    \ifpdf{\special{pdf: docview << /PageMode /UseOutlines >>}}\fi\fi}
 \def\botofcontents{\vfill
   \centerline{\covernote}} % this material will end the table of contents page
 \def\covernote{}
@@ -320,7 +335,7 @@
   \message{Index:}
   \parskip 0pt plus .5pt
   \outer\def\I##1, ##2.{\par\hangindent2em\noindent##1:\kern1em
-    \ifpdf\pdfnote##2.\else##2\fi.} % index entry
+    \ifacro\pdfnote##2.\else##2\fi.} % index entry
   \def\[##1]{$\underline{##1}$} % underlined index item
   \rm \rightskip0pt plus 2.5em \tolerance 10000 \let\*=\lapstar
   \hyphenpenalty 10000 \parindent0pt
@@ -330,19 +345,27 @@
   \if L\lr\else\null\vfill\eject\fi % finish the current page
   \parfillskip 0pt plus 1fil
   \def\grouptitle{NAMES OF THE SECTIONS}
-  \ifpdf
+  \ifpdftex
+    \def\outsecname{Names of the sections}
+    \pdfdest name {NOS} fitb
+    \pdfoutline goto name {NOS} count -\secno {\outsecname}
+    \let\Xpdf\X
+    \def\X##1:##2\X{\Xpdf##1:##2\X
+      \firstsecno##1.\toks0{##2}\pdfoutline goto num \the\toksA {\the\toks0}}
+  \else\ifpdf
     \def\outsecname{Names of the sections}
     \special{pdf: outline -1 << /Title (\outsecname)
       /Dest [ @thispage /FitH @ypos ] >>}
     \let\Xpdf\X
-    \def\X##1:##2\X{\Xpdf##1:##2\X \toks0{##2} \special{pdf: outline 0
-      << /Title (\the\toks0) /A << /S /GoTo /D (\romannumeral##1) >> >>}}
-  \fi
+    \def\X##1:##2\X{\Xpdf##1:##2\X
+      \firstsecno##1.\toks0{##2} \special{pdf: outline 0 << /Title
+        (\the\toks0) /A << /S /GoTo /D (\romannumeral\the\toksA) >> >>}}
+  \fi\fi
   \let\topsecno=\nullsec
   \message{Section names:}
   \output={\normaloutput\page\lheader\rheader}
   \setpage
-  \def\note##1##2.{\quad{\eightrm##1~\ifpdf{\pdfnote##2.}\else{##2}\fi.}}
+  \def\note##1##2.{\quad{\eightrm##1~\ifacro{\pdfnote##2.}\else{##2}\fi.}}
   \def\Q{\note{Cited in section}} % crossref for mention of a section
   \def\Qs{\note{Cited in sections}} % crossref for mentions of a section
   \def\U{\note{Used in section}} % crossref for use of a section
@@ -357,7 +380,7 @@
   \pageno=\contentspagenumber
   \def\grouptitle{TABLE OF CONTENTS}
   \message{Table of contents:}
-  \topofcontents
+  \topofcontents \startpdf
   \line{\hfil Section\hbox to3em{\hss Page}}
   \let\ZZ=\contentsline
   \readcontents\relax % read the contents info
@@ -365,14 +388,11 @@
 \def\contentsline#1#2#3#4{\ifnum#2=0 \smallbreak\fi
     \line{\consetup{#2}#1
       \rm\leaders\hbox to .5em{.\hfil}\hfil
-      \ \ifpdf\pdflink{#3}{\romannumeral#3}\else#3\fi\hbox to3em{\hss#4}}}
+      \ \ifacro\pdflink{#3}{\romannumeral#3}\else#3\fi\hbox to3em{\hss#4}}}
 \def\consetup#1{\ifcase#1 \bf % depth -1 (@**)
   \or % depth 0 (@*)
   \or \hskip2em % depth 1 (@*1)
-  \or \hskip4em % depth 2 (@*2)
-  \or \hskip6em % depth 3 (@*3)
-  \or \hskip8em % depth 4 (@*4)
-  \or \hskip10em % depth 5 (@*5)
+  \or \hskip4em \or \hskip6em \or \hskip8em \or \hskip10em % depth 2,3,4,5
   \else \hskip12em \fi} % depth 6 or more
 \def\noinx{\let\inx=\end} % no indexes or table of contents
 \def\nosecs{\let\FIN=\fin \def\fin{\let\parfillskip=\end \FIN}}
@@ -398,4 +418,3 @@
 \def\datecontentspage{%
   \def\topofcontents{\leftline{\sc\today\ at \hours}\bigskip
    \centerline{\titlefont\title}\vfill}} % timestamps the contents page
-

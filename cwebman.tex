@@ -34,7 +34,7 @@
 
 \def\lheader{\mainfont\the\pageno\hfill\sc\runninghead\hfill}
 \def\rheader{\hfill\sc\runninghead\hfill\mainfont\the\pageno}
-\def\runninghead{{\tentt CWEB} USER MANUAL (VERSION 3.6)}
+\def\runninghead{{\tentt CWEB} USER MANUAL (VERSION 3.61)}
 
 % This verbatim mode assumes that ! marks are !! in the text being copied.
 \def\verbatim{\begingroup
@@ -48,7 +48,7 @@
 \null\vfill
 \centerline{\titlefont The {\ttitlefont CWEB} System of
     Structured Documentation}
-\vskip 18pt\centerline{(Version 3.6 --- May 2000)}
+\vskip 18pt\centerline{(Version 3.61 --- July 2000)}
 \vskip 24pt
 \centerline{\authorfont Donald E. Knuth and Silvio Levy}
 \vfill
@@ -60,7 +60,7 @@
 The printed form of this manual is copyright \copyright\ 1994
   by Addison-Wesley Publishing Company, Inc.  All rights reserved.
 \smallskip\noindent
-The electronic form is copyright \copyright\ 1987, 1990, 1993
+The electronic form is copyright \copyright\ 1987, 1990, 1993, 2000
   by Silvio Levy and Donald E. Knuth.
 
 \bigskip\noindent
@@ -1139,6 +1139,9 @@ dvipdfm cob\cr
 acroread cob.pdf\cr}}$$
 instead of invoking \TeX\ in the normal way. (Thanks to Hans Hagen and
 C\'esar Augusto Rorato Crusius for the macros that make this work.)
+Alternatively, thanks to H\`an Th\^e\kern-.3em\raise.3ex\hbox{\'{}} Th\`anh
+and Andreas Scherer, you can generate \.{cob.pdf} in one step by simply
+saying `\.{pdftex}~\.{cob}'.
 
 A more elaborate system called \.{CTWILL}, which extends the usual cross
 references of \.{CWEAVE} by preparing links from the uses of identifiers
@@ -1565,7 +1568,7 @@ $$\lpile{\.{\\def\\topofcontents\{\\null\\vfill}\cr
   \.{ { }\\titlefalse \% include headline on the contents page}\cr
   \.{ { }\\def\\rheader\{\\mainfont The \{\\tt CWEAVE\}{ }processor\\hfil\}}\cr
   \.{ { }\\centerline\{\\titlefont The \{\\ttitlefont CWEAVE\}{ }processor\}}\cr
-  \.{ { }\\vskip 15pt \\centerline\{(Version 3.6)\}{ }\\vfill\}}\cr}$$
+  \.{ { }\\vskip 15pt \\centerline\{(Version 3.61)\}{ }\\vfill\}}\cr}$$
 Redefining \.{\\rheader}, which is the headline for right-hand pages,
 suffices in this case to put the desired information at the top of the
 contents page.

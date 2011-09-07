@@ -15,7 +15,7 @@
 /*:62*/
 #line 64 "ctangle.w"
 
-#define banner "This is CTANGLE (Version 3.6)\n" \
+#define banner "This is CTANGLE (Version 3.61)\n" \
 
 #define max_bytes 90000 \
 

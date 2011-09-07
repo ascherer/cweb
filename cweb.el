@@ -87,16 +87,7 @@ otherwise do an ordinary Meta-y."
   (let ((point-save (point)))
     (unwind-protect
         (progn (goto-char (mark))
-; The next two lines of code are controversial ---
-; they seem to be the best way to do a short wait and redraw the screen with
-; standard emacs primitives --- but the short wait is a "busy wait".
-; On a faster machine, it would be better to install the function
-; sit-for-millisecs found in sunfns.c (if not already installed)
-; and to say (sit-for-millisecs 100) instead.
-; On a slower machine, do the call-process only once.
-; On a still slower machine, (sit-for 1) is probably best.
-               (call-process "echo" nil nil t)
-               (call-process "echo" nil nil t))
+               (sit-for 0 300)) ;; wait 300 milliseconds
       (goto-char point-save))))
 
 ; I prefer to change the standard copy-region command to the following,

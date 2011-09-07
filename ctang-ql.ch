@@ -7,15 +7,15 @@ ex <dev_>cc;"-v -h -c -=500000 ctangle_c"
 
 
 @x
-\def\title{CTANGLE (Version 3.6)}
+\def\title{CTANGLE (Version 3.61)}
 @y
-\def\title{CTANGLE (QL Version 3.6)}
+\def\title{CTANGLE (QL Version 3.61)}
 @z
 
 @x section 1
-@d banner "This is CTANGLE (Version 3.6)\n"
+@d banner "This is CTANGLE (Version 3.61)\n"
 @y
-@d banner "This is CTANGLE (QL Version 3.6)\n"
+@d banner "This is CTANGLE (QL Version 3.61)\n"
 @z
 
 @x

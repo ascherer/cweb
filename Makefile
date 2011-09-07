@@ -1,8 +1,8 @@
 # This file is part of CWEB.
 # It is distributed WITHOUT ANY WARRANTY, express or implied.
-# Version 3.0 --- June 1993
+# Version 3.61 --- July 2000
 
-# Copyright (C) 1987,1990,1993 Silvio Levy and Donald E. Knuth
+# Copyright (C) 1987,1990,1993,2000 Silvio Levy and Donald E. Knuth
 
 # Permission is granted to make and distribute verbatim copies of this
 # document provided that the copyright notice and this permission notice
@@ -62,6 +62,10 @@ CC = cc
 RM= /bin/rm
 CP= /bin/cp
 
+# uncomment the second line if you use pdftex to bypass .dvi files
+PDFTEX = dvipdfm
+#PDFTEX = pdftex
+
 ##########  You shouldn't have to change anything after this point #######
 
 CWEAVE = ./cweave
@@ -97,8 +101,10 @@ ALL =  common.w ctangle.w cweave.w prod.w \
 
 .w.pdf:
 	make $*.tex
-	tex "\let\pdf+ \input $*"
-	dvipdfm $*
+	case "$(PDFTEX)" in \
+	 dvipdfm ) tex "\let\pdf+ \input $*"; dvipdfm $* ;; \
+	 pdftex ) pdftex $* ;; \
+	esac
 
 all: ctangle cweave
 
@@ -153,19 +159,24 @@ fullmanual: usermanual $(SOURCES) comm-man.ch ctang-man.ch cweav-man.ch
 # be sure to leave ctangle.c and common.c for bootstrapping
 clean:
 	$(RM) -f -r *~ *.o common.tex cweave.tex cweave.c ctangle.tex \
-	  *.log *.dvi *.toc *.idx *.scn core cweave.w.[12] cweave ctangle
+	  *.log *.dvi *.toc *.idx *.scn *.pdf core cweave ctangle
 
 install: all
+	- mkdir $(DESTDIR)
 	$(CP) cweave $(DESTDIR)$(DESTPREF)weave
 	chmod 755 $(DESTDIR)$(DESTPREF)weave
 	$(CP) ctangle $(DESTDIR)$(DESTPREF)tangle
 	chmod 755 $(DESTDIR)$(DESTPREF)tangle
+	- mkdir $(MANDIR)
 	$(CP) cweb.1 $(MANDIR)/cweb.$(MANEXT)
 	chmod 644 $(MANDIR)/cweb.$(MANEXT)
+	- mkdir $(MACROSDIR)
 	$(CP) cwebmac.tex $(MACROSDIR)
 	chmod 644 $(MACROSDIR)/cwebmac.tex
+	- mkdir $(EMACSDIR)
 	$(CP) cweb.el $(EMACSDIR)
 	chmod 644 $(EMACSDIR)/cweb.el
+	- mkdir $(CWEBINPUTS)
 	$(CP) c++lib.w $(CWEBINPUTS)
 	chmod 644 $(CWEBINPUTS)/c++lib.w
 

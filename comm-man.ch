@@ -2,7 +2,7 @@ Change file to help make Appendix D of the full CWEB manual
 @x
 \def\botofcontents{\vfill
 \noindent
-Copyright \copyright\ 1987, 1990, 1993 Silvio Levy and Donald E. Knuth
+Copyright \copyright\ 1987, 1990, 1993, 2000 Silvio Levy and Donald E. Knuth
 \bigskip\noindent
 Permission is granted to make and distribute verbatim copies of this
 document provided that the copyright notice and this permission notice

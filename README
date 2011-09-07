@@ -3,7 +3,7 @@
 % They are distributed WITHOUT ANY WARRANTY, express or implied.
 % This README file last updated May 2000 by Don Knuth
 
-% Copyright (C) 1987,1990,1993 Silvio Levy and Donald E. Knuth
+% Copyright (C) 1987,1990,1993,2000 Silvio Levy and Donald E. Knuth
 
 % Permission is granted to make and distribute verbatim copies of this
 % document provided that the copyright notice and this permission notice
@@ -58,7 +58,7 @@ The files common.c and ctangle.c are used for bootstrapping.
 The file cweb.1 is a manual page.
 The file cweb.el is suggested for GNU-Emacs users.
 The file c++lib.w is for C++ users (say `@i c++lib.w' at beginning of program).
-The files *-man.ch are used if you want to make the full 234-page CWEB manual.
+The files *-man.ch are used if you want to make the full 236-page CWEB manual.
 The files *-bs.ch are used instead of *-pc.ch if you are doing BIG programs.
 You can use makefile.bs to make CWEB with *-bs.ch.
 The files *-ql.ch are for QDOS/SMSQ systems; see readme.ql for further info.
