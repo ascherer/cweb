@@ -2,7 +2,7 @@
 % This program by Silvio Levy and Donald E. Knuth
 % is based on a program by Knuth.
 % It is distributed WITHOUT ANY WARRANTY, express or implied.
-% Version 3.1 --- November 1993 (works with later versions too)
+% Version 3.3 --- December 1994 (works with later versions too)
 
 % Copyright (C) 1987,1990,1993 Silvio Levy and Donald E. Knuth
 
@@ -17,12 +17,12 @@
 
 \def\v{\char'174} % vertical (|) in typewriter font
 
-\def\title{Common code for CTANGLE and CWEAVE (Version 3.1)}
+\def\title{Common code for CTANGLE and CWEAVE (Version 3.3)}
 \def\topofcontents{\null\vfill
   \centerline{\titlefont Common code for {\ttitlefont CTANGLE} and
     {\ttitlefont CWEAVE}}
   \vskip 15pt
-  \centerline{(Version 3.1)}
+  \centerline{(Version 3.3)}
   \vfill}
 \def\botofcontents{\vfill
 \noindent
@@ -105,7 +105,7 @@ common_init()
 using the definitions below. These definitions are consistent with
 an extension of ASCII code originally developed at MIT and explained in
 Appendix~C of {\sl The \TEX/book\/}; thus, users who have such a
-character set can type things like \.{\char'32} and \.{char'4} instead
+character set can type things like \.{\char'32} and \.{\char'4} instead
 of \.{!=} and \.{\&\&}. (However, their files will not be too portable
 until more people adopt the extended code.)
 
@@ -150,7 +150,8 @@ some of \.{CWEB}'s routines use the fact that it is safe to refer to
 |*(limit+2)| without overstepping the bounds of the array.
 
 @d buf_size 100 /* for \.{CWEAVE} and \.{CTANGLE} */
-@d long_buf_size 500 /* for \.{CWEAVE} */
+@d longest_name 1000
+@d long_buf_size (buf_size+longest_name) /* for \.{CWEAVE} */
 @d xisspace(c) (isspace(c)&&((unsigned char)c<0200))
 @d xisupper(c) (isupper(c)&&((unsigned char)c<0200))
 
@@ -897,7 +898,7 @@ int ispref; /* are we adding a prefix or a full name? */
 
 @ The |section_lookup| procedure is supposed to find a
 section name that matches a new name, installing the new name if
-its doesn't match an existing one. The new name is the string
+it doesn't match an existing one. The new name is the string
 between |first| and |last|; a ``match'' means that the new name
 exactly equals or is a prefix or extension of a name in the tree.
 
@@ -1079,7 +1080,7 @@ the user, by printing the error message at the beginning of a new line and
 then giving an indication of where the error was spotted in the source file.
 Note that no period follows the error message, since the error routine
 will automatically supply a period. A newline is automatically supplied
-if the string begins with |"|"|.
+if the string begins with |"!"|.
 
 @<Predecl...@>=
 void  err_print();

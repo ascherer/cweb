@@ -9,23 +9,23 @@ the code.  (See makefile.bs.)
 The main purpose of these changes is to support MSDOS with full-size arrays
 by using "huge" pointers.
 
-(This file contributed by Barry Schwartz, trashman@crud.mn.org, 28 Jun 94;
- revised 24 Jul 94.)
+This file contributed by Barry Schwartz, trashman@crud.mn.org, 28 Jun 94.
 (Includes workaround for compiler bug [pointers wrapping around at
  segment boundaries], November 1993, contributed by Jorge Fernandez Arnaiz
  -- arnaiz@redvax1.dgsca.unam.mx)
+(Last revised 5 Dec 94 with help of bob@microprograms.com.)
 
 
 @x Section 1.
 The ``banner line'' defined here should be changed whenever \.{CWEAVE}
 is modified.
 
-@d banner "This is CWEAVE (Version 3.2)\n"
+@d banner "This is CWEAVE (Version 3.3)\n"
 @y
 The ``banner line'' defined here should be changed whenever \.{CWEAVE}
 is modified.
 
-@d banner "This is CWEAVE (Version 3.2pc/big)\n"
+@d banner "This is CWEAVE (Version 3.3pc/big)\n"
 @z
 
 
@@ -162,6 +162,34 @@ xmem->num=0; /* sentinel value */
   p->xref = (char huge*)xref_ptr;
 @z
 
+@x Section 25. (to please Borland's C++, version 4.02)
+token tok_mem[max_toks]; /* tokens */
+token_pointer tok_mem_end = tok_mem+max_toks-1; /* end of |tok_mem| */
+token_pointer tok_start[max_texts]; /* directory into |tok_mem| */
+token_pointer tok_ptr; /* first unused position in |tok_mem| */
+text_pointer text_ptr; /* first unused position in |tok_start| */
+text_pointer tok_start_end = tok_start+max_texts-1; /* end of |tok_start| */
+token_pointer max_tok_ptr; /* largest value of |tok_ptr| */
+@y
+token tok_mem[max_toks]; /* tokens */
+token_pointer tok_mem_end; /* end of |tok_mem| */
+token_pointer tok_start[max_texts]; /* directory into |tok_mem| */
+token_pointer tok_ptr; /* first unused position in |tok_mem| */
+text_pointer text_ptr; /* first unused position in |tok_start| */
+text_pointer tok_start_end; /* end of |tok_start| */
+token_pointer max_tok_ptr; /* largest value of |tok_ptr| */
+@z
+
+@x Section 26. (goes with the previous change)
+tok_start[1]=tok_mem+1;
+max_tok_ptr=tok_mem+1; max_text_ptr=tok_start+1;
+@y
+tok_start[1]=tok_mem+1;
+tok_mem_end=tok_mem+max_toks-1;
+tok_start_end=tok_start+max_texts-1;
+max_tok_ptr=tok_mem+1; max_text_ptr=tok_start+1;
+@z
+
 
 @x Section 27.
   p->ilk=t; p->xref=(char*)xmem;
@@ -173,7 +201,7 @@ xmem->num=0; /* sentinel value */
 @x Section 27.
   p->xref=(char*)xmem;
 @y
-  p->xref=(char*)xmem;
+  p->xref=(char huge*)xmem;
 @z
 
 

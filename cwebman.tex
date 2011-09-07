@@ -144,15 +144,15 @@ The \.{CWEB} system consists of two programs named \.{CWEAVE} and \.{CTANGLE}.
 When writing a \.{CWEB} program the user keeps the
 \CEE/ code and the documentation in the same file, called the \.{CWEB}
 file and generally named \.{something.w}.  The command
-`\.{cweave something}' creates an output file \.{something.tex}, which
+`\.{cweave} \.{something}' creates an output file \.{something.tex}, which
 can then be fed to \TEX/, yielding a ``pretty printed'' version of
 \.{something.w} that correctly handles
 typographic details like page layout and the use of indentation,
 italics, boldface, and mathematical symbols. The typeset output also
 includes extensive cross-index
 information that is gathered automatically.  Similarly, if you run the
-command `\.{ctangle something}' you will get a \CEE/ file \.{something.c},
-with can then be compiled to yield executable code.
+command `\.{ctangle} \.{something}' you will get a \CEE/ file \.{something.c},
+which can then be compiled to yield executable code.
 
 Besides providing a documentation tool, \.{CWEB} enhances the \CEE/
 language by providing the
@@ -166,7 +166,7 @@ explained separately.  The \.{CWEAVE} program is so named because it takes
 a given web and intertwines the \TEX/ and \CEE/ portions contained in
 each section, then it knits the whole fabric into a structured document.
 (Get it? Wow.)  Perhaps there is some deep connection here with the fact
-that the German word for ``weave'' is ``{\it web\/}'', and the
+that the German word for ``weave'' is ``{\it webe\/}'', and the
 corresponding Latin imperative is ``{\it texe\/}''!
 
 A user of \.{CWEB} should be fairly familiar with the \CEE/
@@ -406,7 +406,8 @@ Although a section begins with \TEX/ text and ends with \CEE/ text, we
 have noted that the dividing line isn't sharp, since \CEE/ text can be
 included in \TEX/ text if it is enclosed in `\pb'.  Conversely, \TEX/ text
 appears frequently within \CEE/ text, because everything in
-comments (i.e., between \.{/*} and \.{*/}) is treated as \TEX/ text.
+comments (i.e., between \.{/*} and \.{*/}, or following \.{//})
+is treated as \TEX/ text.
 Likewise, the text of a section name consists of \TEX/ text, but
 the construct \.{@<section name@>} as a whole is is expected to be found
 in \CEE/ text; thus, one typically goes back and forth
@@ -665,7 +666,7 @@ be put into a \TEX/ \.{\\hbox} and formatted along with the neighboring
 \CEE/ program. This text is ignored by \.{CTANGLE}, but it can be used
 for various purposes within \.{CWEAVE}. For example, you can make comments
 that mix \CEE/ and classical mathematics, as in `$\\{size}<2^{15}$', by
-typing `\.{|size < @t\$2\^\{15\}\$@>|}'.
+typing `\.{|size < 2@t\$\^\{15\}\$@>|}'.
 
 \@= [MCc] $*$ The control text that follows will
 be passed verbatim to the \CEE/ program.
@@ -689,13 +690,14 @@ code; for example, the definition
 $$\hbox{\&{int} \\{array}[\\{max\_dim}], \\{count}${}=\\{old\_count};$}$$
 makes the names \\{array} and \\{count} get an underlined entry in the
 index.  Statement labels, function definitions like
-$\\{main}(\\{argc},\39\\{argv})$, and \&{typedef} definitions also
-imply underlining. A traditional-style
+\\{main}(\&{int}~\\{argc},\,\&{char}~$*$\\{argv}[\,]),
+and \&{typedef} definitions also
+imply underlining. An old-style
 function definition (without prototyping) doesn't define its arguments;
-the arguments will, however, be defined
+the arguments will, however, be considered to be defined
 (i.e., their index entries will be underlined) if their types are
 declared before the body of the function in the usual way
-(e.g., `\.{int}~\\{argc}; \.{char}~${**}\\{argv}$; $\{\,\ldots\,\}$').
+(e.g., `\&{int}~\\{argc}; \&{char}~${*}\\{argv}[\,]$; $\{\,\ldots\,\}$').
 
 \subsec
 We now turn to control codes that affect only the operation of
@@ -772,7 +774,8 @@ program formatted by \.{CWEAVE}. Line breaks
 are chosen automatically by \TEX/ according to a scheme that works 99\%\
 of the time, but sometimes you will prefer to force a line break so that
 the program is segmented according to logical rather than visual
-criteria.
+criteria. If a comment follows, say `\.{@/@,}' to break the line
+before the comment.
 
 \@| [MC] This control code specifies an optional line break in the midst of
 an expression. For example, if you have
@@ -857,7 +860,7 @@ to time.
 Furthermore the \\{web\_file} itself can be a combination of
 several files.  When either \.{CWEAVE} or \.{CTANGLE} is reading a file and
 encounters the control code \.{@i} at the beginning of a line, it
-interrupts normal reading and start looking at the file named after the
+interrupts normal reading and starts looking at the file named after the
 \.{@i}, much as the \CEE/ preprocessor does when it encounters an \.{\#include}
 line.  After the included file has been entirely read, the program
 goes back to the next line
@@ -963,10 +966,9 @@ contain labeled statements, so that the label will stick out a little at
 the left.) You can also use `\.{@t\}\\3\{-5@>}' to force a break
 in the middle of an expression.
 
-10. Don't use a change file to change just part of a macro call that
-extends over more than one line; change the whole call or nothing.
-Otherwise \.{CTANGLE} will insert \.{\#line} directives that confuse
-the \CEE/ preprocessor.
+10. Each identifier in \.{CWEB} has a single formatting convention. Therefore
+you shouldn't use the same identifier to denote, say, both a type name and
+part of a \.{struct}, even though \CEE/ does allow this.
 
 \section Running the programs.
 The \UNIX/ command line for \.{CTANGLE} is
@@ -1083,8 +1085,7 @@ In this case you should help \.{CWEAVE} by putting `\.{@/}' after
 `\.{main(argc,argv)}'.
 
 \.{CWEAVE} automatically inserts a bit of extra space between declarations
-and the first apparent statement of a block, unless you turn off the
-feature globally by running with the \.{-o} option. One way to defeat this
+and the first apparent statement of a block. One way to defeat this
 spacing locally is
 $$\vbox{\halign{#\hfil\cr
 \.{int x;@+@t\}\\6\{@>}\cr
@@ -1590,7 +1591,8 @@ customary to make this the first change in your change file.
 
 \point 14. To get output in languages other than English, redefine the
 macros \.{\\A}, \.{\\ET}, \.{\\Q}, \.{\\U},
-\.{\\ch}, \.{\\fin}, and \.{\\con}. \.{CWEAVE} itself need not be changed.
+\.{\\ch}, \.{\\fin}, \.{\\con}, \.{\\today}, \.{\\datethis}, and
+\.{\\datecontentspage}. \.{CWEAVE} itself need not be changed.
 
 \point 15. Some output can be selectively suppressed with the macros
 \.{\\noatl}, \.{\\noinx}, \.{\\nosecs}, \.{\\nocon}.

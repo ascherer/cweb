@@ -70,7 +70,7 @@ We use \\{in}, \\{out}, \\{back} and
 \+& |lpar| |rpar| & |exp| \hfill $L\.{\\,}R$ & functions, declarations\cr
 \+& |lpar| \alt |decl_head| |int_like| |rpar| & |cast| & |(char*)|\cr
 \+& |lpar| \altt |decl_head| |int_like| |exp| |comma| & |lpar| \hfill
-     L\,\altt $D$ $I$ $E$ C\,|opt|9 & |(int,|\cr
+     $L$\,\altt $D$ $I$ $E$ C\,|opt|9 & |(int,|\cr
 \+& |lpar| \alt |stmt| |decl| & |lpar| \hfill \alt {$LS\.\ $} {$LD\.\ $} &
     \alt {|(k=5;|} {|(int k=5;|} \cr
 \+& |question| |exp| |colon| & |binop| & |?x:|\cr
@@ -197,14 +197,14 @@ We use \\{in}, \\{out}, \\{back} and
    &$\langle\,$section name$\,\rangle$;\cr
 \+& |section_scrap| & |exp| &$\langle\,$section name$\,\rangle$\cr
 \+& |insert| |any| & |any| & \.{\v\#include\v}\cr
-\+& |prelangle| & |binop| \hfill $<$ & $<$ not in template\cr
-\+& |prerangle| & |binop| \hfill $>$ & $>$ not in template\cr
+\+& |prelangle| & |binop| \hfill \.< & $<$ not in template\cr
+\+& |prerangle| & |binop| \hfill \.> & $>$ not in template\cr
 \+& |langle| |exp| |prerangle| & |cast| & $\langle\,0\,\rangle$\cr
 \+& |langle| |prerangle| & |cast| \hfill $L\.{\\,}P$ & $\langle\,\rangle$\cr
 \+& |langle| \alt|decl_head| |int_like| |prerangle| & |cast| &
      $\langle\&{class}\,\&C\rangle$\cr
 \+& |langle| \alt|decl_head| |int_like| |comma| & |langle| \hfill
-     L\,\alt $D$ $I$ C\,|opt|9 & $\langle\&{class}\,\&C,$\cr
+     $L$\,\alt $D$ $I$ C\,|opt|9 & $\langle\&{class}\,\&C,$\cr
 \+& |public_like| |colon| & |tag| & \&{private}:\cr
 \+& |public_like| & |int_like| & \&{private}\cr
 \+& |colcol| \alt|exp| |int_like| & \alt|exp| |int_like| & |::x|\cr
@@ -224,7 +224,8 @@ We use \\{in}, \\{out}, \\{back} and
      : \&{public} $a$,\cr
 \+& |base| |public_like| |exp| & |base| |int_like| \hfill $I=P\.\ E$ &
      : \&{public} $a$\cr
-\+& |raw_rpar| |const_like| & |raw_rpar| \hfill $R\.\ C$ & ) \&{const};\cr
+\+\dag\theprodno& |raw_rpar| |const_like| & |raw_rpar| \hfill $R\.\ C$ &
+     ) \&{const};\cr
 \+& |raw_rpar| & |rpar| & );\cr
 \+& |raw_unorbin| |const_like| & |raw_unorbin| \hfill $RC$\.{\\\ }
      & $*$\&{const} |x|\cr
@@ -261,5 +262,8 @@ Rule 96: The |new_like| must not be immediately followed by |lpar|,
 
 Rule 97: The operator after |operator_like|
 must not be immediately followed by a |binop|.
+
+Rule 103: The operator after |const_like| must be |semi|, |lbrace|, |comma|,
+|binop|, or |const_like|.
 
 \endgroup

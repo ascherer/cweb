@@ -2,7 +2,7 @@
 % This program by Silvio Levy and Donald E. Knuth
 % is based on a program by Knuth.
 % It is distributed WITHOUT ANY WARRANTY, express or implied.
-% Version 3.2 --- July 1994
+% Version 3.3 --- December 1994
 
 % Copyright (C) 1987,1990,1993 Silvio Levy and Donald E. Knuth
 
@@ -27,11 +27,11 @@
 \def\skipxTeX{\\{skip\_\TEX/}}
 \def\copyxTeX{\\{copy\_\TEX/}}
 
-\def\title{CWEAVE (Version 3.2)}
+\def\title{CWEAVE (Version 3.3)}
 \def\topofcontents{\null\vfill
   \centerline{\titlefont The {\ttitlefont CWEAVE} processor}
   \vskip 15pt
-  \centerline{(Version 3.2)}
+  \centerline{(Version 3.3)}
   \vfill}
 \def\botofcontents{\vfill
 \noindent
@@ -61,7 +61,7 @@ Joachim Schrod, Lee Wittenberg, and others who have contributed improvements.
 The ``banner line'' defined here should be changed whenever \.{CWEAVE}
 is modified.
 
-@d banner "This is CWEAVE (Version 3.2)\n"
+@d banner "This is CWEAVE (Version 3.3)\n"
 
 @c @<Include files@>@/
 @h
@@ -795,7 +795,7 @@ are pointers into the array |section_text|, not into |buffer|.
   }
   while (*loc=='u' || *loc=='U' || *loc=='l' || *loc=='L'
          || *loc=='f' || *loc=='F') {
-    *id_loc++='$'; *id_loc++=toupper(*loc++);
+    *id_loc++='$'; *id_loc++=toupper(*loc); loc++;
   }
   return(constant);
 }
@@ -1594,7 +1594,7 @@ The combination rules are given as context-sensitive productions that are
 applied from left to right. Suppose that we are currently working on the
 sequence of scraps $s_1\,s_2\ldots s_n$. We try first to find the longest
 production that applies to an initial substring $s_1\,s_2\ldots\,$; but if
-no such productions exist, we find to find the longest production
+no such productions exist, we try to find the longest production
 applicable to the next substring $s_2\,s_3\ldots\,$; and if that fails, we
 try to match $s_3\,s_4\ldots\,$, etc.
 
@@ -1850,9 +1850,9 @@ with discretionary breaks in between.
 \.-&|unorbinop|: \.-&yes\cr
 \.*&|raw_unorbin|: \.*&yes\cr
 \./&|binop|: \./&yes\cr
-\.<&|binop|: \.<&yes\cr
+\.<&|prelangle|: \.{\\langle}&yes\cr
 \.=&|binop|: \.{\\K}&yes\cr
-\.>&|binop|: \.>&yes\cr
+\.>&|prerangle|: \.{\\rangle}&yes\cr
 \..&|binop|: \..&yes\cr
 \.{\v}&|binop|: \.{\\OR}&yes\cr
 \.\^&|binop|: \.{\\XOR}&yes\cr
@@ -2828,7 +2828,9 @@ if (cat1==public_like && cat2==exp) {
 }
 
 @ @<Cases for |raw_rpar|@>=
-if (cat1==const_like) {
+if (cat1==const_like && @|
+    (cat2==semi || cat2==lbrace || cat2==comma || cat2==binop
+      || cat2==const_like)) {
   big_app1(pp); big_app(' ');
   big_app1(pp+1); reduce(pp,2,raw_rpar,0,103);
 } else squash(pp,1,rpar,-3,104);
@@ -3253,8 +3255,18 @@ app_scrap(exp,maybe_math);
 
 @ We do not make the \TEX/ string into a scrap, because there is no
 telling what the user will be putting into it; instead we leave it
-open, to be picked up by next scrap. If it comes at the end of a
+open, to be picked up by the next scrap. If it comes at the end of a
 section, it will be made into a scrap when |finish_C| is called.
+
+There's a known bug here, in cases where an adjacent scrap is
+|prelangle| or |prerangle|. Then the \TEX/ string can disappear
+when the \.{\\langle} or \.{\\rangle} becomes \.{<} or \.{>}.
+For example, if the user writes \.{\v x<@@ty@@>\v}, the \TEX/ string
+\.{\\hbox\{y\}} eventually becomes part of an |insert| scrap, which is combined
+with a |prelangle| scrap and eventually lost. The best way to work around
+this bug is probably to enclose the \.{@@t...@@>} in \.{@@[...@@]} so that
+the \TEX/ string is treated as an expression.
+@^bug, known@>
 
 @<Append a \TEX/ string, without forming a scrap@>=
 app_str("\\hbox{"@q}@>);
@@ -3950,7 +3962,7 @@ text starts immediately after the identifier.  In the former case,
 it starts after we scan the matching `\.)'.
 
 @<Start a macro...@>= {
-  if (save_line!=out_line || save_place!=out_ptr)  app(backup);
+  if (save_line!=out_line || save_place!=out_ptr || space_checked) app(backup);
   if(!space_checked){emit_space_if_needed;save_position;}
   app_str("\\D"); /* this will produce `\&{define }' */
 @.\\D@>
@@ -4127,7 +4139,7 @@ flush_buffer(out_buf,0,0); /* insert a blank line, it looks nice */
 We are nearly finished! \.{CWEAVE}'s only remaining task is to write out the
 index, after sorting the identifiers and index entries.
 
-If the user has set the |no_xref| flag (the |-x| option on the command line),
+If the user has set the |no_xref| flag (the \.{-x} option on the command line),
 just finish off the page, omitting the index, section name list, and table of
 contents.
 

@@ -2,7 +2,7 @@
 % This program by Silvio Levy and Donald E. Knuth
 % is based on a program by Knuth.
 % It is distributed WITHOUT ANY WARRANTY, express or implied.
-% Version 3.2 --- July 1994
+% Version 3.3 --- December 1994
 
 % Copyright (C) 1987,1990,1993 Silvio Levy and Donald E. Knuth
 
@@ -22,11 +22,11 @@
 \mathchardef\RA="3221 % right arrow
 \mathchardef\BA="3224 % double arrow
 
-\def\title{CTANGLE (Version 3.2)}
+\def\title{CTANGLE (Version 3.3)}
 \def\topofcontents{\null\vfill
   \centerline{\titlefont The {\ttitlefont CTANGLE} processor}
   \vskip 15pt
-  \centerline{(Version 3.2)}
+  \centerline{(Version 3.3)}
   \vfill}
 \def\botofcontents{\vfill
 \noindent
@@ -56,7 +56,7 @@ Joachim Schrod, Lee Wittenberg, and others who have contributed improvements.
 The ``banner line'' defined here should be changed whenever \.{CTANGLE}
 is modified.
 
-@d banner "This is CTANGLE (Version 3.2)\n"
+@d banner "This is CTANGLE (Version 3.3)\n"
 
 @c
 @<Include files@>@/
@@ -640,10 +640,10 @@ is not called if |out_state==verbatim|, except perhaps with arguments
 (end the constant).
 
 @<Predecl...@>=
-void out_char();
+static void out_char();
 
 @ @c
-void
+static void
 out_char(cur_char)
 eight_bits cur_char;
 {
@@ -827,7 +827,7 @@ newline. The boolean argument |is_long_comment| distinguishes between
 the two types of comments.
 
 If |skip_comment| comes to the end of the section, it prints an error message.
-No comment, long or short, is allowed to contain `\.{@@ }' or `\.{@@*}'.
+No comment, long or short, is allowed to contain `\.{@@\ }' or `\.{@@*}'.
 
 @<Global...@>=
 boolean comment_continues=0; /* are we scanning a comment? */
@@ -870,6 +870,7 @@ boolean is_long_comment;
 
 @<Global...@>=
 name_pointer cur_section_name; /* name of section just scanned */
+int no_where; /* suppress |print_where|? */
 
 @ @<Include...@>=
 #include <ctype.h> /* definition of |isalpha|, |isdigit| and so on */
@@ -892,7 +893,7 @@ get_next() /* produces the next input token */
     if (loc>limit) {
       if (preprocessing && *(limit-1)!='\\') preprocessing=0;
       if (get_line()==0) return(new_section);
-      else if (print_where) {
+      else if (print_where && !no_where) {
           print_where=0;
           @<Insert the line number into |tok_mem|@>;
         }
@@ -1170,6 +1171,9 @@ the name of the current section.
 \item{b)}The symbols \.{@@d} and \.{@@f} and \.{@@c} are not allowed after
 section names, while they terminate macro definitions.
 
+\item{c)}Spaces are inserted after right parentheses in macros, because the
+ANSI \CEE/ preprocessor sometimes requires it.
+
 \yskip Therefore there is a single procedure |scan_repl| whose parameter
 |t| specifies either |macro| or |section_name|. After |scan_repl| has
 acted, |cur_text| will point to the replacement text just generated, and
@@ -1194,6 +1198,9 @@ eight_bits t;
         |section_name|, etc.), either process it and change |a| to a byte
         that should be stored, or |continue| if |a| should be ignored,
         or |goto done| if |a| signals the end of this replacement text@>@;
+      case ')': app_repl(a);
+        if (t==macro) app_repl(' ');
+        break;
       default: app_repl(a); /* store |a| in |tok_mem| */
     }
   done: next_control=(eight_bits) a;
@@ -1212,11 +1219,11 @@ else id_first=cur_file_name;
 id_loc=id_first+strlen(id_first);
 if (changing) store_two_bytes((sixteen_bits)change_line);
 else store_two_bytes((sixteen_bits)cur_line);
-{int a=id_lookup(id_first,id_loc)-name_dir; app_repl((a / 0400)+0200);
+{int a=id_lookup(id_first,id_loc,0)-name_dir; app_repl((a / 0400)+0200);
   app_repl(a % 0400);}
 
 @ @<In cases that |a| is...@>=
-case identifier: a=id_lookup(id_first,id_loc)-name_dir;
+case identifier: a=id_lookup(id_first,id_loc,0)-name_dir;
   app_repl((a / 0400)+0200);
   app_repl(a % 0400); break;
 case section_name: if (t!=section_name) goto done;
@@ -1339,7 +1346,7 @@ scan_section()
   name_pointer p; /* section name for the current section */
   text_pointer q; /* text for the current section */
   sixteen_bits a; /* token for left-hand side of definition */
-  section_count++;
+  section_count++; @+ no_where=1;
   if (*(loc-1)=='*' && show_progress) { /* starred section */
     printf("*%d",section_count); update_terminal;
   }
@@ -1361,6 +1368,7 @@ scan_section()
     }
     return; /* \.{@@\ } or \.{@@*} */
   }
+  no_where=print_where=0;
   @<Scan the \CEE/ part of the current section@>;
 }
 
@@ -1384,13 +1392,13 @@ while (next_control<definition)
 @.Definition flushed...@>
     continue;
   }
-  app_repl(((a=id_lookup(id_first,id_loc)-name_dir) / 0400)+0200);
+  app_repl(((a=id_lookup(id_first,id_loc,0)-name_dir) / 0400)+0200);
         /* append the lhs */
   app_repl(a % 0400);
   if (*loc!='(') { /* identifier must be separated from replacement text */
     app_repl(string); app_repl(' '); app_repl(string);
   }
-  print_where=0; scan_repl(macro);
+  scan_repl(macro);
   cur_text->text_link=0; /* |text_link==0| characterizes a macro */
 }
 

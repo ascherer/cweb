@@ -19,6 +19,9 @@ A ``word'' is a maximal sequence of consecutive characters other than
 newline, space, or tab, containing at least one visible ASCII code.
 (We assume that the standard ASCII code is in use.)
 
+This version of \.{wc} has a nonstandard ``silent'' option (\.{-s}),
+which suppresses printing except for the grand totals over all files.
+
 @ Most \.{CWEB} programs share a common structure.  It's probably a
 good idea to state the overall structure explicitly at the outset,
 even though the various parts could all be introduced in unnamed
@@ -71,18 +74,27 @@ the desired counts and specifying the order in which they should be
 displayed.  Each selection is given by the initial character
 (lines, words, or characters).  For example, `\.{-cl}' would cause
 just the number of characters and the number of lines to be printed,
-in that order.
+in that order. The default, if no special argument is given, is `\.{-lwc}'.
 
 We do not process this string now; we simply remember where it is.
- It will be used to control the formatting at output time.
+It will be used to control the formatting at output time.
+
+If the `\.{-}' is immediately followed by `\.{s}', only summary totals
+are printed.
 
 @<Var...@>=
 int file_count; /* how many files there are */
 char *which; /* which counts to print */
+int silent=0; /* nonzero if the silent option was selected */
 
 @ @<Set up o...@>=
 which="lwc"; /* if no option is given, print all three values */
-if (argc>1 && *argv[1] == '-') { which=argv[1]+1; argc--; argv++; }
+if (argc>1 && *argv[1] == '-') {
+  argv[1]++;
+  if (*argv[1]=='s') silent=1,argv[1]++;
+  if (*argv[1]) which=argv[1];
+  argc--; argv++;
+}
 file_count=argc-1;
 
 @ Now we scan the remaining arguments and try to open a file, if
@@ -183,9 +195,11 @@ Additionally we must decide here if we know the name of the file
 we have processed or if it was just |stdin|.
 
 @<Write...@>=
-wc_print(which, char_count, word_count, line_count);
-if (file_count) printf (" %s\n", *argv); /* not |stdin| */
-else printf ("\n"); /* |stdin| */
+if (!silent) {
+  wc_print(which, char_count, word_count, line_count);
+  if (file_count) printf (" %s\n", *argv); /* not |stdin| */
+  else printf ("\n"); /* |stdin| */
+}
 
 @ @<Upda...@>=
 tot_line_count+=line_count;
@@ -196,9 +210,10 @@ tot_char_count+=char_count;
 number of files too.
 
 @<Print the...@>=
-if (file_count>1) {
+if (file_count>1 || silent) {
   wc_print(which, tot_char_count, tot_word_count, tot_line_count);
-  printf(" total in %d files\n",file_count);
+  if (!file_count) printf("\n");
+  else printf(" total in %d file%s\n",file_count,file_count>1?"s":"");
 }
 
 @ Here now is the function that prints the values according to the

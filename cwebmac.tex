@@ -1,7 +1,7 @@
 % standard macros for CWEB listings (in addition to plain.tex)
-% Version 3.0 --- June 1993
+% Version 3.1 --- September 1994
 \ifx\documentstyle\undefined\else\endinput\fi % LaTeX will use other macros
-\xdef\fmtversion{\fmtversion+CWEB3.0}
+\xdef\fmtversion{\fmtversion+CWEB3.1}
 
 \let\:=\. % preserve a way to get the dot accent
  % (all other accents will still work as usual)
@@ -119,7 +119,7 @@
 \def\B{\rightskip=0pt plus 100pt minus 10pt % go into C mode
   \sfcode`;=3000
   \pretolerance 10000
-  \hyphenpenalty 9999 % so strings can be broken (discretionary \ is inserted)
+  \hyphenpenalty 1000 % so strings can be broken (discretionary \ is inserted)
   \exhyphenpenalty 10000
   \global\ind=2 \1\ \unskip}
 \def\C#1{\5\5\quad$/\ast\,${\cmntfont #1}$\,\ast/$}
