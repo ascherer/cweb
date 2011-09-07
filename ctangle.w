@@ -2,7 +2,7 @@
 % This program by Silvio Levy and Donald E. Knuth
 % is based on a program by Knuth.
 % It is distributed WITHOUT ANY WARRANTY, express or implied.
-% Version 3.3 --- December 1994
+% Version 3.4 --- April 1995
 
 % Copyright (C) 1987,1990,1993 Silvio Levy and Donald E. Knuth
 
@@ -22,11 +22,11 @@
 \mathchardef\RA="3221 % right arrow
 \mathchardef\BA="3224 % double arrow
 
-\def\title{CTANGLE (Version 3.3)}
+\def\title{CTANGLE (Version 3.4)}
 \def\topofcontents{\null\vfill
   \centerline{\titlefont The {\ttitlefont CTANGLE} processor}
   \vskip 15pt
-  \centerline{(Version 3.3)}
+  \centerline{(Version 3.4)}
   \vfill}
 \def\botofcontents{\vfill
 \noindent
@@ -56,7 +56,7 @@ Joachim Schrod, Lee Wittenberg, and others who have contributed improvements.
 The ``banner line'' defined here should be changed whenever \.{CTANGLE}
 is modified.
 
-@d banner "This is CTANGLE (Version 3.3)\n"
+@d banner "This is CTANGLE (Version 3.4)\n"
 
 @c
 @<Include files@>@/
@@ -454,6 +454,8 @@ by the \.{@@\&} operation that inhibits spaces between it and the next item.
 that they are to be output exactly as stored.  This is the case during
 strings, verbatim constructions and numerical constants.
 
+\yskip\hang |post_slash| means we've just output a slash.
+
 \yskip\hang |normal| means none of the above.
 
 \yskip\noindent Furthermore, if the variable |protect| is positive, newlines
@@ -461,6 +463,7 @@ are preceded by a `\.\\'.
 
 @d normal 0 /* non-unusual state */
 @d num_or_id 1 /* state associated with numbers and identifiers */
+@d post_slash 2 /* state following a \./ */
 @d unbreakable 3 /* state associated with \.{@@\&} */
 @d verbatim 4 /* state in the middle of a string */
 
@@ -664,6 +667,9 @@ restart:
         if(out_state==num_or_id) C_putc(' '); out_state=verbatim; break;
       case string: if (out_state==verbatim) out_state=normal;
         else out_state=verbatim; break;
+      case '/': C_putc('/'); out_state=post_slash; break;
+      case '*': if (out_state==post_slash) C_putc(' ');
+        /* fall through */
       default: C_putc(cur_char); out_state=normal; break;
     }
 }
