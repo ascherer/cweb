@@ -1032,7 +1032,8 @@ definitions of section names.
 
 The program uses the fact that our internal code numbers satisfy
 the relations |xref_roman==identifier+roman| and |xref_wildcard==identifier
-+wildcard| and |xref_typewriter==identifier+typewriter| and |normal==0|.
++wildcard| and |xref_typewriter==identifier+typewriter|,
+as well as |normal==0|.
 
 @<Predecl...@>=
 void C_xref();
@@ -4273,7 +4274,7 @@ sort_pointer max_sort_ptr; /* largest value of |sort_ptr| */
 max_sort_ptr=scrap_info;
 
 @ The desired alphabetic order is specified by the |collate| array; namely,
-|collate[0]<collate[1]<@t$\cdots$@><collate[100]|.
+$|collate|[0]<|collate|[1]<\cdots<|collate|[100]$.
 
 @<Global...@>=
 eight_bits collate[102+128]; /* collation order */

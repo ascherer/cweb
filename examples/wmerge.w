@@ -605,7 +605,6 @@ void
 scan_args()
 {
   char *dot_pos; /* position of |'.'| in the argument */
-  char *name_pos; /* file name beginning, sans directory */
   register char *s; /* register for scanning strings */
   boolean found_web=0,found_change=0,found_out=0;
              /* have these names have been seen? */
@@ -614,10 +613,10 @@ scan_args()
   while (--argc > 0) {
     if (**(++argv)=='-' || **argv=='+') @<Handle flag argument@>@;
     else {
-      s=name_pos=*argv;@+dot_pos=NULL;
+      s=*argv;@+dot_pos=NULL;
       while (*s) {
         if (*s=='.') dot_pos=s++;
-        else if (*s=='/') dot_pos=NULL,name_pos=++s;
+        else if (*s=='/') dot_pos=NULL,++s;
         else s++;
       }
       if (!found_web) @<Make |web_file_name|@>@;

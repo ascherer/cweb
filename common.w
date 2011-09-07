@@ -1199,7 +1199,7 @@ maintenance person, not the user. In such cases the program says
 @** Command line arguments.
 The user calls \.{CWEAVE} and \.{CTANGLE} with arguments on the command line.
 These are either file names or flags to be turned off (beginning with |"-"|)
-or flags to be turned on (beginning with |"+"|.
+or flags to be turned on (beginning with |"+"|).
 The following globals are for communicating the user's desires to the rest
 of the program. The various file name variables contain strings with
 the names of those files. Most of the 128 flags are undefined but available

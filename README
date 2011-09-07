@@ -59,7 +59,7 @@ The examples directory contains additional examples of the use of CWEB.
 The files common.c and ctangle.c are used for bootstrapping.
 The file cweb.1 is a manual page.
 The file cweb.el is suggested for GNU-Emacs users.
-The files *-man.ch are used if you want to make the full 227-page CWEB manual.
+The files *-man.ch are used if you want to make the full 228-page CWEB manual.
 The files *-bs.ch are used instead of *-pc.ch if you are doing BIG programs.
 You can use makefile.bs to make CWEB with *-bs.ch.
 The other files named *.ch are sample change files for local customization.

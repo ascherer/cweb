@@ -45,7 +45,8 @@
   (define-key suntool-map "it" 'tags-query-replace)		; F9
   (define-key suntool-map "jt" 'narrow-to-region)		; F10
   (define-key suntool-map "j\M-t" 'narrow-to-page)		; M-F10
-  (define-key suntool-map "kt" 'quick-revert-buffer)		; F11
+  (define-key suntool-map "kt" 'revert-buffer)  		; F11
+  (define-key suntool-map "k\M-T" 'quick-revert-buffer)		; Shift-M-F11
   (define-key suntool-map "k\M-t" 'quick-revert-other-buffer)	; M-F11
   (define-key suntool-map "lt" 'goto-line)			; F12
   (define-key suntool-map "l\M-t" 'goto-line)			; M-F12
