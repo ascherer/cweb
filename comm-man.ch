@@ -16,7 +16,7 @@ under the terms of a permission notice identical to this one.
 }
 @y
 \def\botofcontents{\vfill\titlefalse}
-\def\contentspagenumber{26}
+\def\contentspagenumber{27}
 \def\title{APPENDIX D: COMMON}
 \let\K=\leftarrow
 @z

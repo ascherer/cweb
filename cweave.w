@@ -4558,7 +4558,7 @@ lowcase: out_str("\\\\");
 @.\\\&@>
 }
 out_name(cur_name,1);
-name_done:
+name_done:@;
 
 @ Section numbers that are to be underlined are enclosed in
 `\.{\\[}$\,\ldots\,$\.]'.

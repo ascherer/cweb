@@ -1,6 +1,6 @@
 # This file is part of CWEB.
 # It is distributed WITHOUT ANY WARRANTY, express or implied.
-# Version 3.61 --- July 2000
+# Version 3.63 --- January 2001
 
 # Copyright (C) 1987,1990,1993,2000 Silvio Levy and Donald E. Knuth
 
@@ -78,7 +78,7 @@ ALL =  common.w ctangle.w cweave.w prod.w \
 	comm-pc.ch ctang-pc.ch cweav-pc.ch comm-amiga.ch \
         comm-bs.ch ctang-bs.ch cweav-bs.ch makefile.bs \
 	comm-ql.ch ctang-ql.ch cweav-ql.ch readme.ql \
-	comm-os2.ch cweb.1 cweb.el c++lib.w README
+	comm-os2.ch comm-mac.ch cweb.1 cweb.el c++lib.w README
 
 .SUFFIXES: .dvi .tex .w .pdf
 

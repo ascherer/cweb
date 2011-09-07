@@ -166,7 +166,7 @@ char *loc=buffer; /* points to the next character to be read from the buffer */
 #include <stdio.h>
 
 @ In the unlikely event that your standard I/O library does not
-support |feof|, |getc| and |ungetc| you may have to change things here.
+support |feof|, |getc|, and |ungetc| you may have to change things here.
 @^system dependencies@>
 
 @c

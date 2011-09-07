@@ -13,7 +13,7 @@ ctangle, cweave \- translate CWEB to C and/or TeX
 [
 .B \-bfhpx
 ] [
-.B \+s
+.B \+es
 ] webfile[.w] [changefile[.ch]] [outputfile[.tex]]
 
 .SH DESCRIPTION
@@ -67,6 +67,14 @@ takes place. If you say -bhp, you get nothing but error messages.
 .PP
 The \+s option prints statistics about memory usage at the end of a run
 (assuming that the programs have been compiled with the -DSTAT switch).
+.PP
+The \+e option encloses C material formatted by
+.I cweave
+in brackets
+\\PB\{...\}, so that special hooks can be used. This is commonly used by
+.I cweb-latex
+, although it can mess up index entries of PDF output if
+module names refer to C objects (as they often do).
 .PP
 There are two other options applicable to
 .I cweave
