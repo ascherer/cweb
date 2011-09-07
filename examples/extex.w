@@ -26,6 +26,7 @@ along too. If any of these control sequences is followed by \.\{, everything
 up to the next \.\} will also be retained. Thus, for example, the
 construction `\.{m\\=\{\\i\}n\\u\ us}' will be considered a single word,
 in spite of the control sequences and the space between the two u's.
+Discretionary hyphens `\.{\char`\\-}' are treated in the same way as accents.
 
 The \.{CWEB} conventions are essentially the same as the \TEX/ conventions,
 in the \TEX/ parts of a \.{CWEB} file. The \CEE/ parts of the file
@@ -229,7 +230,7 @@ special, otherwise~1; the conventions for letters are reversed.
 
 @<Global...@>=
 char ptab[]={0,1,1,1,1,0, /* \.{\\"} and \.{\\'} */
-  1,1,1,1,1,1,0,1, /* \.{\\.} */
+  1,1,1,1,1,0,0,1, /* \.{\\-} and \.{\\.} */
   1,1,1,1,1,1,1,1,1,1,1,1,1,0,1,1, /* \.{\\=} */
   1,0,0,0,0,0,0,0,1,0,0,0,1,0,0,1, /* \.{\\H}, \.{\\L}, \.{\\O} */
   0,0,0,0,0,0,0,0,0,0,0,1,1,1,0,1, /* \.{\\\^} */

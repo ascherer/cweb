@@ -2,7 +2,7 @@
 % This program by Silvio Levy and Donald E. Knuth
 % is based on a program by Knuth.
 % It is distributed WITHOUT ANY WARRANTY, express or implied.
-% Version 3.4 --- April 1995
+% Version 3.43 --- September 1998
 
 % Copyright (C) 1987,1990,1993 Silvio Levy and Donald E. Knuth
 
@@ -22,11 +22,11 @@
 \mathchardef\RA="3221 % right arrow
 \mathchardef\BA="3224 % double arrow
 
-\def\title{CTANGLE (Version 3.4)}
+\def\title{CTANGLE (Version 3.43)}
 \def\topofcontents{\null\vfill
   \centerline{\titlefont The {\ttitlefont CTANGLE} processor}
   \vskip 15pt
-  \centerline{(Version 3.4)}
+  \centerline{(Version 3.43)}
   \vfill}
 \def\botofcontents{\vfill
 \noindent
@@ -56,7 +56,7 @@ Joachim Schrod, Lee Wittenberg, and others who have contributed improvements.
 The ``banner line'' defined here should be changed whenever \.{CTANGLE}
 is modified.
 
-@d banner "This is CTANGLE (Version 3.4)\n"
+@d banner "This is CTANGLE (Version 3.43)\n"
 
 @c
 @<Include files@>@/
@@ -113,7 +113,7 @@ change them in the file |"common.w"|.
   must be less than 10240; used in |"common.w"| */
 @d max_texts 2500 /* number of replacement texts, must be less than 10240 */
 @d hash_size 353 /* should be prime; used in |"common.w"| */
-@d longest_name 1000 /* section names shouldn't be longer than this */
+@d longest_name 10000 /* section names shouldn't be longer than this */
 @d stack_size 50 /* number of simultaneous levels of macro expansion */
 @d buf_size 100 /* for \.{CWEAVE} and \.{CTANGLE} */
 
@@ -653,13 +653,14 @@ eight_bits cur_char;
   char *j, *k; /* pointer into |byte_mem| */
 restart:
     switch (cur_char) {
-      case '\n': if (protect) C_putc(' ');
+      case '\n': if (protect && out_state!=verbatim) C_putc(' ');
         if (protect || out_state==verbatim) C_putc('\\');
         flush_buffer(); if (out_state!=verbatim) out_state=normal; break;
       @/@t\4@>@<Case of an identifier@>;
       @/@t\4@>@<Case of a section number@>;
       @/@t\4@>@<Cases like \.{!=}@>;
-      case '=': C_putc('='); C_putc(' '); out_state=normal; break;
+      case '=': case '>': C_putc(cur_char); C_putc(' ');
+        out_state=normal; break;
       case join: out_state=unbreakable; break;
       case constant: if (out_state==verbatim) {
           out_state=num_or_id; break;

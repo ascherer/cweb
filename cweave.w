@@ -2,7 +2,8 @@
 % This program by Silvio Levy and Donald E. Knuth
 % is based on a program by Knuth.
 % It is distributed WITHOUT ANY WARRANTY, express or implied.
-% Version 3.4 --- April 1995
+% Version 3.43 --- September 1998
+% (is same as Version 3.4 except that the latter used an older COMMON)
 
 % Copyright (C) 1987,1990,1993 Silvio Levy and Donald E. Knuth
 
@@ -27,11 +28,11 @@
 \def\skipxTeX{\\{skip\_\TEX/}}
 \def\copyxTeX{\\{copy\_\TEX/}}
 
-\def\title{CWEAVE (Version 3.4)}
+\def\title{CWEAVE (Version 3.43)}
 \def\topofcontents{\null\vfill
   \centerline{\titlefont The {\ttitlefont CWEAVE} processor}
   \vskip 15pt
-  \centerline{(Version 3.4)}
+  \centerline{(Version 3.43)}
   \vfill}
 \def\botofcontents{\vfill
 \noindent
@@ -61,7 +62,7 @@ Joachim Schrod, Lee Wittenberg, and others who have contributed improvements.
 The ``banner line'' defined here should be changed whenever \.{CWEAVE}
 is modified.
 
-@d banner "This is CWEAVE (Version 3.4)\n"
+@d banner "This is CWEAVE (Version 3.43)\n"
 
 @c @<Include files@>@/
 @h
@@ -120,7 +121,7 @@ you have to change them also in the file |"common.w"|.
 @d max_sections 2000 /* greater than the total number of sections */
 @d hash_size 353 /* should be prime */
 @d buf_size 100 /* maximum length of input line, plus one */
-@d longest_name 1000 /* section names and strings shouldn't be longer than this */
+@d longest_name 10000 /* section names and strings shouldn't be longer than this */
 @d long_buf_size (buf_size+longest_name)
 @d line_length 80 /* lines of \TEX/ output have at most this many characters;
   should be less than 256 */

@@ -18,6 +18,11 @@
 ;; and nothing else, the probable cause is that the wordtest program
 ;; could not open /usr/local/lib/dict/words or ~/.words for reading.
 
+;; Note (10 Feb 1998): The spell-check logic failed to catch "obso1ete"
+;; as a scanner-typo for "obsolete". The reason is that, although "obso"
+;; and "ete" are non-words, they couldn't be found in query-replace
+;; for the regexps "\bobso\b" and "\bete\b".
+
 (provide 'kspell)
 
 (defvar wordtest-command "wordtest" ;; maybe "/usr/local/bin/wordtest" better?

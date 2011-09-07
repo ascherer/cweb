@@ -4,17 +4,17 @@
 /*5:*/
 #line 101 "common.w"
 
-#include <ctype.h>
+#include <ctype.h> 
 
 /*:5*//*8:*/
 #line 164 "common.w"
 
-#include <stdio.h>
+#include <stdio.h> 
 
 /*:8*//*22:*/
 #line 469 "common.w"
 
-#include <stdlib.h> 
+#include <stdlib.h>  
 
 /*:22*/
 #line 58 "common.w"
@@ -229,7 +229,7 @@ char scn_file_name[max_file_name_length];
 boolean flags[128];
 
 /*:67*//*77:*/
-#line 1367 "common.w"
+#line 1363 "common.w"
 
 FILE*C_file;
 FILE*tex_file;
@@ -295,7 +295,7 @@ void fatal(),overflow();
 void scan_args();
 
 /*:69*//*81:*/
-#line 1408 "common.w"
+#line 1404 "common.w"
 
 extern int strlen();
 extern int strcmp();
@@ -342,7 +342,7 @@ show_banner= show_happiness= show_progress= 1;
 #line 93 "common.w"
 ;
 /*78:*/
-#line 1374 "common.w"
+#line 1370 "common.w"
 
 scan_args();
 if(program==ctangle){
@@ -372,7 +372,7 @@ if(feof(fp))return(0);
 limit= k= buffer;
 while(k<=buffer_end&&(c= getc(fp))!=EOF&&c!='\n')
 if((*(k++)= c)!=' ')limit= k;
-if(k>buffer_end)
+if(k> buffer_end)
 if((c= getc(fp))!=EOF&&c!='\n'){
 ungetc(c,fp);loc= buffer;err_print("! Input line too long");
 
@@ -458,7 +458,7 @@ err_print("! Change file ended before @y");
 change_limit= change_buffer;changing= 0;
 return;
 }
-if(limit>buffer+1&&buffer[0]=='@'){
+if(limit> buffer+1&&buffer[0]=='@'){
 if(xisupper(buffer[1]))buffer[1]= tolower(buffer[1]);
 /*17:*/
 #line 357 "common.w"
@@ -468,7 +468,7 @@ loc= buffer+2;err_print("! Where is the matching @y?");
 
 }
 else if(buffer[1]=='y'){
-if(n>0){
+if(n> 0){
 loc= buffer+2;
 printf("\n! Hmm... %d ",n);
 err_print("of the preceding lines failed to match");
@@ -552,7 +552,7 @@ err_print("! Change file ended without @z");
 
 buffer[0]= '@';buffer[1]= 'z';limit= buffer+2;
 }
-if(limit>buffer){
+if(limit> buffer){
 if(change_pending){
 if_section_start_make_pending(0);
 if(change_pending){
@@ -577,7 +577,7 @@ prime_the_change_buffer();changing= !changing;print_where= 1;
 /*:25*/
 #line 430 "common.w"
 ;
-if(!changing||include_depth>change_depth){
+if(!changing||include_depth> change_depth){
 /*24:*/
 #line 513 "common.w"
 {
@@ -594,7 +594,7 @@ cur_line++;
 if(!changing&&!input_has_ended)
 if(limit-buffer==change_limit-change_buffer)
 if(buffer[0]==change_buffer[0])
-if(change_limit>change_buffer)check_change();
+if(change_limit> change_buffer)check_change();
 }
 
 /*:24*/
@@ -626,7 +626,7 @@ char*k= cur_file_name,*kk;
 int l;
 
 while(*loc!=' '&&*loc!='\t'&&*loc!='"'&&k<=cur_file_name_end)*k++= *loc++;
-if(k>cur_file_name_end)too_long();
+if(k> cur_file_name_end)too_long();
 
 *k= '\0';
 if((cur_file= fopen(cur_file_name,"r"))!=NULL){
@@ -635,18 +635,18 @@ goto restart;
 }
 kk= getenv("CWEBINPUTS");
 if(kk!=NULL){
-if((l= strlen(kk))>max_file_name_length-2)too_long();
+if((l= strlen(kk))> max_file_name_length-2)too_long();
 strcpy(temp_file_name,kk);
 }
 else{
 #ifdef CWEBINPUTS
-if((l= strlen(CWEBINPUTS))>max_file_name_length-2)too_long();
+if((l= strlen(CWEBINPUTS))> max_file_name_length-2)too_long();
 strcpy(temp_file_name,CWEBINPUTS);
 #else
 l= 0;
 #endif 
 }
-if(l>0){
+if(l> 0){
 if(k+l+2>=cur_file_name_end)too_long();
 
 for(;k>=cur_file_name;k--)*(k+l+1)= *k;
@@ -722,7 +722,7 @@ p->link= hash[h];hash[h]= p;
 if(p==name_ptr)/*39:*/
 #line 699 "common.w"
 {
-if(byte_ptr+l>byte_mem_end)overflow("byte memory");
+if(byte_ptr+l> byte_mem_end)overflow("byte memory");
 if(name_ptr>=name_dir_end)overflow("name");
 strncpy(byte_ptr,first,l);
 (++name_ptr)->byte_start= byte_ptr+= l;
@@ -822,7 +822,7 @@ int ispref;
 name_pointer p= name_ptr;
 char*s= first_chunk(p);
 int name_len= last-first+ispref;
-if(s+name_len>byte_mem_end)overflow("byte memory");
+if(s+name_len> byte_mem_end)overflow("byte memory");
 if(name_ptr+1>=name_dir_end)overflow("name");
 (++name_ptr)->byte_start= byte_ptr= s+name_len;
 if(ispref){
@@ -857,7 +857,7 @@ while(q->link!=name_dir)q= q->link;
 q->link= name_ptr;
 s= name_ptr->byte_start;
 name_ptr->link= name_dir;
-if(s+name_len>byte_mem_end)overflow("byte memory");
+if(s+name_len> byte_mem_end)overflow("byte memory");
 (++name_ptr)->byte_start= byte_ptr= s+name_len;
 strncpy(s,first,name_len);
 if(ispref)*(byte_ptr-1)= ' ';
@@ -1007,7 +1007,7 @@ printf(". (l. %d of change file)\n",change_line);
 else if(include_depth==0)printf(". (l. %d)\n",cur_line);
 else printf(". (l. %d of include file %s)\n",cur_line,cur_file_name);
 l= (loc>=limit?limit:loc);
-if(l>buffer){
+if(l> buffer){
 for(k= buffer;k<l;k++)
 if(*k=='\t')putchar(' ');
 else putchar(*k);
@@ -1047,7 +1047,7 @@ case fatal_message:printf("(That was a fatal error, my friend.)\n");
 /*:62*/
 #line 1148 "common.w"
 ;
-if(history>harmless_message)return(1);
+if(history> harmless_message)return(1);
 else return(0);
 }
 
@@ -1085,14 +1085,14 @@ boolean found_web= 0,found_change= 0,found_out= 0;
 
 boolean flag_change;
 
-while(--argc>0){
+while(--argc> 0){
 if((**(++argv)=='-'||**argv=='+')&&*(*argv+1))/*74:*/
-#line 1341 "common.w"
+#line 1337 "common.w"
 
 {
 if(**argv=='-')flag_change= 0;
 else flag_change= 1;
-for(dot_pos= *argv+1;*dot_pos>'\0';dot_pos++)
+for(dot_pos= *argv+1;*dot_pos> '\0';dot_pos++)
 flags[*dot_pos]= flag_change;
 }
 
@@ -1110,9 +1110,9 @@ if(!found_web)/*71:*/
 #line 1285 "common.w"
 
 {
-if(s-*argv>max_file_name_length-5)
+if(s-*argv> max_file_name_length-5)
 /*76:*/
-#line 1361 "common.w"
+#line 1357 "common.w"
 fatal("! Filename too long\n",*argv);
 
 
@@ -1142,9 +1142,9 @@ else if(!found_change)/*72:*/
 {
 if(strcmp(*argv,"-")==0)found_change= -1;
 else{
-if(s-*argv>max_file_name_length-4)
+if(s-*argv> max_file_name_length-4)
 /*76:*/
-#line 1361 "common.w"
+#line 1357 "common.w"
 fatal("! Filename too long\n",*argv);
 
 
@@ -1165,9 +1165,9 @@ else if(!found_out)/*73:*/
 #line 1316 "common.w"
 
 {
-if(s-*argv>max_file_name_length-5)
+if(s-*argv> max_file_name_length-5)
 /*76:*/
-#line 1361 "common.w"
+#line 1357 "common.w"
 fatal("! Filename too long\n",*argv);
 
 
@@ -1181,16 +1181,12 @@ sprintf(scn_file_name,"%s.scn",*argv);
 sprintf(C_file_name,"%s.c",*argv);
 }else{
 strcpy(tex_file_name,*argv);
-if(flags['x']){
-if(program==cweave&&strcmp(*argv+strlen(*argv)-4,".tex")!=0)
-fatal("! Output file name should end with .tex\n",*argv);
-
-strcpy(idx_file_name,*argv);
-strcpy(idx_file_name+strlen(*argv)-4,".idx");
-strcpy(scn_file_name,*argv);
-strcpy(scn_file_name+strlen(*argv)-4,".scn");
-}
 strcpy(C_file_name,*argv);
+if(flags['x']){
+*dot_pos= 0;
+sprintf(idx_file_name,"%s.idx",*argv);
+sprintf(scn_file_name,"%s.scn",*argv);
+}
 }
 found_out= 1;
 }
@@ -1199,7 +1195,7 @@ found_out= 1;
 #line 1270 "common.w"
 
 else/*75:*/
-#line 1349 "common.w"
+#line 1345 "common.w"
 
 {
 if(program==ctangle)
@@ -1218,7 +1214,7 @@ else fatal(
 }
 }
 if(!found_web)/*75:*/
-#line 1349 "common.w"
+#line 1345 "common.w"
 
 {
 if(program==ctangle)

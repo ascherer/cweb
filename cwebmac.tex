@@ -1,7 +1,7 @@
 % standard macros for CWEB listings (in addition to plain.tex)
-% Version 3.1 --- September 1994
+% Version 3.43 --- September 1998
 \ifx\documentstyle\undefined\else\endinput\fi % LaTeX will use other macros
-\xdef\fmtversion{\fmtversion+CWEB3.1}
+\xdef\fmtversion{\fmtversion+CWEB3.4}
 
 \let\:=\. % preserve a way to get the dot accent
  % (all other accents will still work as usual)
@@ -42,7 +42,7 @@
   \let\&=\AM % ampersand in a string
   \let\^=\CF % circumflex in a string
   #1\kern.05em}}
-\def\){\discretionary{\hbox{\tentex\BS}}{}{}}
+\def\){{\tentex\kern-.05em}\discretionary{\hbox{\tentex\BS}}{}{}}
 \def\AT{@} % at sign for control text (not needed in versions >= 2.9)
 \def\ATL{\par\noindent\bgroup\catcode`\_=12 \postATL} % print @l in limbo
 \def\postATL#1 #2 {\bf letter \\{\uppercase{\char"#1}}
@@ -168,7 +168,7 @@
 \let\V=\lor % logical or
 \let\W=\land % logical and
 \def\X#1:#2\X{\ifmmode\gdef\XX{\null$\null}\else\gdef\XX{}\fi % section name
-  \XX$\langle\,${#2\eightrm\kern.5em#1}$\,\rangle$\XX}
+  \XX$\langle\,${\let\I=\ne#2\eightrm\kern.5em#1}$\,\rangle$\XX}
 \def\Y{\par\yskip}
 \let\Z=\le
 \let\ZZ=\let % now you can \write the control sequence \ZZ

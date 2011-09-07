@@ -2,7 +2,7 @@
 % This program by Silvio Levy and Donald E. Knuth
 % is based on a program by Knuth.
 % It is distributed WITHOUT ANY WARRANTY, express or implied.
-% Version 3.3 --- December 1994 (works with later versions too)
+% Version 3.42 --- August 1998 (works with later versions too)
 
 % Copyright (C) 1987,1990,1993 Silvio Levy and Donald E. Knuth
 
@@ -17,12 +17,12 @@
 
 \def\v{\char'174} % vertical (|) in typewriter font
 
-\def\title{Common code for CTANGLE and CWEAVE (Version 3.3)}
+\def\title{Common code for CTANGLE and CWEAVE (Version 3.42)}
 \def\topofcontents{\null\vfill
   \centerline{\titlefont Common code for {\ttitlefont CTANGLE} and
     {\ttitlefont CWEAVE}}
   \vskip 15pt
-  \centerline{(Version 3.3)}
+  \centerline{(Version 3.42)}
   \vfill}
 \def\botofcontents{\vfill
 \noindent
@@ -1324,16 +1324,12 @@ after the dot.  We must check that there is enough room in
     sprintf(C_file_name,"%s.c",*argv);
   } else {
     strcpy(tex_file_name,*argv);
-    if (flags['x']) { /* indexes will be generated */
-      if (program==cweave && strcmp(*argv+strlen(*argv)-4,".tex")!=0)
-        fatal("! Output file name should end with .tex\n",*argv);
-@.Output file name...tex@>
-      strcpy(idx_file_name,*argv);
-      strcpy(idx_file_name+strlen(*argv)-4,".idx");
-      strcpy(scn_file_name,*argv);
-      strcpy(scn_file_name+strlen(*argv)-4,".scn");
-    }
     strcpy(C_file_name,*argv);
+    if (flags['x']) { /* indexes will be generated */
+      *dot_pos=0;
+      sprintf(idx_file_name,"%s.idx",*argv);
+      sprintf(scn_file_name,"%s.scn",*argv);
+    }
   }
   found_out=1;
 }
