@@ -44,7 +44,7 @@ typedef struct tnode {
   char *data;
 } TNODE;
 @ @<|main| variable...@>=
-struct tnode *root;
+struct tnode *root=NULL;
 
 
 
@@ -64,7 +64,8 @@ read_tree (fp, rootptr)
      add_tree(rootptr, buf);
    }
  }
-@ @<Global include...@>=#include <stdio.h>
+@ @<Global include...@>=
+#include <stdio.h>
 
 @ Depending what system you're on, you may or may not get a newline in |buf|.
 @<If |buf| contains a newline...@>=

@@ -483,7 +483,7 @@ the user, by printing the error message at the beginning of a new line and
 then giving an indication of where the error was spotted in the source file.
 Note that no period follows the error message, since the error routine
 will automatically supply a period. A newline is automatically supplied
-if the string begins with |"|"|.
+if the string begins with |"!"|.
 
 The actual error indications are provided by a procedure called |error|.
 
@@ -513,7 +513,7 @@ has special line-numbering conventions.
 
 @<Print error location based on input buffer@>=
 {if (changing && include_depth==change_depth)
-  printf(". (l. %d of change file)\n", change_line);
+  fprintf(stderr,". (l. %d of change file)\n", change_line);
 else if (include_depth==0) fprintf(stderr,". (l. %d)\n", cur_line);
   else fprintf(stderr,". (l. %d of include file %s)\n", cur_line, cur_file_name);
 l= (loc>=limit? limit: loc);
@@ -521,7 +521,7 @@ if (l>buffer) {
   for (k=buffer; k<l; k++)
     if (*k=='\t') putc(' ',stderr);
     else putc(*k,stderr); /* print the characters already read */
-  putchar('\n');
+  putc('\n',stderr);
   for (k=buffer; k<l; k++) putc(' ',stderr); /* space out the next line */
 }
 for (k=l; k<limit; k++) putc(*k,stderr); /* print the part not yet read */
