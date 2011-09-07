@@ -11,9 +11,9 @@ that allows >64K arrays. (If you need lots more bytes, try the alternate
 change files that have -bs in their name instead of -pc.)
 
 @x section 1
-@d banner "This is CWEAVE (Version 3.43)\n"
+@d banner "This is CWEAVE (Version 3.5)\n"
 @y
-@d banner "This is CWEAVE (Version 3.43pc)\n"
+@d banner "This is CWEAVE (Version 3.5pc)\n"
 @z
 
 @x section 4

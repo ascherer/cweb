@@ -2,7 +2,7 @@
 % This program by Silvio Levy and Donald E. Knuth
 % is based on a program by Knuth.
 % It is distributed WITHOUT ANY WARRANTY, express or implied.
-% Version 3.42 --- August 1998 (works with later versions too)
+% Version 3.5 --- December 1999 (works with later versions too)
 
 % Copyright (C) 1987,1990,1993 Silvio Levy and Donald E. Knuth
 
@@ -17,12 +17,12 @@
 
 \def\v{\char'174} % vertical (|) in typewriter font
 
-\def\title{Common code for CTANGLE and CWEAVE (Version 3.42)}
+\def\title{Common code for CTANGLE and CWEAVE (Version 3.5)}
 \def\topofcontents{\null\vfill
   \centerline{\titlefont Common code for {\ttitlefont CTANGLE} and
     {\ttitlefont CWEAVE}}
   \vskip 15pt
-  \centerline{(Version 3.42)}
+  \centerline{(Version 3.5)}
   \vfill}
 \def\botofcontents{\vfill
 \noindent
@@ -41,6 +41,7 @@ under the terms of a permission notice identical to this one.
 
 \pageno=\contentspagenumber \advance\pageno by 1
 \let\maybe=\iftrue
+@s not_eq normal @q unreserve a C++ keyword @>
 
 @** Introduction.  This file contains code common
 to both \.{CTANGLE} and \.{CWEAVE}, which roughly concerns the following

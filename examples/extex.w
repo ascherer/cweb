@@ -88,13 +88,15 @@ this program. Several special characters will cause us to ignore everything
 until the first appearance of something else.
 
 @d discard_to(x) {@+while (get()!=x) ;@+}
+@d discard_to_dol {@+for (cc=c,c=get();c!='$' || cc=='\\';cc=c,c=get())
+     if (cc=='\\' && c==cc) c='\0';@+}
 
 @<Special cases...@>=
 case '%': discard_to('\n');@+goto restart;
 case '$': c=getchar();
-  if (c!='$') discard_to('$')@;
+  if (c!='$') discard_to_dol@;
   else { /* after \.{\$\$} we discard everything to the next \.{\$\$} */
-    do discard_to('$')@;
+    do discard_to_dol@;
     while (getchar()!='$');
   }
   goto restart;

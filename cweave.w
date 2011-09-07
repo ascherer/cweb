@@ -2,8 +2,8 @@
 % This program by Silvio Levy and Donald E. Knuth
 % is based on a program by Knuth.
 % It is distributed WITHOUT ANY WARRANTY, express or implied.
-% Version 3.43 --- September 1998
-% (is same as Version 3.4 except that the latter used an older COMMON)
+% Version 3.5 --- December 1999
+% (adds recently introduced features of standard C++ to version 3.4)
 
 % Copyright (C) 1987,1990,1993 Silvio Levy and Donald E. Knuth
 
@@ -28,11 +28,11 @@
 \def\skipxTeX{\\{skip\_\TEX/}}
 \def\copyxTeX{\\{copy\_\TEX/}}
 
-\def\title{CWEAVE (Version 3.43)}
+\def\title{CWEAVE (Version 3.5)}
 \def\topofcontents{\null\vfill
   \centerline{\titlefont The {\ttitlefont CWEAVE} processor}
   \vskip 15pt
-  \centerline{(Version 3.43)}
+  \centerline{(Version 3.5)}
   \vfill}
 \def\botofcontents{\vfill
 \noindent
@@ -50,6 +50,7 @@ under the terms of a permission notice identical to this one.
 }
 \pageno=\contentspagenumber \advance\pageno by 1
 \let\maybe=\iftrue
+@s not_eq normal @q unreserve a C++ keyword @>
 
 @** Introduction.
 This is the \.{CWEAVE} program by Silvio Levy and Donald E. Knuth,
@@ -62,7 +63,7 @@ Joachim Schrod, Lee Wittenberg, and others who have contributed improvements.
 The ``banner line'' defined here should be changed whenever \.{CWEAVE}
 is modified.
 
-@d banner "This is CWEAVE (Version 3.43)\n"
+@d banner "This is CWEAVE (Version 3.5)\n"
 
 @c @<Include files@>@/
 @h
@@ -171,6 +172,7 @@ to be treated when \CEE/ code is being formatted.
 @d custom 4 /* identifiers with user-given control sequence */
 @d unindexed(a) (a->ilk>custom) /* tells if uses of a name are to be indexed */
 @d quoted 5 /* \.{NULL} */
+@d alfop 22 /* alphabetic operator like `and' or `not\_eq' */
 @d else_like 26 /* \&{else} */
 @d public_like 40 /* \&{public}, \&{private}, \&{protected} */
 @d operator_like 41 /* \&{operator} */
@@ -391,15 +393,23 @@ are defined in header files of the ISO Standard \CEE/ Library.)
 @^reserved words@>
 
 @<Store all the reserved words@>=
+id_lookup("$$$",NULL,raw_int);
+id_lookup("and",NULL,alfop);
+id_lookup("and_eq",NULL,alfop);
 id_lookup("asm",NULL,sizeof_like);
 id_lookup("auto",NULL,int_like);
+id_lookup("bitand",NULL,alfop);
+id_lookup("bitor",NULL,alfop);
+id_lookup("bool",NULL,raw_int);
 id_lookup("break",NULL,case_like);
 id_lookup("case",NULL,case_like);
 id_lookup("catch",NULL,catch_like);
 id_lookup("char",NULL,raw_int);
 id_lookup("class",NULL,struct_like);
 id_lookup("clock_t",NULL,raw_int);
+id_lookup("compl",NULL,alfop);
 id_lookup("const",NULL,const_like);
+id_lookup("const_cast",NULL,int_like);
 id_lookup("continue",NULL,case_like);
 id_lookup("default",NULL,case_like);
 id_lookup("define",NULL,define_like);
@@ -408,11 +418,14 @@ id_lookup("delete",NULL,sizeof_like);
 id_lookup("div_t",NULL,raw_int);
 id_lookup("do",NULL,do_like);
 id_lookup("double",NULL,raw_int);
+id_lookup("dynamic_cast",NULL,int_like);
 id_lookup("elif",NULL,if_like);
 id_lookup("else",NULL,else_like);
 id_lookup("endif",NULL,if_like);
 id_lookup("enum",NULL,struct_like);
 id_lookup("error",NULL,if_like);
+id_lookup("explicit",NULL,int_like);
+id_lookup("export",NULL,int_like);
 id_lookup("extern",NULL,int_like);
 id_lookup("FILE",NULL,raw_int);
 id_lookup("float",NULL,raw_int);
@@ -430,16 +443,23 @@ id_lookup("jmp_buf",NULL,raw_int);
 id_lookup("ldiv_t",NULL,raw_int);
 id_lookup("line",NULL,if_like);
 id_lookup("long",NULL,raw_int);
+id_lookup("mutable",NULL,int_like);
+id_lookup("namespace",NULL,struct_like);
 id_lookup("new",NULL,new_like);
+id_lookup("not",NULL,alfop);
+id_lookup("not_eq",NULL,alfop);
 id_lookup("NULL",NULL,quoted);
 id_lookup("offsetof",NULL,sizeof_like);
 id_lookup("operator",NULL,operator_like);
+id_lookup("or",NULL,alfop);
+id_lookup("or_eq",NULL,alfop);
 id_lookup("pragma",NULL,if_like);
 id_lookup("private",NULL,public_like);
 id_lookup("protected",NULL,public_like);
 id_lookup("ptrdiff_t",NULL,raw_int);
 id_lookup("public",NULL,public_like);
 id_lookup("register",NULL,int_like);
+id_lookup("reinterpret_cast",NULL,int_like);
 id_lookup("return",NULL,case_like);
 id_lookup("short",NULL,raw_int);
 id_lookup("sig_atomic_t",NULL,raw_int);
@@ -447,6 +467,7 @@ id_lookup("signed",NULL,raw_int);
 id_lookup("size_t",NULL,raw_int);
 id_lookup("sizeof",NULL,sizeof_like);
 id_lookup("static",NULL,int_like);
+id_lookup("static_cast",NULL,int_like);
 id_lookup("struct",NULL,struct_like);
 id_lookup("switch",NULL,for_like);
 id_lookup("template",NULL,int_like);
@@ -456,9 +477,12 @@ id_lookup("throw",NULL,case_like);
 id_lookup("time_t",NULL,raw_int);
 id_lookup("try",NULL,else_like);
 id_lookup("typedef",NULL,typedef_like);
+id_lookup("typeid",NULL,sizeof_like);
+id_lookup("typename",NULL,struct_like);
 id_lookup("undef",NULL,if_like);
 id_lookup("union",NULL,struct_like);
 id_lookup("unsigned",NULL,raw_int);
+id_lookup("using",NULL,int_like);
 id_lookup("va_dcl",NULL,decl); /* Berkeley's variable-arg-list convention */
 id_lookup("va_list",NULL,raw_int); /* ditto */
 id_lookup("virtual",NULL,int_like);
@@ -466,6 +490,8 @@ id_lookup("void",NULL,raw_int);
 id_lookup("volatile",NULL,const_like);
 id_lookup("wchar_t",NULL,raw_int);
 id_lookup("while",NULL,for_like);
+id_lookup("xor",NULL,alfop);
+id_lookup("xor_eq",NULL,alfop);
 
 @* Lexical scanning.
 Let us now consider the subroutines that read the \.{CWEB} source file
@@ -648,8 +674,11 @@ char cur_section_char; /* the character just before that name */
 
 @ As one might expect, |get_next| consists mostly of a big switch
 that branches to the various special cases that can arise.
+\CEE/ allows underscores to appear in identifiers, and some \CEE/
+compilers even allow the dollar sign.
 
-@d isxalpha(c) ((c)=='_') /* non-alpha character allowed in identifier */
+@d isxalpha(c) ((c)=='_' || (c)=='$')
+   /* non-alpha characters allowed in identifier */
 @d ishigh(c) ((eight_bits)(c)>0177)
 @^high-bit character handling@>
 
@@ -1694,6 +1723,7 @@ eight_bits cat_index;
     strcpy(cat_name[base],"\\:");
     strcpy(cat_name[decl],"decl");
     strcpy(cat_name[struct_head],"struct_head");
+    strcpy(cat_name[alfop],"alfop");
     strcpy(cat_name[stmt],"stmt");
     strcpy(cat_name[function],"function");
     strcpy(cat_name[fn_decl],"fn_decl");
@@ -1875,16 +1905,25 @@ with discretionary breaks in between.
 \.\# (within line)&|unorbinop|: \.{\\\#}&yes\cr
 \.\# (at beginning)&|lproc|:  |force| |preproc_line| \.{\\\#}&no\cr
 end of \.\# line&|rproc|:  |force|&no\cr
-identifier&|exp|: \.{\\\\\{}identifier with underlines quoted\.\}&maybe\cr
+identifier&|exp|: \.{\\\\\{}identifier with underlines and
+             dollar signs quoted\.\}&maybe\cr
+\.{\$\$\$}&|raw_int|: \stars&maybe\cr
+\.{and}&|alfop|: \stars&yes\cr
+\.{and\_eq}&|alfop|: \stars&yes\cr
 \.{asm}&|sizeof_like|: \stars&maybe\cr
 \.{auto}&|int_like|: \stars&maybe\cr
+\.{bitand}&|alfop|: \stars&yes\cr
+\.{bitor}&|alfop|: \stars&yes\cr
+\.{bool}&|raw_int|: \stars&maybe\cr
 \.{break}&|case_like|: \stars&maybe\cr
 \.{case}&|case_like|: \stars&maybe\cr
 \.{catch}&|catch_like|: \stars&maybe\cr
 \.{char}&|raw_int|: \stars&maybe\cr
 \.{class}&|struct_like|: \stars&maybe\cr
 \.{clock\_t}&|raw_int|: \stars&maybe\cr
+\.{compl}&|alfop|: \stars&yes\cr
 \.{const}&|const_like|: \stars&maybe\cr
+\.{const\_cast}&|int_like|: \stars&maybe\cr
 \.{continue}&|case_like|: \stars&maybe\cr
 \.{default}&|case_like|: \stars&maybe\cr
 \.{define}&|define_like|: \stars&maybe\cr
@@ -1893,11 +1932,14 @@ identifier&|exp|: \.{\\\\\{}identifier with underlines quoted\.\}&maybe\cr
 \.{div\_t}&|raw_int|: \stars&maybe\cr
 \.{do}&|do_like|: \stars&maybe\cr
 \.{double}&|raw_int|: \stars&maybe\cr
+\.{dynamic\_cast}&|int_like|: \stars&maybe\cr
 \.{elif}&|if_like|: \stars&maybe\cr
 \.{else}&|else_like|: \stars&maybe\cr
 \.{endif}&|if_like|: \stars&maybe\cr
 \.{enum}&|struct_like|: \stars&maybe\cr
 \.{error}&|if_like|: \stars&maybe\cr
+\.{explicit}&|int_like|: \stars&maybe\cr
+\.{export}&|int_like|: \stars&maybe\cr
 \.{extern}&|int_like|: \stars&maybe\cr
 \.{FILE}&|raw_int|: \stars&maybe\cr
 \.{float}&|raw_int|: \stars&maybe\cr
@@ -1915,16 +1957,23 @@ identifier&|exp|: \.{\\\\\{}identifier with underlines quoted\.\}&maybe\cr
 \.{ldiv\_t}&|raw_int|: \stars&maybe\cr
 \.{line}&|if_like|: \stars&maybe\cr
 \.{long}&|raw_int|: \stars&maybe\cr
+\.{mutable}&|int_like|: \stars&maybe\cr
+\.{namespace}&|struct_like|: \stars&maybe\cr
 \.{new}&|new_like|: \stars&maybe\cr
+\.{not}&|alfop|: \stars&yes\cr
+\.{not\_eq}&|alfop|: \stars&yes\cr
 \.{NULL}&|exp|: \.{\\NULL}&yes\cr
 \.{offsetof}&|sizeof_like|: \stars&maybe\cr
 \.{operator}&|operator_like|: \stars&maybe\cr
+\.{or}&|alfop|: \stars&yes\cr
+\.{or\_eq}&|alfop|: \stars&yes\cr
 \.{pragma}&|if_like|: \stars&maybe\cr
 \.{private}&|public_like|: \stars&maybe\cr
 \.{protected}&|public_like|: \stars&maybe\cr
 \.{ptrdiff\_t}&|raw_int|: \stars&maybe\cr
 \.{public}&|public_like|: \stars&maybe\cr
 \.{register}&|int_like|: \stars&maybe\cr
+\.{reinterpret\_cast}&|int_like|: \stars&maybe\cr
 \.{return}&|case_like|: \stars&maybe\cr
 \.{short}&|raw_int|: \stars&maybe\cr
 \.{sig\_atomic\_t}&|raw_int|: \stars&maybe\cr
@@ -1932,6 +1981,7 @@ identifier&|exp|: \.{\\\\\{}identifier with underlines quoted\.\}&maybe\cr
 \.{size\_t}&|raw_int|: \stars&maybe\cr
 \.{sizeof}&|sizeof_like|: \stars&maybe\cr
 \.{static}&|int_like|: \stars&maybe\cr
+\.{static\_cast}&|int_like|: \stars&maybe\cr
 \.{struct}&|struct_like|: \stars&maybe\cr
 \.{switch}&|if_like|: \stars&maybe\cr
 \.{template}&|int_like|: \stars&maybe\cr
@@ -1941,9 +1991,12 @@ identifier&|exp|: \.{\\\\\{}identifier with underlines quoted\.\}&maybe\cr
 \.{time\_t}&|raw_int|: \stars&maybe\cr
 \.{try}&|else_like|: \stars&maybe\cr
 \.{typedef}&|typedef_like|: \stars&maybe\cr
+\.{typeid}&|sizeof_like|: \stars&maybe\cr
+\.{typename}&|struct_like|: \stars&maybe\cr
 \.{undef}&|if_like|: \stars&maybe\cr
 \.{union}&|struct_like|: \stars&maybe\cr
 \.{unsigned}&|raw_int|: \stars&maybe\cr
+\.{using}&|int_like|: \stars&maybe\cr
 \.{va\_dcl}&|decl|: \stars&maybe\cr
 \.{va\_list}&|raw_int|: \stars&maybe\cr
 \.{virtual}&|int_like|: \stars&maybe\cr
@@ -1951,6 +2004,8 @@ identifier&|exp|: \.{\\\\\{}identifier with underlines quoted\.\}&maybe\cr
 \.{volatile}&|const_like|: \stars&maybe\cr
 \.{wchar\_t}&|raw_int|: \stars&maybe\cr
 \.{while}&|if_like|: \stars&maybe\cr
+\.{xor}&|alfop|: \stars&yes\cr
+\.{xor\_eq}&|alfop|: \stars&yes\cr
 \.{@@,}&|insert|: \.{\\,}&maybe\cr
 \.{@@\v}&|insert|:  |opt| \.0&maybe\cr
 \.{@@/}&|insert|:  |force|&no\cr
@@ -2243,8 +2298,8 @@ code needs to be provided with a proper environment.
 
 @<Match a production at |pp|, or increase |pp| if there is no match@>= {
   if (cat1==end_arg && lhs_not_simple)
-    if (pp->cat==begin_arg) squash(pp,2,exp,-2,110);
-    else squash(pp,2,end_arg,-1,111);
+    if (pp->cat==begin_arg) squash(pp,2,exp,-2,111);
+    else squash(pp,2,end_arg,-1,112);
   else if (cat1==insert) squash(pp,2,pp->cat,-2,0);
   else if (cat2==insert) squash(pp+1,2,(pp+1)->cat,-1,0);
   else if (cat3==insert) squash(pp+2,2,(pp+2)->cat,0,0);
@@ -2527,7 +2582,7 @@ else if (cat1==colon) {
   big_app1(pp); big_app(' '); reduce(pp,1,decl_head,0,28);
 }
 else if (cat1==prelangle) squash(pp+1,1,langle,1,29);
-else if (cat1==colcol && (cat2==exp||cat2==int_like)) squash(pp,3,cat2,-2,30);
+else if (cat1==colcol && (cat2==exp||cat2==raw_int)) squash(pp,3,cat2,-2,30);
 else if (cat1==cast) {
   if (cat2==lbrace) {
   big_app2(pp); big_app(indent); big_app(indent);
@@ -2848,7 +2903,11 @@ squash(pp,1,int_like,-2,107);
 
 @ @<Cases for |raw_int|@>=
 if (cat1==lpar) squash(pp,1,exp,-2,108);
-else squash(pp,1,int_like,-3,109);
+else if (cat1==raw_int && cat2==colcol &&
+   (cat3==exp || cat3==raw_int)) {
+  if (cat3==exp) make_underlined(pp+3);
+  squash(pp+1,3,cat3,0,109);
+}@+else squash(pp,1,int_like,-3,110);
 
 @ The `|freeze_text|' macro is used to give official status to a token list.
 Before saying |freeze_text|, items are appended to the current token list,
@@ -3237,7 +3296,7 @@ while (id_first<id_loc) {
 @.\\\\@>
 @.\\\#@>
 @.\\\%@>
-@.\\\$@>
+@.\\$@>  @q CWEAVE does quote a dollar sign! @>
 @.\\\^@>
 @.\\\{@>@q}@>
 @q{@>@.\\\}@>
@@ -3302,7 +3361,10 @@ boolean scrapping; /* are we making this into a scrap? */
 @.\\NULL@>
   } else {
     app(res_flag+(int)(p-name_dir));
-    if (scrapping) app_scrap(p->ilk,maybe_math);
+    if (scrapping) {
+      if (p->ilk==alfop) app_scrap(unorbinop,yes_math)@;
+      else app_scrap(p->ilk,maybe_math);
+    }
   }
 }
 
@@ -3599,10 +3661,11 @@ narrower) text-italic font. Thus we output `\.{\\\v}\.{a}' but
 out('\\');
 if (a==identifier) {
   if (cur_name->ilk>=custom && cur_name->ilk<=quoted && !doing_format) {
+ custom_out:
     for (p=cur_name->byte_start;p<(cur_name+1)->byte_start;p++)
-      out(isxalpha(*p)? 'x':*p);
+      out(*p=='_'? 'x': *p=='$'? 'X': *p);
     break;
-  } else if (is_tiny(cur_name)) out('|')
+  } else if (is_tiny(cur_name)) out('|')@;
 @.\\|@>
   else { delim='.';
     for (p=cur_name->byte_start;p<(cur_name+1)->byte_start;p++)
@@ -3613,8 +3676,10 @@ if (a==identifier) {
   }
 @.\\\\@>
 @.\\.@>
-}
-else out('&') /* |a==res_word| */
+}@+else if (cur_name->ilk==alfop) {
+  out('X');
+  goto custom_out;
+}@+else out('&'); /* |a==res_word| */
 @.\\\&@>
 if (is_tiny(cur_name)) {
   if (isxalpha((cur_name->byte_start)[0]))
@@ -3736,7 +3801,7 @@ while (k<k_limit) {
 @.\\\\@>
 @.\\\#@>
 @.\\\%@>
-@.\\\$@>
+@.\\$@>  @q CWEAVE does quote a dollar sign! @>
 @.\\\^@>
 @.\\\{@>@q}@>
 @q{@>@.\\\}@>
@@ -4403,7 +4468,7 @@ lowcase: out_str("\\\\");
 @.\\.@>
   case custom: case quoted: {char *j; out_str("$\\");
     for (j=cur_name->byte_start;j<(cur_name+1)->byte_start;j++)
-      out(isxalpha(*j)? 'x' : *j);
+      out(*j=='_'? 'x': *j=='$'? 'X': *j);
     out('$');
     goto name_done;
     }

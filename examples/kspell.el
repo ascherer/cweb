@@ -13,7 +13,7 @@
 ;; dictionary can be found in ~ftp/pub/dict/words at labrea.stanford.edu.
 ;; Also create an empty file called .words in your home directory.
 ;; Finally, add (load-library "kspell") to your .emacs file, or
-;; include such a line in site-init.el if kspell is to be use by everybody.
+;; include such a line in site-init.el if kspell is to be used by everybody.
 ;; If you get a message like "Checking spelling of buffer...not correct"
 ;; and nothing else, the probable cause is that the wordtest program
 ;; could not open /usr/local/lib/dict/words or ~/.words for reading.

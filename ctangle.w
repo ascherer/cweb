@@ -2,7 +2,7 @@
 % This program by Silvio Levy and Donald E. Knuth
 % is based on a program by Knuth.
 % It is distributed WITHOUT ANY WARRANTY, express or implied.
-% Version 3.43 --- September 1998
+% Version 3.5 --- December 1999
 
 % Copyright (C) 1987,1990,1993 Silvio Levy and Donald E. Knuth
 
@@ -22,11 +22,11 @@
 \mathchardef\RA="3221 % right arrow
 \mathchardef\BA="3224 % double arrow
 
-\def\title{CTANGLE (Version 3.43)}
+\def\title{CTANGLE (Version 3.5)}
 \def\topofcontents{\null\vfill
   \centerline{\titlefont The {\ttitlefont CTANGLE} processor}
   \vskip 15pt
-  \centerline{(Version 3.43)}
+  \centerline{(Version 3.5)}
   \vfill}
 \def\botofcontents{\vfill
 \noindent
@@ -44,6 +44,7 @@ under the terms of a permission notice identical to this one.
 }
 \pageno=\contentspagenumber \advance\pageno by 1
 \let\maybe=\iftrue
+@s not_eq normal @q unreserve a C++ keyword @>
 
 @** Introduction.
 This is the \.{CTANGLE} program by Silvio Levy and Donald E. Knuth,
@@ -56,7 +57,7 @@ Joachim Schrod, Lee Wittenberg, and others who have contributed improvements.
 The ``banner line'' defined here should be changed whenever \.{CTANGLE}
 is modified.
 
-@d banner "This is CTANGLE (Version 3.43)\n"
+@d banner "This is CTANGLE (Version 3.5)\n"
 
 @c
 @<Include files@>@/
@@ -886,7 +887,8 @@ int no_where; /* suppress |print_where|? */
 @ As one might expect, |get_next| consists mostly of a big switch
 that branches to the various special cases that can arise.
 
-@d isxalpha(c) ((c)=='_') /* non-alpha character allowed in identifier */
+@d isxalpha(c) ((c)=='_' || (c)=='$') 
+  /* non-alpha characters allowed in identifier */
 @d ishigh(c) ((unsigned char)(c)>0177)
 @^high-bit character handling@>
 

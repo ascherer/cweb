@@ -2,7 +2,7 @@
 % This program by Silvio Levy and Donald E. Knuth
 % is based on a program by Knuth.
 % It is distributed WITHOUT ANY WARRANTY, express or implied.
-% Version 3.0 --- June 1993
+% Version 3.5 --- December 1999
 %
 @
 \def\v{\char'174} 
@@ -61,7 +61,7 @@ We use \\{in}, \\{out}, \\{back} and
 \+& |exp| \alt |exp| |cast| & |exp| & |time()|\cr
 \+& |exp| |semi| & |stmt| & |x=0;|\cr
 \+& |exp| |colon| & |tag| \hfill $E^*C$ & |found:|\cr
-\+& |exp| |base| |int_like| |comma| & |base| \hfill $B\.\ IC$\,|opt|9
+\+& |exp| |base| |int_like| |comma| & |exp| |base| \hfill $B\.\ IC$\,|opt|9
  & \&D : \&C,\cr
 \+& |exp| |base| |int_like| |lbrace| & |exp| |lbrace| \hfill
      $E=E\.\ B\.\ I$ & \&D : \&C $\{$\cr
@@ -89,13 +89,13 @@ We use \\{in}, \\{out}, \\{back} and
         \alt|int_like| |struct_like| \hfill $I\.\ $\alt $I$ $S$
         \unskip& |extern char|\cr
 \+& |int_like| |exp| \alt|raw_int| |struct_like| &
-         |int_like| \alt|int_like| |struct_like| & |extern "Ada" int|\cr
+         |int_like| \alt|raw_int| |struct_like| & |extern "Ada" int|\cr
 \+& |int_like| \altt|exp| |unorbinop| |semi| & |decl_head|
                     \altt|exp| |unorbinop| |semi| \hfill
                    $D=I$\altt{\.\ } {\.\ } {} \unskip & |int x|\cr
 \+& |int_like| |colon| & |decl_head| |colon| \hfill $D=I\.\ $ & |unsigned:|\cr
 \+& |int_like| |prelangle| & |int_like| |langle| & \&C$\langle$\cr
-\+& |int_like| |colcol| \alt |exp| |int_like| & \alt |exp| |int_like| &
+\+& |int_like| |colcol| \alt |exp| |raw_int| & \alt |exp| |raw_int| &
    \malt {\&C\DC$x$} {\&C\DC\&B} \cr
 \+& |int_like| |cast| |lbrace| & |fn_decl| |lbrace| \hfill $IC\,|in|\,|in|$&
     \&C$\langle\&{void}\ast\rangle\{$\cr
@@ -122,7 +122,7 @@ We use \\{in}, \\{out}, \\{back} and
 \+& |typedef_like| |decl_head| |semi| & |decl| \hfill $T\.\ D$ &
                                              \&{typedef} \&{int} $\&x,\&y$;\cr
 \+& |struct_like| |lbrace| & |struct_head| \hfill $S\.\ L$ & |struct {|\cr
-\+& |struct_like| \alt|exp| |int_like| |semi| & |decl_head|
+\+& |struct_like| \alt|exp| |int_like| |semi| & |decl_head| |semi|
      \hfill $S\.\ $\alt $E^{**}$ $I^{**}$ & \&{struct} \&{forward};\cr
 \+& |struct_like| \alt|exp| |int_like| |lbrace| & |struct_head| \hfill
      $S\.\ $\alt $E^{**}$ $I^{**}$ \unskip $\.\ L$ &
@@ -132,7 +132,7 @@ We use \\{in}, \\{out}, \\{back} and
 \+\dag\theprodno& |struct_like| \alt|exp| |int_like| & |int_like|
         \hfill $S\.\ $\alt$E$ $I$ & \&{struct} \&{name\_info} $z$;\cr
 \+& |struct_head| \altt|decl| |stmt| |function| |rbrace| & |int_like|\hfill
-         $S\,\\{in}\,|force|\,D\,\\{out}\,|force|\,R$ &
+         $S\,\\{in}\,|force|$\altt$D$ $S$ $F$ $\\{out}\,|force|\,R$ &
                                         |struct {| declaration |}|\cr
 \+& |struct_head| |rbrace| & |int_like|\hfill $S\.{\\,}R$ & |class C{}|\cr
 \+& |fn_decl| |decl| & |fn_decl| \hfill $F\,|force|\,D$
@@ -231,7 +231,12 @@ We use \\{in}, \\{out}, \\{back} and
      & $*$\&{const} |x|\cr
 \+& |raw_unorbin| & |unorbinop| & $*$ |x|\cr
 \+& |const_like| & |int_like| & \&{const} |x|\cr
-\+& |raw_int| |lpar| & |exp| & \&{complex}$(x,y)$\cr
+\+& |raw_int| |lpar| & |exp| |lpar| & \&{complex}$(x,y)$\cr
+\advance\midcol-10pt
+\+& |raw_int| |raw_int| |colcol| \alt|exp| |raw_int| &
+  |raw_int| \alt|exp| |raw_int| \hfill \alt$E=R_2CE^*$ $R_2=R_2CR_3$ &
+  $\&{int}\,\&C\DC\\{init}(\,)$\cr
+\advance\midcol 10pt
 \+& |raw_int| & |int_like|   & \&{complex} |z|\cr
 \+& |begin_arg| |end_arg| & |exp| & \.{@@[}\&{char}$*$\.{@@]}\cr
 \+& |any_other| |end_arg| & |end_arg| &    \&{char}$*$\.{@@]}\cr

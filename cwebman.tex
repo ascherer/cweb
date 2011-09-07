@@ -34,7 +34,7 @@
 
 \def\lheader{\mainfont\the\pageno\hfill\sc\runninghead\hfill}
 \def\rheader{\hfill\sc\runninghead\hfill\mainfont\the\pageno}
-\def\runninghead{{\tentt CWEB} USER MANUAL (VERSION 3.0)}
+\def\runninghead{{\tentt CWEB} USER MANUAL (VERSION 3.5)}
 
 % This verbatim mode assumes that ! marks are !! in the text being copied.
 \def\verbatim{\begingroup
@@ -48,7 +48,7 @@
 \null\vfill
 \centerline{\titlefont The {\ttitlefont CWEB} System of
     Structured Documentation}
-\vskip 18pt\centerline{(Version 3.0)}
+\vskip 18pt\centerline{(Version 3.5)}
 \vskip 24pt
 \centerline{\authorfont Donald E. Knuth and Silvio Levy}
 \vfill
@@ -562,12 +562,13 @@ will be formatted as a \TEX/ control sequence; for example,
 be output as \.{\\foo} by \.{CWEAVE}. The programmer should define
 \.{\\foo} to have whatever custom format is desired, assuming \TEX/
 math mode. (Each underline
-character is converted to \.{x} when making the \TEX/ control sequence;
+character is converted to \.{x} when making the \TEX/ control sequence,
+and each dollar sign is converted to~\.X;
 thus \\{foo\_bar} becomes \.{\\fooxbar}. Other characters, including digits,
 are left untranslated, so \TEX/ will consider them as macro parameters,
 not as part of the control sequence itself. For example,
 $$\.{\\def\\x\#1\{x\_\{\#1\}\} @f x1 TeX @f x2 TeX}$$
-will format \.{x1} and \.{x2} not as \\{x1} and \\{x2} but as $x_1$ and $x_2$.
+will format \.{x1} and \.{x2} not as \\{x1} and \\{x2} but as $x_1$ and $x_2$.)
 
 \more \.{CWEAVE} knows that identifiers being
 defined with a \&{typedef} should become reserved words; thus you
@@ -1507,7 +1508,7 @@ $$\lpile{\.{\\def\\topofcontents\{\\null\\vfill}\cr
   \.{ { }\\titlefalse \% include headline on the contents page}\cr
   \.{ { }\\def\\rheader\{\\mainfont The \{\\tt CWEAVE\}{ }processor\\hfil\}}\cr
   \.{ { }\\centerline\{\\titlefont The \{\\ttitlefont CWEAVE\}{ }processor\}}\cr
-  \.{ { }\\vskip 15pt \\centerline\{(Version 3.0)\}{ }\\vfill\}}\cr}$$
+  \.{ { }\\vskip 15pt \\centerline\{(Version 3.5)\}{ }\\vfill\}}\cr}$$
 Redefining \.{\\rheader}, which is the headline for right-hand pages,
 suffices in this case to put the desired information at the top of the
 contents page.

@@ -73,7 +73,7 @@ ALMOSTALL =  common.w ctangle.w Makefile README common.c common.h ctangle.c \
 	comm-pc.ch ctang-pc.ch cweav-pc.ch comm-amiga.ch \
         comm-bs.ch ctang-bs.ch cweav-bs.ch makefile.bs \
 	comm-ql.ch ctang-ql.ch cweav-ql.ch readme.ql \
-	comm-os2.ch cweb.1 cweb.el prod.w
+	comm-os2.ch cweb.1 cweb.el prod.w cwebmac-pdf.tex
 ALL =  $(ALMOSTALL) cweave.w
 
 .SUFFIXES: .dvi .tex .w
