@@ -206,6 +206,7 @@ for relative module movement. The automatic \" feature is disabled."
   (local-set-key "\M-n" 'forward-module)
   (local-set-key "\M-p" 'backward-module)
   (local-set-key "\"" 'self-insert-command)
+  (setq comment-start nil)
   (setq mode-name "CWEB")
   (setq major-mode 'cweb-mode)
   (run-hooks 'cweb-mode-hook))

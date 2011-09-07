@@ -2,8 +2,9 @@
 % This program by Silvio Levy and Donald E. Knuth
 % is based on a program by Knuth.
 % It is distributed WITHOUT ANY WARRANTY, express or implied.
-% Version 3.61 --- July 2000
+% Version 3.62 --- September 2000
 % (same as Version 3.5 except for minor typographic/stylistic corrections)
+% (also quotes backslashes in file names of #line directives)
 
 % Copyright (C) 1987,1990,1993,2000 Silvio Levy and Donald E. Knuth
 
@@ -23,11 +24,11 @@
 \mathchardef\RA="3221 % right arrow
 \mathchardef\BA="3224 % double arrow
 
-\def\title{CTANGLE (Version 3.61)}
+\def\title{CTANGLE (Version 3.62)}
 \def\topofcontents{\null\vfill
   \centerline{\titlefont The {\ttitlefont CTANGLE} processor}
   \vskip 15pt
-  \centerline{(Version 3.61)}
+  \centerline{(Version 3.62)}
   \vfill}
 \def\botofcontents{\vfill
 \noindent
@@ -58,7 +59,7 @@ Joachim Schrod, Lee Wittenberg, and others who have contributed improvements.
 The ``banner line'' defined here should be changed whenever \.{CTANGLE}
 is modified.
 
-@d banner "This is CTANGLE (Version 3.61)\n"
+@d banner "This is CTANGLE (Version 3.62)\n"
 
 @c
 @<Include files@>@/
@@ -745,7 +746,10 @@ case section_number:
     cur_val=*cur_byte++;
     cur_val=0400*(cur_val-0200)+ *cur_byte++; /* points to the file name */
     for (j=(cur_val+name_dir)->byte_start, k=(cur_val+name_dir+1)->byte_start;
-         j<k; j++) C_putc(*j);
+         j<k; j++) {
+      if (*j=='\\' || *j=='"') C_putc('\\');
+      C_putc(*j);
+    }
     C_printf("%s","\"\n");
   }
   break;

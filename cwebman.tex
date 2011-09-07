@@ -34,7 +34,7 @@
 
 \def\lheader{\mainfont\the\pageno\hfill\sc\runninghead\hfill}
 \def\rheader{\hfill\sc\runninghead\hfill\mainfont\the\pageno}
-\def\runninghead{{\tentt CWEB} USER MANUAL (VERSION 3.61)}
+\def\runninghead{{\tentt CWEB} USER MANUAL (VERSION 3.62)}
 
 % This verbatim mode assumes that ! marks are !! in the text being copied.
 \def\verbatim{\begingroup
@@ -48,7 +48,7 @@
 \null\vfill
 \centerline{\titlefont The {\ttitlefont CWEB} System of
     Structured Documentation}
-\vskip 18pt\centerline{(Version 3.61 --- July 2000)}
+\vskip 18pt\centerline{(Version 3.62 --- September 2000)}
 \vskip 24pt
 \centerline{\authorfont Donald E. Knuth and Silvio Levy}
 \vfill
@@ -845,7 +845,10 @@ insert `\.{@[@]}' between a simple type name and a left parenthesis
 when declaring a pointer to a function, as in
 $$\.{int @[@] (*f)();}$$
 otherwise \.{CWEAVE} will confuse the first part of that declaration with
-the \CPLUSPLUS/ expression `\&{int}($*f$)'.
+the \CPLUSPLUS/ expression `\&{int}($*f$)'. Another example, for people
+who want to use low-level \.{\#define} commands in the midst of \CEE/ code
+and the definition begins with a cast:
+$$\.{\#define foo @[(int)(bar)@]}$$
 
 \subsec
 The remaining control codes govern the input that \.{CWEB} sees.
