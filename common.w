@@ -2,7 +2,7 @@
 % This program by Silvio Levy and Donald E. Knuth
 % is based on a program by Knuth.
 % It is distributed WITHOUT ANY WARRANTY, express or implied.
-% Version 3.61 --- July 2000 (works with later versions too)
+% Version 3.64 --- January 2002
 
 % Copyright (C) 1987,1990,1993,2000 Silvio Levy and Donald E. Knuth
 
@@ -17,12 +17,12 @@
 
 \def\v{\char'174} % vertical (|) in typewriter font
 
-\def\title{Common code for CTANGLE and CWEAVE (Version 3.61)}
+\def\title{Common code for CTANGLE and CWEAVE (Version 3.64)}
 \def\topofcontents{\null\vfill
   \centerline{\titlefont Common code for {\ttitlefont CTANGLE} and
     {\ttitlefont CWEAVE}}
   \vskip 15pt
-  \centerline{(Version 3.61)}
+  \centerline{(Version 3.64)}
   \vfill}
 \def\botofcontents{\vfill
 \noindent
@@ -291,7 +291,7 @@ do {
 
 @ @<Move |buffer| and |limit| to |change_buffer| and |change_limit|@>=
 {
-  change_limit=change_buffer-buffer+limit;
+  change_limit=change_buffer+(limit-buffer);
   strncpy(change_buffer,buffer,limit-buffer+1);
 }
 
@@ -337,7 +337,7 @@ check_change() /* switches to |change_file| if the buffers match */
       return;
     }
     if (limit>buffer+1 && buffer[0]=='@@') {
-      if (xisupper(buffer[1])) buffer[1]=tolower(buffer[1]);
+      char xyz_code=xisupper(buffer[1])? tolower(buffer[1]): buffer[1];
       @<If the current line starts with \.{@@y},
         report any discrepancies and |return|@>;
     }
@@ -356,11 +356,11 @@ check_change() /* switches to |change_file| if the buffers match */
 }
 
 @ @<If the current line starts with \.{@@y}...@>=
-if (buffer[1]=='x' || buffer[1]=='z') {
+if (xyz_code=='x' || xyz_code=='z') {
   loc=buffer+2; err_print("! Where is the matching @@y?");
 @.Where is the match...@>
   }
-else if (buffer[1]=='y') {
+else if (xyz_code=='y') {
   if (n>0) {
     loc=buffer+2;
     printf("\n! Hmm... %d ",n);
@@ -433,10 +433,11 @@ int get_line() /* inputs the next line */
     @<Read from |cur_file| and maybe turn on |changing|@>;
     if (changing && include_depth==change_depth) goto restart;
   }
+  if (input_has_ended) return 0;
   loc=buffer; *limit=' ';
-  if (*buffer=='@@' && (*(buffer+1)=='i' || *(buffer+1)=='I')) {
-    loc=buffer+2;
-    while (loc<=limit && (*loc==' '||*loc=='\t'||*loc=='"')) loc++;
+  if (buffer[0]=='@@' && (buffer[1]=='i' || buffer[1]=='I')) {
+    loc=buffer+2; *limit='"';
+    while (*loc==' '||*loc=='\t') loc++;
     if (loc>=limit) {
       err_print("! Include file name not given");
 @.Include file name ...@>
@@ -450,7 +451,7 @@ int get_line() /* inputs the next line */
     include_depth++; /* push input stack */
     @<Try to open include file, abort push if unsuccessful, go to |restart|@>;
   }
-  return (!input_has_ended);
+  return 1;
 }
 
 @ When an \.{@@i} line is found in the |cur_file|, we must temporarily
@@ -476,7 +477,12 @@ The remainder of the \.{@@i} line after the file name is ignored.
   char *k=cur_file_name, *kk;
   int l; /* length of file name */
 
-  while (*loc!=' '&&*loc!='\t'&&*loc!='"'&&k<=cur_file_name_end) *k++=*loc++;
+  if (*loc=='"') {
+    loc++;
+    while (*loc!='"' && k<=cur_file_name_end) *k++=*loc++;
+    if (loc==limit) k=cur_file_name_end+1; /* unmatched quote is `too long' */
+  } else
+    while (*loc!=' '&&*loc!='\t'&&*loc!='"'&&k<=cur_file_name_end) *k++=*loc++;
   if (k>cur_file_name_end) too_long();
 @.Include file name ...@>
   *k='\0';

@@ -27,6 +27,7 @@ comm-man.ch
 comm-pc.ch
 comm-ql.ch
 comm-vms.ch
+comm-w32.ch
 common.c
 common.h
 common.w
@@ -35,6 +36,7 @@ ctang-man.ch
 ctang-pc.ch
 ctang-ql.ch
 ctang-vms.ch
+ctang-w32.ch
 ctangle.c
 ctangle.w
 cweav-bs.ch
@@ -42,6 +44,7 @@ cweav-man.ch
 cweav-pc.ch
 cweav-ql.ch
 cweav-vms.ch
+cweave-w32.ch
 cweave.w
 cweb.1
 cweb.el
@@ -59,10 +62,11 @@ The files common.c and ctangle.c are used for bootstrapping.
 The file cweb.1 is a manual page.
 The file cweb.el is suggested for GNU-Emacs users.
 The file c++lib.w is for C++ users (say `@i c++lib.w' at beginning of program).
-The files *-man.ch are used if you want to make the full 237-page CWEB manual.
+The files *-man.ch are used if you want to make the full 239-page CWEB manual.
 The files *-bs.ch are used instead of *-pc.ch if you are doing BIG programs.
 You can use makefile.bs to make CWEB with *-bs.ch.
 The files *-ql.ch are for QDOS/SMSQ systems; see readme.ql for further info.
+The files *-w32.ch use __fastcall conventions on win32 systems.
 The file comm-mac.ch is for Macintosh conventions.
 The other files named *.ch are sample change files for local customization.
 

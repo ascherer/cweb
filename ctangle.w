@@ -2,8 +2,8 @@
 % This program by Silvio Levy and Donald E. Knuth
 % is based on a program by Knuth.
 % It is distributed WITHOUT ANY WARRANTY, express or implied.
-% Version 3.62 --- September 2000
-% (same as Version 3.5 except for minor typographic/stylistic corrections)
+% Version 3.64 --- February 2002
+% (same as Version 3.5 except for minor corrections)
 % (also quotes backslashes in file names of #line directives)
 
 % Copyright (C) 1987,1990,1993,2000 Silvio Levy and Donald E. Knuth
@@ -24,11 +24,11 @@
 \mathchardef\RA="3221 % right arrow
 \mathchardef\BA="3224 % double arrow
 
-\def\title{CTANGLE (Version 3.62)}
+\def\title{CTANGLE (Version 3.64)}
 \def\topofcontents{\null\vfill
   \centerline{\titlefont The {\ttitlefont CTANGLE} processor}
   \vskip 15pt
-  \centerline{(Version 3.62)}
+  \centerline{(Version 3.64)}
   \vfill}
 \def\botofcontents{\vfill
 \noindent
@@ -59,7 +59,7 @@ Joachim Schrod, Lee Wittenberg, and others who have contributed improvements.
 The ``banner line'' defined here should be changed whenever \.{CTANGLE}
 is modified.
 
-@d banner "This is CTANGLE (Version 3.62)\n"
+@d banner "This is CTANGLE (Version 3.64)\n"
 
 @c
 @<Include files@>@/
@@ -921,7 +921,7 @@ get_next() /* produces the next input token */
       else continue;
     }
     loc++;
-    if (xisdigit(c) || c=='\\' || c=='.') @<Get a constant@>@;
+    if (xisdigit(c) || c=='.') @<Get a constant@>@;
     else if (c=='\'' || c=='"' || (c=='L'&&(*loc=='\'' || *loc=='"')))
         @<Get a string@>@;
     else if (isalpha(c) || isxalpha(c) || ishigh(c))
@@ -978,24 +978,21 @@ switch(c) {
 @ @<Get a constant@>= {
   id_first=loc-1;
   if (*id_first=='.' && !xisdigit(*loc)) goto mistake; /* not a constant */
-  if (*id_first=='\\') while (xisdigit(*loc)) loc++; /* octal constant */
-  else {
-    if (*id_first=='0') {
-      if (*loc=='x' || *loc=='X') { /* hex constant */
-        loc++; while (xisxdigit(*loc)) loc++; goto found;
-      }
-    }
-    while (xisdigit(*loc)) loc++;
-    if (*loc=='.') {
-    loc++;
-    while (xisdigit(*loc)) loc++;
-    }
-    if (*loc=='e' || *loc=='E') { /* float constant */
-      if (*++loc=='+' || *loc=='-') loc++;
-      while (xisdigit(*loc)) loc++;
+  if (*id_first=='0') {
+    if (*loc=='x' || *loc=='X') { /* hex constant */
+      loc++; while (xisxdigit(*loc)) loc++; goto found;
     }
   }
-  found: while (*loc=='u' || *loc=='U' || *loc=='l' || *loc=='L'
+  while (xisdigit(*loc)) loc++;
+  if (*loc=='.') {
+  loc++;
+  while (xisdigit(*loc)) loc++;
+  }
+  if (*loc=='e' || *loc=='E') { /* float constant */
+    if (*++loc=='+' || *loc=='-') loc++;
+    while (xisdigit(*loc)) loc++;
+  }
+ found: while (*loc=='u' || *loc=='U' || *loc=='l' || *loc=='L'
              || *loc=='f' || *loc=='F') loc++;
   id_loc=loc;
   return(constant);
@@ -1054,7 +1051,6 @@ whether there is more work to do.
   c=ccode[(eight_bits)*loc++];
   switch(c) {
     case ignore: continue;
-    case output_defs_code: output_defs_seen=1; return(c);
     case translit_code: err_print("! Use @@l in limbo only"); continue;
 @.Use @@l in limbo...@>
     case control_text: while ((c=skip_ahead())=='@@');
@@ -1248,11 +1244,16 @@ case section_name: if (t!=section_name) goto done;
     app_repl(a % 0400);
     @<Insert the line number into |tok_mem|@>; break;
   }
-case output_defs_code:
-  a=output_defs_flag;
-  app_repl((a / 0400)+0200);
-  app_repl(a % 0400);
-  @<Insert the line number into |tok_mem|@>; break;
+case output_defs_code: if (t!=section_name) err_print("! Misplaced @@h");
+@.Misplaced @@h@>
+  else {
+    output_defs_seen=1;
+    a=output_defs_flag;
+    app_repl((a / 0400)+0200);
+    app_repl(a % 0400);
+    @<Insert the line number into |tok_mem|@>;
+  }
+ break;
 case constant: case string:
   @<Copy a string or verbatim construction or numerical constant@>;
 case ord:

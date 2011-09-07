@@ -1,10 +1,12 @@
+% Modified 16 Jan 2002 to agree with COMMON version 3.64
+
 \def\9#1{} % this hack is explained in CWEB manual Appendix F11
 
 @* Introduction.  This file contains the program \.{wmerge},
 which takes two or more files and merges them according
 to the conventions of \.{CWEB}. Namely, it takes an ordinary \.{.w}
 file and and optional \.{.ch} file and sends the corresponding
-\.{.w}-style file to standard output (or to a named file), 
+\.{.w}-style file to standard output (or to a named file),
 expanding all ``includes''
 that might be specified by \.{@@i} in the original \.{.w} file.
 (A more precise description appears in the section on ``command line
@@ -88,7 +90,7 @@ which is defined in \.{/usr/include/sys/types.h}, you should let
 \.{WEAVE} know that this is a type, either by including the \.{.h} file
 at \.{WEB} time (saying \.{@@i /usr/include/sys/types.h}), or by
 using \.{WEB}'s format command (saying \.{@@f caddr\_t int}).  Either of
-these will make {\bf caddr\_t} be treated in the same way as |int|. 
+these will make {\bf caddr\_t} be treated in the same way as |int|.
 
 @<Func...@>=
 input_ln(fp) /* copies a line into |buffer| or returns 0 */
@@ -211,7 +213,7 @@ do {
 
 @ @<Move |buffer| and |limit| to |change_buffer| and |change_limit|@>=
 {
-  change_limit=change_buffer-buffer+limit;
+  change_limit=change_buffer+(limit-buffer);
   strncpy(change_buffer,buffer,limit-buffer+1);
 }
 
@@ -242,7 +244,7 @@ check_change() /* switches to |change_file| if the buffers match */
       return;
     }
     if (limit>buffer+1 && buffer[0]=='@@') {
-      if (isupper(buffer[1])) buffer[1]=tolower(buffer[1]);
+      char xyz_code=isupper(buffer[1])? tolower(buffer[1]): buffer[1];
       @<If the current line starts with \.{@@y},
         report any discrepancies and |return|@>;
     }
@@ -261,11 +263,11 @@ check_change() /* switches to |change_file| if the buffers match */
 }
 
 @ @<If the current line starts with \.{@@y}...@>=
-if (buffer[1]=='x' || buffer[1]=='z') {
+if (xyz_code=='x' || xyz_code=='z') {
   loc=buffer+2; err_print("! Where is the matching @@y?");
 @.Where is the match...@>
   }
-else if (buffer[1]=='y') {
+else if (xyz_code=='y') {
   if (n>0) {
     loc=buffer+2;
     fprintf(stderr,"\n! Hmm... %d ",n);
@@ -313,7 +315,7 @@ This procedure returns |!input_has_ended| because we often want to
 check the value of that variable after calling the procedure.
 
 @<Fun...@>=
-get_line() /* inputs the next line */
+int get_line() /* inputs the next line */
 {
   restart:
   if (changing && include_depth==change_depth)
@@ -322,10 +324,11 @@ get_line() /* inputs the next line */
     @<Read from |cur_file| and maybe turn on |changing|@>;
     if (changing && include_depth==change_depth) goto restart;
   }
+  if (input_has_ended) return 0;
   loc=buffer; *limit=' ';
-  if (*buffer=='@@' && (*(buffer+1)=='i' || *(buffer+1)=='I')) {
-    loc=buffer+2;
-    while (loc<=limit && (*loc==' '||*loc=='\t'||*loc=='"')) loc++;
+  if (buffer[0]=='@@' && (buffer[1]=='i' || buffer[1]=='I')) {
+    loc=buffer+2; *limit='"';
+    while (*loc==' '||*loc=='\t') loc++;
     if (loc>=limit) {
       err_print("! Include file name not given");
 @.Include file name ...@>
@@ -335,11 +338,11 @@ get_line() /* inputs the next line */
       err_print("! Too many nested includes");
 @.Too many nested includes@>
       goto restart;
-    } 
+    }
     include_depth++; /* push input stack */
     @<Try to open include file, abort push if unsuccessful, go to |restart|@>;
   }
-  return (!input_has_ended);
+  return 1;
 }
 
 void put_line()
@@ -353,28 +356,33 @@ void put_line()
 stop reading it and start reading from the named include file.  The
 \.{@@i} line should give a complete file name with or without
 double quotes.
-If the environment variable \.{CWEBINPUTS} is set, or if the compiler flag 
+If the environment variable \.{CWEBINPUTS} is set, or if the compiler flag
 of the same name was defined at compile time,
 \.{CWEB} will look for include files in the directory thus named, if
 it cannot find them in the current directory.
 (Colon-separated paths are not supported.)
 The remainder of the \.{@@i} line after the file name is ignored.
 
-@d too_long() {include_depth--; 
+@d too_long() {include_depth--;
         err_print("! Include file name too long"); goto restart;}
 
 @ @<Try to open...@>= {
-  char temp_file_name[max_file_name_length]; 
-  char *cur_file_name_end=cur_file_name+max_file_name_length-1; 
+  char temp_file_name[max_file_name_length];
+  char *cur_file_name_end=cur_file_name+max_file_name_length-1;
   char *k=cur_file_name, *kk;
   int l; /* length of file name */
 
-  while (*loc!=' '&&*loc!='\t'&&*loc!='"'&&k<=cur_file_name_end) *k++=*loc++;
+  if (*loc=='"') {
+    loc++;
+    while (*loc!='"' && k<=cur_file_name_end) *k++=*loc++;
+    if (loc==limit) k=cur_file_name_end+1; /* unmatched quote is `too long' */
+  } else
+    while (*loc!=' '&&*loc!='\t'&&*loc!='"'&&k<=cur_file_name_end) *k++=*loc++;
   if (k>cur_file_name_end) too_long();
 @.Include file name ...@>
   *k='\0';
   if ((cur_file=fopen(cur_file_name,"r"))!=NULL) {
-    cur_line=0; 
+    cur_line=0;
     goto restart; /* success */
   }
   kk=getenv("CWEBINPUTS");
@@ -387,7 +395,7 @@ The remainder of the \.{@@i} line after the file name is ignored.
     if ((l=strlen(CWEBINPUTS))>max_file_name_length-2) too_long();
     strcpy(temp_file_name,CWEBINPUTS);
 #else
-    l=0; 
+    l=0;
 #endif /* |CWEBINPUTS| */
   }
   if (l>0) {
@@ -397,7 +405,7 @@ The remainder of the \.{@@i} line after the file name is ignored.
     strcpy(cur_file_name,temp_file_name);
     cur_file_name[l]='/'; /* \UNIX/ pathname separator */
     if ((cur_file=fopen(cur_file_name,"r"))!=NULL) {
-      cur_line=0; 
+      cur_line=0;
       goto restart; /* success */
     }
   }
@@ -437,7 +445,7 @@ The remainder of the \.{@@i} line after the file name is ignored.
 @.Where is the match...@>
       }
       else if (buffer[1]=='z') {
-        prime_the_change_buffer(); changing=!changing; 
+        prime_the_change_buffer(); changing=!changing;
       }
     }
   }

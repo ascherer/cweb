@@ -2,6 +2,7 @@
 
 \def\tangref{3} % where the main explanation of CTANGLing is given
 \input cwebmac
+\acrofalse\pdffalse\pdftexfalse
 \def\page{\box255 } \normalbottom
 \parskip 0pt plus 1pt
 \def\RA{\char'31 } % right arrow
@@ -34,7 +35,7 @@
 
 \def\lheader{\mainfont\the\pageno\hfill\sc\runninghead\hfill}
 \def\rheader{\hfill\sc\runninghead\hfill\mainfont\the\pageno}
-\def\runninghead{{\tentt CWEB} USER MANUAL (VERSION 3.63)}
+\def\runninghead{{\tentt CWEB} USER MANUAL (VERSION 3.64)}
 
 % This verbatim mode assumes that ! marks are !! in the text being copied.
 \def\verbatim{\begingroup
@@ -48,7 +49,7 @@
 \null\vfill
 \centerline{\titlefont The {\ttitlefont CWEB} System of
     Structured Documentation}
-\vskip 18pt\centerline{(Version 3.63 --- January 2001)}
+\vskip 18pt\centerline{(Version 3.64 --- February 2002)}
 \vskip 24pt
 \centerline{\authorfont Donald E. Knuth and Silvio Levy}
 \vfill
@@ -1143,8 +1144,9 @@ $$\vbox{\halign{\.{#}\hfil\cr
 tex "\\let\\pdf+ \\input cob"\cr
 dvipdfm cob\cr
 acroread cob.pdf\cr}}$$
-instead of invoking \TeX\ in the normal way. (Thanks to Hans Hagen and
-C\'esar Augusto Rorato Crusius for the macros that make this work.)
+instead of invoking \TeX\ in the normal way. (Thanks to Hans Hagen,
+C\'esar Augusto Rorato Crusius, and Julian Gilbey
+for the macros that make this work.)
 Alternatively, thanks to H\`an Th\^e\kern-.3em\raise.3ex\hbox{\'{}} Th\`anh
 and Andreas Scherer, you can generate \.{cob.pdf} in one step by simply
 saying `\.{pdftex}~\.{cob}'.
@@ -1493,10 +1495,12 @@ features needed by the output of \.{CWEAVE}.
 
 \vskip6pt
 \begingroup \def\tt{\eighttt} \baselineskip9pt
-\def\printmacs{\input cwebmac}
-\verbatim
-!printmacs
-!endgroup
+\def\printmacs{\begingroup
+  \def\do##1{\catcode`##1=12 } \dospecials
+  \parskip 0pt \parindent 0pt
+  \catcode`\ =13 \catcode`\^^M=13
+  \tt \verbatimdefs \input cwebmac \endgroup}
+\printmacs
 \endgroup
 \vfill\eject
 
@@ -1521,7 +1525,7 @@ it `\.{|identifier|}'. But you can also say `\.{\\\\\{identifier\}}'. The
 output will look the same in both cases, but the second alternative
 doesn't put \\{identifier} into the index, since
 it bypasses \.{CWEAVE}'s translation from \CEE/ mode. In the second
-case you have to put a backslash before each underline character
+case you must put a backslash before each underline character
 in the identifier.
 
 \point 3. To get typewriter-like type, as when referring to `\.{CWEB}', you
@@ -1574,7 +1578,7 @@ $$\lpile{\.{\\def\\topofcontents\{\\null\\vfill}\cr
   \.{ { }\\titlefalse \% include headline on the contents page}\cr
   \.{ { }\\def\\rheader\{\\mainfont The \{\\tt CWEAVE\}{ }processor\\hfil\}}\cr
   \.{ { }\\centerline\{\\titlefont The \{\\ttitlefont CWEAVE\}{ }processor\}}\cr
-  \.{ { }\\vskip 15pt \\centerline\{(Version 3.61)\}{ }\\vfill\}}\cr}$$
+  \.{ { }\\vskip 15pt \\centerline\{(Version 3.64)\}{ }\\vfill\}}\cr}$$
 Redefining \.{\\rheader}, which is the headline for right-hand pages,
 suffices in this case to put the desired information at the top of the
 contents page.
@@ -1582,10 +1586,11 @@ contents page.
 \point 9. Data for the table of contents is written to a file that
 is read after the indexes have been \TEX/ed; there's one line of data
 for every starred section. The file \.{common.toc} might look like this:
-$$\lpile{\.{\\ZZ \{Introduction\}\{0\}\{1\}\{26\}}\cr
-  \.{\\ZZ \{The character set\}\{2\}\{5\}\{27\}}\cr}$$
+$$\lpile{\.{\\ZZ \{Introduction\}\{0\}\{1\}\{28\}\{\}}\cr
+  \.{\\ZZ \{The character set\}\{2\}\{5\}\{29\}\{\}}\cr}$$
 and so on. The \.{\\topofcontents} macro could
 redefine \.{\\ZZ} so that the information appears in any desired format.
+(See also point~19 below.)
 
 \point 10. Sometimes it is necessary or desirable to divide the output of
 \.{CWEAVE} into subfiles that can be processed separately. For example,
@@ -1700,7 +1705,7 @@ You can send email to
  \\pdfURL\{the author\}\{mailto:andreas.scherer@@pobox.com\}\cr
 or visit \\pdfURL\{his home page\}\{http://www.pobox.com/%
        \\TILDE/scherer\}.\cr}}$$
-In a PDF document, the first argument will appear in blue as
+In a {\mc PDF} document, the first argument will appear in blue as
 clickable text; the Acrobat reader, if correctly configured, will then
 redirect those links to the user's browser and open either the
 email client or the HTML viewer. In a hardcopy document, both arguments
@@ -1710,4 +1715,47 @@ in a somewhat awkward way, so that \.{CWEAVE} and/or \TeX\
 will not confuse them with formatting controls: Use \.{@@} for \.@
 and \.{\\TILDE/} for \.\~ and \.{\\UNDER/} for \.\_.
 
+\point 19. {\mc PDF} documents contain bookmarks that list all the major group
+titles in the table of contents, some of which will be subsidiary to
+others if the depth feature of \.{@*} has been used.
+Such bookmark entries are also known as ``outlines.''
+Moreover, the final group title, `Names of the sections',
+can be opened up to list every section name; Acrobat users can therefore
+navigate easily to any desired section.
+
+The macros of \.{cwebmac.tex} are careful to ``sanitize'' all the names
+that appear as bookmarks, by removing special characters and
+formatting codes that are inappropriate for the limited typographic
+capabilities of {\mc PDF} outlines. For example, one section of \.{CWEAVE}
+is named `Cases for \\{case\_like}', which is represented by the \TeX\ code
+`\.{Cases} \.{for} \.{\\PB\{\\\\\{case\\\_like\}\}}' in \.{cweave.tex}; its
+sanitized name is simply `\.{Cases} \.{for} \.{case\_like}'.
+(When \.{.pdf} files are produced, the fifth parameter of every \.{\\ZZ} in
+the \.{.toc} file is set to the sanitized form of the first parameter;
+see point~9 above and point~20 below.)
+
+In general, sanitization removes \TeX\ control sequences and braces,
+except for control sequences defined by \.{CWEB} itself. Such a translation
+works most of the time, but you can override the defaults and obtain any
+translation that you want by using \TeX nical tricks. For example, after
+$$\.{\\sanitizecommand\\foo\{bar\}}$$
+the control sequence \.{\\foo} will sanitize to `\.{bar}'. And after
+$$\.{\\def\\kluj\#1\\\\\{foo\}}$$
+the \TeX\ code `\.{\\kluj bar\\\\}' will print as `foo' but sanitize
+to `\.{bar}', because the control sequences \.{\\kluj} and
+\.{\\\\} are removed by sanitization.
+
+\point 20. Furthermore, group titles can be converted to an arbitrary
+sanitized text while also changing their form in running headlines, by
+using \.{\\ifheader}. Consider, for example, a \.{CWEB} source file that
+begins with the two lines
+$$\lpile{\.{\\def\\klujj\#1\\\\\{\\ifheader FOO\\else foo\\fi\}}\cr
+\.{@*Chinese \\klujj bar\\.}\cr}$$
+This coding introduces a major group entitled `{\bf Chinese foo}', with
+running headline `{\eightrm CHINESE FOO}' and table-of-contents entry
+`Chinese foo'. The corresponding bookmark is, however, `\.{Chinese} \.{bar}'.
+And the corresponding \.{.toc} file entry is
+`\.{\\ZZ \{Chinese \\klujj bar\\\\\}\{1\}\{1\}\{1\}\{Chinese bar\}}'.
+
 \vfill\end
+

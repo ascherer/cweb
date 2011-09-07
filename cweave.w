@@ -2,7 +2,7 @@
 % This program by Silvio Levy and Donald E. Knuth
 % is based on a program by Knuth.
 % It is distributed WITHOUT ANY WARRANTY, express or implied.
-% Version 3.61 --- July 2000
+% Version 3.64 --- February 2002
 % (essentially the same as version 3.6, which added
 %  recently introduced features of standard C++ to version 3.4)
 
@@ -29,11 +29,11 @@
 \def\skipxTeX{\\{skip\_\TEX/}}
 \def\copyxTeX{\\{copy\_\TEX/}}
 
-\def\title{CWEAVE (Version 3.61)}
+\def\title{CWEAVE (Version 3.64)}
 \def\topofcontents{\null\vfill
   \centerline{\titlefont The {\ttitlefont CWEAVE} processor}
   \vskip 15pt
-  \centerline{(Version 3.61)}
+  \centerline{(Version 3.64)}
   \vfill}
 \def\botofcontents{\vfill
 \noindent
@@ -65,7 +65,7 @@ Crusius, and others who have contributed improvements.
 The ``banner line'' defined here should be changed whenever \.{CWEAVE}
 is modified.
 
-@d banner "This is CWEAVE (Version 3.61)\n"
+@d banner "This is CWEAVE (Version 3.64)\n"
 
 @c @<Include files@>@/
 @h
@@ -101,7 +101,7 @@ char **av; /* argument values */
 {
   argc=ac; argv=av;
   program=cweave;
-  make_xrefs=force_lines=1; /* controlled by command-line options */
+  make_xrefs=force_lines=make_pb=1; /* controlled by command-line options */
   common_init();
   @<Set initial values@>;
   if (show_banner) printf(banner); /* print a ``banner line'' */
@@ -703,7 +703,7 @@ get_next() /* produces the next input token */
     @<Check if we're at the end of a preprocessor command@>;
     if (loc>limit && get_line()==0) return(new_section);
     c=*(loc++);
-    if (xisdigit(c) || c=='\\' || c=='.') @<Get a constant@>@;
+    if (xisdigit(c) || c=='.') @<Get a constant@>@;
     else if (c=='\'' || c=='"' || (c=='L'&&(*loc=='\'' || *loc=='"'))@|
            || (c=='<' && sharp_include_line==1))
         @<Get a string@>@;
@@ -805,7 +805,7 @@ switch(c) {
 and hexadecimal numbers; it is reasonable to stick to each convention
 within its realm.  Thus the \CEE/ part of a \.{CWEB} file has octals
 introduced by \.0 and hexadecimals by \.{0x}, but \.{CWEAVE} will print
-with \TeX/ macros that the user can redefine to fit the context.
+with \TEX/ macros that the user can redefine to fit the context.
 In order to simplify such macros, we replace some of the characters.
 
 Notice that in this section and the next, |id_first| and |id_loc|
@@ -813,9 +813,7 @@ are pointers into the array |section_text|, not into |buffer|.
 
 @<Get a constant@>= {
   id_first=id_loc=section_text+1;
-  if (*(loc-1)=='\\') {*id_loc++='~';
-  while (xisdigit(*loc)) *id_loc++=*loc++;} /* octal constant */
-  else if (*(loc-1)=='0') {
+  if (*(loc-1)=='0') {
     if (*loc=='x' || *loc=='X') {*id_loc++='^'; loc++;
       while (xisxdigit(*loc)) *id_loc++=*loc++;} /* hex constant */
     else if (xisdigit(*loc)) {*id_loc++='~';
