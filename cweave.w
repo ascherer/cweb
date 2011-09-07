@@ -2,7 +2,7 @@
 % This program by Silvio Levy and Donald E. Knuth
 % is based on a program by Knuth.
 % It is distributed WITHOUT ANY WARRANTY, express or implied.
-% Version 3.3 --- December 1994
+% Version 3.4 --- April 1995
 
 % Copyright (C) 1987,1990,1993 Silvio Levy and Donald E. Knuth
 
@@ -27,11 +27,11 @@
 \def\skipxTeX{\\{skip\_\TEX/}}
 \def\copyxTeX{\\{copy\_\TEX/}}
 
-\def\title{CWEAVE (Version 3.3)}
+\def\title{CWEAVE (Version 3.4)}
 \def\topofcontents{\null\vfill
   \centerline{\titlefont The {\ttitlefont CWEAVE} processor}
   \vskip 15pt
-  \centerline{(Version 3.3)}
+  \centerline{(Version 3.4)}
   \vfill}
 \def\botofcontents{\vfill
 \noindent
@@ -61,7 +61,7 @@ Joachim Schrod, Lee Wittenberg, and others who have contributed improvements.
 The ``banner line'' defined here should be changed whenever \.{CWEAVE}
 is modified.
 
-@d banner "This is CWEAVE (Version 3.3)\n"
+@d banner "This is CWEAVE (Version 3.4)\n"
 
 @c @<Include files@>@/
 @h
@@ -4285,20 +4285,35 @@ needs to be changed if ASCII code is not being used.
 @^ASCII code dependencies@>
 @^high-bit character handling@>
 
+We initialize |collate| by copying a few characters at a time, because
+some \CEE/ compilers choke on long strings.
+
 @<Set init...@>=
-collate[0]=0; strcpy(collate+1," \1\2\3\4\5\6\7\10\11\12\13\14\15\16\17\
-\20\21\22\23\24\25\26\27\30\31\32\33\34\35\36\37\
-!\42#$%&'()*+,-./:;<=>?@@[\\]^`{|}~_\
-abcdefghijklmnopqrstuvwxyz0123456789\
-\200\201\202\203\204\205\206\207\210\211\212\213\214\215\216\217\
-\220\221\222\223\224\225\226\227\230\231\232\233\234\235\236\237\
-\240\241\242\243\244\245\246\247\250\251\252\253\254\255\256\257\
-\260\261\262\263\264\265\266\267\270\271\272\273\274\275\276\277\
-\300\301\302\303\304\305\306\307\310\311\312\313\314\315\316\317\
-\320\321\322\323\324\325\326\327\330\331\332\333\334\335\336\337\
-\340\341\342\343\344\345\346\347\350\351\352\353\354\355\356\357\
-\360\361\362\363\364\365\366\367\370\371\372\373\374\375\376\377\
-");
+collate[0]=0;
+strcpy(collate+1," \1\2\3\4\5\6\7\10\11\12\13\14\15\16\17");
+/* 16 characters + 1 = 17 */
+strcpy(collate+17,"\20\21\22\23\24\25\26\27\30\31\32\33\34\35\36\37");
+/* 16 characters + 17 = 33 */
+strcpy(collate+33,"!\42#$%&'()*+,-./:;<=>?@@[\\]^`{|}~_");
+/* 32 characters + 33 = 65 */
+strcpy(collate+65,"abcdefghijklmnopqrstuvwxyz0123456789");
+/* (26 + 10) characters + 65 = 101 */
+strcpy(collate+101,"\200\201\202\203\204\205\206\207\210\211\212\213\214\215\216\217");
+/* 16 characters + 101 = 117 */
+strcpy(collate+117,"\220\221\222\223\224\225\226\227\230\231\232\233\234\235\236\237");
+/* 16 characters + 117 = 133 */
+strcpy(collate+133,"\240\241\242\243\244\245\246\247\250\251\252\253\254\255\256\257");
+/* 16 characters + 133 = 149 */
+strcpy(collate+149,"\260\261\262\263\264\265\266\267\270\271\272\273\274\275\276\277");
+/* 16 characters + 149 = 165 */
+strcpy(collate+165,"\300\301\302\303\304\305\306\307\310\311\312\313\314\315\316\317");
+/* 16 characters + 165 = 181 */
+strcpy(collate+181,"\320\321\322\323\324\325\326\327\330\331\332\333\334\335\336\337");
+/* 16 characters + 181 = 197 */
+strcpy(collate+197,"\340\341\342\343\344\345\346\347\350\351\352\353\354\355\356\357");
+/* 16 characters + 197 = 213 */
+strcpy(collate+213,"\360\361\362\363\364\365\366\367\370\371\372\373\374\375\376\377");
+/* 16 characters + 213 = 229 */
 
 @ Procedure |unbucket| goes through the buckets and adds nonempty lists
 to the stack, using the collating sequence specified in the |collate| array.
