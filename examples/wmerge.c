@@ -33,20 +33,20 @@ history= fatal_message;exit(wrap_up() ) ; \
 #define update_terminal fflush(stderr)  \
 
 /*1:*/
-#line 15 "wmerge.w"
+#line 15 "./wmerge.w"
 
 #include <stdio.h> 
 #include <stdlib.h>  
 #include <ctype.h>  
 /*2:*/
-#line 37 "wmerge.w"
+#line 37 "./wmerge.w"
 
 typedef short boolean;
 typedef unsigned char eight_bits;
 typedef char ASCII;
 
 /*:2*//*5:*/
-#line 70 "wmerge.w"
+#line 70 "./wmerge.w"
 
 ASCII buffer[buf_size];
 ASCII*buffer_end= buffer+buf_size-2;
@@ -54,7 +54,7 @@ ASCII*limit;
 ASCII*loc;
 
 /*:5*//*7:*/
-#line 136 "wmerge.w"
+#line 136 "./wmerge.w"
 
 int include_depth;
 FILE*file[max_include_depth];
@@ -71,18 +71,18 @@ boolean changing;
 boolean web_file_open= 0;
 
 /*:7*//*8:*/
-#line 162 "wmerge.w"
+#line 162 "./wmerge.w"
 
 char change_buffer[buf_size];
 char*change_limit;
 
 /*:8*//*23:*/
-#line 486 "wmerge.w"
+#line 486 "./wmerge.w"
 
 int history= spotless;
 
 /*:23*//*30:*/
-#line 584 "wmerge.w"
+#line 584 "./wmerge.w"
 
 int argc;
 char**argv;
@@ -90,40 +90,40 @@ char out_file_name[max_file_name_length];
 boolean flags[128];
 
 /*:30*//*40:*/
-#line 700 "wmerge.w"
+#line 700 "./wmerge.w"
 
 FILE*out_file;
 
 /*:40*/
-#line 19 "wmerge.w"
+#line 19 "./wmerge.w"
 
 /*3:*/
-#line 47 "wmerge.w"
+#line 47 "./wmerge.w"
 
-extern int strlen();
+extern size_t strlen();
 extern char*strcpy();
 extern int strncmp();
 extern char*strncpy();
 
 /*:3*//*4:*/
-#line 53 "wmerge.w"
+#line 53 "./wmerge.w"
 
 
 /*:4*//*24:*/
-#line 498 "wmerge.w"
+#line 498 "./wmerge.w"
 
 void err_print();
 
 /*:24*//*32:*/
-#line 608 "wmerge.w"
+#line 608 "./wmerge.w"
 
 void scan_args();
 
 /*:32*/
-#line 20 "wmerge.w"
+#line 20 "./wmerge.w"
 
 /*6:*/
-#line 95 "wmerge.w"
+#line 95 "./wmerge.w"
 
 input_ln(fp)
 FILE*fp;
@@ -145,14 +145,14 @@ return(1);
 }
 
 /*:6*//*9:*/
-#line 173 "wmerge.w"
+#line 173 "./wmerge.w"
 
 void
 prime_the_change_buffer()
 {
 change_limit= change_buffer;
 /*10:*/
-#line 187 "wmerge.w"
+#line 187 "./wmerge.w"
 
 while(1){
 change_line++;
@@ -169,10 +169,10 @@ err_print("! Missing @x in change file");
 }
 
 /*:10*/
-#line 178 "wmerge.w"
+#line 178 "./wmerge.w"
 ;
 /*11:*/
-#line 204 "wmerge.w"
+#line 204 "./wmerge.w"
 
 do{
 change_line++;
@@ -184,10 +184,10 @@ return;
 }while(limit==buffer);
 
 /*:11*/
-#line 179 "wmerge.w"
+#line 179 "./wmerge.w"
 ;
 /*12:*/
-#line 214 "wmerge.w"
+#line 214 "./wmerge.w"
 
 {
 change_limit= change_buffer+(limit-buffer);
@@ -195,12 +195,12 @@ strncpy(change_buffer,buffer,limit-buffer+1);
 }
 
 /*:12*/
-#line 180 "wmerge.w"
+#line 180 "./wmerge.w"
 ;
 }
 
 /*:9*//*13:*/
-#line 232 "wmerge.w"
+#line 232 "./wmerge.w"
 
 void
 check_change()
@@ -218,7 +218,7 @@ return;
 if(limit> buffer+1&&buffer[0]=='@'){
 char xyz_code= isupper(buffer[1])?tolower(buffer[1]):buffer[1];
 /*14:*/
-#line 265 "wmerge.w"
+#line 265 "./wmerge.w"
 
 if(xyz_code=='x'||xyz_code=='z'){
 loc= buffer+2;err_print("! Where is the matching @y?");
@@ -236,11 +236,11 @@ return;
 }
 
 /*:14*/
-#line 249 "wmerge.w"
+#line 249 "./wmerge.w"
 ;
 }
 /*12:*/
-#line 214 "wmerge.w"
+#line 214 "./wmerge.w"
 
 {
 change_limit= change_buffer+(limit-buffer);
@@ -248,7 +248,7 @@ strncpy(change_buffer,buffer,limit-buffer+1);
 }
 
 /*:12*/
-#line 251 "wmerge.w"
+#line 251 "./wmerge.w"
 ;
 changing= 0;cur_line++;
 while(!input_ln(cur_file)){
@@ -264,14 +264,14 @@ if(lines_dont_match)n++;
 }
 
 /*:13*//*15:*/
-#line 284 "wmerge.w"
+#line 284 "./wmerge.w"
 
 void
 reset_input()
 {
 limit= buffer;loc= buffer+1;buffer[0]= ' ';
 /*16:*/
-#line 299 "wmerge.w"
+#line 299 "./wmerge.w"
 
 if((web_file= fopen(web_file_name,"r"))==NULL){
 strcpy(web_file_name,alt_web_file_name);
@@ -285,7 +285,7 @@ if((change_file= fopen(change_file_name,"r"))==NULL)
 fatal("! Cannot open change file ",change_file_name);
 
 /*:16*/
-#line 289 "wmerge.w"
+#line 289 "./wmerge.w"
 ;
 include_depth= 0;cur_line= 0;change_line= 0;
 change_depth= include_depth;
@@ -294,14 +294,14 @@ limit= buffer;loc= buffer+1;buffer[0]= ' ';input_has_ended= 0;
 }
 
 /*:15*//*17:*/
-#line 317 "wmerge.w"
+#line 317 "./wmerge.w"
 
 int get_line()
 {
 restart:
 if(changing&&include_depth==change_depth)
 /*21:*/
-#line 431 "wmerge.w"
+#line 431 "./wmerge.w"
 {
 change_line++;
 if(!input_ln(change_file)){
@@ -326,11 +326,11 @@ prime_the_change_buffer();changing= !changing;
 }
 
 /*:21*/
-#line 322 "wmerge.w"
+#line 322 "./wmerge.w"
 ;
 if(!changing||include_depth> change_depth){
 /*20:*/
-#line 415 "wmerge.w"
+#line 415 "./wmerge.w"
 {
 cur_line++;
 while(!input_ln(cur_file)){
@@ -348,7 +348,7 @@ if(change_limit> change_buffer)check_change();
 }
 
 /*:20*/
-#line 324 "wmerge.w"
+#line 324 "./wmerge.w"
 ;
 if(changing&&include_depth==change_depth)goto restart;
 }
@@ -369,7 +369,7 @@ goto restart;
 }
 include_depth++;
 /*19:*/
-#line 369 "wmerge.w"
+#line 369 "./wmerge.w"
 {
 char temp_file_name[max_file_name_length];
 char*cur_file_name_end= cur_file_name+max_file_name_length-1;
@@ -417,7 +417,7 @@ include_depth--;err_print("! Cannot open include file");goto restart;
 }
 
 /*:19*/
-#line 343 "wmerge.w"
+#line 343 "./wmerge.w"
 ;
 }
 return 1;
@@ -431,7 +431,7 @@ putc('\n',out_file);
 }
 
 /*:17*//*22:*/
-#line 457 "wmerge.w"
+#line 457 "./wmerge.w"
 
 void
 check_complete(){
@@ -445,7 +445,7 @@ err_print("! Change file entry did not match");
 }
 
 /*:22*//*25:*/
-#line 502 "wmerge.w"
+#line 502 "./wmerge.w"
 
 void
 err_print(s)
@@ -454,7 +454,7 @@ char*s;
 char*k,*l;
 fprintf(stderr,*s=='!'?"\n%s":"%s",s);
 if(web_file_open)/*26:*/
-#line 523 "wmerge.w"
+#line 523 "./wmerge.w"
 
 {if(changing&&include_depth==change_depth)
 fprintf(stderr,". (l. %d of change file)\n",change_line);
@@ -473,18 +473,18 @@ putc('\n',stderr);
 }
 
 /*:26*/
-#line 509 "wmerge.w"
+#line 509 "./wmerge.w"
 
 else putc('\n',stderr);
 update_terminal;mark_error;
 }
 
 /*:25*//*28:*/
-#line 555 "wmerge.w"
+#line 555 "./wmerge.w"
 
 wrap_up(){
 /*29:*/
-#line 562 "wmerge.w"
+#line 562 "./wmerge.w"
 
 switch(history){
 case spotless:if(show_happiness)fprintf(stderr,"(No errors were found.)\n");break;
@@ -496,14 +496,14 @@ case fatal_message:fprintf(stderr,"(That was a fatal error, my friend.)\n");
 }
 
 /*:29*/
-#line 557 "wmerge.w"
+#line 557 "./wmerge.w"
 ;
 if(history> harmless_message)return(1);
 else return(0);
 }
 
 /*:28*//*33:*/
-#line 612 "wmerge.w"
+#line 612 "./wmerge.w"
 
 void
 scan_args()
@@ -516,7 +516,7 @@ boolean flag_change;
 
 while(--argc> 0){
 if(**(++argv)=='-'||**argv=='+')/*37:*/
-#line 682 "wmerge.w"
+#line 682 "./wmerge.w"
 
 {
 if(**argv=='-')flag_change= 0;
@@ -526,7 +526,7 @@ flags[*dot_pos]= flag_change;
 }
 
 /*:37*/
-#line 623 "wmerge.w"
+#line 623 "./wmerge.w"
 
 else{
 s= *argv;dot_pos= NULL;
@@ -536,16 +536,16 @@ else if(*s=='/')dot_pos= NULL,++s;
 else s++;
 }
 if(!found_web)/*34:*/
-#line 648 "wmerge.w"
+#line 648 "./wmerge.w"
 
 {
 if(s-*argv> max_file_name_length-5)
 /*39:*/
-#line 695 "wmerge.w"
+#line 695 "./wmerge.w"
 fatal("! Filename too long\n",*argv);
 
 /*:39*/
-#line 651 "wmerge.w"
+#line 651 "./wmerge.w"
 ;
 if(dot_pos==NULL)
 sprintf(web_file_name,"%s.w",*argv);
@@ -559,19 +559,19 @@ found_web= 1;
 }
 
 /*:34*/
-#line 631 "wmerge.w"
+#line 631 "./wmerge.w"
 
 else if(!found_change)/*35:*/
-#line 663 "wmerge.w"
+#line 663 "./wmerge.w"
 
 {
 if(s-*argv> max_file_name_length-4)
 /*39:*/
-#line 695 "wmerge.w"
+#line 695 "./wmerge.w"
 fatal("! Filename too long\n",*argv);
 
 /*:39*/
-#line 666 "wmerge.w"
+#line 666 "./wmerge.w"
 ;
 if(dot_pos==NULL)
 sprintf(change_file_name,"%s.ch",*argv);
@@ -580,19 +580,19 @@ found_change= 1;
 }
 
 /*:35*/
-#line 632 "wmerge.w"
+#line 632 "./wmerge.w"
 
 else if(!found_out)/*36:*/
-#line 673 "wmerge.w"
+#line 673 "./wmerge.w"
 
 {
 if(s-*argv> max_file_name_length-5)
 /*39:*/
-#line 695 "wmerge.w"
+#line 695 "./wmerge.w"
 fatal("! Filename too long\n",*argv);
 
 /*:39*/
-#line 676 "wmerge.w"
+#line 676 "./wmerge.w"
 ;
 if(dot_pos==NULL)sprintf(out_file_name,"%s.out",*argv);
 else strcpy(out_file_name,*argv);
@@ -600,50 +600,50 @@ found_out= 1;
 }
 
 /*:36*/
-#line 633 "wmerge.w"
+#line 633 "./wmerge.w"
 
 else/*38:*/
-#line 690 "wmerge.w"
+#line 690 "./wmerge.w"
 
 {
 fatal("! Usage: wmerge webfile[.w] [changefile[.ch] [outfile[.out]]]\n","")
 }
 
 /*:38*/
-#line 634 "wmerge.w"
+#line 634 "./wmerge.w"
 ;
 }
 }
 if(!found_web)/*38:*/
-#line 690 "wmerge.w"
+#line 690 "./wmerge.w"
 
 {
 fatal("! Usage: wmerge webfile[.w] [changefile[.ch] [outfile[.out]]]\n","")
 }
 
 /*:38*/
-#line 637 "wmerge.w"
+#line 637 "./wmerge.w"
 ;
 if(!found_change)strcpy(change_file_name,"/dev/null");
 }
 
 /*:33*/
-#line 21 "wmerge.w"
+#line 21 "./wmerge.w"
 
 main(ac,av)
 int ac;char**av;
 {
 argc= ac;argv= av;
 /*31:*/
-#line 592 "wmerge.w"
+#line 592 "./wmerge.w"
 
 show_banner= show_happiness= 1;
 
 /*:31*/
-#line 26 "wmerge.w"
+#line 26 "./wmerge.w"
 ;
 /*41:*/
-#line 703 "wmerge.w"
+#line 703 "./wmerge.w"
 
 scan_args();
 if(out_file_name[0]=='\0')out_file= stdout;
@@ -652,7 +652,7 @@ fatal("! Cannot open output file ",out_file_name);
 
 
 /*:41*/
-#line 27 "wmerge.w"
+#line 27 "./wmerge.w"
 ;
 reset_input();
 while(get_line())

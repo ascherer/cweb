@@ -11,7 +11,7 @@
 
 #include <ctype.h>  
 #include <stdlib.h>  
-
+#include <string.h>
 /*:62*/
 #line 65 "ctangle.w"
 
@@ -366,11 +366,11 @@ extern sixteen_bits section_count;
 /*2:*/
 #line 77 "ctangle.w"
 
-extern int strlen();
-extern int strcmp();
-extern char*strcpy();
-extern int strncmp();
-extern char*strncpy();
+
+
+
+
+
 
 /*:2*//*41:*/
 #line 533 "ctangle.w"

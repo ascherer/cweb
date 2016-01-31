@@ -615,7 +615,7 @@ usually have |name_ptr->byte_start==byte_ptr|, and certainly
 we want to keep |name_ptr<=name_dir_end| and |byte_ptr<=byte_mem_end|.
 
 @<Defini...@>=
-name_pointer name_ptr; /* first unused position in |byte_start| */
+name_pointer name_ptr; /* first unused position in |name_dir| */
 char *byte_ptr; /* first unused position in |byte_mem| */
 
 @ @<Init...@>=

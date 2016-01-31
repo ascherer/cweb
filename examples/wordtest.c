@@ -9,17 +9,18 @@
 return x;} \
 
 /*3:*/
-#line 92 "wordtest.w"
+#line 92 "./wordtest.w"
 
 #include <stdio.h> 
+#include <stdlib.h> 
 
 /*4:*/
-#line 107 "wordtest.w"
+#line 108 "./wordtest.w"
 
 typedef unsigned char byte;
 
 /*:4*//*9:*/
-#line 195 "wordtest.w"
+#line 196 "./wordtest.w"
 
 typedef struct node_struct{
 struct node_struct*left,*right;
@@ -28,7 +29,7 @@ unsigned long rank;
 }node;
 
 /*:9*//*20:*/
-#line 391 "wordtest.w"
+#line 392 "./wordtest.w"
 
 typedef struct filenode_struct{
 struct filenode_struct*link;
@@ -40,14 +41,14 @@ byte*endword;
 }filenode;
 
 /*:20*/
-#line 95 "wordtest.w"
+#line 96 "./wordtest.w"
 
 int main(argc,argv)
 int argc;
 char*argv[];
 {
 /*5:*/
-#line 110 "wordtest.w"
+#line 111 "./wordtest.w"
 
 int targc;
 byte**targv;
@@ -59,12 +60,12 @@ register int c;
 register byte*u,*v;
 
 /*:5*//*12:*/
-#line 251 "wordtest.w"
+#line 252 "./wordtest.w"
 
 unsigned long current_rank= 0;
 
 /*:12*//*16:*/
-#line 309 "wordtest.w"
+#line 310 "./wordtest.w"
 
 node*next_node= NULL,*bad_node= NULL;
 byte*next_string= NULL,*bad_string= NULL;
@@ -73,23 +74,23 @@ byte*buffer;
 int l;
 
 /*:16*//*22:*/
-#line 409 "wordtest.w"
+#line 410 "./wordtest.w"
 
 filenode*curfile;
 filenode*f;
 
 /*:22*/
-#line 100 "wordtest.w"
+#line 101 "./wordtest.w"
 ;
 /*6:*/
-#line 122 "wordtest.w"
+#line 123 "./wordtest.w"
 
 for(c= 0;c<256;c++)ord[c]= c;
 delta= 0;
 targc= argc-1;targv= (byte**)argv+1;
 while(targc&&**targv=='-'){
 /*7:*/
-#line 139 "wordtest.w"
+#line 140 "./wordtest.w"
 
 switch((*targv)[1]){
 case'a':for(c= delta,u= *targv+2;*u;u++)ord[*u]= ++c;break;
@@ -110,7 +111,7 @@ return-1;
 }
 
 /*:7*/
-#line 127 "wordtest.w"
+#line 128 "./wordtest.w"
 ;
 targc--;targv++;
 }
@@ -119,7 +120,7 @@ else{
 breakchar= '\0';
 for(c= 255;c;c--)if(ord[c]<0)breakchar= c;
 if(!breakchar)/*8:*/
-#line 158 "wordtest.w"
+#line 159 "./wordtest.w"
 
 {
 ord['\n']= -1;
@@ -128,11 +129,11 @@ for(c= 1;c<=26;c++)ord['a'-1+c]= 'A'-1+c;
 }
 
 /*:8*/
-#line 134 "wordtest.w"
+#line 135 "./wordtest.w"
 ;
 }
 /*21:*/
-#line 401 "wordtest.w"
+#line 402 "./wordtest.w"
 
 if(targc){
 curfile= (filenode*)calloc(targc,sizeof(filenode));
@@ -142,10 +143,10 @@ f->link= curfile;
 }else curfile= NULL;
 
 /*:21*/
-#line 136 "wordtest.w"
+#line 137 "./wordtest.w"
 ;
 for(;targc;targc--,targv++)/*23:*/
-#line 413 "wordtest.w"
+#line 414 "./wordtest.w"
 
 {
 curfile->dfile= fopen((char*)*targv,"r");
@@ -161,20 +162,20 @@ curfile= curfile->link;
 }
 
 /*:23*/
-#line 137 "wordtest.w"
+#line 138 "./wordtest.w"
 ;
 
 /*:6*/
-#line 101 "wordtest.w"
+#line 102 "./wordtest.w"
 ;
 /*17:*/
-#line 319 "wordtest.w"
+#line 320 "./wordtest.w"
 
 buffer= (byte*)malloc(max_length+1);
 if(buffer==NULL)out_of_mem(-5);
 while(1){
 /*18:*/
-#line 332 "wordtest.w"
+#line 333 "./wordtest.w"
 
 u= buffer;l= 0;
 while(l<max_length){
@@ -196,11 +197,11 @@ l++;
 *u= breakchar;
 
 /*:18*/
-#line 323 "wordtest.w"
+#line 324 "./wordtest.w"
 ;
 if(l){
 /*10:*/
-#line 213 "wordtest.w"
+#line 214 "./wordtest.w"
 
 {register node*p= root;
 while(p){
@@ -212,10 +213,10 @@ else p= p->right;
 }
 
 /*:10*/
-#line 325 "wordtest.w"
+#line 326 "./wordtest.w"
 ;
 /*11:*/
-#line 235 "wordtest.w"
+#line 236 "./wordtest.w"
 
 {register node*p,**q,**qq,*r;
 current_rank+= PHICLONE;
@@ -227,7 +228,7 @@ if(ord[*u]<ord[*v])q= &(p->left),p= *q;
 else q= &(p->right),p= *q;
 }
 /*14:*/
-#line 285 "wordtest.w"
+#line 286 "./wordtest.w"
 
 if(next_node==bad_node){
 next_node= (node*)calloc(NODES_PER_BLOCK,sizeof(node));
@@ -236,7 +237,7 @@ bad_node= next_node+NODES_PER_BLOCK;
 }
 r= next_node++;
 /*15:*/
-#line 295 "wordtest.w"
+#line 296 "./wordtest.w"
 
 if(next_string+l+1>=bad_string){int block_size= CHARS_PER_BLOCK+l+1;
 next_string= (byte*)malloc(block_size);
@@ -249,16 +250,16 @@ for(u= buffer,v= next_string;ord[*u]> 0;u++,v++)*v= *u;
 next_string= v+1;
 
 /*:15*/
-#line 293 "wordtest.w"
+#line 294 "./wordtest.w"
 ;
 
 /*:14*/
-#line 245 "wordtest.w"
+#line 246 "./wordtest.w"
 ;
 r->rank= current_rank;
 *q= r;
 /*13:*/
-#line 259 "wordtest.w"
+#line 260 "./wordtest.w"
 
 q= &(r->left);qq= &(r->right);
 while(p){
@@ -276,12 +277,12 @@ p= *q;
 *q= *qq= NULL;
 
 /*:13*/
-#line 248 "wordtest.w"
+#line 249 "./wordtest.w"
 ;
 }
 
 /*:11*/
-#line 326 "wordtest.w"
+#line 327 "./wordtest.w"
 ;
 found:;
 }
@@ -289,10 +290,10 @@ found:;
 done:;
 
 /*:17*/
-#line 102 "wordtest.w"
+#line 103 "./wordtest.w"
 ;
 /*19:*/
-#line 358 "wordtest.w"
+#line 359 "./wordtest.w"
 
 if(root!=NULL){register node*p,*q;
 p= root;
@@ -305,7 +306,7 @@ root= p;
 p= q;
 }
 visit:/*25:*/
-#line 437 "wordtest.w"
+#line 438 "./wordtest.w"
 
 while(curfile!=NULL){
 for(u= p->keyword,v= curfile->curword;ord[*u]==ord[*v];u++,v++);
@@ -313,10 +314,10 @@ if(*u=='\0'&&*v==breakchar)goto word_done;
 
 if(ord[*u]<ord[*v])break;
 /*27:*/
-#line 452 "wordtest.w"
+#line 453 "./wordtest.w"
 
 /*28:*/
-#line 472 "wordtest.w"
+#line 473 "./wordtest.w"
 
 v= curfile->curword;
 l= max_length;
@@ -342,7 +343,7 @@ break;
 }
 if(u==w){
 /*29:*/
-#line 504 "wordtest.w"
+#line 505 "./wordtest.w"
 
 if(ferror(curfile->dfile)){
 fprintf(stderr,"%s: File read error on dictionary file!\n",*argv);
@@ -363,7 +364,7 @@ curfile->limit= curfile->buf+fread(curfile->buf,1,BUFSIZ,curfile->dfile);
 curfile->pos= curfile->buf;
 
 /*:29*/
-#line 497 "wordtest.w"
+#line 498 "./wordtest.w"
 ;
 }else curfile->pos= u+1;
 }
@@ -372,15 +373,15 @@ curfile->endword= v;
 update_done:;
 
 /*:28*/
-#line 453 "wordtest.w"
+#line 454 "./wordtest.w"
 ;
 /*30:*/
-#line 523 "wordtest.w"
+#line 524 "./wordtest.w"
 
 if(curfile!=NULL){filenode*sentinel= curfile;
 for(f= curfile->link;f!=sentinel;f= f->link)
 /*31:*/
-#line 529 "wordtest.w"
+#line 530 "./wordtest.w"
 
 {
 *f->endword= '\0';
@@ -390,31 +391,31 @@ if(ord[*u]<ord[*v])curfile= f;
 }
 
 /*:31*/
-#line 526 "wordtest.w"
+#line 527 "./wordtest.w"
 ;
 }
 
 /*:30*/
-#line 455 "wordtest.w"
+#line 456 "./wordtest.w"
 ;
 
 /*:27*/
-#line 443 "wordtest.w"
+#line 444 "./wordtest.w"
 ;
 }
 /*26:*/
-#line 448 "wordtest.w"
+#line 449 "./wordtest.w"
 
 for(u= p->keyword;*u;u++)putchar(*u);
 putchar(breakchar);
 
 /*:26*/
-#line 445 "wordtest.w"
+#line 446 "./wordtest.w"
 
 word_done:;
 
 /*:25*/
-#line 369 "wordtest.w"
+#line 370 "./wordtest.w"
 ;
 if(p->right==NULL){
 if(root==NULL)break;
@@ -426,7 +427,7 @@ goto visit;
 }
 
 /*:19*/
-#line 103 "wordtest.w"
+#line 104 "./wordtest.w"
 ;
 return 0;
 }

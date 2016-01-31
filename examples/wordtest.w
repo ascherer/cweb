@@ -91,6 +91,7 @@ a nonzero value is returned.
 
 @p
 #include <stdio.h>
+#include <stdlib.h>
 @#
 @<Typedefs@>@;
 int main(argc,argv)

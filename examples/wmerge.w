@@ -45,7 +45,7 @@ are not as standard as the names of the functions. (There's confusion
 between \.{<string.h>} and \.{<strings.h>}.)
 
 @<Predecl...@>=
-extern int strlen(); /* length of string */
+extern size_t strlen(); /* length of string */
 extern char* strcpy(); /* copy one string to another */
 extern int strncmp(); /* compare up to $n$ string characters */
 extern char* strncpy(); /* copy up to $n$ string characters */

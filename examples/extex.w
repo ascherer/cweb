@@ -47,6 +47,7 @@ any other programs that simulate finite-state automata.)
 @c
 #include <stdio.h>
 #include <ctype.h>
+#include <string.h>
 extern void exit(); /* system routine that terminates execution */
 @#
 @<Global variables@>@;

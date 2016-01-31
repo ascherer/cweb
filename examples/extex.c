@@ -14,19 +14,20 @@ if(cc=='\\'&&c==cc) c= '\0';} \
 #define ignore_line 7 \
 
 /*2:*/
-#line 47 "extex.w"
+#line 47 "./extex.w"
 
 #include <stdio.h> 
 #include <ctype.h> 
+#include <string.h> 
 extern void exit();
 
 /*3:*/
-#line 75 "extex.w"
+#line 76 "./extex.w"
 
 int c;
 
 /*:3*//*14:*/
-#line 233 "extex.w"
+#line 234 "./extex.w"
 
 char ptab[]= {0,1,1,1,1,0,
 1,1,1,1,1,0,0,1,
@@ -39,7 +40,7 @@ char ptab[]= {0,1,1,1,1,0,
 0,0,0,1,1,1,0};
 
 /*:14*//*17:*/
-#line 290 "extex.w"
+#line 291 "./extex.w"
 
 char wtab[]= {start_section,nop,nop,nop,nop,nop,nop,nop,
 start_name,nop,start_section,nop,nop,nop,start_index,nop,
@@ -55,10 +56,10 @@ nop,ignore_line,nop,nop,ignore_line,nop,nop,nop,
 start_C,start_insert,nop,start_C,start_insert};
 
 /*:17*/
-#line 52 "extex.w"
+#line 53 "./extex.w"
 
 /*6:*/
-#line 109 "extex.w"
+#line 110 "./extex.w"
 
 int get()
 {register int x;
@@ -68,7 +69,7 @@ return x;
 }
 
 /*:6*//*12:*/
-#line 188 "extex.w"
+#line 189 "./extex.w"
 
 int controlseq()
 {
@@ -83,7 +84,7 @@ if(l==1)b= c;
 }
 if(l==0)c= getchar();
 /*13:*/
-#line 208 "extex.w"
+#line 209 "./extex.w"
 
 if((a>='"'&&a<='~'&&ptab[a-'"']==l)||
 (l==2&&(pair('a','e')||pair('A','E')
@@ -107,13 +108,13 @@ return 1;
 }
 
 /*:13*/
-#line 202 "extex.w"
+#line 203 "./extex.w"
 ;
 return 0;
 }
 
 /*:12*/
-#line 53 "extex.w"
+#line 54 "./extex.w"
 
 
 int main(argc,argv)
@@ -121,7 +122,7 @@ int argc;
 char*argv[];
 {
 /*4:*/
-#line 78 "extex.w"
+#line 79 "./extex.w"
 
 int web;
 int comment;
@@ -130,17 +131,17 @@ int save_skipping;
 register int cc;
 
 /*:4*/
-#line 59 "extex.w"
+#line 60 "./extex.w"
 ;
 if(strlen(*argv)>=6&&strcmp(*argv+strlen(*argv)-6,"excweb")==0){
 web= 1;
 /*15:*/
-#line 248 "extex.w"
+#line 249 "./extex.w"
 
 ptab[12]= 1;
 
 /*:15*/
-#line 62 "extex.w"
+#line 63 "./extex.w"
 ;
 }else web= 0;
 comment= skipping= c= 0;
@@ -148,7 +149,7 @@ main_cycle:if(c)goto big_switch;
 restart:c= get();
 big_switch:switch(c){
 /*5:*/
-#line 94 "extex.w"
+#line 95 "./extex.w"
 
 case'%':discard_to('\n');goto restart;
 case'$':c= getchar();
@@ -160,7 +161,7 @@ while(getchar()!='$');
 goto restart;
 
 /*:5*//*7:*/
-#line 121 "extex.w"
+#line 122 "./extex.w"
 
 case'a':case'A':
 case'b':case'B':
@@ -191,13 +192,13 @@ case'z':case'Z':
 goto out_word;
 
 /*:7*//*11:*/
-#line 184 "extex.w"
+#line 185 "./extex.w"
 
 case'\\':if(controlseq())goto control_seq_in_word;
 goto main_cycle;
 
 /*:11*//*16:*/
-#line 262 "extex.w"
+#line 263 "./extex.w"
 
 case'@':if(web)goto do_web;
 goto restart;
@@ -215,13 +216,13 @@ goto skip_C;
 goto big_switch;
 
 /*:16*/
-#line 68 "extex.w"
+#line 69 "./extex.w"
 
 case EOF:exit(0);
 default:goto restart;
 }
 /*8:*/
-#line 154 "extex.w"
+#line 155 "./extex.w"
 
 out_word:putchar(c);
 continue_word:c= getchar();
@@ -239,13 +240,13 @@ end_word:putchar('\n');
 goto main_cycle;
 
 /*:8*//*10:*/
-#line 180 "extex.w"
+#line 181 "./extex.w"
 
 control_seq_in_word:if(!c)goto continue_word;
 goto checkout_word;
 
 /*:10*//*18:*/
-#line 306 "extex.w"
+#line 307 "./extex.w"
 
 do_web:c= getchar();
 if(c<' '||c> 't')goto restart;
@@ -264,7 +265,7 @@ goto restart;
 }
 
 /*:18*//*19:*/
-#line 328 "extex.w"
+#line 329 "./extex.w"
 
 skip_C:save_skipping= 2;
 skip_C_prime:skipping= 1;
@@ -303,7 +304,7 @@ default:continue;
 }
 
 /*:19*/
-#line 72 "extex.w"
+#line 73 "./extex.w"
 ;
 }
 
