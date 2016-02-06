@@ -1,8 +1,8 @@
-Change file to help make Appendix H of the full CWEB manual
+Change file to help make Appendix F of the full CWEB manual
 @x
 \def\botofcontents{\vfill
 \noindent
-Copyright \copyright\ 1987, 1990, 1991, 1992 Silvio Levy and Donald E. Knuth
+Copyright \copyright\ 1987, 1990, 1993 Silvio Levy and Donald E. Knuth
 \bigskip\noindent
 Permission is granted to make and distribute verbatim copies of this
 document provided that the copyright notice and this permission notice
@@ -16,6 +16,7 @@ permission notice identical to this one.
 }
 @y
 \def\botofcontents{\vfill\titlefalse}
-\def\contentspagenumber{56}
-\def\title{APPENDIX H: CTANGLE}
+\def\contentspagenumber{102}
+\def\title{APPENDIX F: CWEAVE}
+\let\K=\leftarrow
 @z

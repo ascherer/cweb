@@ -1,9 +1,9 @@
 % This file is part of CWEB.
 % The CWEB programs by Silvio Levy are based on programs by D. E. Knuth.
 % They are distributed WITHOUT ANY WARRANTY, express or implied.
-% This README file last updated October 1992 by Don Knuth
+% This README file last updated June 1993 by Don Knuth
 
-% Copyright (C) 1987,1990,1992 Silvio Levy and Donald E. Knuth
+% Copyright (C) 1987,1990,1993 Silvio Levy and Donald E. Knuth
 
 % Permission is granted to make and distribute verbatim copies of this
 % document provided that the copyright notice and this permission notice
@@ -14,23 +14,27 @@
 % entire resulting derived work is distributed under the terms of a
 % permission notice identical to this one.
 
-% Please send comments, suggestions, etc. to levy@math.berkeley.edu.
+% Please send comments, suggestions, etc. to levy@geom.umn.edu.
 
 This directory contains the following files:
 
 Makefile
 README
-common-man.ch
-common-vms.ch
+comm-amiga.ch
+comm-man.ch
+comm-pc.ch
+comm-vms.ch
 common.c
 common.h
 common.w
-ctangle-man.ch
-ctangle-vms.ch
+ctang-man.ch
+ctang-pc.ch
+ctang-vms.ch
 ctangle.c
 ctangle.w
-cweave-man.ch
-cweave-vms.ch
+cweav-man.ch
+cweav-pc.ch
+cweav-vms.ch
 cweave.w
 cweb.1
 cweb.el
@@ -51,30 +55,32 @@ The examples directory contains additional examples of the use of CWEB.
 The files common.c and ctangle.c are used for bootstrapping.
 The file cweb.1 is a manual page.
 The file cweb.el is suggested for GNU-Emacs users.
-The files *-vms.ch are sample change files for local customization.
-The files *-man.ch are used if you want to make the full 205-page CWEB manual.
+The files *-man.ch are used if you want to make the full 227-page CWEB manual.
+The other files named *.ch are sample change files for local customization.
 
 IMPORTANT: Please touch *.c before proceeding.
 Then edit the opening lines of Makefile so that it has the proper
 directory information for your local system.
 
-To make ctangle and cweave say `make all'; this should produce the
-following actions (possibly with harmless warning messages from cc):
+To make ctangle and cweave say `make all'; this should produce roughly
+the following actions (possibly with harmless warning messages from cc):
 
-cc -g -DDEBUG -DSTAT -w -c ctangle.c
-cc -g -DDEBUG -DSTAT -w -c common.c
-cc -g -DDEBUG -DSTAT -w -o ctangle ctangle.o common.o 
+cc -g -w -c ctangle.c
+cc -g -w -DCWEBINPUTS=\"/usr/local/lib/cweb\" -c common.c
+cc -g -o ctangle ctangle.o common.o 
 ./ctangle cweave
-cc -g -DDEBUG -DSTAT -w -c cweave.c
-cc -g -DDEBUG -DSTAT -w -o cweave cweave.o common.o
+cc -g -w -c cweave.c
+cc -g -w -o cweave cweave.o common.o
 
 To get some reassurance that things are OK, you can say `make cautiously',
 which ensures that CTANGLE will reproduce itself. (Otherwise the source
 files common.w and ctangle.w won't actually have been used.)
 
-To install cweave and ctangle say `make install'.
+To install cweave and ctangle say `make install'. You probably need to
+be superuser to do this; but it's wise to `make all' first, BEFORE
+becoming superuser and saying `make install'.
 
-Note that change files for vms are provided.  When you are first bootstrapping
-to a new system, you may need to edit common.c and ctangle.c by hand, but
-the vast majority of the change-file changes are minor refinements
-that are not necessary for a rudimentary ctangle.
+Note that change files for VMS, AMIGA, and PCs are provided.  When you are
+first bootstrapping to a new system, you may need to edit common.c and
+ctangle.c by hand, but the vast majority of the change-file changes are
+minor refinements that are not necessary for a rudimentary ctangle.

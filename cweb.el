@@ -219,3 +219,4 @@ for relative module movement. The automatic \" feature is disabled."
   (setq major-mode 'cweb-mode)
   (run-hooks 'cweb-mode-hook))
 (setq auto-mode-alist (cons '("\\.w$" . cweb-mode) auto-mode-alist))
+(setq auto-mode-alist (cons '("\\.ch$" . cweb-mode) auto-mode-alist))

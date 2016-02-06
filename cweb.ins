@@ -1,0 +1,75 @@
+#banner "CWEB Installation"
+#menu "Basispaket    [!    Ja     ] [     Nein    ]" ins-basics
+#menu "Source        [    Ja     ] [!     Nein    ]" ins-source
+#menu "Dokumentation [!    Ja     ] [     Nein    ]" ins-doc
+#showmenu
+
+
+
+#checkdisklabel cweb.1
+
+
+#if ins-basics
+  #pathrequest "Zieldirectory fÅr Programme" prg-target
+  #print " "
+  #print "AusfÅhrbare Programme"
+  #print "====================="
+  #setdir prg-target
+  #extract exec.lzh *.*
+  #pathrequest "Zieldirectory fÅr Styles" stdinput
+  #print " "
+  #print "TeX Makros"
+  #print "=========="
+  #setdir stdinput
+  #extract original.lzh cwebmac.tex
+  #extract atari.lzh cwebgerm.tex
+#fi
+
+
+#if ins-source
+  #pathrequest "Zieldirectory fÅr Source" src-target
+  #print " "
+  #print "CWEB Source Dateien"
+  #print "==================="
+  #setdir src-target
+  #extract original.lzh Makefile
+  #extract original.lzh README
+  #extract original.lzh *.ch
+  #extract original.lzh *.w
+  #extract original.lzh *.h
+  #extract original.lzh *.1
+  #extract original.lzh *.el
+  #extract original.lzh *.tex
+  #extract atari.lzh *.*
+  #setdir src-target\examples
+  #extract examples.lzh *.*
+#fi
+
+
+#if ins-doc
+  #pathrequest "Wohin mit den DVI-Dateien" dvi-target
+  #setdir dvi-target
+  #extract dvi.lzh *.*
+  #pathrequest "Wohin mit den TFM-Dateien" tfm-target
+  #setdir tfm-target
+  #extract doc.lzh *.tfm
+  #pathrequest "Wohin mit den MF-Dateien" mf-target
+  #setdir mf-target
+  #extract doc.lzh *.mf
+  #pathrequest "Wohin mit der Dokumentation" tex-target
+  #setdir tex-target
+  #extract doc.lzh *tex
+  #if ins-basics
+  #else
+    #pathrequest "Zieldirectory fÅr Styles" stdinput
+    #print " "
+    #print "TeX Makros"
+    #print "=========="
+    #setdir stdinput
+    #extract original.lzh cwebmac.tex
+    #extract atari.lzh cwebgerm.tex
+  #fi
+#fi
+
+
+

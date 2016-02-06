@@ -1,5 +1,7 @@
 % standard macros for CWEB listings (in addition to plain.tex)
-% Version 2.8 --- September 1992
+% Version 3.0 --- June 1993
+\ifx\documentstyle\undefined\else\endinput\fi % LaTeX will use other macros
+\xdef\fmtversion{\fmtversion+CWEB3.0}
 
 \let\:=\. % preserve a way to get the dot accent
  % (all other accents will still work as usual)
@@ -9,11 +11,17 @@
 
 \font\ninerm=cmr9
 \let\mc=\ninerm % medium caps
-\def\Cee{{\mc C\spacefactor1000}}
-\def\UNIX{{\mc UNIX\spacefactor1000}}
+\def\CEE/{{\mc C\spacefactor1000}}
+\def\UNIX/{{\mc U\kern-.05emNIX\spacefactor1000}}
+\def\TEX/{\TeX}
+\def\CPLUSPLUS/{{\mc C\PP\spacefactor1000}}
+\def\Cee{\CEE/} % for backward compatibility
+\def\9#1{}
 \font\eightrm=cmr8
 \let\sc=\eightrm % small caps (NOT a caps-and-small-caps font)
 \let\mainfont=\tenrm
+\let\cmntfont\tenrm
+%\font\tenss=cmss10 \let\cmntfont\tenss % alternative comment font
 \font\titlefont=cmr7 scaled\magstep4 % title on the contents page
 \font\ttitlefont=cmtt10 scaled\magstep2 % typewriter type in title
 \font\tentex=cmtex10 % TeX extended character set (used in strings)
@@ -35,7 +43,14 @@
   \let\^=\CF % circumflex in a string
   #1\kern.05em}}
 \def\){\discretionary{\hbox{\tentex\BS}}{}{}}
-\def\AT{@} % at sign for control text
+\def\AT{@} % at sign for control text (not needed in versions >= 2.9)
+\def\ATL{\par\noindent\bgroup\catcode`\_=12 \postATL} % print @l in limbo
+\def\postATL#1 #2 {\bf letter \\{\uppercase{\char"#1}}
+   tangles as \tentex "#2"\egroup\par}
+\def\noATL#1 #2 {}
+\def\noatl{\let\ATL=\noATL} % suppress output from @l
+\def\ATH{\X\kern-.5em:Preprocessor definitions\X}
+\let\PB=\relax % hook for program brackets |...| in TeX part or section name
 
 \chardef\AM=`\& % ampersand character in a string
 \chardef\BS=`\\ % backslash in a string
@@ -55,6 +70,8 @@
 \newbox\MGbox % symbol for ->
 \setbox\MGbox=\hbox{\kern-2pt\lower3pt\hbox{\teni\char'176}\kern1pt}
 \def\MG{\copy\MGbox}
+\def\MRL#1{\mathrel{\let\K==#1}}
+%\def\MRL#1{\KK#1}\def\KK#1#2{\buildrel\;#1\over{#2}}
 \let\GG=\gg
 \let\LL=\ll
 \let\NULL=\Lambda
@@ -64,6 +81,10 @@
 \def\CM{{\sim}} % bitwise complement
 \newbox\MODbox \setbox\MODbox=\hbox{\eightrm\%}
 \def\MOD{\mathbin{\copy\MODbox}}
+\def\DC{\kern.1em{::}\kern.1em} % symbol for ::
+\def\PA{\mathbin{.*}} % symbol for .*
+\def\MGA{\mathbin{\MG*}} % symbol for ->*
+\def\this{\&{this}}
 
 \newbox\bak \setbox\bak=\hbox to -1em{} % backspace one em
 \newbox\bakk\setbox\bakk=\hbox to -2em{} % backspace two ems
@@ -79,6 +100,11 @@
 \def\7{\Y\6} % forced break and a little extra space
 \def\8{\hskip-\ind em\hskip 2em} % no indentation
 
+\newcount\gdepth % depth of current major group, plus one
+\newcount\secpagedepth
+\secpagedepth=3 % page breaks will occur for depths -1, 0, and 1
+\newtoks\gtitle % title of current major group
+\newskip\intersecskip \intersecskip=12pt minus 3pt % space between sections
 \let\yskip=\smallskip
 \def\?{\mathrel?}
 \def\note#1#2.{\Y\noindent{\hangindent2em\baselineskip10pt\eightrm#1~#2.\par}}
@@ -96,7 +122,10 @@
   \hyphenpenalty 9999 % so strings can be broken (discretionary \ is inserted)
   \exhyphenpenalty 10000
   \global\ind=2 \1\ \unskip}
-\def\C#1{\5\5\quad$/\ast\,$#1$\,\ast/$}
+\def\C#1{\5\5\quad$/\ast\,${\cmntfont #1}$\,\ast/$}
+\let\SHC\C % "// short comments" treated like "/* ordinary comments */"
+%\def\C#1{\5\5\quad$\triangleright\,${\cmntfont#1}$\,\triangleleft$}
+%\def\SHC#1{\5\5\quad$\diamond\,${\cmntfont#1}}
 \def\D{\defin{\#define}} % macro definition
 \let\E=\equiv % equivalence sign
 \def\ET{ and~} % conjunction between two section numbers
@@ -106,18 +135,23 @@
 % \H is long Hungarian umlaut accent
 \let\I=\ne % unequal sign
 \def\J{\.{@\&}} % TANGLE's join operation
-\let\K== % can be changed to left arrow, if desired
-% \L is Polish letter suppressed-L; we have no shorthand for \le
-\outer\def\M#1.{\MN#1.\ifon\vfil\penalty-100\vfilneg % beginning of section
-  \vskip12ptminus3pt\startsection\ignorespaces}
-\outer\def\N#1.#2.{\MN#1.\vfil\eject % beginning of starred section
-  \def\rhead{\let\i=I\uppercase{\ignorespaces#2}} % define running headline
+\let\K== % assignment operator
+%\let\K=\leftarrow % "honest" alternative to standard assignment operator
+% \L is Polish letter suppressed-L
+\outer\def\M#1{\MN{#1}\ifon\vfil\penalty-100\vfilneg % beginning of section
+  \vskip\intersecskip\startsection\ignorespaces}
+\outer\def\N#1#2#3.{\gdepth=#1\gtitle={#3}\MN{#2}% beginning of starred section
+  \ifon\ifnum#1<\secpagedepth \vfil\eject % force page break if depth is small
+    \else\vfil\penalty-100\vfilneg\vskip\intersecskip\fi\fi
   \message{*\secno} % progress report
-  \edef\next{\write\cont{\Z{#2}{\secno}{\the\pageno}}}\next % to contents file
-  \ifon\startsection{\bf\ignorespaces#2.\quad}\ignorespaces}
-\def\MN#1.{\par % common code for \M, \N
-  {\xdef\secstar{#1}\let\*=\empty\xdef\secno{#1}}
-  \ifx\secno\secstar \onmaybe \else\ontrue \fi \mark{{\tensy x}\secno}}
+  \edef\next{\write\cont{\ZZ{#3}{#1}{\secno}% write to contents file
+                   {\noexpand\the\pageno}}}\next % \ZZ{title}{depth}{sec}{page}
+  \ifon\startsection{\bf#3.\quad}\ignorespaces}
+\def\MN#1{\par % common code for \M, \N
+  {\xdef\secstar{#1}\let\*=\empty\xdef\secno{#1}}% remove \* from section name
+  \ifx\secno\secstar \onmaybe \else\ontrue \fi
+  \mark{{{\tensy x}\secno}{\the\gdepth}{\the\gtitle}}}
+% each \mark is {section reference or null}{depth plus 1}{group title}
 % \O is Scandinavian letter O-with-slash
 % \P is paragraph sign
 \def\Q{\note{This code is cited in section}} % xref for mention of a section
@@ -125,10 +159,10 @@
 \let\R=\lnot % logical not
 % \S is section sign
 \def\T#1{\leavevmode % octal, hex or decimal constant
-  \hbox{${\def\?{\kern.2em}%
-    \def\${\ell}% long constant
+  \hbox{$\def\?{\kern.2em}%
+    \def\$##1{\egroup_{\,\rm##1}\bgroup}% suffix to constant
     \def\_{\cdot 10^{\aftergroup}}% power of ten (via dirty trick)
-    \let\~=\oct \let\^=\hex #1}$}}
+    \let\~=\oct \let\^=\hex {#1}$}}
 \def\U{\note{This code is used in section}} % xref for use of a section
 \def\Us{\note{This code is used in sections}} % xref for uses of a section
 \let\V=\lor % logical or
@@ -136,7 +170,8 @@
 \def\X#1:#2\X{\ifmmode\gdef\XX{\null$\null}\else\gdef\XX{}\fi % section name
   \XX$\langle\,${#2\eightrm\kern.5em#1}$\,\rangle$\XX}
 \def\Y{\par\yskip}
-\let\Z=\let % now you can \send the control sequence \Z
+\let\Z=\le
+\let\ZZ=\let % now you can \write the control sequence \ZZ
 \let\*=*
 
 %\def\oct{\hbox{\rm\char'23\kern-.2em\it\aftergroup\?\aftergroup}} % WEB style
@@ -149,12 +184,21 @@
 
 \def\onmaybe{\let\ifon=\maybe} \let\maybe=\iftrue
 \newif\ifon \newif\iftitle \newif\ifpagesaved
-\def\lheader{\mainfont\the\pageno\eightrm\qquad\rhead\hfill\title\qquad
-  \mainfont\topmark} % top line on left-hand pages
-\def\rheader{\mainfont\topmark\eightrm\qquad\title\hfill\rhead
+
+\def\lheader{\mainfont\the\pageno\eightrm\qquad\grouptitle\hfill\title\qquad
+  \mainfont\topsecno} % top line on left-hand pages
+\def\rheader{\mainfont\topsecno\eightrm\qquad\title\hfill\grouptitle
   \qquad\mainfont\the\pageno} % top line on right-hand pages
-\def\nullmark{\mark{\eightrm\kern-2em}} % cancels \qquad in headers
-\def\page{\box255 }
+\def\grouptitle{\let\i=I\let\j=J\uppercase\expandafter{\expandafter
+                        \takethree\topmark}}
+\def\topsecno{\expandafter\takeone\topmark}
+\def\takeone#1#2#3{#1}
+\def\taketwo#1#2#3{#2}
+\def\takethree#1#2#3{#3}
+\def\nullsec{\eightrm\kern-2em} % the \kern-2em cancels \qquad in headers
+
+\let\page=\pagebody \raggedbottom
+% \def\page{\box255 }\normalbottom % faster, but loses plain TeX footnotes
 \def\normaloutput#1#2#3{\shipout\vbox{
   \ifodd\pageno\hoffset=\pageshift\fi
   \vbox to\fullpageheight{
@@ -163,9 +207,10 @@
   \vfill#1}} % parameter #1 is the page itself
   \global\advance\pageno by1}
 
-\def\rhead{\.{CWEB} OUTPUT} % this running head is reset by starred sections
+\gtitle={\.{CWEB} output} % this running head is reset by starred sections
+\mark{\noexpand\nullsec0{\the\gtitle}}
 \def\title{\expandafter\uppercase\expandafter{\jobname}}
-\def\topofcontents{\centerline{\titlefont\title}
+\def\topofcontents{\centerline{\titlefont\title}\vskip.7in
   \vfill} % this material will start the table of contents page
 \def\botofcontents{\vfill
   \centerline{\covernote}} % this material will end the table of contents page
@@ -179,7 +224,9 @@
   \fullpageheight=9truein\setpage}
 \def\setpage{\hsize\pagewidth\vsize\pageheight} % use after changing page size
 \def\contentsfile{\jobname.toc} % file that gets table of contents info
-\def\readcontents{\input \jobname.toc}
+\def\readcontents{\input \contentsfile}
+\def\readindex{\input \jobname.idx}
+\def\readsections{\input \jobname.scn}
 
 \newwrite\cont
 \output{\setbox0=\page % the first page is garbage
@@ -194,6 +241,7 @@
 \newbox\sbox % saved box preceding the index
 \newbox\lbox % lefthand column in the index
 \def\inx{\par\vskip6pt plus 1fil % we are beginning the index
+  \def\page{\box255 } \normalbottom
   \write\cont{} % ensure that the contents file isn't empty
        \write\cont{\catcode `\noexpand\@=12\relax}   % \makeatother
   \closeout\cont % the contents information has been fully gathered
@@ -215,33 +263,48 @@
   \outer\def\I##1, {\par\hangindent2em\noindent##1:\kern1em} % index entry
   \def\[##1]{$\underline{##1}$} % underlined index item
   \rm \rightskip0pt plus 2.5em \tolerance 10000 \let\*=\lapstar
-  \hyphenpenalty 10000 \parindent0pt}
-\def\fin{\par\vfill\nullmark\eject % this is done when we are ending the index
+  \hyphenpenalty 10000 \parindent0pt
+  \readindex}
+\def\fin{\par\vfill\eject % this is done when we are ending the index
   \ifpagesaved\null\vfill\eject\fi % output a null index column
   \if L\lr\else\null\vfill\eject\fi % finish the current page
   \parfillskip 0pt plus 1fil
-  \def\rhead{NAMES OF THE SECTIONS}
+  \def\grouptitle{NAMES OF THE SECTIONS}
+  \let\topsecno=\nullsec
   \message{Section names:}
-  \output{\normaloutput\page\lheader\rheader}
+  \output={\normaloutput\page\lheader\rheader}
   \setpage
   \def\note##1##2.{\quad{\eightrm##1~##2.}}
   \def\Q{\note{Cited in section}} % crossref for mention of a section
   \def\Qs{\note{Cited in sections}} % crossref for mentions of a section
   \def\U{\note{Used in section}} % crossref for use of a section
   \def\Us{\note{Used in sections}} % crossref for uses of a section
-  \def\I{\par\hangindent 2em}\let\*=*}
+  \def\I{\par\hangindent 2em}\let\*=*
+  \readsections}
 \def\con{\par\vfill\eject % finish the section names
+% \ifodd\pageno\else\titletrue\null\vfill\eject\fi % for duplex printers
   \rightskip 0pt \hyphenpenalty 50 \tolerance 200
   \setpage \output={\normaloutput\page\lheader\rheader}
   \titletrue % prepare to output the table of contents
-  \pageno=\contentspagenumber \def\rhead{TABLE OF CONTENTS}
+  \pageno=\contentspagenumber
+  \def\grouptitle{TABLE OF CONTENTS}
   \message{Table of contents:}
   \topofcontents
   \line{\hfil Section\hbox to3em{\hss Page}}
-  \def\Z##1##2##3{\line{\ignorespaces##1
-    \leaders\hbox to .5em{.\hfil}\hfil\ ##2\hbox to3em{\hss##3}}}
+  \let\ZZ=\contentsline
   \readcontents\relax % read the contents info
   \botofcontents \end} % print the contents page(s) and terminate
+\def\contentsline#1#2#3#4{\ifnum#2=0 \smallbreak\fi
+    \line{\consetup{#2}#1
+      \rm\leaders\hbox to .5em{.\hfil}\hfil\ #3\hbox to3em{\hss#4}}}
+\def\consetup#1{\ifcase#1 \bf % depth -1 (@**)
+  \or % depth 0 (@*)
+  \or \hskip2em % depth 1 (@*1)
+  \or \hskip4em % depth 2 (@*2)
+  \or \hskip6em % depth 3 (@*3)
+  \or \hskip8em % depth 4 (@*4)
+  \or \hskip10em % depth 5 (@*5)
+  \else \hskip12em \fi} % depth 6 or more
 \def\noinx{\let\inx=\end} % no indexes or table of contents
 \def\nosecs{\let\FIN=\fin \def\fin{\let\parfillskip=\end \FIN}}
     % no index of section names or table of contents
@@ -252,7 +315,7 @@
   \space\number\day, \number\year}
 \newcount\twodigits
 \def\hours{\twodigits=\time \divide\twodigits by 60 \printtwodigits
-  \multiply\twodigits by-60 \advance\twodigits by\time \printtwodigits}
+  \multiply\twodigits by-60 \advance\twodigits by\time :\printtwodigits}
 \def\gobbleone1{}
 \def\printtwodigits{\advance\twodigits100
   \expandafter\gobbleone\number\twodigits
@@ -262,4 +325,7 @@
 \def\,{\relax\ifmmode\mskip\thinmuskip\else\thinspace\fi}
 \def\datethis{\def\startsection{\leftline{\sc\today\ at \hours}\bigskip
   \let\startsection=\stsec\stsec}}
-  % say `\datethis' in limbo, to get your listing timestamped
+  % say `\datethis' in limbo, to get your listing timestamped before section 1
+\def\datecontentspage{%
+  \def\topofcontents{\leftline{\sc\today\ at \hours}\bigskip
+   \centerline{\titlefont\title}\vfill}} % timestamps the contents page
