@@ -1,0 +1,1356 @@
+\input cwebmac
+\parskip 0pt plus 1pt
+\def\RA{\char'31 } % right arrow
+\def\hang{\hangindent 4em\ignorespaces}
+\font\eightrm=cmr8
+\font\ninerm=cmr9
+\font\ninett=cmtt9
+\font\eighttt=cmtt8
+\def\Pascal{Pascal}
+\font\quoterm=cmssq8
+\font\quoteit=cmssqi8
+\def\pb{\.{|...|}}
+\def\v{\.{\char'174}} % vertical (|) in typewriter font
+\def\lpile{\def\cr{\hfill\endline}\matrix} % I only use \lpile by itself
+\abovedisplayskip=.5\abovedisplayskip
+\belowdisplayskip=.5\belowdisplayskip
+\abovedisplayshortskip=.5\abovedisplayshortskip
+\belowdisplayshortskip=.5\belowdisplayshortskip
+\advance\pageheight by \baselineskip % the manual just got a bit longer
+\advance\fullpageheight by \baselineskip
+\setpage
+
+\outer\def\section #1.{\penalty-50\vskip 6pt plus 3pt minus 3pt
+  \noindent{\bf #1.}\quad\ignorespaces}
+
+\def\lheader{\mainfont\the\pageno\hfill\sc\runninghead\hfill}
+\def\rheader{\hfill\sc\runninghead\hfill\mainfont\the\pageno}
+\def\runninghead{{\tentt CWEB} USER MANUAL}
+
+% This verbatim mode assumes that ! marks are !! in the text being copied.
+\def\verbatim{\begingroup
+  \def\do##1{\catcode`##1=12 } \dospecials
+  \parskip 0pt \parindent 0pt \let\!=!
+  \catcode`\ =13 \catcode`\^^M=13
+  \tt \catcode`\!=0 \verbatimdefs \verbatimgobble}
+{\catcode`\^^M=13{\catcode`\ =13\gdef\verbatimdefs{\def^^M{\ \par}\let =\ }} %
+  \gdef\verbatimgobble#1^^M{}}
+
+\null\vfill
+\noindent
+Copyright \copyright\ 1987,\thinspace1990 Silvio Levy and Donald E. Knuth
+\bigskip\noindent
+Permission is granted to make and distribute verbatim copies of this
+document provided that the copyright notice and this permission notice
+are preserved on all copies.
+
+\smallskip\noindent
+Permission is granted to copy and distribute modified versions of this
+document under the conditions for verbatim copying, provided that the
+entire resulting derived work is distributed under the terms of a
+permission notice identical to this one.
+
+\pageno=0 \titletrue\eject
+
+\centerline{\titlefont The {\ttitlefont CWEB} System of
+    Structured Documentation}
+
+\vskip 15pt plus 3pt minus 3pt
+\noindent
+This document describes a version of Don Knuth's \.{WEB} system,
+adapted to \Cee\ by Silvio Levy.  Knuth's original Pascal programs have been
+entirely rewritten in \Cee; many changes were made to take
+advantage of features offered by \Cee\ but non-existent in \Pascal.
+
+Readers who are familiar with Knuth's memo ``The \.{WEB} System of Structured
+Documentation'' will be able
+to skim this material rapidly, because \.{CWEB} is essentially a
+simplified subset of \.{WEB}. \.{CWEB} does not need \.{WEB}'s features
+for macro definition and string handling, because \Cee\ and its
+preprocessor already take care of macros and strings. Similarly, the \.{WEB}
+conventions of denoting octal and hexadecimal constants by \.{@'77}
+and \.{@"3f} are replaced by \Cee's conventions \.{\v077\v} and
+\.{\v0x3f\v}, respectively. All other features of \.{WEB} have been
+retained, and a few new features have been added.
+
+\section Introduction.
+The philosophy behind \.{WEB} is
+that an experienced system programmer, who wants to provide the best
+possible documentation of software products, needs two things
+simultaneously:  a language like \TeX\ for formatting, and a language like
+\Cee\ for programming. Neither type of language can provide the
+best documentation by itself. But when both are appropriately combined, we
+obtain a system that is much more useful than either language separately.
+
+The structure of a software program may be thought of as a ``web'' that is
+made up of many interconnected pieces. To document such a program, we want
+to explain each individual part of the web and how it relates to its
+neighbors. The typographic tools provided by \TeX\ give us an opportunity
+to explain the local structure of each part by making that structure
+visible, and the programming tools provided by \Cee\ make it possible
+for us to specify the algorithms formally and unambiguously. By combining
+the two, we can develop a style of programming that maximizes our ability
+to perceive the structure of a complex piece of software, and at the same
+time the documented programs can be mechanically translated into a working
+software system that matches the documentation.
+
+The \.{WEB} system consists of two programs named \.{WEAVE} and \.{TANGLE}.
+More precisely, \.{CWEB} calls them \.{CWEAVE} and \.{CTANGLE}.
+When writing a \.{CWEB} program the user keeps the
+\Cee\ code and the documentation in the same file, called the \.{WEB}
+file and generally named \.{something.w}.  The command
+`\.{cweave something}' creates an output file \.{something.tex}, which
+can then be fed to \TeX, yielding a ``pretty printed'' version of
+\.{something.w} that correctly handles
+typographic details like page layout and the use of indentation,
+italics, boldface, and mathematical symbols. The typeset output also
+includes extensive cross-index
+information that is gathered automatically.  Similarly, if you run the
+command `\.{ctangle something}' you will get a \Cee\ file \.{something.c},
+with can then be compiled to yield executable code.
+
+Besides providing a documentation tool, \.{WEB} enhances the \Cee\
+language by providing the
+ability to permute pieces of the program text, so that a large system can
+be understood entirely in terms of small modules and their local
+interrelationships.  The \.{TANGLE} program is so named because it takes a
+given web and moves the modules from their web structure into the order
+required by \Cee; the advantage of programming in \.{WEB} is that the
+algorithms can be expressed in ``untangled'' form, with each module
+explained separately.  The \.{WEAVE} program is so named because it takes
+a given web and intertwines the \TeX\ and \Cee\ portions contained in
+each module, then it knits the whole fabric into a structured document.
+(Get it? Wow.)  Perhaps there is some deep connection here with the fact
+that the German word for ``weave'' is ``{\it web\/}'', and the
+corresponding Latin imperative is ``{\it texe\/}''!
+
+A user of \.{CWEB} should be fairly familiar with the \Cee\
+programming language.  A minimal amount of acquaintance with \TeX\ is also
+desirable, but in fact it can be acquired as one uses \.{WEB}, since
+straight text can be typeset in \TeX\ with virtually no knowledge of
+that language.  To someone familiar with both \Cee\ and \TeX\ the amount of
+effort necessary to learn the commands of \.{WEB} is small.
+
+\section The language.
+Two kinds of material go into \.{WEB} files: \TeX\ text and \Cee\ text.
+A programmer writing in \.{WEB} should be thinking both of the
+documentation and of the \Cee\ program being created;
+i.e., the programmer should be instinctively aware of the different
+actions that \.{WEAVE} and \.{TANGLE} will perform on the \.{WEB} file.
+\TeX\ text is essentially copied without change by \.{WEAVE}, and it is
+entirely deleted by \.{TANGLE}; the \TeX\ text is ``pure
+documentation.'' \Cee\ text, on the other hand, is formatted by
+\.{WEAVE} and it is shuffled around by \.{TANGLE}, according to rules that
+will become clear later. For now the important point to keep in mind is
+that there are two kinds of text. Writing \.{WEB} programs is something
+like writing \TeX\ documents, but with an additional ``\Cee\ mode''
+that is added to \TeX's horizontal mode, vertical mode, and math mode.
+
+A \.{WEB} file is built up from units called {\sl modules\/} that are more
+or less self-contained.  Each module has three parts:
+
+\yskip\item{1)} A \TeX\ part, containing explanatory material about what
+is going on in the module.
+
+\item{2)} A definition part, containing macro definitions that serve as
+abbreviations for \Cee\ constructions that would be less comprehensible
+if written out in full each time. They are turned by \.{TANGLE} into
+preprocessor macro definitions.
+
+\item{3)} A \Cee\ part, containing a piece of the program that
+\.{TANGLE} will produce. This \Cee\ code should ideally be about a
+dozen lines long, so that it is easily comprehensible as a unit and so
+that its structure is readily perceived.
+
+\yskip\noindent The three parts of each module must appear in this order;
+i.e., the \TeX\ commentary must come first, then the definitions, and
+finally the \Cee\ code. Any of the parts may be empty.
+
+A module begins with either of the symbols `\.{@\ }' or `\.{@*}', where
+`\.{\ }' denotes a blank space. A module ends
+at the beginning of the next module (i.e., at the next
+`\.{@\ }' or `\.{@*}'), or at the end of the file, whichever comes first.
+The \.{WEB} file may also contain material that is not part of any module
+at all, namely the text (if any) that occurs before the first module.
+Such text is said to be ``in limbo''; it is ignored by \.{TANGLE}
+and copied essentially verbatim by \.{WEAVE}, so its function is to
+provide any additional formatting instructions that may be desired in the
+\TeX\ output. Indeed, it is customary to begin a \.{WEB} file with
+\TeX\ code in limbo that loads special fonts, defines special macros,
+changes the page sizes, and/or produces a title page.
+
+Modules are numbered consecutively, starting with 1. These numbers appear
+at the beginning of each module of the \TeX\ documentation output by
+\.{WEAVE}, and they appear
+as bracketed comments at the beginning and end of the code generated by that
+module in the \Cee\ program output by \.{TANGLE}.
+
+Fortunately, you never mention these numbers yourself when you are writing
+in \.{WEB}. You just say `\.{@\ }' or `\.{@*}' at the beginning of each
+new module, and the numbers are supplied automatically by \.{WEAVE} and
+\.{TANGLE}. As far as you are concerned, a module has a
+{\sl name\/} instead of a number; its name is specified by writing
+`\.{@<}' followed by \TeX\ text followed by `\.{@>}'. When \.{WEAVE}
+outputs a module name, it replaces the `\.{@<}' and `\.{@>}' by
+angle brackets and inserts the module number in small type. Thus, when you
+read the output of \.{WEAVE} it is easy to locate any module that is
+referred to in another module.
+
+For expository purposes, a module name should be a good description of the
+contents of that module; i.e., it should stand for the abstraction
+represented by the module. Then the module can be ``plugged into'' one or
+more other modules in such a way
+that unimportant details of its inner workings
+are suppressed.  A module name therefore ought to be long enough to convey
+the necessary meaning. Unfortunately, however, it is laborious to type
+such long names over and over again, and it is also difficult to specify a
+long name twice in exactly the same way so that \.{WEAVE} and \.{TANGLE}
+will be able to match the names to the modules. To ameliorate this difficulty,
+\.{WEAVE} and \.{TANGLE} let you abbreviate a module name
+after its first appearance in the \.{WEB} file; you can type simply
+`\.{@<$\alpha$...@>}', where $\alpha$ is any string that is a prefix of
+exactly one module name appearing in the file. For example, `\.{@<Clear
+the arrays@>}' can be abbreviated to `\.{@<Clear...@>}' if no other module
+name begins with the five letters `\.{Clear}'. Module names must otherwise
+match character for character, except that consecutive blank spaces and/or
+tab marks are treated as equivalent to single spaces, and such spaces are
+deleted at the beginning and end of the name. Thus, `\.{@< Clear { }the
+arrays @>}' will also match the name in the previous example.
+
+We have said that a module begins with `\.{@\ }' or `\.{@*}', but we
+didn't say how it gets divided up into a \TeX\ part, a definition part,
+and a \Cee\ part. The definition part begins with the first appearance
+of `\.{@d}' or `\.{@f}' in the module, and the \Cee\ part begins with
+the first appearance of `\.{@c}' or `\.{@<}'. The latter option `\.{@<}'
+stands for the beginning of a module name, which is the name of the module
+itself. An equals sign (\.=) must follow the `\.{@>}' at the end of this
+module name; you are saying, in effect, that the module name stands for
+the \Cee\ text that follows, so you say `$\langle\,$module
+name$\,\rangle=\null$\Cee\ text'. Alternatively, if the \Cee\ part
+begins with `\.{@c}' instead of a module name, the current module is said
+to be {\sl unnamed}. Note that module names cannot appear in the
+definition part of a module, because the first `\.{@<}' in a module
+signals the beginning of its \Cee\ part.  But any number of module names
+might appear in the \Cee\ part, once it has started.
+
+The general idea of \.{TANGLE} is to make a \Cee\ program out of these
+modules in the following way: First all the macro definitions
+indicated by `\.{@d}' are turned into \Cee\ preprocessor macro definitions
+and copied at the beginning.
+Then the \Cee\ parts of unnamed modules are copied down,
+in order; this constitutes the initial
+approximation $T_0$ to the text of the program. (There should be at least
+one unnamed module, otherwise there will be no program.) Then all module
+names that appear in the initial text $T_0$ are replaced by the \Cee\
+parts of the corresponding modules, and this substitution process
+continues until no module names remain. All comments are removed, because
+the \Cee\ program is intended only for the eyes of the \Cee\ compiler.
+
+If the same name has been given to more than one module, the \Cee\ text
+for that name is obtained by putting together all of the \Cee\ parts in
+the corresponding modules. This feature is useful, for example, in a
+module named `Global variables in the outer block', since one can then
+declare global variables in whatever modules those variables are
+introduced. When several modules have the same name, \.{WEAVE} assigns the
+first module number as the number corresponding to that name, and it
+inserts a note at the bottom of that module telling the reader to `See
+also sections so-and-so'; this footnote gives the numbers of all the other
+modules having the same name as the present one. The \Cee\ text
+corresponding to a module is usually formatted by \.{WEAVE} so that the
+output has an equivalence sign in place of the equals sign in the \.{WEB}
+file; i.e., the output says `$\langle\,$module
+name$\,\rangle\equiv\null$\Cee\ text'. However, in the case of the second
+and subsequent appearances of a module with the same name, this `$\equiv$'
+sign is replaced by `$\mathrel+\equiv$', as an indication that the 
+following \Cee\ text is being appended to the \Cee\ text of another module.
+
+As \.{TANGLE} enters and leaves modules, it insert preprocessor
+\.{\#line} commands into the \Cee\ output file.  This means that
+when the compiler gives you error messages, or when you debug your program,
+the messages refer to line numbers in the \.{WEB} file, and not in the
+\Cee\ file.  In most cases you can therefore
+forget about the \Cee\ file altogether.
+
+The general idea of \.{WEAVE} is to make a \.{TEX} file from the \.{WEB}
+file in the following way: The first line of the \.{TEX} file
+tells \TeX\ to input a file with macros that
+define \.{CWEB}'s documentation conventions. The next lines of the file
+will be copied from whatever \TeX\ text is in limbo before the first
+module.  Then comes the output for each module in turn, possibly
+interspersed with end-of-page marks.  Finally, \.{WEAVE} will generate a
+cross-reference index that lists each module number in which each \Cee\
+identifier appears, and it will also generate an alphabetized list
+of the module names, as well as a table of contents that
+shows the page and module numbers for each ``starred'' module.
+
+What is a ``starred'' module, you ask? A module that begins with `\.{@*}'
+instead of `\.{@\ }' is slightly special in that it denotes a new major
+group of modules. The `\.{@*}' should be followed by the title of this
+group, followed by a period. Such modules will always start on a new page
+in the \TeX\ output, and the group title will appear as a running headline
+on all subsequent pages until the next starred module. The title will also
+appear in the table of contents, and in boldface type at the beginning of
+its module. Caution:  Do not use \TeX\ control sequences in such titles,
+unless you know that the \.{cwebmac} macros will do the right thing with
+them. The reason is that these titles are converted to uppercase when
+they appear as running heads, and they are converted to boldface when they
+appear at the beginning of their modules, and they are also written out to
+a table-of-contents file used for temporary storage while \TeX\ is
+working; whatever control sequences you use must be meaningful in all
+three of these modes.
+
+The \TeX\ output produced by \.{WEAVE} for each module consists of
+the following: First comes the module number (e.g., `\.{\\M123.}'
+at the beginning of module 123, except that `\.{\\N}' appears in place of
+`\.{\\M}' at the beginning of a starred module). Then comes the
+\TeX\ part of the module, copied almost verbatim except as noted
+below. Then comes the definition part and the \Cee\ part, formatted
+so that there will be a little extra space between them if both are
+nonempty. The definition and \Cee\ parts are obtained by inserting
+a bunch of funny looking \TeX\ macros into the \Cee\ program; these
+macros handle typographic details about fonts and proper math spacing,
+as well as line breaks and indentation.
+
+When you are typing \TeX\ text, you will probably want to make frequent
+reference to variables and other quantities in your \Cee\ code, and you
+will want those variables to have the same typographic treatment
+when they appear in your text as when they appear in your
+program.  Therefore the \.{WEB} language allows you to get the effect of
+\Cee\ editing within \TeX\ text, if you place `\.|' marks before and
+after the \Cee\ material. For example, suppose you want to say something
+like this:
+$$\hbox{ If \\{pa} is declared as `\&{int} ${}{*}\\{pa}$',
+the assignment $\\{pa}\K{\AND}\|a[\T{0}]$ makes \\{pa}
+point to the zeroth element of \|a.}$$
+The \TeX\ text would look like this in your \.{WEB} file:
+$$\lpile{\.{If |pa| is declared as `|int *pa|', the}\cr
+\.{assignment |pa=\&a[0]| makes |pa| point
+to the zeroth element of |a|.}\cr}$$
+And \.{WEAVE} translates this into something you are glad you didn't have
+to type:
+$$\lpile{\.{If \\\\\{pa\} is declared as
+  `\\\&\{int\} \$\{\}\{*\}\\\\\{pa\}\$',}\cr
+\.{the assignment \$\\\\\{pa\}\\K\{\\AND\}\\|a[\\T\{0\}]\$}\cr
+\.{makes \\\\\{pa\} point to the zeroth element of \\|a.}\cr}$$
+Incidentally, the cross-reference index that \.{WEAVE} would make, in
+the presence of a comment like this, would include
+the current module number as one of the index entries for \\{pa},
+even though \\{pa} might not appear in the \Cee\ part of
+this module. Thus, the index covers references to identifiers in
+the explanatory comments as well as in the program itself; you will
+soon learn to appreciate this feature. However, the identifiers
+\&{int} and \|a\ would not be indexed,
+because \.{WEAVE} does not make index entries for reserved words or
+single-letter identifiers. Such identifiers are felt to be so ubiquitous
+that it would be pointless to mention every place where they occur.
+
+Although a module begins with \TeX\ text and ends with \Cee\ text, we
+have noted that the dividing line isn't sharp, since \Cee\ text can be
+included in \TeX\ text if it is enclosed in `\pb'.  Conversely, \TeX\ text
+also appears frequently within \Cee\ text, because everything in
+comments (i.e., between \.{/*} and \.{*/}) is treated as \TeX\ text.
+Furthermore, a module name consists of \TeX\ text; thus, a \.{WEB} file
+typically involves constructions like `\.{if} \.{(x==0)}
+\.{@<Empty} \.{the} \.{|buffer|} \.{array@>}' where we go back and forth
+between \Cee\ and \TeX\ conventions in a natural way.
+
+\section Macros.
+The control code \.{@d} followed by
+$$\\{identifier}\.{ }\hbox{\Cee\ text}\qquad\hbox{or by}\qquad
+\\{identifier}\.(\\{par}_1,\ldots,\\{par}_n\.{) }\hbox{\Cee\ text}$$
+(where there is no blank between the
+\\{identifier} and the parentheses in the second case) is
+transformed by \.{TANGLE} into a preprocessor command, starting with
+\.{\#define}, which is printed at the top of the \Cee\ output file
+as explained earlier.
+
+A `\.{@d}' macro definition can go on for several lines, and the
+newlines don't have to be protected by backslashes, since \.{TANGLE}
+itself inserts the backslashes.   If
+for any reason you need a \.{\#define} command at a specific spot in
+your \Cee\ file, you can treat it as \Cee\ code, instead of as a
+\.{WEB} macro; but then you do have to protect newlines yourself.
+
+
+\section Strings and constants.
+If you want a string to appear in the \Cee\ file, delimited by pairs of
+\.' or \." marks as usual, you can type it exactly so in the \.{WEB} file,
+except that the character `\.@' should be typed `\.{@@}' (it becomes a
+control code, the only one that can appear in strings; see below).
+Strings should end on the same line as they begin, unless there's a
+backslash at the end of lines within them.
+
+\TeX\ and \Cee\ have different ways to refer to octal and hex constants,
+because \TeX\ is oriented to technical writing while \Cee\ is oriented to
+computer processing.  In \TeX\ you
+make a constant octal or hexadecimal by prepending \.' or \.",
+respectively, to it; in \Cee\ the constant should be preceded by \.0
+or \.{0x}.  In \.{WEB} it seems reasonable to let each convention hold
+in its respective realm; so in \Cee\ text you get $40_8$ by typing
+`\.{040}', which \.{TANGLE} faithfully copies into the \Cee\ file (for
+the compiler's benefit) and which \.{WEAVE} prints as $\T{\~40}$.
+Similarly, \.{WEAVE} prints the hexadecimal \Cee\ constant `\.{0x20}'
+as \T{\^20}. The use of italic font for octal digits and typewriter font
+for hexadecimal digits makes the meaning of such constants clearer in
+a document. For consistency, then, you
+should type `\.{|040|}'  or `\.{|0x20|}'
+in the \TeX\ part of the module.
+
+\section Control codes.
+A \.{WEB} {\sl control code\/}
+is a two-character combination of which the first is `\.@'.
+We've already seen the meaning of several control codes; here is a
+complete list of all of them.
+
+The letters $L$, $T$,
+$C$, $M$, $\\{Co}$, and/or $S$ following each code indicate whether or not that
+code is allowable in limbo, in \TeX\ text, in \Cee\ text, in module
+names, in comments, and/or in strings.  A bar over such a letter means
+that the control code terminates the present part of the \.{WEB} file; for
+example, $\overline L$ means that this control code ends the limbo material
+before the first module.
+
+\gdef\@#1[#2] {\penalty-100\yskip\hangindent 2em\noindent\.{@#1\unskip
+  \spacefactor1000{ }}$[#2]$\quad}
+\def\more{\hangindent 2em \hangafter0}
+\def\oP{\overline C}
+\def\oT{\overline T\mskip1mu}
+
+\@@ [\\{Co},L,M,C,S,T] A double \.@ denotes the single character `\.@'. This is
+the only control code that is legal in limbo, in comments, and in strings.
+Note that you must use this convention if you are giving an internet
+email address in a \.{WEB} file (e.g., \.{levy@@math.berkeley.edu}).
+
+\@\ [\overline L,\oP,\oT] This denotes the beginning of a new
+(unstarred) module. A tab mark or form feed or end-of-line character
+is equivalent to a space when it follows an \.@ sign (and in most
+other cases).
+
+\@* [\overline L,\oP,\oT] This denotes the beginning of a new starred
+module, i.e., a module that begins a new major group. The title of the new
+group should appear after the \.{@*}, followed by a period. As explained
+above, \TeX\ control sequences should be avoided in such titles unless
+they are quite simple. When \.{WEAVE} and \.{TANGLE} read a \.{@*}, they
+print an asterisk on the terminal
+followed by the current module number, so that the user
+can see some indication of progress. The very first module should be starred.
+
+\@d [\oP,\oT] Macro definitions begin with \.{@d} (or \.{@D}), followed by
+an identifier and optional parameters and \Cee\ text as explained earlier.
+
+\@f [\oP,\oT] Format definitions begin with \.{@f} (or \.{@F}); they cause
+\.{WEAVE} to treat identifiers in a special way when they appear in
+\Cee\ text. The general form of a format definition is `\.{@f} \|l
+\|r', followed by an optional comment enclosed between
+\.{/*} and \.{*/}, where \|l and \|r
+are identifiers; \.{WEAVE} will subsequently treat identifier \|l as it
+currently treats \|r. This feature allows a \.{WEB} programmer to invent
+new reserved words and/or to unreserve some of \Cee's reserved
+identifiers. If \|r is the special identifier `\\{TeX}', identifier \|l
+will be formatted as a \TeX\ control sequence; for example,
+`\.{@f foo TeX}' in the \.{WEB} file will cause identifier \\{foo} to
+be output as \.{\\foo} by \.{WEAVE}. The programmer should define
+\.{\\foo} to have whatever custom format is desired, assuming \TeX\
+math mode. (Each underline
+character is converted to \.{x} when making the \TeX\ control sequence;
+thus \\{foo\_bar} becomes \.{\\fooxbar}.)
+
+\@s [\oP,\oT] Same as \.{@f}, but \.{WEAVE} does not show the format
+definition in the output. This is used mostly in \.{@i} files.
+
+\more \.{WEAVE} knows that identifiers being
+defined with a \&{typedef} should become reserved words; thus you
+don't need format definitions very often.
+The definition part of each module consists of any number of
+macro definitions (beginning with \.{@d}) and format definitions (beginning
+with \.{@f} or \.{@s}), intermixed in any order.
+
+\@c [\oP,\oT] The \Cee\ part of an unnamed module begins with \.{@c}
+(or \.{@C}). This causes \.{TANGLE} to append the following \Cee\ code
+to the initial program text $T_0$ as explained above. The \.{WEAVE}
+processor does not cause a `\.{@c}' to appear explicitly in the \TeX\
+output, so if you are creating a \.{WEB} file based on a \TeX-printed
+\.{WEB} documentation you have to remember to insert \.{@c} in the
+appropriate places of the unnamed modules.
+
+\@p [\oP,\oT] The \Cee\ part of an unnamed module may alternatively begin
+with \.{@p} (or \.{@P}), for compatibility with other \.{WEB} systems.
+\.{CWEB} treats \.{@c} and \.{@p} identically.
+
+\more Because of the rules by which every module is broken into three parts,
+the control codes `\.{@d}', `\.{@f}', `\.{@c}', and `\.{@p}'
+are not allowed to occur once the \Cee\ part of a module has begun.
+
+\@< [C,\oT] A module name begins with \.{@<} followed by \TeX\ text followed
+by \.{@>}. The \TeX\ text should not contain any \.{WEB} control codes
+except \.{@@}, unless these control codes appear in \Cee\ text that
+is delimited by \pb. The module name may be abbreviated, after its first
+appearance in a \.{WEB} file, by giving any unique prefix followed by \.{...},
+where the three dots immediately precede the closing \.{@>}. Module names may
+not appear in \Cee\ text that is enclosed in \pb, nor may they appear
+in the definition part of a module (since the appearance of a module name
+ends the definition part and begins the \Cee\ part).
+
+\@' [C] This control code is dangerous because it has quite different
+meanings in \.{CWEB} and the original \.{WEB}. In \.{CWEB} it produces the
+decimal constant corresponding to the ASCII code for a string of length~1
+(e.g., \.{@'a'} is \.{TANGLE}d into \.{97} and \.{@'\\t'} into
+\.9). You might want to use this if you need to work in ASCII on a
+non-ASCII machine; but in most cases the \Cee\ conventions of
+\.{<ctype.h>} are adequate for character-set-independent programming.
+
+\@\& [C] The \.{@\&} operation causes whatever is on its left to be
+adjacent to whatever is on its right, in the \Cee\ output. No spaces or
+line breaks will separate these two items.
+
+\@\^ [C,T] The ``control text'' that follows, up to the next
+`\.{@>}', will be entered into the index together with the identifiers of
+the \Cee\ program; this text will appear in roman type. For example, to
+put the phrase ``system dependencies'' into the index, type
+`\.{@\^system dependencies@>}' in each module
+that you want to index as system dependent. A control text
+must end on the same line of the \.{WEB} file as it began.  Furthermore,
+no \.{WEB} control codes are allowed in a control text, not even
+\.{@@}. (If you need an \.{@} sign you can get around this restriction by
+typing `\.{\{\\AT\}}'.)
+
+\@. [C,T] The ``control text'' that follows will be entered into the index
+in \.{typewriter} \.{type}; see the rules for `\.{@\^}', which is analogous.
+
+\@: [C,T] The ``control text'' that follows will be entered into the index
+in a format controlled by the \TeX\ macro `\.{\\9}', which the user
+should define as desired; see the rules for `\.{@\^}', which is analogous.
+
+\@t [C] The ``control text'' that follows, up to the next `\.{@>}', will
+be put into a \TeX\ \.{\\hbox} and formatted along with the neighboring
+\Cee\ program. This text is ignored by \.{TANGLE}, but it can be used
+for various purposes within \.{WEAVE}. For example, you can make comments
+that mix \Cee\ and classical mathematics, as in `$\\{size}<2^{15}$', by
+typing `\.{|size < @t\$2\^\{15\}\$@>|}'.  A control text must end on the
+same line of the \.{WEB} file as it began, and it may not contain any
+\.{WEB} control codes.
+
+\@= [C] The ``control text'' that follows, up to the next `\.{@>}', will
+be passed verbatim to the \Cee\ program.
+
+\@q [C,T] The ``control text'' text that follows, up to the next `\.{@>}', will
+be totally ignored; it's a comment for readers of the \.{WEB} file only.
+
+\@! [C,T] The module number in an index entry will be underlined if `\.{@!}'
+immediately precedes the identifier or control text being indexed. This
+convention is used to distinguish the modules where an identifier is
+defined, or where it is explained in some special way, from the modules
+where it is used. A~reserved word or an identifier of length one will not
+be indexed except for underlined entries. An `\.{@!}' is implicitly inserted
+by \.{WEAVE} when an identifier is being defined or declared in \Cee\
+code; for example, the definition 
+$$\hbox{\&{int} \\{array}[\\{max\_dim}], \\{count}${}=\\{old\_count};$}$$
+makes the names \\{array} and \\{count} get an underlined entry in the
+index.  Statement tags, function definitions like
+$\\{main}(\\{argc},\39\\{argv})$ and \&{typedef} definitions also
+imply underlining. A function definition doesn't define its arguments;
+\\{argc} and \\{argv} will, however, be defined
+(i.e., their index entries will be underlined), if their types are
+declared before the body of \\{main} (e.g., `\.{int}~\\{argc};
+\.{char}~${**}\\{argv}$; $\{\,\ldots\,\}$').
+
+\@, [C] This control code inserts a thin space in \.{WEAVE}'s output; it is
+ignored by \.{TANGLE}. Sometimes you need this extra space if you are using
+macros in an unusual way, e.g., if two identifiers are adjacent.
+
+\@/ [C] This control code causes a line break to occur within a \Cee\
+program formatted by \.{WEAVE}; it is ignored by \.{TANGLE}. Line breaks
+are chosen automatically by \TeX\ according to a scheme that works 99\%\
+of the time, but sometimes you will prefer to force a line break so that
+the program is segmented according to logical rather than visual
+criteria.
+
+\@| [C] This control code specifies an optional line break in the midst of
+an expression. For example, if you have
+a long expression on the right-hand side of an assignment
+statement, you can use `\.{@|}' to specify breakpoints more logical than
+the ones that \TeX\ might choose on visual grounds.
+
+\@\# [C] This control code forces a line break, like \.{@/} does,
+and it also causes a little extra white space to appear between the lines at
+this break. You might use it, for example,
+between groups of macro definitions that are logically separate but within
+the same module. \.{CWEB} automatically inserts this extra space
+between functions, between external declarations and functions, and
+between declarations and statements within a function.
+
+\@+ [C] This control code cancels a line break that might otherwise be
+inserted by \.{WEAVE}, e.g., before the word `\&{else}', if you want to
+put a short if--else construction on a single line. It is ignored by
+\.{TANGLE}. If you say `\.{\{@+}' at the beginning of a compound statement
+that is the body of a function, the first declaration or
+statement of the function will appear on the same line as the
+left brace, and it will be indented by the same amount as the
+second declaration or statement on the next line.
+
+\@; [C] This control code is treated like a semicolon, for formatting
+purposes, except that it is invisible. You can use it, for example, after
+a module name or macro when the \Cee\ text represented by that module or macro
+is a compound statement or ends
+with a semicolon. Consider constructions like
+$$\lpile{\.{if (condition) macro @;}\cr
+\.{else break;}\cr}$$
+here \\{macro} is defined to be a compound statement (enclosed in braces).
+This is a well-known infelicity of \Cee\ syntax.
+
+\@{[} [C] Place this before a macro argument that isn't otherwise formatted
+correctly.
+
+\@] [C] Place this after a macro argument that isn't otherwise formatted
+correctly.
+
+\yskip\noindent
+The last eight control codes (namely `\.{@,}', `\.{@/}', `\.{@|}', `\.{@\#}',
+`\.{@+}', `\.{@;}', `\.{@[}', and `\.{@]}') have no effect on the \Cee\
+program output by \.{TANGLE}; they merely help to improve the readability
+of the \TeX-formatted \Cee\ that is output by \.{WEAVE}, in unusual
+circumstances. \.{WEAVE}'s built-in formatting method is fairly good
+when dealing with syntactically correct \Cee\ text, but
+it is incapable of handling all possible cases, because it must deal with
+fragments of text involving macros and module names; these fragments do
+not necessarily obey \Cee's syntax. Although \.{WEB} allows you to
+override the automatic formatting, your best strategy is not to worry
+about such things until you have seen what \.{WEAVE} produces automatically,
+since you will probably need to make only a few corrections when you are
+touching up your documentation.
+
+\@{x @y @z}[\\{change\_file}]
+\.{WEAVE} and \.{TANGLE} are designed to work with two input files,
+called \\{web\_file} and \\{change\_file}, where \\{change\_file} contains
+data that overrides selected portions of \\{web\_file}. The resulting merged
+text is actually what has been called the \.{WEB} file elsewhere in this
+report.
+
+\more Here's how it works: The change file consists of zero or more ``changes,''
+where a change has the form `\.{@x}$\langle$old lines$\rangle$\.{@y}$\langle$%
+new lines$\rangle$\.{@z}'. The special control codes \.{@x}, \.{@y}, \.{@z},
+which are allowed only in change files, must appear at the beginning of a line;
+the remainder of such a line is ignored.
+The $\langle$old lines$\rangle$ represent material that exactly matches
+consecutive lines of the \\{web\_file}; the $\langle$new lines$\rangle$
+represent zero or more lines that are supposed to replace the old. Whenever
+the first ``old line'' of a change is found to match a line in the
+\\{web\_file}, all the other lines in that change must match too.
+
+\more Between changes, before the first change, and after the last change,
+the change file can have any number of lines that do not begin with
+`\.{@x}', `\.{@y}', or~`\.{@z}'. Such lines are bypassed and not used for
+matching purposes.
+
+\more This dual-input feature is useful when working with a master \.{WEB} file
+that has been received from elsewhere (e.g., \.{tangle.w} or
+\.{weave.w} or \.{tex.web}), when changes are desirable to customize the
+program for your local computer system. You will be able to debug your
+system-dependent changes without clobbering the master web file; and once
+your changes are working, you will be able to incorporate them readily
+into new releases of the master web file that you might receive from time
+to time.
+
+\@i [\\{web\_file}] Furthermore the \\{web\_file} itself can be a combination of
+several files.  When either \.{CWEAVE} or \.{CTANGLE} is reading a file and
+encounters the control code \.{@i} at the beginning of a line, it
+interrupts normal reading and start looking at the file named after the
+\.{@i}, much as the \Cee\ preprocessor does when it encounters an \.{\#include}
+line.  After the included file has been entirely read, the program
+goes back to the next line
+of the original file.  The file name following \.{@i} can be
+surrounded by \." characters, but such delimiters are
+optional. Include files can nest. Change files cannot use the \.{@i} feature.
+
+\@( [C,\oT] A module name can begin with \.{@(} instead of \.{@<}.
+Everything works exactly as before, except that \.{@(foo@>} denotes
+a special module name all of whose \Cee\ code is written by \.{CTANGLE}
+to file \.{foo}. In this way you can get multiple file output from
+a single \.{WEB} file. (The \.{@d} definitions are not output
+to such files, only to the master \.{.c} file.)
+
+\section Additional features and caveats.
+
+1. In certain installations of \.{CWEB} that
+{\def\\#1#2{`{\tentex\char'#1#2}'}%
+have an extended character set, the characters
+\\13, \\01, \\31, \\32, \\34, \\35,
+\\36, \\37, \\04, \\20, and \\21}
+can be typed as abbreviations for `\.{++}', `\.{--}', `\.{->}',
+`\.{!=}', `\.{<=}', `\.{>=}', `\.{==}', `\.{\v\v}', `\.{\&\&}',
+`\.{<<}', and `\.{>>}',
+respectively.
+
+2. If you have an extended character set, all of the characters listed
+in Appendix~C of {\sl The \TeX book\/} can be used in strings. But you should
+stick to standard ASCII characters if you want to write programs that will
+be useful to all the poor souls out there who don't have extended
+character sets.
+
+3. The \TeX\ file output by \.{WEAVE} is broken into lines having at most
+80 characters each. The algorithm that does this line breaking is unaware
+of \TeX's convention about comments following `\.\%' signs on a line. When
+\TeX\ text is being copied, the existing line breaks are copied as well,
+so there is no problem with `\.\%' signs unless the original \.{WEB} file
+contains a line more than eighty characters long or a line with \Cee\
+text in \pb\ that expands to more than eighty characters long. Such lines
+should not have `\.\%' signs.
+
+4. \Cee\ text is translated by a ``bottom up'' procedure that
+identifies each token as a ``part of speech'' and combines parts of speech
+into larger and larger phrases as much as possible according to a special
+grammar that is explained in the documentation of \.{WEAVE}. It is easy to
+learn the translation scheme for simple constructions like single
+identifiers and short expressions, just by looking at a few examples of
+what \.{WEAVE} does, but the general mechanism is somewhat complex because
+it must handle much more than \Cee\ itself. Furthermore the output
+contains embedded codes that cause \TeX\ to indent and break lines as
+necessary, depending on the fonts used and the desired page width. For
+best results it is wise to avoid enclosing long \Cee\ texts in \pb, since the
+indentation and line breaking codes are omitted when the \pb\ text is
+translated from \Cee\ to \TeX. Stick to simple expressions or
+statements.  If a \Cee\ preprocessor command is enclosed in \pb,
+the \.\# that introduces it must be at the beginning of a line,
+or \.{WEAVE} won't print it correctly.
+
+5. Comments and module names are not permitted in \pb\ text. After a `\.|'
+signals the change from \TeX\ text to \Cee\ text, the next `\.|' that is
+not part of a string or control text ends the \Cee\ text.
+
+6. A comment must have properly nested occurrences of left and right
+braces, otherwise \.{WEAVE} will complain. But it
+does try to balance the braces, so that \TeX\ won't foul up too much.
+
+7. When you're debugging a program and decide to omit some of your
+\Cee\ code, do NOT simply ``comment it out.'' Such comments are not
+in the spirit of \.{WEB} documentation; they will appear to readers
+as if they were explanations of the uncommented-out instructions.
+Furthermore, comments of a program must be valid \TeX\ text; hence
+\.{WEAVE} will get confused if you enclose \Cee\ statements in
+\.{/*...*/} instead of in \.{/*|...|*/}.
+
+8. The \.{@f} feature allows you to define one identifier to act like
+another, and these format definitions are carried out sequentially.
+However, a given identifier has only one printed format
+throughout the entire document (and this format will even be used before
+the \.{@f} that defines it). The reason is that \.{WEAVE} operates in two
+passes; it processes \.{@f}'s and cross-references on the first pass and
+it does the output on the second.
+
+9. Sometimes it is desirable to insert spacing into \Cee\ code that is
+more general than the thin space provided by `\.{@,}'. The \.{@t} feature
+can be used for this purpose; e.g., `\.{@t\\hskip 1in@>}' will
+leave one inch of blank space. Furthermore, `\.{@t\\4@>}' can be
+used to backspace by one unit of indentation, since the control sequence
+\.{\\4} is defined in \.{cwebmac} to be such a backspace. (This
+control sequence is used, for example, at the beginning of lines that
+contain labeled statements, so that the label will stick out a little at
+the left.) You can also use `\.{@t\}\\3\{-5@>}' to force a break
+in the middle of an expression.
+
+\section Running the programs.
+The \UNIX\ command line for \.{CTANGLE} is
+$$\.{ctangle [options] web\_file[.w] [change\_file[.ch] [out\_file]]}$$
+and the same conventions apply to \.{CWEAVE}. If no change file is
+specified, the change file is null. The extensions \.{.w} and \.{.ch}
+are appended only if the given file names contain no dot. If the
+web file defined in this way cannot be found, the extension \.{.web}
+will be tried. For example, `\.{cweave} \.{cob}' will try to read
+\.{cob.w}; failing that, it will try \.{cob.web} before giving up.
+If no output file name is specified, the name of the \Cee\ file output by
+\.{CTANGLE} is obtained by appending the extension \.{.c};
+the name of the \TeX\ file output by \.{CWEAVE} gets the extension \.{.tex}.
+
+Programmers who like terseness might choose to set up their
+ operating shell so that `\.{wv}' expands to
+`\.{cweave -bhp}'; this will suppress most terminal output from \.{CWEAVE}
+except for error messages.
+
+Options are introduced either by a \.- sign, to turn an option off,
+or by a \.+ sign to turn one off. For example, `\.{-fb}' turns off
+options \.f and \.b; `\.{+s}' turns on option \.s. Options can be
+specified before the file names, after the file names, or both. The following
+options are currently implemented:
+
+\yskip
+\def\option#1 {\textindent{\.#1}\hangindent2\parindent}
+
+\option b Print a banner line at the beginning of execution. (On
+by default.)
+
+\option f Force line breaks after each \Cee\ statement formatted
+by \.{WEAVE}. (On by default; \.{-f} saves paper but looks less \Cee-like
+to some people.) (Has no effect on \.{TANGLE}.)
+
+\option h Print a happy message at the conclusion of a successful
+run. (On by default.)
+
+\option p Give progress reports as the program runs. (On by default.)
+
+\option s Show statistics about memory usage after the program
+runs to completion. (Off by default.) This feature works only if
+the programs have been compiled with the \.{-DSTAT} switch. If you
+have large \.{WEB} files or modules, you may need to see
+how close you come to exceeding the capacity of \.{TANGLE} and/or \.{WEAVE}.
+
+\option x Include indexes and a table of contents in the \TeX\ file
+output by \.{WEAVE}. (On by default.) (Has no effect on \.{TANGLE}.)
+
+\section Further details about formatting.
+You may not like the way \.{WEAVE} handles certain
+situations. If you're desperate, you can customize \.{WEAVE}
+by changing its grammar.  This means changing the source code,
+a task that you might find amusing. A table of grammar rules
+appears in the \.{WEAVE} source listing, and you can make a separate
+copy of that table by copying the file \.{prod.w} found in the \.{cweb}
+sources and saying `\.{cweave}~\.{-x}~\.{prod}'.
+
+If you compile \.{WEAVE} with the \.{-DDEBUG} option on the command
+line, you will be able to see exactly
+how \.{WEAVE} is parsing your \Cee\ code by preceding
+it with the line `\.{@ @c @2}'. (The control code `\.{@2}'
+turns on a ``peeping'' mode, and `\.{@0}' turns it off.)
+For example, if you run \.{WEAVE} on the file
+\medskip
+\begingroup
+\verbatim
+@ @c @2
+main (argc,argv)
+char **argv;
+{ for (;argc>0;argc--) printf("%s\n",argv[argc-1]); }
+!endgroup
+\endgroup
+\medskip\noindent
+you get the following gibberish on your screen:
+\medskip
+\begingroup
+\verbatim
+[...]
+4:*exp ( +exp+ )...
+8:*exp +exp+ int...
+5:*+exp+ int +unorbinop+...
+[...]
+45: +fn_decl+*+{+ -stmt- +}-
+40:*+fn_decl+ -stmt-
+37:*+function-
+[...]
+!endgroup
+\endgroup
+\medskip
+The first line says that grammar rule 4 has just been applied, and \.{WEAVE}
+currently has in its memory a sequence of chunks of \TeX\ code (called
+``scraps'') that are respectively
+of type \\{exp} (for expression), open-parenthesis,
+\\{exp} again, close-parenthesis, and further scraps that haven't yet
+been considered by the parser.  (The \.+ and \.- signs stipulate that
+\TeX\ should be in or out of math mode at the scrap boundaries. The \.* shows
+the parser's current position.)
+Then rule 8 is applied, and
+the sequence $(\,exp\,)$ becomes an \\{exp} and so on.  In the
+end the whole \Cee\ text has become one big scrap of type \\{function}.
+
+Sometimes things don't work as smoothly, and you get a bunch of
+lines lumped together.  This means that \.{WEAVE} could not
+digest something in your \Cee\ code.  For instance, suppose
+`\.{@<Argument definitions@>}' had appeared instead of
+`\.{char **argv;}' in the program above. Then \.{WEAVE} would have
+been somewhat mystified, since it thinks that module names
+are just \\{exp}s.  Thus it would tell \TeX\ to format
+`\X2:Argument declarations\X' on the same line as
+`$\\{main}(\\{argc},\39\\{argv}{}$)'.
+In this case you should help \.{WEAVE} by putting `\.{@/}' after
+`\.{main(argc,argv)}'.
+
+\.{CWEAVE} automatically inserts a bit of extra space between declarations
+and the first apparent statement of a block. One way to defeat this is
+$$\vbox{\halign{#\hfil\cr
+\.{int x;@+@t@>@;@/}\cr
+\.{@<Other locals@>@;@\#}\cr}}$$
+the `\.{@\#}' will put extra space after `$\langle\,$Other locals$\,\rangle$'.
+
+\section Acknowledgments.
+The authors wish to thank all who contributed suggestions and criticism to
+the development of \.{CWEB}. We are especially grateful to Norman Ramsey,
+from whom the code for multiple output files is borrowed, and who has made
+literate programming accessible to users of yet other languages by means of
+his \.{SPIDER} system [see {\sl Communications of the ACM\/ \bf32} (1989),
+1051--1055].
+
+\section Appendices.
+The basic ideas of \.{WEB} can be understood most easily by looking at
+examples of ``real'' programs. Appendix~A shows the \.{CWEB} input that
+generated modules 17--18 of the \.{common.w} file, which contains
+routines common to \.{CWEAVE} and \.{CTANGLE}. 
+Appendix~B shows the corresponding \Cee\ code output by \.{CTANGLE}. 
+Appendix~C shows the
+corresponding \TeX\ code output by \.{CWEAVE},
+and Appendix~D shows how that output looks when printed out.
+Appendix E is the file that sets \TeX\ up to accept
+the output of \.{CWEAVE}, and Appendix~F discusses how to use some of those
+macros to vary the output formats.
+
+\vfil\eject
+
+\def\runninghead{APPENDIX A --- {\tentt WEB} FILE FORMAT}
+\section Appendix A.
+The following is an excerpt of the file \.{common.w},
+which contains routines shared by \.{CWEAVE} and \.{CTANGLE}.
+Note that some of the lines are indented to show the program structure.
+The indentation is ignored by \.{WEAVE} and \.{TANGLE}, but users find
+that \.{WEB} files are quite readable if they have some such indentation.
+
+The reader should first compare Appendix~A to Appendix~B; then the
+same material should be compared to Appendices~C and~D.
+
+\vskip 6pt
+\begingroup \def\tt{\eighttt} \baselineskip9pt
+\verbatim
+@ Procedure |prime_the_change_buffer| sets |change_buffer| in preparation
+for the next matching operation. Since blank lines in the change file are
+not used for matching, we have |(change_limit==change_buffer && !!changing)|
+if and only if the change file is exhausted. This procedure is called only
+when |changing| is 1; hence error messages will be reported correctly.
+
+@<Func...@>=
+prime_the_change_buffer()
+{
+  change_limit=change_buffer; /* this value is used if the change file ends */
+  @<Skip over comment lines in the change file; |return| if end of file@>;
+  @<Skip to the next nonblank line; |return| if end of file@>;
+  @<Move |buffer| and |limit| to |change_buffer| and |change_limit|@>;
+}
+
+@ While looking for a line that begins with \.{@@x} in the change file,
+we allow lines that begin with \.{@@}, as long as they don't begin with
+\.{@@y} or \.{@@z} (which would probably indicate that the change file is
+fouled up).
+
+@<Skip over comment lines in the change file...@>=
+while(1) {
+  change_line++;
+  if (!!input_ln(change_file)) return;
+  if (limit<buffer+2) continue;
+  if (buffer[0]!!='@@') continue;
+  if (isupper(buffer[1])) buffer[1]=tolower(buffer[1]);
+  @<Check for erroneous \.{@@i}@>;
+  if (buffer[1]=='x') break;
+  if (buffer[1]=='y' || buffer[1]=='z') {
+    loc=buffer+2;
+    err_print("!! Where is the matching @@x?");
+@.Where is the match...@>
+  }
+}
+
+@ We do not allow includes in a change file, so as to avoid confusion.
+
+@<Check for erron...@>= {
+  if (buffer[1]=='i') {
+    loc=buffer+2;
+    err_print("!! No includes allowed in change file");
+@.No includes allowed...@>
+  }
+}
+
+!endgroup
+\endgroup
+\vfill\eject
+
+\def\runninghead{APPENDIX B  --- TRANSLATION BY {\tentt TANGLE}}
+\section Appendix B.
+Here's the portion of the \Cee\ code generated by \.{TANGLE} that corresponds
+to Appendix~A.  Notice that modules~13, 14, 15,
+and~16 have been tangled into module~12.
+
+\vskip6pt
+\begingroup \def\tt{\eighttt} \baselineskip9pt
+\verbatim
+/*:9*//*12:*/
+#line 238 "common.w"
+
+prime_the_change_buffer()
+{
+change_limit= change_buffer;
+/*13:*/
+#line 252 "common.w"
+
+while(1){
+change_line++;
+if(!!input_ln(change_file))return;
+if(limit<buffer+2)continue;
+if(buffer[0]!!='@')continue;
+if(isupper(buffer[1]))buffer[1]= tolower(buffer[1]);
+/*14:*/
+#line 270 "common.w"
+{
+if(buffer[1]=='i'){
+loc= buffer+2;
+err_print("!! No includes allowed in change file");
+
+}
+}
+
+/*:14*/
+#line 259 "common.w"
+;
+if(buffer[1]=='x')break;
+if(buffer[1]=='y'||buffer[1]=='z'){
+loc= buffer+2;
+err_print("!! Where is the matching @x?");
+
+}
+}
+
+/*:13*/
+#line 242 "common.w"
+;
+/*15:*/
+#line 280 "common.w"
+
+do{
+change_line++;
+if(!!input_ln(change_file)){
+err_print("!! Change file ended after @x");
+
+return;
+}
+}while(limit==buffer);
+
+/*:15*/
+#line 243 "common.w"
+;
+/*16:*/
+#line 290 "common.w"
+
+{
+change_limit= change_buffer-buffer+limit;
+strncpy(change_buffer,buffer,limit-buffer+1);
+}
+
+/*:16*/
+#line 244 "common.w"
+;
+}
+
+/*:12*//*17:*/
+!endgroup
+\endgroup
+\vfill\eject
+
+\def\runninghead{APPENDIX C --- TRANSLATION BY {\tentt WEAVE}}
+\section Appendix C.
+This excerpt from \.{common.tex} corresponds to Appendix A.
+
+\vskip6pt
+\begingroup \def\tt{\eighttt} \baselineskip9pt
+\verbatim
+\M12. Procedure \\{prime\_the\_change\_buffer} sets \\{change\_buffer} in
+preparation
+for the next matching operation. Since blank lines in the change file are
+not used for matching, we have $(\\{change\_limit}\E\\{change\_buffer}\W\R%
+\\{changing})$
+if and only if the change file is exhausted. This procedure is called only
+when \\{changing} is 1; hence error messages will be reported correctly.
+
+\Y\B\4\X4:Functions\X${}\mathrel+\E{}$\6
+\\{prime\_the\_change\_buffer}(\,)\1\1\2\2\6
+${}\{{}$\1\6
+${}\\{change\_limit}\K\\{change\_buffer}{}$;\C{ this value is used if the
+change file ends }\6
+\X13:Skip over comment lines in the change file; \&{return} if end of file\X;\6
+\X15:Skip to the next nonblank line; \&{return} if end of file\X;\6
+\X16:Move \\{buffer} and \\{limit} to \\{change\_buffer} and \\{change\_limit}%
+\X;\6
+\4${}\}{}$\2\par
+\fi
+
+\M13. While looking for a line that begins with \.{@x} in the change file,
+we allow lines that begin with \.{@}, as long as they don't begin with
+\.{@y} or \.{@z} (which would probably indicate that the change file is
+fouled up).
+
+\Y\B\4\X13:Skip over comment lines in the change file; \&{return} if end of
+file\X${}\E{}$\6
+\&{while} (\T{1})\5
+${}\{{}$\1\6
+${}\\{change\_line}\PP;{}$\6
+\&{if} ${}(\R\\{input\_ln}(\\{change\_file})){}$\1\5
+\&{return};\2\6
+\&{if} ${}(\\{limit}<\\{buffer}+\T{2}){}$\1\5
+\&{continue};\2\6
+\&{if} ${}(\\{buffer}[\T{0}]\I\.{'@'}){}$\1\5
+\&{continue};\2\6
+\&{if} (\\{isupper}(\\{buffer}[\T{1}]))\1\5
+${}\\{buffer}[\T{1}]\K\\{tolower}(\\{buffer}[\T{1}]);{}$\2\6
+\X14:Check for erroneous \.{@i}\X;\6
+\&{if} ${}(\\{buffer}[\T{1}]\E\.{'x'}){}$\1\5
+\&{break};\2\6
+\&{if} ${}(\\{buffer}[\T{1}]\E\.{'y'}\V\\{buffer}[\T{1}]\E\.{'z'}){}$\5
+${}\{{}$\1\6
+${}\\{loc}\K\\{buffer}+\T{2};{}$\6
+\\{err\_print}(\.{"!!\ Where\ is\ the\ matc}\)\.{hing\ @x?"});\6
+\4${}\}{}$\2\6
+\4${}\}{}$\2\par
+\U12.\fi
+
+\M14. We do not allow includes in a change file, so as to avoid confusion.
+
+\Y\B\4\X14:Check for erroneous \.{@i}\X${}\E{}$\6
+${}\{{}$\1\6
+\&{if} ${}(\\{buffer}[\T{1}]\E\.{'i'}){}$\5
+${}\{{}$\1\6
+${}\\{loc}\K\\{buffer}+\T{2};{}$\6
+\\{err\_print}(\.{"!!\ No\ includes\ allow}\)\.{ed\ in\ change\ file"});\6
+\4${}\}{}$\2\6
+\4${}\}{}$\2\par
+\Us13\ET25.\fi
+!endgroup
+\endgroup
+\vfil\eject
+
+\def\runninghead{APPENDIX D --- FINAL DOCUMENT}
+\section Appendix D.
+Here's what Appendix~C looks like when typeset. Appendix G contains the
+entire context.
+
+\M12. Procedure \\{prime\_the\_change\_buffer} sets \\{change\_buffer} in
+preparation
+for the next matching operation. Since blank lines in the change file are
+not used for matching, we have $(\\{change\_limit}\E\\{change\_buffer}\W\R%
+\\{changing})$
+if and only if the change file is exhausted. This procedure is called only
+when \\{changing} is 1; hence error messages will be reported correctly.
+
+\Y\B\4\X4:Functions\X${}\mathrel+\E{}$\6
+\\{prime\_the\_change\_buffer}(\,)\1\1\2\2\6
+${}\{{}$\1\6
+${}\\{change\_limit}\K\\{change\_buffer}{}$;\C{ this value is used if the
+change file ends }\6
+\X13:Skip over comment lines in the change file; \&{return} if end of file\X;\6
+\X15:Skip to the next nonblank line; \&{return} if end of file\X;\6
+\X16:Move \\{buffer} and \\{limit} to \\{change\_buffer} and \\{change\_limit}%
+\X;\6
+\4${}\}{}$\2\par
+\fi
+
+\M13. While looking for a line that begins with \.{@x} in the change file,
+we allow lines that begin with \.{@}, as long as they don't begin with
+\.{@y} or \.{@z} (which would probably indicate that the change file is
+fouled up).
+
+\Y\B\4\X13:Skip over comment lines in the change file; \&{return} if end of
+file\X${}\E{}$\6
+\&{while} (\T{1})\5
+${}\{{}$\1\6
+${}\\{change\_line}\PP;{}$\6
+\&{if} ${}(\R\\{input\_ln}(\\{change\_file})){}$\1\5
+\&{return};\2\6
+\&{if} ${}(\\{limit}<\\{buffer}+\T{2}){}$\1\5
+\&{continue};\2\6
+\&{if} ${}(\\{buffer}[\T{0}]\I\.{'@'}){}$\1\5
+\&{continue};\2\6
+\&{if} (\\{isupper}(\\{buffer}[\T{1}]))\1\5
+${}\\{buffer}[\T{1}]\K\\{tolower}(\\{buffer}[\T{1}]);{}$\2\6
+\X14:Check for erroneous \.{@i}\X;\6
+\&{if} ${}(\\{buffer}[\T{1}]\E\.{'x'}){}$\1\5
+\&{break};\2\6
+\&{if} ${}(\\{buffer}[\T{1}]\E\.{'y'}\V\\{buffer}[\T{1}]\E\.{'z'}){}$\5
+${}\{{}$\1\6
+${}\\{loc}\K\\{buffer}+\T{2};{}$\6
+\\{err\_print}(\.{"!\ Where\ is\ the\ matc}\)\.{hing\ @x?"});\6
+\4${}\}{}$\2\6
+\4${}\}{}$\2\par
+\U12.\fi
+
+\M14. We do not allow includes in a change file, so as to avoid confusion.
+
+\Y\B\4\X14:Check for erroneous \.{@i}\X${}\E{}$\6
+${}\{{}$\1\6
+\&{if} ${}(\\{buffer}[\T{1}]\E\.{'i'}){}$\5
+${}\{{}$\1\6
+${}\\{loc}\K\\{buffer}+\T{2};{}$\6
+\\{err\_print}(\.{"!\ No\ includes\ allow}\)\.{ed\ in\ change\ file"});\6
+\4${}\}{}$\2\6
+\4${}\}{}$\2\par
+\Us13\ET25.\fi
+
+\vfil\eject
+\Q
+\def\runninghead{APPENDIX E --- MACROS FOR FORMATTING}
+\section Appendix E: The \.{cwebmac.tex} file.
+This is the file that extends ``plain \TeX'' format in order to support the
+features needed by the output of \.{WEAVE}.
+
+\vskip6pt
+\begingroup \def\tt{\eighttt} \baselineskip9pt
+\def\printmacs{\input cwebmac}
+\verbatim
+!printmacs
+!endgroup
+\endgroup
+\vfill\eject
+
+\def\runninghead{APPENDIX F --- NOTES ON FORMATTING}
+\section Appendix F: How to use \.{CWEB} macros.
+The macros in \.{cwebmac} make it possible to produce a variety of formats
+without editing the output of \.{CWEAVE}, and the purpose of this appendix
+is to explain some of the possibilities.
+
+\def\point#1.{\yskip\indent#1.\quad\ignorespaces}
+
+\point 1. Four fonts have been declared in addition to the standard fonts of
+\.{PLAIN} format: You can say `\.{\{\\mc UNIX\}}' to get {\mc UNIX} in
+medium-size caps; you can say `\.{\{\\sc STUFF\}}' to get {\sc STUFF}
+in small caps; and you can select the largish fonts \.{\\titlefont}
+and \.{\\ttitlefont} in the title of your document, where \.{\\ttitlefont}
+is a typewriter style of type. There are macros \.{\\UNIX} and \.{\\Cee}
+to refer to \UNIX\ and \Cee\ with medium-size caps.
+
+\point 2. When you mention an identifier in \TeX\ text, you normally call
+it `\.{|identifier|}'. But you can also say `\.{\\\\\{identifier\}}'. The
+output will look the same in both cases, but the second alternative
+doesn't put \\{identifier} into the index, since
+it bypasses \.{WEAVE}'s translation from \Cee\ mode. In the second
+case you have to put a backslash before each underline character
+in the identifier.
+
+\point 3. To get typewriter-like type, as when referring to `\.{WEB}', you
+can use the `\.{\\.}' macro (e.g., `\.{\\.\{WEB\}}'). In the argument to
+this macro you should insert an additional backslash before the symbols
+listed as `special string characters' in the index to \.{WEAVE}, i.e.,
+before backslashes and dollar signs and the like.
+A `\.{\\\ }' here will result in the visible space symbol; to get an
+invisible space following a control sequence you can say `\.{\{\ \}}'.
+If the string is long, you can break it up into substrings that
+are separated by `\.{\\)}'; the latter gives a discretionary backslash
+if \TeX\ has to break a line here.
+
+\point 4. The three control sequences \.{\\pagewidth}, \.{\\pageheight},
+and \.{\\fullpageheight} can be redefined in the limbo section at the
+beginning of your \.{WEB} file, to change the dimensions of each page.
+The default settings
+$$\lpile{\.{\\pagewidth=6.5in}\cr
+  \.{\\pageheight=8.7in}\cr
+  \.{\\fullpageheight=9in}\cr}$$
+were used to prepare the present report; \.{\\fullpageheight} is
+\.{\\pageheight} plus room for the additional heading and page numbers at
+the top of each page. If you change any of these quantities, you should
+call the macro \.{\\setpage} immediately after making the change.
+
+\point 5. The \.{\\pageshift} macro defines an amount by which right-hand
+pages (i.e., odd-numbered pages) are shifted right with respect to
+left-hand (even-numbered) ones. By adjusting this amount you may be
+able to get two-sided output in which the page numbers line up on
+opposite sides of each sheet.
+
+\point 6. The \.{\\title} macro will appear at the top of each page
+in small caps; it is the job name unless redefined.
+
+\point 7. The first page usually is assigned page
+number 1. To start on page 16, with contents
+on page 15, say this: `\.{\\def\\contentspagenumber\{15\}}
+\.{\\pageno=\\contentspagenumber} \.{\\advance\\pageno by 1}'.
+
+\point 8. The macro \.{\\iftitle} will suppress the header line if it is
+defined by `\.{\\titletrue}'. The normal value is \.{\\titlefalse}
+except for the table of contents; thus, the contents
+page is usually unnumbered.
+
+Two macros are provided to give flexibility to the table of
+contents: \.{\\topofcontents} is invoked just before the contents
+info is read, and \.{\\botofcontents} is invoked just after.
+Here's a typical definition, taken from the original \.{WEB} manual:
+$$\lpile{\.{\\def\\topofcontents\{\\null\\vfill}\cr
+  \.{ { }\\titlefalse \% include headline on the contents page}\cr
+  \.{ { }\\def\\rheader\{\\mainfont The \{\\tt WEAVE\}{ }processor\\hfil\}}\cr
+  \.{ { }\\centerline\{\\titlefont The \{\\ttitlefont WEAVE\}{ }processor\}}\cr
+  \.{ { }\\vskip 15pt \\centerline\{(Version 2.5)\}{ }\\vfill\}}\cr}$$
+Redefining \.{\\rheader}, which is the headline for right-hand pages,
+suffices in this case to put the desired information at the top of the
+contents page.
+
+\point 9. Data for the table of contents is written to a file that
+is read after the indexes have been \TeX ed; there's one line of data
+for every starred module. The file \.{common.toc} might look like this:
+$$\lpile{\.{\\Z \{{ }Introduction\}\{1\}\{2\}}\cr
+  \.{\\Z \{{ }The character set\}\{5\}\{3\}}\cr}$$
+and so on. The \.{\\topofcontents} macro could
+redefine \.{\\Z} so that the information appears in any desired format.
+
+\point 10. Sometimes it is necessary or desirable to divide the output of
+\.{WEAVE} into subfiles that can be processed separately. For example,
+the listing of \TeX\ runs to more than 500 pages, and that is enough to
+exceed the capacity of many printing devices and/or their software.
+When an extremely large job isn't cut into smaller pieces, the entire
+process might be spoiled by a single error of some sort, making it
+necessary to start everything over.
+
+Here's a safe way to break a woven file into three parts:
+Say the pieces are $\alpha$,
+$\beta$, and $\gamma$, where each piece begins with a starred module.
+All macros should be defined in the opening limbo section of $\alpha$,
+and copies of this \TeX\ code should be placed at the
+beginning of $\beta$ and of $\gamma$. In order to process the parts
+separately, we need to take care of two things: The starting page
+numbers of $\beta$ and $\gamma$ need to be set up properly, and
+the table of contents data from all three runs needs to be
+accumulated.
+
+The \.{webmac} macros include two control sequences \.{\\contentsfile} and
+\.{\\readcontents} that facilitate the necessary processing.  We include
+`\.{\\def\\contentsfile\{CONT1\}}' in the limbo section of $\alpha$, and
+we include `\.{\\def\\contentsfile\{CONT2\}}' in the limbo section of
+$\beta$; this causes \TeX\ to write the contents data for $\alpha$ and $\beta$
+into \.{CONT1.TEX} and \.{CONT2.TEX}. Now in $\gamma$ we say
+$$\.{\\def\\readcontents\{\\input CONT1 \\input CONT2 \\input CONTENTS\}};$$
+this brings in the data from all three pieces, in the proper order.
+
+However, we still need to solve the page-numbering problem. One way to
+do it is to include the following in the limbo material for $\beta$:
+$$\lpile{\.{\\message\{Please type the last page number of part 1: \}}\cr
+  \.{\\read -1 to \\temp \\pageno=\\temp \\advance\\pageno by 1}\cr}$$
+Then you simply provide the necessary data when \TeX\ requests
+it; a similar construction is used at the beginning of $\gamma$.
+
+This method can, of course, be used to divide a woven file into
+any number of pieces.
+
+\point 11. Sometimes it is nice to include things in the index that are
+typeset in a special way. For example, we might want to have an
+index entry for `\TeX'. \.{WEAVE} provides two simple ways to
+typeset an index entry (unless the entry is an identifier or a reserved word):
+`\.{@\^}' gives roman type, and `\.{@.}' gives typewriter type.
+But if we try to typeset `\TeX' in roman type by saying, e.g.,
+`\.{@\^\\TeX@>}', the backslash character gets in the way,
+and this entry wouldn't appear in the index with the T's.
+
+The solution is to use the `\.{@:}' feature, declaring a macro that
+simply removes a sort key as follows:
+$$\.{\\def\\9\#1\{\}}$$
+Now you can say, e.g., `\.{@:TeX\}\{\\TeX@>}' in your \.{WEB} file; \.{WEAVE}
+puts it into the index alphabetically, based on the sort key, and
+produces the macro call `\.{\\9\{TeX\}\{\\TeX\}}' which will ensure that
+the sort key isn't printed.
+
+A similar idea can be used to insert hidden material into module
+names so that they are alphabetized in whatever way you might wish.
+Some people call these tricks ``special refinements''; others call
+them ``kludges''.
+
+\point 12. The control sequence \.{\\modno} is set to the number of the
+module being typeset.
+
+\point 13. If you want to list only the modules that have changed,
+together with the index, put the command `\.{\\let\\maybe=\\iffalse}' in
+the limbo section before the first module of your \.{WEB} file. It's
+customary to make this the first change in your change file.
+
+\point 14. To get output in languages other than English, redefine the
+macros \.{\\A}, \.{\\As}, \.{\\ET}, \.{\\ETs}, \.{\\U}, \.{\\Us},
+\.{\\ch}, \.{\\fin}, and \.{\\con}. \.{CWEAVE} itself need not be changed.
+
+\point 15. All accents and special text symbols of plain \TeX\ format
+will work in \.{CWEB} documents just as they are described in
+Chapter~9 of {\sl The \TeX book}, with one exception.
+The dot accent (normally \.{\\.}) must be typed \.{\\:} instead.
+
+\vfill\end
