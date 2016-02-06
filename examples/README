@@ -3,7 +3,7 @@ and/or useful. If you are new to CWEB, read "wc.w" first; it's a
 typical example of CWEB applied to system programming.
 
 The Makefile on this directory is a generic way to build applications
-written in CWEB. Say, for example, "make wc.run" to get an executable
+written in CWEB. Say, for example, "make wc" to get an executable
 program "wc" from wc.w. Say "make wc.dvi" to get a printable listing
 of its documentation. The program "wc" is a slight improvement over
 UNIX's standard word-count utility. (Try it, for example, with "wc *".)
@@ -15,7 +15,7 @@ and then
 (on a UNIX system), where dir is a directory with interesting subdirectories.
 
 The wmerge program, by Silvio Levy, produces a single CWEB file from a
-given CWEB file and a change file. It expands any "include"
+given CWEB file and a change file. It expands any "web include" (@i)
 specifications in the original CWEB file. To use it, say "make wmerge.run"
 and then, e.g., "wmerge foo.w bar.ch > foobar.w". Both CTANGLE and
 CWEAVE already accept change files, so you need not merge anything yourself
@@ -25,10 +25,6 @@ the spelling checker described below.
 If you intend to read the source code of CTANGLE and CWEAVE, you may
 well wish to read wmerge.w first, or the hardcopy version obtained from
 "make wmerge.dvi"; it is similar but much simpler.
-
-The files xview_types.w and xlib_types.w are examples of @i (include) files
-that can be used when writing XView programs. They are based on the header
-files in OpenWindows Version 3.0.
 
 The extex and wordtest programs, by Don Knuth, are useful spellcheckers.
 After "make extex.run" say also "ln extex excweb"; this gives
@@ -48,3 +44,12 @@ is quick and effective. See the documentation of wordtest for more info.
 
 A file kspell.el that provides an emacs user interface to extex+excweb+wordtest
 also appears in this directory. (Somebody should write ELWEB...)
+
+The files xview_types.w and xlib_types.w are examples of @i (include) files
+that can be used when writing XView programs. They are based on the header
+files in OpenWindows Version 3.0.
+
+An example XView application appears in Knuth's program oemacs.w, which
+he uses for heavy emacsing. It's not very portable, but if you have
+OpenWindows3 and a Sun Type-4 keyboard you may like it as much as he does.
+(It replaces "emacstool".) The file oemacs.el goes with it.

@@ -10,9 +10,9 @@ created:
 (these changes not necessary for initial bootstrapping)
 
 @x l.54 (01-FEB-1992 ST)
-@d banner "This is CTANGLE (Version 2.3)\n"
+@d banner "This is CTANGLE (Version 2.8)\n"
 @y
-@d banner "This is CTANGLE (VAX/VMS) (Version 2.3)\n"
+@d banner "This is CTANGLE (VAX/VMS Version 2.8)\n"
 @z
 
 @x l.35 common.h (01-FEB-1992 ST)

@@ -1,9 +1,8 @@
 # This file is part of CWEB.
-# This program by Silvio Levy is based on a program by D. E. Knuth.
 # It is distributed WITHOUT ANY WARRANTY, express or implied.
-# Last updated by Don Knuth, August 1992
+# Last updated by Don Knuth, October 1992
 
-# Copyright (C) 1987,1990 Silvio Levy and Donald E. Knuth
+# Copyright (C) 1987,1990,1992 Silvio Levy and Donald E. Knuth
 
 # Permission is granted to make and distribute verbatim copies of this
 # document provided that the copyright notice and this permission notice
@@ -38,7 +37,7 @@ DESTDIR= /usr/local/bin/
 EMACSDIR= /usr/local/emacs/lisp
 
 # Set DESTPREF to null if you want to call the executables "tangle" and "weave"
-# (probably not a good idea)
+# (probably NOT a good idea; we recommend leaving DESTPREF=c)
 DESTPREF=c
 
 # Set CCHANGES to common-foo.ch if you need changes to common.w
@@ -60,8 +59,6 @@ CC = cc
 # RM and CP are used below in case rm and cp are aliased
 RM= /bin/rm
 CP= /bin/cp
-INSTALL= install
-#INSTALL= /bin/cp  # use this if `install' isn't available
 
 ##########  You shouldn't have to change anything after this point #######
 
@@ -70,7 +67,8 @@ CTANGLE = ./ctangle
 SOURCES = cweave.w common.w ctangle.w
 ALMOSTALL =  common.w ctangle.w Makefile README common.c common.h ctangle.c \
 	cwebman.tex cwebmac.tex examples common-vms.ch ctangle-vms.ch \
-	cweave-vms.ch cweb.1 cweb.el prod.w
+	cweave-vms.ch common-man.ch ctangle-man.ch cweave-man.ch \
+	cweb.1 cweb.el prod.w
 ALL =  $(ALMOSTALL) cweave.w
 
 .SUFFIXES: .tex .dvi .w
@@ -79,7 +77,7 @@ ALL =  $(ALMOSTALL) cweave.w
 	$(CWEAVE) $*
 
 .tex.dvi:	
-	tex $*
+	tex $<
 
 .w.dvi:
 	make $*.tex
@@ -128,9 +126,19 @@ cweave: cweave.o common.o
 cweave.c: cweave.w $(WCHANGES)
 	$(CTANGLE) cweave $(WCHANGES)
 
-doc: $(SOURCES)
-	for i in $?; do make `echo $$i | sed "s/web$$/dvi/"`; done
-	@touch doc
+doc: $(SOURCES:.w=.dvi)
+
+usermanual: cwebman.tex cwebmac.tex
+	tex cwebman
+
+fullmanual: usermanual $(SOURCES) common-man.ch ctangle-man.ch cweave-man.ch
+	make cweave
+	./cweave common.w common-man.ch
+	tex common.tex
+	./cweave ctangle.w ctangle-man.ch
+	tex ctangle.tex
+	./cweave cweave.w cweave-man.ch
+	tex cweave.tex
 
 # be sure to leave ctangle.c and common.c for bootstrapping
 clean:
@@ -138,18 +146,26 @@ clean:
 	  *.log *.dvi *.toc core cweave.w.[12] cweave ctangle
 
 install: all
-	$(INSTALL) cweave $(DESTDIR)$(DESTPREF)weave
-	$(INSTALL) ctangle $(DESTDIR)$(DESTPREF)tangle
-	$(INSTALL) cweb.1 $(MANDIR)/cweb.$(MANEXT)
-	$(INSTALL) cwebmac.tex $(MACROSDIR)
-	$(INSTALL) cweb.el $(EMACSDIR)
+	$(CP) cweave $(DESTDIR)$(DESTPREF)weave
+	chmod 755 $(DESTDIR)$(DESTPREF)weave
+	$(CP) ctangle $(DESTDIR)$(DESTPREF)tangle
+	chmod 755 $(DESTDIR)$(DESTPREF)tangle
+	$(CP) cweb.1 $(MANDIR)/cweb.$(MANEXT)
+	chmod 644 $(MANDIR)/cweb.$(MANEXT)
+	$(CP) cwebmac.tex $(MACROSDIR)
+	chmod 644 $(MACROSDIR)/cwebmac.tex
+	$(CP) cweb.el $(EMACSDIR)
+	chmod 644 $(EMACSDIR)/cweb.el
 
 bundle: $(ALL)
 	sed -n '1,1500 p' cweave.w > cweave.w.1
 	sed -n '1501,$$ p' cweave.w > cweave.w.2
 	/usr/local/bin/shar -m100000 -c -v -f cweb $(ALMOSTALL) cweave.w.[12]
 
+tarfile: $(ALL)
+	tar cvhf cweb.tar $(ALL)
+
 floppy: $(ALL)
-	bar cvf /dev/rfd0 $(ALL)
+	bar cvhf /dev/rfd0 $(ALL)
 	bar tvf /dev/rfd0
 	eject

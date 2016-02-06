@@ -1,7 +1,7 @@
 % This file is part of CWEB.
 % The CWEB programs by Silvio Levy are based on programs by D. E. Knuth.
 % They are distributed WITHOUT ANY WARRANTY, express or implied.
-% This README file last updated July 1992 by Don Knuth
+% This README file last updated October 1992 by Don Knuth
 
 % Copyright (C) 1987,1990,1992 Silvio Levy and Donald E. Knuth
 
@@ -20,13 +20,16 @@ This directory contains the following files:
 
 Makefile
 README
+common-man.ch
 common-vms.ch
 common.c
 common.h
 common.w
+ctangle-man.ch
 ctangle-vms.ch
 ctangle.c
 ctangle.w
+cweave-man.ch
 cweave-vms.ch
 cweave.w
 cweb.1
@@ -48,9 +51,10 @@ The examples directory contains additional examples of the use of CWEB.
 The files common.c and ctangle.c are used for bootstrapping.
 The file cweb.1 is a manual page.
 The file cweb.el is suggested for GNU-Emacs users.
-The files *.ch are sample change files for local customization.
+The files *-vms.ch are sample change files for local customization.
+The files *-man.ch are used if you want to make the full 205-page CWEB manual.
 
-Please touch ctangle.c and common.c before proceeding.
+IMPORTANT: Please touch *.c before proceeding.
 Then edit the opening lines of Makefile so that it has the proper
 directory information for your local system.
 

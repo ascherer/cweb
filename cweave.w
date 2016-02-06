@@ -1,9 +1,10 @@
 % This file is part of CWEB.
-% This program by Silvio Levy is based on a program by D. E. Knuth.
+% This program by Silvio Levy and Donald E. Knuth
+% is based on a program by Knuth.
 % It is distributed WITHOUT ANY WARRANTY, express or implied.
-% Version 2.7 --- Don Knuth, July 1992
+% Version 2.8 --- September 1992
 
-% Copyright (C) 1987,1990,1992 Silvio Levy and Donald E. Knuth
+% Copyright (C) 1987,1990,1991,1992 Silvio Levy and Donald E. Knuth
 
 % Permission is granted to make and distribute verbatim copies of this
 % document provided that the copyright notice and this permission notice
@@ -22,21 +23,21 @@
 \def\dleft{[\![} \def\dright{]\!]} % double brackets
 \mathchardef\RA="3221 % right arrow
 \mathchardef\BA="3224 % double arrow
-\def\({} % kludge for alphabetizing certain module names
+\def\({} % kludge for alphabetizing certain section names
 \def\Ceeref{{\sl C Reference Manual\/}}
 \def\TeXxstring{\\{\TeX\_string}}
 \def\skipxTeX{\\{skip\_\TeX}}
 \def\copyxTeX{\\{copy\_\TeX}}
 
-\def\title{CWEAVE (Version 2.6)}
+\def\title{CWEAVE (Version 2.8)}
 \def\topofcontents{\null\vfill
   \centerline{\titlefont The {\ttitlefont CWEAVE} processor}
   \vskip 15pt
-  \centerline{(Version 2.6)}
+  \centerline{(Version 2.8)}
   \vfill}
 \def\botofcontents{\vfill
 \noindent
-Copyright \copyright\ 1987,\thinspace1990 Silvio Levy and Donald E. Knuth
+Copyright \copyright\ 1987, 1990, 1991, 1992 Silvio Levy and Donald E. Knuth
 \bigskip\noindent
 Permission is granted to make and distribute verbatim copies of this
 document provided that the copyright notice and this permission notice
@@ -52,13 +53,13 @@ permission notice identical to this one.
 \let\maybe=\iftrue
 
 @* Introduction.
-This is the \.{CWEAVE} program by Silvio Levy, based on \.{WEAVE} by
-D.~E. Knuth.
+This is the \.{CWEAVE} program by Silvio Levy and Donald E. Knuth,
+based on \.{WEAVE} by Knuth.
 
 The ``banner line'' defined here should be changed whenever \.{CWEAVE}
 is modified.
 
-@d banner "This is CWEAVE (Version 2.6)\n"
+@d banner "This is CWEAVE (Version 2.8)\n"
 
 @ \.{CWEAVE} has a fairly straightforward outline.  It operates in
 three phases: First it inputs the source file and stores cross-reference
@@ -81,7 +82,7 @@ char **av; /* argument values */
 {
   argc=ac; argv=av;
   program=weave;
-  make_xrefs=force_lines=1;
+  make_xrefs=force_lines=1; /* controlled by command-line options */
   common_init();
   @<Set initial values@>;
   if (show_banner) printf(banner); /* print a ``banner line'' */
@@ -98,22 +99,22 @@ If you change |max_bytes|, |max_names|, |hash_size| or |buf_size|
 you have to change them also in the file |"common.w"|.
 
 @d max_bytes 90000 /* the number of bytes in identifiers,
-  index entries, and module names */
-@d max_names 4000 /* number of identifiers, strings, module names;
+  index entries, and section names */
+@d max_names 4000 /* number of identifiers, strings, section names;
   must be less than 10240; used in |"common.w"| */
-@d max_modules 2000 /* greater than the total number of modules */
+@d max_sections 2000 /* greater than the total number of sections */
 @d hash_size 353 /* should be prime */
 @d buf_size 100 /* maximum length of input line, plus one */
-@d longest_name 400 /* module names and strings shouldn't be longer than this */
+@d longest_name 400 /* section names and strings shouldn't be longer than this */
 @d long_buf_size 500 /* |buf_size+longest_name| */
 @d line_length 80 /* lines of \TeX\ output have at most this many characters;
   should be less than 256 */
 @d max_refs 20000 /* number of cross-references; must be less than 65536 */
 @d max_toks 20000 /* number of symbols in \Cee\ texts being parsed;
   must be less than 65536 */
-@d max_texts 2000 /* number of phrases in \Cee\ texts being parsed;
+@d max_texts 4000 /* number of phrases in \Cee\ texts being parsed;
   must be less than 10240 */
-@d max_scraps 1000 /* number of tokens in \Cee\ texts being parsed */
+@d max_scraps 2000 /* number of tokens in \Cee\ texts being parsed */
 @d stack_size 400 /* number of simultaneous output levels */
 
 @ The next few sections contain stuff from the file |"common.w"| that has
@@ -124,7 +125,7 @@ file |"common.h"|, which needs to be updated when |"common.w"| changes.
 
 @* Data structures exclusive to {\tt WEAVE}.
 As explained in \.{common.w}, the field of a |name_info| structure
-that contains the |rlink| of a module name is used for a completely
+that contains the |rlink| of a section name is used for a completely
 different purpose in the case of identifiers.  It is then called the
 |ilk| of the identifier, and it is used to
 distinguish between various types of identifiers, as follows:
@@ -166,36 +167,39 @@ to be treated when \Cee\ code is being formatted.
 @d begin_arg 54 /* \.{@@[} */
 @d end_arg 55 /* \.{@@]} */
 
-@ We keep track of the current module number in |module_count|, which
-is the total number of modules that have started.  Modules which have
-been altered by a change file entry have their |changed_module| flag
+@ We keep track of the current section number in |section_count|, which
+is the total number of sections that have started.  Sections which have
+been altered by a change file entry have their |changed_section| flag
 turned on during the first phase.
 
 @<Global...@>=
-boolean change_exists; /* has any module changed? */
+boolean change_exists; /* has any section changed? */
 
 @ The other large memory area in \.{CWEAVE} keeps the cross-reference data.
 All uses of the name |p| are recorded in a linked list beginning at
 |p->xref|, which points into the |xmem| array. The elements of |xmem|
 are structures consisting of an integer, |num|, and a pointer |xlink|
 to another element of |xmem|.  If |x=p->xref| is a pointer into |xmem|,
-the value of |x->num| is either a module number where |p| is used,
-or it is |def_flag| plus a module number where |p| is defined;
+the value of |x->num| is either a section number where |p| is used,
+or |cite_flag| plus a section number where |p| is mentioned,
+or |def_flag| plus a section number where |p| is defined;
 and |x->xlink| points to the next such cross-reference for |p|,
 if any. This list of cross-references is in decreasing order by
-module number. The next unused slot in |xmem| is |xref_ptr|.
+section number. The next unused slot in |xmem| is |xref_ptr|.
+The linked list ends at |&xmem[0]|.
 
 The global variable |xref_switch| is set either to |def_flag| or to zero,
 depending on whether the next cross-reference to an identifier is to be
 underlined or not in the index. This switch is set to |def_flag| when
 \.{@@!} or \.{@@d} is scanned, and it is cleared to zero when
-the next identifier or index entry cross-reference has been made. Similarly,
-the global variable |mod_xref_switch| is either |def_flag| or zero, depending
-on whether a module name is being defined or used.
+the next identifier or index entry cross-reference has been made.
+Similarly, the global variable |section_xref_switch| is either
+|def_flag| or |cite_flag| or zero, depending
+on whether a section name is being defined, cited or used in \Cee\ text.
 
 @<Type...@>=
 typedef struct xref_info {
-  sixteen_bits num; /* module number plus zero or |def_flag| */
+  sixteen_bits num; /* section number plus zero or |def_flag| */
   struct xref_info *xlink; /* pointer to the previous cross-reference */
 } xref_info;
 typedef xref_info *xref_pointer;
@@ -204,18 +208,19 @@ typedef xref_info *xref_pointer;
 xref_info xmem[max_refs]; /* contains cross-reference information */
 xref_pointer xmem_end = xmem+max_refs-1;
 xref_pointer xref_ptr; /* the largest occupied position in |xmem| */
-sixteen_bits xref_switch,mod_xref_switch; /* either zero or |def_flag| */
+sixteen_bits xref_switch,section_xref_switch; /* either zero or |def_flag| */
 
-@ A module that is used for multi-file output (with the \.{@@(} feature)
+@ A section that is used for multi-file output (with the \.{@@(} feature)
 has a special first cross-reference whose |num| field is |file_flag|.
 
-@d file_flag 20480
-@d def_flag 10240 /* must be strictly larger than |max_modules| */
+@d file_flag (3*cite_flag)
+@d def_flag (2*cite_flag)
+@d cite_flag 10240 /* must be strictly larger than |max_sections| */
 @d xref equiv_or_xref
 
 @<Set init...@>=
-xref_ptr=xmem; name_dir->xref=(char*)xmem; xref_switch=0; mod_xref_switch=0;
-xmem->num=0; /* cross-references to undefined modules */
+xref_ptr=xmem; name_dir->xref=(char*)xmem; xref_switch=0; section_xref_switch=0;
+xmem->num=0; /* sentinel value */
 
 @ A new cross-reference for an identifier is formed by calling |new_xref|,
 which discards duplicate entries and ignores non-underlined references
@@ -223,14 +228,14 @@ to one-letter identifiers or \Cee's reserved words.
 
 If the user has sent the |no_xref| flag (the \.{-x} option of the command line),
 it is unnecessary to keep track of cross-references for identifiers.
-If one were careful, one could probably make more changes around module
+If one were careful, one could probably make more changes around section
 100 to avoid a lot of identifier looking up.
 
 @d append_xref(c) if (xref_ptr==xmem_end) overflow("cross-reference")@;
   else (++xref_ptr)->num=c;
 @d no_xref (flags['x']==0)
 @d make_xrefs flags['x'] /* should cross references be output? */
-@d force_lines flags['f'] /* should each statement be on its own line? */
+@d is_tiny(p) ((p+1)->byte_start==(p)->byte_start+1)
 
 @c new_xref(p)
 name_pointer p;
@@ -238,8 +243,8 @@ name_pointer p;
   xref_pointer q; /* pointer to previous cross-reference */
   sixteen_bits m, n; /* new and previous cross-reference value */
   if (no_xref) return;
-  if ((unindexed(p) || length(p)==1) && xref_switch==0) return;
-  m=module_count+xref_switch; xref_switch=0; q=(xref_pointer)p->xref;
+  if ((unindexed(p) || is_tiny(p)) && xref_switch==0) return;
+  m=section_count+xref_switch; xref_switch=0; q=(xref_pointer)p->xref;
   if (q != xmem) {
     n=q->num;
     if (n==m || n==m+def_flag) return;
@@ -250,48 +255,44 @@ name_pointer p;
   append_xref(m); xref_ptr->xlink=q; p->xref=(char*)xref_ptr;
 }
 
-@ The cross-reference lists for module names are slightly different. Suppose
-that a module name is defined in modules $m_1$, \dots, $m_k$ and used in
-modules $n_1$, \dots, $n_l$. Then its list will contain $m_1+|def_flag|{}$,
-$m_k+|def_flag|{}$, \dots, $m_2+|def_flag|{}$, $n_l$, \dots, $n_1$, in
-this order.  After Phase II, however, the order will be
-$m_1+|def_flag|{}$, \dots, $m_k+|def_flag|{}$, $n_1$, \dots, $n_l$.
+@ The cross-reference lists for section names are slightly different.
+Suppose that a section name is defined in sections $m_1$, \dots,
+$m_k$, cited in sections $n_1$, \dots, $n_l$, and used in sections
+$p_1$, \dots, $p_j$.  Then its list will contain $m_1+|def_flag|$,
+\dots, $m_k+|def_flag|$, $n_1+|cite_flag|$, \dots,
+$n_l+|cite_flag|$, $p_1$, \dots, $p_j$, in this order.
 
-@c new_mod_xref(p)
+Although this method of storage take quadratic time on the length of
+the list, under foreseeable uses of \.{WEAVE} this inefficiency is
+insignificant.
+
+@c new_section_xref(p)
 name_pointer p;
 {
   xref_pointer q,r; /* pointers to previous cross-references */
   q=(xref_pointer)p->xref; r=xmem;
-  if (q>xmem) {
-    if (mod_xref_switch==0) while (q->num>=def_flag) {
-      r=q; q=q->xlink;
-    }
-    else {
-      if (q->num==file_flag) {
-      r=q; q=q->xlink;
-      }
-      if (q->num>=def_flag) {
-      r=q; q=q->xlink;
-      }
-    }
-  }
-  append_xref(module_count+mod_xref_switch);
-  xref_ptr->xlink=q; mod_xref_switch=0;
+  if (q>xmem)
+        while (q->num>section_xref_switch) {r=q; q=q->xlink;}
+  if (r->num==section_count+section_xref_switch)
+        return; /* don't duplicate entries */
+  append_xref(section_count+section_xref_switch);
+  xref_ptr->xlink=q; section_xref_switch=0;
   if (r==xmem) p->xref=(char*)xref_ptr;
   else r->xlink=xref_ptr;
 }
 
-@ The cross-reference list for a module name may also begin with
+@ The cross-reference list for a section name may also begin with
 |file_flag|. Here's how that flag gets put~in.
 
 @c set_file_flag(p)
 name_pointer p;
-{@+xref_pointer q;
-q=(xref_pointer)p->xref;
-if (q->num==file_flag) return;
-append_xref(file_flag);
-xref_ptr->xlink = q;
-p->xref = (char *)xref_ptr;
+{
+  xref_pointer q;
+  q=(xref_pointer)p->xref;
+  if (q->num==file_flag) return;
+  append_xref(file_flag);
+  xref_ptr->xlink = q;
+  p->xref = (char *)xref_ptr;
 }
 
 @ A third large area of memory is used for sixteen-bit `tokens', which appear
@@ -320,14 +321,14 @@ text_pointer tok_start_end = tok_start+max_texts-1; /* end of |tok_start| */
 #ifdef STAT
 token_pointer max_tok_ptr; /* largest value of |tok_ptr| */
 text_pointer max_text_ptr; /* largest value of |text_ptr| */
-#endif STAT
+#endif /* |STAT| */
 
 @ @<Set init...@>=
 tok_ptr=tok_mem+1; text_ptr=tok_start+1; tok_start[0]=tok_mem+1;
 tok_start[1]=tok_mem+1;
 #ifdef STAT
 max_tok_ptr=tok_mem+1; max_text_ptr=tok_start+1;
-#endif STAT
+#endif /* |STAT| */
 
 @ Here are the three procedures needed to complete |id_lookup|:
 @c names_match(p,first,l,t)
@@ -393,6 +394,7 @@ id_lookup("long",NULL,int_like);
 id_lookup("line",NULL,if_like);
 id_lookup("include",NULL,if_like);
 id_lookup("offsetof",NULL,sizeof_like);
+id_lookup("ptrdiff_t",NULL,int_like);
 id_lookup("register",NULL,int_like);
 id_lookup("return",NULL,case_like);
 id_lookup("short",NULL,int_like);
@@ -419,8 +421,8 @@ id_lookup("TeX",NULL,custom);
 Let us now consider the subroutines that read the \.{WEB} source file
 and break it into meaningful units. There are four such procedures:
 One simply skips to the next `\.{@@\ }' or `\.{@@*}' that begins a
-module; another passes over the \TeX\ text at the beginning of a
-module; the third passes over the \TeX\ text in a \Cee\ comment;
+section; another passes over the \TeX\ text at the beginning of a
+section; the third passes over the \TeX\ text in a \Cee\ comment;
 and the last, which is the most interesting, gets the next token of
 a \Cee\ text.  They all use the pointers |limit| and |loc| into
 the line of input currently being studied.
@@ -428,7 +430,7 @@ the line of input currently being studied.
 @ Control codes in \.{WEB}, which begin with `\.{@@}', are converted
 into a numeric code designed to simplify \.{CWEAVE}'s logic; for example,
 larger numbers are given to the control codes that denote more significant
-milestones, and the code of |new_module| should be the largest of
+milestones, and the code of |new_section| should be the largest of
 all. Some of these numeric control codes take the place of |char|
 control codes that will not otherwise appear in the output of the
 scanning routines.
@@ -458,8 +460,8 @@ scanning routines.
 @d format_code 0223 /* control code for `\.{@@f}' and `\.{@@s}' */
 @d definition 0224 /* control code for `\.{@@d}' */
 @d begin_C 0225 /* control code for `\.{@@c}' */
-@d module_name 0226 /* control code for `\.{@@<}' */
-@d new_module 0227 /* control code for `\.{@@\ }' and `\.{@@*}' */
+@d section_name 0226 /* control code for `\.{@@<}' */
+@d new_section 0227 /* control code for `\.{@@\ }' and `\.{@@*}' */
 
 @ Control codes are converted to \.{CWEAVE}'s internal
 representation by means of the table |ccode|.
@@ -470,7 +472,7 @@ eight_bits ccode[128]; /* meaning of a char following \.{@@} */
 @ @<Set ini...@>=
 {int c; for (c=0; c<=127; c++) ccode[c]=0;}
 ccode[' ']=ccode['\t']=ccode['\n']=ccode['\v']=ccode['\r']=ccode['\f']
-   =ccode['*']=new_module;
+   =ccode['*']=new_section;
 ccode['@@']='@@'; /* `quoted' at sign */
 ccode['=']=verbatim;
 ccode['d']=ccode['D']=definition;
@@ -478,7 +480,7 @@ ccode['f']=ccode['F']=ccode['s']=ccode['S']=format_code;
 ccode['c']=ccode['C']=ccode['p']=ccode['P']=begin_C;
 ccode['t']=ccode['T']=TeX_string;
 ccode['q']=ccode['Q']=noop;
-ccode['&']=join; ccode['<']=ccode['(']=module_name;
+ccode['&']=join; ccode['<']=ccode['(']=section_name;
 ccode['!']=underline; ccode['^']=xref_roman;
 ccode[':']=xref_wildcard; ccode['.']=xref_typewriter; ccode[',']=thin_space;
 ccode['|']=math_break; ccode['/']=line_break; ccode['#']=big_line_break;
@@ -494,25 +496,25 @@ and off, respectively.
 @<Special control codes...@>=
 #ifdef DEBUG
 ccode['0']=ccode['1']=ccode['2']=trace;
-#endif DEBUG
+#endif /* |DEBUG| */
 
 @ The |skip_limbo| routine is used on the first pass to skip through
-portions of the input that are not in any modules, i.e., that precede
-the first module. After this procedure has been called, the value of
-|input_has_ended| will tell whether or not a module has actually been found.
+portions of the input that are not in any sections, i.e., that precede
+the first section. After this procedure has been called, the value of
+|input_has_ended| will tell whether or not a section has actually been found.
 
 @c skip_limbo() {
   while(1) {
     if (loc>limit && get_line()==0) return;
     *(limit+1)='@@';
     while (*loc!='@@') loc++; /* look for '@@', then skip two chars */
-    if (loc++ <=limit) if (ccode[*loc++]==new_module) return;
+    if (loc++ <=limit) if (ccode[*loc++]==new_section) return;
   }
 }
 
 @ The |skip_TeX| routine is used on the first pass to skip through
-the \TeX\ code at the beginning of a module. It returns the next
-control code or `\.{\v}' found in the input. A |new_module| is
+the \TeX\ code at the beginning of a section. It returns the next
+control code or `\.{\v}' found in the input. A |new_section| is
 assumed to exist at the very end of the file.
 
 @f skip_TeX TeX
@@ -520,7 +522,7 @@ assumed to exist at the very end of the file.
 @c unsigned skip_TeX() /* skip past pure \TeX\ code */
 {
   while (1) {
-    if (loc>limit && get_line()==0) return(new_module);
+    if (loc>limit && get_line()==0) return(new_section);
     *(limit+1)='@@';
     while (*loc!='@@' && *loc!='|') loc++;
     if (*loc++ =='|') return('|');
@@ -543,10 +545,10 @@ table, or it is one of the following special codes:
 in the buffer, as required by the |id_lookup| routine.
 
 \yskip\hang |string|: The string will have been copied into the array
-|mod_text|; |id_first| and |id_loc| are set as above (now they are
-pointers into |mod_text|).
+|section_text|; |id_first| and |id_loc| are set as above (now they are
+pointers into |section_text|).
 
-\yskip\hang |constant|: The constant is copied into |mod_text|, with
+\yskip\hang |constant|: The constant is copied into |section_text|, with
 slight modifications; |id_first| and |id_loc| are set.
 
 \yskip\noindent Furthermore, some of the control codes cause
@@ -556,9 +558,9 @@ slight modifications; |id_first| and |id_loc| are set.
 |verbatim|: The values of |id_first| and |id_loc| will have been set to
 the beginning and ending-plus-one locations in the buffer.
 
-\yskip\hang |module_name|: In this case the global variable |cur_module| will
-point to the |byte_start| entry for the module name that has just been scanned.
-The value of |cur_module_char| will be |'('| if the module name was
+\yskip\hang |section_name|: In this case the global variable |cur_section| will
+point to the |byte_start| entry for the section name that has just been scanned.
+The value of |cur_section_char| will be |'('| if the section name was
 preceded by \.{@@(} instead of \.{@@<}.
 
 \yskip\noindent If |get_next| sees `\.{@@!}'
@@ -569,8 +571,8 @@ it sets |xref_switch| to |def_flag| and goes on to the next token.
 @d identifier 0202 /* \Cee\ identifier or reserved word */
 
 @<Global...@>=
-name_pointer cur_module; /* name of module just scanned */
-char cur_module_char; /* the character just before that name */
+name_pointer cur_section; /* name of section just scanned */
+char cur_section_char; /* the character just before that name */
 
 @ @<Include...@>=
 #include "ctype.h"
@@ -584,12 +586,12 @@ that branches to the various special cases that can arise.
 {@+eight_bits c; /* the current character */
   while (1) {
     @<Check if we're at the end of a preprocessor command@>;
-    if (loc>limit && get_line()==0) return(new_module);
+    if (loc>limit && get_line()==0) return(new_section);
     c=*(loc++);
     if (isdigit(c) || c=='\\' || c=='.') @<Get a constant@>@;
     else if (isalpha(c) || isxalpha(c)) @<Get an identifier@>@;
     else if (c=='\'' || c=='"' || (c=='<' && sharp_include_line==1)) @<Get a string@>@;
-    else if (c=='@@') @<Get control code and possible module name@>@;
+    else if (c=='@@') @<Get control code and possible section name@>@;
     else if (isspace(c)) continue; /* ignore spaces and tabs */
     if (c=='#' && loc==buffer+1) @<Raise preprocessor flag@>;
     mistake: @<Compress two-symbol operator@>@;
@@ -623,16 +625,16 @@ name as a string.
 boolean sharp_include_line=0; /* are we scanning a |#include| line? */
 
 @ @<Check if next token is |include|@>=
-while (loc<=buffer_end-7 & isspace(*loc)) loc++;
+while (loc<=buffer_end-7 && isspace(*loc)) loc++;
 if (loc<=buffer_end-6 && strncmp(loc,"include",7)==0) sharp_include_line=1;
 
 @ When we get to the end of a preprocessor line,
 we lower the flag and send a code \\{right\_preproc}, unless
-the last character was a \.\\. 
+the last character was a \.\\.
 
 @<Check if we're at...@>=
   while (loc==limit-1 && preprocessing && *loc=='\\')
-    if (get_line()==0) return(new_module); /* still in preprocessor mode */
+    if (get_line()==0) return(new_section); /* still in preprocessor mode */
   if (loc>=limit && preprocessing) {
     preprocessing=sharp_include_line=0;
     return(right_preproc);
@@ -640,7 +642,7 @@ the last character was a \.\\.
 
 @ The following code assigns values to the combinations \.{++},
 \.{--}, \.{->}, \.{>=}, \.{<=}, \.{==}, \.{<<}, \.{>>}, \.{!=}, \.{\v\v}, and
-\.{\&\&}.  The compound assignment operators (e.g., \.{+=}) are 
+\.{\&\&}.  The compound assignment operators (e.g., \.{+=}) are
 separate tokens, according to the
 \Ceeref.
 
@@ -673,14 +675,14 @@ and hexadecimal numbers; it is reasonable to stick to each convention
 within its realm.  Thus the \Cee\ part of a \.{WEB} file has octals
 introduced by \.0 and hexadecimals by \.{0x}, but \.{WEAVE} will print
 in italics or typewriter font, respectively, and introduced by single
-or double quotes.  In order to simplify the \TeX\ macro used to print 
+or double quotes.  In order to simplify the \TeX\ macro used to print
 such constants, we replace some of the characters.
 
 Notice that in this section and the next, |id_first| and |id_loc|
-are pointers into the array |mod_text|, not into |buffer|.
+are pointers into the array |section_text|, not into |buffer|.
 
 @<Get a constant@>= {
-  id_first=id_loc=mod_text+1;
+  id_first=id_loc=section_text+1;
   if (*(loc-1)=='\\') {*id_loc++='~';
   while (isdigit(*loc)) *id_loc++=*loc++;} /* octal constant */
   else if (*(loc-1)=='0') {
@@ -711,8 +713,8 @@ convention, but do not allow the string to be longer than |longest_name|.
 
 @<Get a string@>= {
   char delim = c; /* what started the string */
-  id_first = mod_text+1;
-  id_loc = mod_text;
+  id_first = section_text+1;
+  id_loc = section_text;
   if (delim=='\'' && *(loc-2)=='@@') {*++id_loc='@@'; *++id_loc='@@';}
   *++id_loc=delim;
   if (delim=='<') delim='>'; /* for file names in |#include| lines */
@@ -728,19 +730,19 @@ convention, but do not allow the string to be longer than |longest_name|.
       }
     }
     if ((c=*loc++)==delim) {
-      if (++id_loc<=mod_text_end) *id_loc=c;
+      if (++id_loc<=section_text_end) *id_loc=c;
       break;
     }
     if (c=='\\') if (loc>=limit) continue;
-      else if (++id_loc<=mod_text_end) {
+      else if (++id_loc<=section_text_end) {
         *id_loc = '\\'; c=*loc++;
       }
-    if (++id_loc<=mod_text_end) *id_loc=c;
+    if (++id_loc<=section_text_end) *id_loc=c;
   }
-  if (id_loc>=mod_text_end) {
+  if (id_loc>=section_text_end) {
     printf("\n! String too long: ");
 @.String too long@>
-    term_write(mod_text+1,25);
+    term_write(section_text+1,25);
     printf("..."); mark_error;
   }
   id_loc++;
@@ -750,45 +752,46 @@ convention, but do not allow the string to be longer than |longest_name|.
 @ After an \.{@@} sign has been scanned, the next character tells us
 whether there is more work to do.
 
-@<Get control code and possible module name@>= {
+@<Get control code and possible section name@>= {
   c=*loc++;
   switch(ccode[c]) {
     case underline: xref_switch=def_flag; continue;
 #ifdef DEBUG
     case trace: tracing=c-'0'; continue;
-#endif DEBUG
+#endif /* |DEBUG| */
     case xref_roman: case xref_wildcard: case xref_typewriter:
     case noop: case TeX_string: @<Scan to the next \.{@@>}@>;
-    case module_name:
-      @<Scan the module name and make |cur_module| point to it@>;
+    case section_name:
+      @<Scan the section name and make |cur_section| point to it@>;
     case verbatim: @<Scan a verbatim string@>;
     case ord: @<Get a string@>;
     default: return(ccode[c]);
   }
 }
 
-@ The occurrence of a module name sets |xref_switch| to zero,
-because the module name might (for example) follow \&{int}.
+@ The occurrence of a section name sets |xref_switch| to zero,
+because the section name might (for example) follow \&{int}.
 
-@<Scan the module name...@>= {
-  char *k; /* pointer into |mod_text| */
-  cur_module_char=*(loc-1);
-  @<Put module name into |mod_text|@>;
-  if (k-mod_text>3 && strncmp(k-2,"...",3)==0) cur_module=prefix_lookup(mod_text+1,k-3);
-  else cur_module=mod_lookup(mod_text+1,k);
-  xref_switch=0; return(module_name);
+@<Scan the section name...@>= {
+  char *k; /* pointer into |section_text| */
+  cur_section_char=*(loc-1);
+  @<Put section name into |section_text|@>;
+  if (k-section_text>3 && strncmp(k-2,"...",3)==0)
+        cur_section=section_lookup(section_text+1,k-3,1); /* 1 indicates a prefix */
+  else cur_section=section_lookup(section_text+1,k,0);
+  xref_switch=0; return(section_name);
 }
 
-@ Module names are placed into the |mod_text| array with consecutive spaces,
+@ Section names are placed into the |section_text| array with consecutive spaces,
 tabs, and carriage-returns replaced by single spaces. There will be no
-spaces at the beginning or the end. (We set |mod_text[0]=' '| to facilitate
-this, since the |mod_lookup| routine uses |mod_text[1]| as the first
+spaces at the beginning or the end. (We set |section_text[0]=' '| to facilitate
+this, since the |section_lookup| routine uses |section_text[1]| as the first
 character of the name.)
 
-@<Set init...@>=mod_text[0]=' ';
+@<Set init...@>=section_text[0]=' ';
 
-@ @<Put module name...@>=
-k=mod_text;
+@ @<Put section name...@>=
+k=section_text;
 while (1) {
   if (loc>limit && get_line()==0) {
     err_print("! Input ended in section name");
@@ -796,30 +799,34 @@ while (1) {
     loc=buffer+1; break;
   }
   c=*loc;
-  @<If end of name, |break|@>;
-  loc++; if (k<mod_text_end) k++;
+  @<If end of name or erroneous nesting, |break|@>;
+  loc++; if (k<section_text_end) k++;
   if (isspace(c)) {
     c=' '; if (*(k-1)==' ') k--;
   }
 *k=c;
 }
-if (k>=mod_text_end) {
+if (k>=section_text_end) {
   printf("\n! Section name too long: ");
 @.Section name too long@>
-  term_write(mod_text+1,25);
+  term_write(section_text+1,25);
   printf("..."); mark_harmless;
 }
-if (*k==' ' && k>mod_text) k--;
+if (*k==' ' && k>section_text) k--;
 
-@ @<If end of name,...@>=
+@ @<If end of name...@>=
 if (c=='@@') {
   c=*(loc+1);
   if (c=='>') {
     loc+=2; break;
   }
-  if (ccode[c]==new_module) {
+  if (ccode[c]==new_section) {
     err_print("! Section name didn't end"); break;
 @.Section name didn't end@>
+  }
+  if (ccode[c]==section_name) {
+    err_print("! Nesting of section names not allowed"); break;
+@.Nesting of section names...@>
   }
   *(++k)='@@'; loc++; /* now |c==*loc| again */
 }
@@ -855,11 +862,11 @@ buffer.  We also set |loc| to the position just after the ending delimiter.
 We now have accumulated enough subroutines to make it possible to carry out
 \.{WEAVE}'s first pass over the source file. If everything works right,
 both phase one and phase two of \.{WEAVE} will assign the same numbers to
-modules, and these numbers will agree with what \.{TANGLE} does.
+sections, and these numbers will agree with what \.{TANGLE} does.
 
 The global variable |next_control| often contains the most recent output of
 |get_next|; in interesting cases, this will be the control code that
-ended a module or part of a module.
+ended a section or part of a section.
 
 @<Global...@>=
 eight_bits next_control; /* control code waiting to be acting upon */
@@ -868,29 +875,29 @@ eight_bits next_control; /* control code waiting to be acting upon */
 straightforward outline.
 
 @c phase_one() {
-phase=1; reset_input(); module_count=0;
+phase=1; reset_input(); section_count=0;
 skip_limbo(); change_exists=0;
 while (!input_has_ended)
-  @<Store cross-reference data for the current module@>;
-changed_module[module_count]=change_exists;
+  @<Store cross-reference data for the current section@>;
+changed_section[section_count]=change_exists;
   /* the index changes if anything does */
 phase=2; /* prepare for second phase */
-@<Print error messages about unused or undefined module names@>;
+@<Print error messages about unused or undefined section names@>;
 }
 
 @ @<Store cross-reference data...@>=
 {
-  if (++module_count==max_modules) overflow("section number");
-  changed_module[module_count]=changing;
+  if (++section_count==max_sections) overflow("section number");
+  changed_section[section_count]=changing;
      /* it will become 1 if any line changes */
   if (*(loc-1)=='*' && show_progress) {
-    printf("*%d",module_count);
+    printf("*%d",section_count);
     update_terminal; /* print a progress report */
   }
-  @<Store cross-references in the \TeX\ part of a module@>;
-  @<Store cross-references in the definition part of a module@>;
-  @<Store cross-references in the \Cee\ part of a module@>;
-  if (changed_module[module_count]) change_exists=1;
+  @<Store cross-references in the \TeX\ part of a section@>;
+  @<Store cross-references in the definition part of a section@>;
+  @<Store cross-references in the \Cee\ part of a section@>;
+  if (changed_section[section_count]) change_exists=1;
 }
 
 @ The |C_xref| subroutine stores references to identifiers in
@@ -898,19 +905,32 @@ phase=2; /* prepare for second phase */
 and continuing until |next_control| is `\.\{' or `\.{\v}', or until the next
 ``milestone'' is passed (i.e., |next_control>=format_code|). If
 |next_control>=format_code| when |C_xref| is called, nothing will happen;
-but if |next_control="|"| upon entry, the procedure assumes that this is
+but if |next_control=='|'| upon entry, the procedure assumes that this is
 the `\.{\v}' preceding \Cee\ text that is to be processed.
+
+The parameter |spec_ctrl| is used to change this behavior. In most cases
+|C_xref| is called with |spec_ctrl==ignore|, which triggers the default
+processing described above. If |spec_ctrl==section_name|, section names will
+be gobbled. This is used when \Cee\ text in the \TeX\ part or inside comments
+is parsed: It allows for section names to appear in \pb, but these
+strings will not be entered into the cross reference lists since they are not
+definitions of section names.
 
 The program uses the fact that our internal code numbers satisfy
 the relations |xref_roman=identifier+roman| and |xref_wildcard=identifier
 +wildcard| and |xref_typewriter=identifier+typewriter| and |normal=0|.
 
-@c C_xref() /* makes cross-references for \Cee\ identifiers */
+@c C_xref( spec_ctrl ) /* makes cross-references for \Cee\ identifiers */
+  eight_bits spec_ctrl;
 {
   name_pointer p; /* a referenced name */
-  while (next_control<format_code) {
+  while (next_control<format_code || next_control==spec_ctrl) {
     if (next_control>=identifier && next_control<=xref_typewriter) {
       p=id_lookup(id_first, id_loc,next_control-identifier); new_xref(p);
+    }
+    if (next_control==section_name) {
+      section_xref_switch=cite_flag;
+      new_section_xref(cur_section);
     }
     next_control=get_next();
     if (next_control=='|' || next_control==begin_comment) return;
@@ -925,18 +945,18 @@ handles \Cee\ text with embedded comments.
 {
   int bal; /* brace level in comment */
   while (next_control<format_code)
-    if (next_control!=begin_comment) C_xref();
+    if (next_control!=begin_comment) C_xref(ignore);
     else {
       bal=copy_comment(1); next_control='|';
       while (bal>0) {
-        C_xref();
+        C_xref(section_name); /* do not reference section names in comments */
         if (next_control=='|') bal=copy_comment(bal);
         else bal=0; /* an error message will occur in phase two */
       }
     }
 }
 
-@ In the \TeX\ part of a module, cross-reference entries are made only for
+@ In the \TeX\ part of a section, cross-reference entries are made only for
 the identifiers in \Cee\ texts enclosed in \pb, or for control texts
 enclosed in \.{@@\^}$\,\ldots\,$\.{@@>} or \.{@@.}$\,\ldots\,$\.{@@>}
 or \.{@@:}$\,\ldots\,$\.{@@>}.
@@ -947,25 +967,25 @@ while (1) {
     case underline: xref_switch=def_flag; continue;
 #ifdef DEBUG
     case trace: tracing=*(loc-1)-'0'; continue;
-#endif DEBUG
-    case '|': C_xref(); break;
+#endif /* |DEBUG| */
+    case '|': C_xref(section_name); break;
     case xref_roman: case xref_wildcard: case xref_typewriter:
-    case noop: case module_name:
+    case noop: case section_name:
       loc-=2; next_control=get_next(); /* scan to \.{@@>} */
-      if (next_control!=module_name && next_control!=noop)
+      if (next_control!=section_name && next_control!=noop)
         new_xref(id_lookup(id_first, id_loc,next_control-identifier));
       break;
   }
   if (next_control>=format_code) break;
 }
 
-@ During the definition and \Cee\ parts of a module, cross-references
+@ During the definition and \Cee\ parts of a section, cross-references
 are made for all identifiers except reserved words. However, the right
 identifier in a format definition is not referenced, and the left
 identifier is referenced only if it has been explicitly
 underlined (preceded by \.{@@!}).
 The \TeX\ code in comments is, of course, ignored, except for
-\Cee\ portions enclosed in \pb; the text of a module name is skipped
+\Cee\ portions enclosed in \pb; the text of a section name is skipped
 entirely, even if it contains \pb\ constructions.
 
 The variables |lhs| and |rhs| point to the respective identifiers involved
@@ -1016,51 +1036,53 @@ discover should be unindexed.
 |next_control>=begin_C|.
 
 @<Store cross-references in the \Cee...@>=
-if (next_control<=module_name) {  /* |begin_C| or |module_name| */
-  if (next_control==begin_C) mod_xref_switch=0;
+if (next_control<=section_name) {  /* |begin_C| or |section_name| */
+  if (next_control==begin_C) section_xref_switch=0;
   else {
-    mod_xref_switch=def_flag;
-    if(cur_module_char=='(' && cur_module!=name_dir) set_file_flag(cur_module);
+    section_xref_switch=def_flag;
+    if(cur_section_char=='(' && cur_section!=name_dir)
+      set_file_flag(cur_section);
   }
   do {
-    if (next_control==module_name && cur_module!=name_dir) new_mod_xref(cur_module);
+    if (next_control==section_name && cur_section!=name_dir)
+      new_section_xref(cur_section);
     next_control=get_next(); outer_xref();
-  } while ( next_control<=module_name);
+  } while ( next_control<=section_name);
 }
 
 @ After phase one has looked at everything, we want to check that each
-module name was both defined and used.  The variable |cur_xref| will point
-to cross-references for the current module name of interest.
+section name was both defined and used.  The variable |cur_xref| will point
+to cross-references for the current section name of interest.
 
 @<Global...@>=
 xref_pointer cur_xref; /* temporary cross-reference pointer */
 boolean an_output; /* did |file_flag| precede |cur_xref|? */
 
 @ The following recursive procedure
-walks through the tree of module names and prints out anomalies.
+walks through the tree of section names and prints out anomalies.
 @^recursion@>
 
-@c mod_check(p) name_pointer p; /* print anomalies in subtree |p| */
+@c section_check(p) name_pointer p; /* print anomalies in subtree |p| */
 {
   if (p) {
-    mod_check(p->llink);
+    section_check(p->llink);
     cur_xref=(xref_pointer)p->xref;
     if (cur_xref->num==file_flag) {an_output=1; cur_xref=cur_xref->xlink;}
     else an_output=0;
     if (cur_xref->num <def_flag) {
-      printf("\n! Never defined: <"); print_id(p); putchar('>'); mark_harmless;
+      printf("\n! Never defined: <"); print_section_name(p); putchar('>'); mark_harmless;
 @.Never defined: <section name>@>
     }
-    while (cur_xref->num >=def_flag) cur_xref=cur_xref->xlink;
+    while (cur_xref->num >=cite_flag) cur_xref=cur_xref->xlink;
     if (cur_xref==xmem && !an_output) {
-      printf("\n! Never used: <"); print_id(p); putchar('>'); mark_harmless;
+      printf("\n! Never used: <"); print_section_name(p); putchar('>'); mark_harmless;
 @.Never used: <section name>@>
     }
-    mod_check(p->rlink);
+    section_check(p->rlink);
   }
 }
 
-@ @<Print error messages about un...@>=mod_check(root)
+@ @<Print error messages about un...@>=section_check(root)
 
 @* Low-level output routines.
 The \TeX\ output is supposed to appear in lines at most |line_length|
@@ -1187,7 +1209,7 @@ the break.
   }
 }
 
-@ We get to this module only in the unusual case that the entire output line
+@ We get to this section only in the unusual case that the entire output line
 consists of a string of backslashes followed by a string of nonblank
 non-backslashes. In such cases it is almost always safe to break the
 line by putting a |'%'| just before the last character.
@@ -1201,16 +1223,16 @@ line by putting a |'%'| just before the last character.
   flush_buffer(out_ptr-1,1,1); return;
 }
 
-@ Here is a macro that outputs a module number in decimal notation.
-The number to be converted by |out_mod| is known to be less than
+@ Here is a macro that outputs a section number in decimal notation.
+The number to be converted by |out_section| is known to be less than
 |def_flag|, so it cannot have more than five decimal digits.  If
-the module is changed, we output `\.{\\*}' just after the number.
+the section is changed, we output `\.{\\*}' just after the number.
 
-@c out_mod(n) sixteen_bits n;
+@c out_section(n) sixteen_bits n;
 {
   char s[6];
   sprintf(s,"%d",n); out_str(s);
-  if(changed_module[n]) out_str ("\\*");
+  if(changed_section[n]) out_str ("\\*");
 @.\\*@>
 }
 
@@ -1236,7 +1258,7 @@ in phase one.)
 
 
 The |copy_limbo| routine, for example, takes \TeX\ material that is not
-part of any module and transcribes it almost verbatim to the output file.
+part of any section and transcribes it almost verbatim to the output file.
 No `\.{@@}' signs should occur in such material except in `\.{@@@@}'
 pairs; such pairs are replaced by singletons.
 
@@ -1249,7 +1271,7 @@ pairs; such pairs are replaced by singletons.
     while (*loc!='@@') out(*(loc++));
     if (loc++<=limit) {
       c=*loc++;
-      if (ccode[c]==new_module) break;
+      if (ccode[c]==new_section) break;
       if (c!='z' && c!='Z') {
         out('@@');
         if (c!='@@') err_print("! Double @@ required outside of sections");
@@ -1261,7 +1283,7 @@ pairs; such pairs are replaced by singletons.
 
 
 @ The |copy_TeX| routine processes the \TeX\ code at the beginning of a
-module; for example, the words you are now reading were copied in this
+section; for example, the words you are now reading were copied in this
 way. It returns the next control code or `\.{\v}' found in the input.
 We don't copy spaces or tab marks into the beginning of a line. This
 makes the test for empty lines in |finish_line| work.
@@ -1271,7 +1293,7 @@ makes the test for empty lines in |finish_line| work.
 {
   char c; /* current character being copied */
   while (1) {
-    if (loc>limit && (finish_line(), get_line()==0)) return(new_module);
+    if (loc>limit && (finish_line(), get_line()==0)) return(new_section);
     *(limit+1)='@@';
     while ((c=*(loc++))!='|' && c!='@@') {
       out(c);
@@ -1391,7 +1413,7 @@ comma, with penalty 90.
 At each opportunity the longest possible production is applied.
 For example, if the current sequence of scraps is |struct_like|
 |exp| |lbrace| this is transformed into a |struct_head| by rule
-33, but if the sequence is 
+33, but if the sequence is
 |struct_like| |exp| followed by anything other than |lbrace| only
 two scraps are used (by rule 34) to form an |int_like|.
 
@@ -1427,14 +1449,14 @@ same initial letter; these subscripts are assigned from left to right.
 @d lproc 35 /* begins a preprocessor command */
 @d rproc 36 /* ends a preprocessor command */
 @d insert 37 /* a scrap that gets combined with its predecessor */
-@d mod_scrap 38 /* module name */
+@d section_scrap 38 /* section name */
 @d dead 39 /* scrap that won't combine */
 
 @<Glo...@>=
 #ifdef DEBUG
 char cat_name[256][12];
 eight_bits cat_index;
-#endif DEBUG
+#endif /* |DEBUG| */
 
 @ @<Set in...@>=
 #ifdef DEBUG
@@ -1473,12 +1495,12 @@ eight_bits cat_index;
     strcpy(cat_name[sizeof_like],"sizeof");
     strcpy(cat_name[struct_like],"struct");
     strcpy(cat_name[typedef_like],"typedef");
-    strcpy(cat_name[mod_scrap],"mod");
+    strcpy(cat_name[section_scrap],"section");
     strcpy(cat_name[dead],"@@d");
     strcpy(cat_name[begin_arg],"@@[");
     strcpy(cat_name[end_arg],"@@]");
     strcpy(cat_name[0],"zero");
-#endif DEBUG
+#endif /* |DEBUG| */
 
 @ When \.{CWEAVE} is compiled with the |DEBUG| switch, it can display its
 parsing steps.
@@ -1490,7 +1512,7 @@ eight_bits c;
 {
   printf(cat_name[c]);
 }
-#endif DEBUG
+#endif /* |DEBUG| */
 
 @ The token lists for translated \TeX\ output contain some special control
 symbols as well as ordinary characters. These control symbols are
@@ -1537,8 +1559,8 @@ Other control sequences in the \TeX\ output will be `\.{\\\\\{}$\,\ldots\,$\.\}'
 surrounding identifiers, `\.{\\\&\{}$\,\ldots\,$\.\}' surrounding
 reserved words, `\.{\\.\{}$\,\ldots\,$\.\}' surrounding strings,
 `\.{\\C\{}$\,\ldots\,$\.\}$\,$|force|' surrounding comments, and
-`\.{\\X$n$:}$\,\ldots\,$\.{\\X}' surrounding module names, where
-|n| is the module number.
+`\.{\\X$n$:}$\,\ldots\,$\.{\\X}' surrounding section names, where
+|n| is the section number.
 
 @d math_rel 0206
 @d big_cancel 0210 /* like |cancel|, also overrides spaces */
@@ -1672,10 +1694,10 @@ identifier&|exp|: \.{\\\\\{}identifier with underlines quoted\.\}&maybe\cr
 \.{@@\&}&|insert|: \.{\\J}&maybe\cr
 \.{@@t}\thinspace stuff\/\thinspace\.{@@>}&|exp|: \.{\\hbox\{}\thinspace
  stuff\/\thinspace\.\}&maybe\cr
-\.{@@<}\thinspace module name\thinspace\.{@@>}&|mod_scrap|:
- \.{\\X}$n$\.:translated module name\.{\\X}&maybe\cr
-\.{@@(}\thinspace module name\thinspace\.{@@>}&|mod_scrap|:
- \.{\\X}$n$\.{:\\.\{}module name with special characters
+\.{@@<}\thinspace section name\thinspace\.{@@>}&|section_scrap|:
+ \.{\\X}$n$\.:translated section name\.{\\X}&maybe\cr
+\.{@@(}\thinspace section name\thinspace\.{@@>}&|section_scrap|:
+ \.{\\X}$n$\.{:\\.\{}section name with special characters
       quoted\.{\ \}\\X}&maybe\cr
 \.{/*}comment\.{*/}&|insert|: \.{\\C\{}translated comment\.\} |force|&no\cr
 }
@@ -1737,13 +1759,13 @@ scrap_pointer lo_ptr; /* last scrap that has been examined */
 scrap_pointer hi_ptr; /* first scrap that has not been examined */
 #ifdef STAT
 scrap_pointer max_scr_ptr; /* largest value assumed by |scrap_ptr| */
-#endif STAT
+#endif /* |STAT| */
 
 @ @<Set init...@>=
 scrap_base=scrap_info+1;
 #ifdef STAT
 max_scr_ptr=
-#endif STAT
+#endif /* |STAT| */
 scrap_ptr=scrap_info;
 
 @ Token lists in |@!tok_mem| are composed of the following kinds of
@@ -1756,7 +1778,7 @@ items for \TeX\ output.
 
 \item{$\bullet$}|res_flag+p| represents \.{\\\&\{{\rm identifier $p$}\}};
 
-\item{$\bullet$}|mod_flag+p| represents module name |p|;
+\item{$\bullet$}|section_flag+p| represents section name |p|;
 
 \item{$\bullet$}|tok_flag+p| represents token list number |p|;
 
@@ -1765,7 +1787,7 @@ translated without line-break controls.
 
 @d id_flag 10240 /* signifies an identifier */
 @d res_flag 2*id_flag /* signifies a reserved word */
-@d mod_flag 3*id_flag /* signifies a module name */
+@d section_flag 3*id_flag /* signifies a section name */
 @d tok_flag 4*id_flag /* signifies a token list */
 @d inner_tok_flag 5*id_flag /* signifies a token list in `\pb' */
 
@@ -1784,8 +1806,8 @@ text_pointer p;
         /* |id_flag| */
       case 2: printf("\\&{"); print_id((name_dir+r)); printf("}"); break;
         /* |res_flag| */
-      case 3: printf("<"); print_id((name_dir+r)); printf(">"); break;
-        /* |mod_flag| */
+      case 3: printf("<"); print_section_name((name_dir+r)); printf(">"); break;
+        /* |section_flag| */
       case 4: printf("[[%d]]",r); break; /* |tok_flag| */
       case 5: printf("|[[%d]]|",r); break; /* |inner_tok_flag| */
       default: @<Print token |r| in symbolic form@>;
@@ -1793,7 +1815,7 @@ text_pointer p;
   }
   fflush(stdout);
 }
-#endif DEBUG
+#endif /* |DEBUG| */
 
 @ @<Print token |r|...@>=
 switch (r) {
@@ -1894,7 +1916,7 @@ int cur_mathness, init_mathness;
 
 @ @c app_str(s)
 char *s;
-{ 
+{
   while (*s) app_tok(*(s++));
 }
 big_app(a)
@@ -1975,7 +1997,7 @@ code needs to be provided with a proper environment.
     case tag: @<Cases for |tag|@>; @+break;
     case semi: @<Cases for |semi|@>; @+break;
     case lproc: @<Cases for |lproc|@>; @+break;
-    case mod_scrap: @<Cases for |mod_scrap|@>; @+break;
+    case section_scrap: @<Cases for |section_scrap|@>; @+break;
     case insert: @<Cases for |insert|@>; @+break;
   }
   pp++; /* if no match was found, we move to the right */
@@ -2008,7 +2030,7 @@ text_pointer p;
       case 4: case 5: /* |tok_flag| or |inner_tok_flag| */
         if ((q=find_first_ident(tok_start+r))!=no_ident_found)
           return q;
-      default: ; /* |res_flag|, |mod_flag|, |tok_flag|: move on to next token */
+      default: ; /* |res_flag|, |section_flag|, |tok_flag|: move on to next token */
     }
   }
   return no_ident_found;
@@ -2071,7 +2093,7 @@ name_pointer p;
   sixteen_bits n; /* cross-reference value being examined */
   if (no_xref) return;
   xref_switch=def_flag;
-  m=module_count+xref_switch;
+  m=section_count+xref_switch;
   while (q != xmem) {
     n=q->num;
     if (n==m) return;
@@ -2084,9 +2106,9 @@ name_pointer p;
   @<Insert new cross-reference at |q|, not at beginning of list@>;
 }
 
-@ We get to this module only when the identifier is one letter long,
+@ We get to this section only when the identifier is one letter long,
 so it didn't get a non-underlined entry during phase one.  But it may
-have got some explicitly underlined entries in later modules, so in order
+have got some explicitly underlined entries in later sections, so in order
 to preserve the numerical order of the entries in the index, we have
 to insert the new cross-reference not at the beginning of the list
 (namely, at |p->xref|), but rather right before |q|.
@@ -2233,7 +2255,7 @@ else if (cat1==exp||cat1==int_like) {
 @ @<Cases for |struct_head|@>=
 if ((cat1==decl || cat1==stmt) && cat2==rbrace) {
   big_app1(pp); big_app(indent); big_app(force); big_app1(pp+1);
-  big_app(outdent); big_app(force);  big_app1(pp+2); 
+  big_app(outdent); big_app(force);  big_app1(pp+2);
   reduce(pp,3,int_like,-1,35);
 }
 
@@ -2253,12 +2275,12 @@ if (cat1==function || cat1==decl) {
 
 @ @<Cases for |lbrace|@>=
 if (cat1==rbrace) {
-  big_app1(pp); app('\\'); app(','); big_app1(pp+1); 
+  big_app1(pp); app('\\'); app(','); big_app1(pp+1);
   reduce(pp,2,stmt,-1,39);
 }
 else if (cat1==stmt && cat2==rbrace) {
   big_app(force); big_app1(pp);  big_app(indent); big_app(force);
-  big_app1(pp+1); big_app(force); big_app(backup);  big_app1(pp+2); 
+  big_app1(pp+1); big_app(force); big_app(backup);  big_app1(pp+2);
   big_app(outdent); big_app(force); reduce(pp,3,stmt,-1,40);
 }
 else if (cat1==exp) {
@@ -2325,7 +2347,11 @@ else if (cat1==stmt) {
   big_app1(pp+1); reduce(pp,2,stmt,-1,54);
 }
 
-@ @<Cases for |stmt|@>=
+@ The user can decide at run-time whether short statements should be
+grouped together on the same line.
+
+@d force_lines flags['f'] /* should each statement be on its own line? */
+@<Cases for |stmt|@>=
 if (cat1==stmt) {
   big_app1(pp);
   if (force_lines) big_app(force);
@@ -2352,7 +2378,7 @@ else if (cat1==exp || cat1==function) {
   }
 }
 
-@ @<Cases for |mod_scrap|@>=
+@ @<Cases for |section_scrap|@>=
 if (cat1==semi) {
   big_app2(pp); big_app(force); reduce(pp,2,stmt,-2,60);
 }
@@ -2441,13 +2467,13 @@ while (1) {
   if (tok_ptr+safe_tok_incr>tok_mem_end) {
 #ifdef STAT
     if (tok_ptr>max_tok_ptr) max_tok_ptr=tok_ptr;
-#endif STAT
+#endif /* |STAT| */
     overflow("token");
   }
   if (text_ptr+safe_text_incr>tok_start_end) {
 #ifdef STAT
     if (text_ptr>max_text_ptr) max_text_ptr=text_ptr;
-#endif STAT
+#endif /* |STAT| */
     overflow("text");
   }
   if (pp>lo_ptr) break;
@@ -2475,7 +2501,7 @@ a sequence of two or more irreducible scraps will be printed out when
 @<Global...@>=
 #ifdef DEBUG
 int tracing; /* can be used to show parsing details */
-#endif DEBUG
+#endif /* |DEBUG| */
 
 @ @<Print a snapsh...@>=
 #ifdef DEBUG
@@ -2493,7 +2519,7 @@ int tracing; /* can be used to show parsing details */
     if (hi_ptr<=scrap_ptr) printf("..."); /* indicate that more is coming */
   }
 }
-#endif DEBUG
+#endif /* |DEBUG| */
 
 @ The |translate| function assumes that scraps have been stored in
 positions |scrap_base| through |scrap_ptr| of |cat| and |trans|. It
@@ -2538,14 +2564,14 @@ where appropriate.
 @ @<If semi-tracing, show the irreducible scraps@>=
 #ifdef DEBUG
 if (lo_ptr>scrap_base && tracing==1) {
-  printf("\nIrreducible scrap sequence in section %d:",module_count);
+  printf("\nIrreducible scrap sequence in section %d:",section_count);
 @.Irreducible scrap sequence...@>
   mark_harmless;
   for (j=scrap_base; j<=lo_ptr; j++) {
     printf(" "); print_cat(j->cat);
   }
 }
-#endif DEBUG
+#endif /* |DEBUG| */
 
 @ @<If tracing,...@>=
 #ifdef DEBUG
@@ -2558,7 +2584,7 @@ if (tracing==2) {
   }
   else term_write(buffer,loc-buffer);
 }
-#endif DEBUG
+#endif /* |DEBUG| */
 
 @* Initializing the scraps.
 If we are going to use the powerful production mechanism just developed, we
@@ -2575,11 +2601,12 @@ repeatedly to read \Cee\ text until encountering the next `\.{\v}' or
 it reads are appended into the |cat| and |trans| arrays, and |scrap_ptr|
 is advanced.
 
-@c C_parse() /* creates scraps from \Cee\ tokens */
+@c C_parse(spec_ctrl) /* creates scraps from \Cee\ tokens */
+  eight_bits spec_ctrl;
 {
   name_pointer p; /* identifier designator */
   int count; /* characters remaining before string break */
-  while (next_control<format_code) {
+  while (next_control<format_code || next_control==spec_ctrl) {
     @<Append the scrap appropriate to |next_control|@>;
     next_control=get_next();
     if (next_control=='|' || next_control==begin_comment) return;
@@ -2596,6 +2623,10 @@ freeze_text;
 @ @<Append the scr...@>=
 @<Make sure that there is room for the new scraps, tokens, and texts@>;
 switch (next_control) {
+  case section_name:
+    app(section_flag+cur_section-name_dir);
+    app_scrap(section_scrap,maybe_math);
+    app_scrap(exp,yes_math);@+break;
   case string: case constant: case verbatim: @<Append a string or constant@>;
    @+break;
   case identifier: @<Append an identifier scrap@>;@+break;
@@ -2659,7 +2690,7 @@ if (scrap_ptr+safe_scrap_incr>scrap_info_end ||
   if (scrap_ptr>max_scr_ptr) max_scr_ptr=scrap_ptr;
   if (tok_ptr>max_tok_ptr) max_tok_ptr=tok_ptr;
   if (text_ptr>max_text_ptr) max_text_ptr=text_ptr;
-#endif STAT
+#endif /* |STAT| */
   overflow("scrap/token/text");
 }
 
@@ -2741,9 +2772,9 @@ else if (p->ilk<=quoted) { /* |custom| or |quoted| */
     if (isxalpha(*(id_first-1))) app_tok('x')
     else app_tok(*(id_first-1));
   }
-  app_scrap(exp,yes_math);  
+  app_scrap(exp,yes_math);
 @.\\NULL@>
-}  
+}
 else {
   app(res_flag+p-name_dir);
   app_scrap(p->ilk,maybe_math);
@@ -2759,7 +2790,7 @@ unaffected by this translation process.
   text_pointer p; /* points to the translation */
   scrap_pointer save_base; /* holds original value of |scrap_base| */
   save_base=scrap_base; scrap_base=scrap_ptr+1;
-  C_parse(); /* get the scraps together */
+  C_parse(section_name); /* get the scraps together */
   if (next_control!='|') err_print("! Missing '|' after C text");
 @.Missing '|'...@>
   app_tok(cancel); app_scrap(insert,maybe_math);
@@ -2767,7 +2798,7 @@ unaffected by this translation process.
   p=translate(); /* make the translation */
 #ifdef STAT
  if (scrap_ptr>max_scr_ptr) max_scr_ptr=scrap_ptr;
-#endif STAT
+#endif /* |STAT| */
   scrap_ptr=scrap_base-1; scrap_base=save_base; /* scrap the scraps */
   return(p);
 }
@@ -2781,7 +2812,7 @@ until |next_control>=format_code|. Thus, it takes care of embedded comments.
   int bal; /* brace level in comment */
   text_pointer p, q; /* partial comments */
   while (next_control<format_code)
-    if (next_control!=begin_comment) C_parse();
+    if (next_control!=begin_comment) C_parse(ignore);
     else {
       @<Make sure that there is room for the new...@>;
       app(cancel); app_str("\\C{");
@@ -2842,7 +2873,7 @@ token is found, so the stack is never empty except when we first begin the
 output process.
 
 @d inner 0 /* value of |mode| for \Cee\ texts within \TeX\ texts */
-@d outer 1 /* value of |mode| for \Cee\ texts in modules */
+@d outer 1 /* value of |mode| for \Cee\ texts in sections */
 
 @<Typed...@>= typedef int mode;
 typedef struct {
@@ -2864,12 +2895,12 @@ stack_pointer stack_ptr; /* first unused location in the output state stack */
 stack_pointer stack_end=stack+stack_size-1; /* end of |stack| */
 #ifdef STAT
 stack_pointer max_stack_ptr; /* largest value assumed by |stack_ptr| */
-#endif STAT
+#endif /* |STAT| */
 
 @ @<Set init...@>=
 #ifdef STAT
 max_stack_ptr=stack;
-#endif STAT
+#endif /* |STAT| */
 
 @ To insert token-list |p| into the output, the |push_level| subroutine
 is called; it saves the old level of output and gets a new one going.
@@ -2887,7 +2918,7 @@ text_pointer p;
   stack_ptr++;
 #ifdef STAT
   if (stack_ptr>max_stack_ptr) max_stack_ptr=stack_ptr;
-#endif STAT
+#endif /* |STAT| */
   cur_tok=*p; cur_end=*(p+1);
 }
 
@@ -2903,17 +2934,17 @@ called when |stack_ptr=1|.
 
 @ The |get_output| function returns the next byte of output that is not a
 reference to a token list. It returns the values |identifier| or |res_word|
-or |mod_name| if the next token is to be an identifier (typeset in
-italics), a reserved word (typeset in boldface) or a module name (typeset
+or |section_code| if the next token is to be an identifier (typeset in
+italics), a reserved word (typeset in boldface) or a section name (typeset
 by a complex routine that might generate additional levels of output).
-In these cases |cur_name| points to the identifier or module name in
+In these cases |cur_name| points to the identifier or section name in
 question.
 
 @<Global...@>=
 name_pointer cur_name;
 
 @ @d res_word 0201 /* returned by |get_output| for reserved words */
-@d mod_name 0200 /* returned by |get_output| for module names */
+@d section_code 0200 /* returned by |get_output| for section names */
 
 @c eight_bits get_output() /* returns the next token of output */
 {
@@ -2924,7 +2955,7 @@ name_pointer cur_name;
     cur_name=a % id_flag + name_dir;
     switch (a / id_flag) {
       case 2: return(res_word); /* |a==res_flag+cur_name| */
-      case 3: return(mod_name); /* |a==mod_flag+cur_name| */
+      case 3: return(section_code); /* |a==section_flag+cur_name| */
       case 4: push_level(a % id_flag + tok_start); goto restart;
         /* |a==tok_flag+cur_name| */
       case 5: push_level(a % id_flag + tok_start); cur_mode=inner; goto restart;
@@ -2939,15 +2970,15 @@ name_pointer cur_name;
 This procedure appends an |end_translation| token to the current token list,
 and then it repeatedly calls |get_output| and feeds characters to the output
 buffer until reaching the |end_translation| sentinel. It is possible for
-|make_output| to be called recursively, since a module name may include
+|make_output| to be called recursively, since a section name may include
 embedded \Cee\ text; however, the depth of recursion never exceeds one
-level, since module names cannot be inside of module names.
+level, since section names cannot be inside of section names.
 
 A procedure called |output_C| does the scanning, translation, and
 output of \Cee\ text within `\pb' brackets, and this procedure uses
 |make_output| to output the current token list. Thus, the recursive call
 of |make_output| actually occurs when |make_output| calls |output_C|
-while outputting the name of a module.
+while outputting the name of a section.
 @^recursion@>
 
 @c
@@ -2964,7 +2995,7 @@ output_C() /* outputs the current token list */
 #ifdef STAT
   if (text_ptr>max_text_ptr) max_text_ptr=text_ptr;
   if (tok_ptr>max_tok_ptr) max_tok_ptr=tok_ptr;
-#endif STAT
+#endif /* |STAT| */
   text_ptr=save_text_ptr; tok_ptr=save_tok_ptr; /* forget the tokens */
   next_control=save_next_control; /* restore |next_control| to original state */
 }
@@ -2980,7 +3011,8 @@ output_C() /* outputs the current token list */
   char *j; /* index into |buffer| */
   char delim; /* first and last character of string being copied */
   char *save_loc, *save_limit; /* |loc| and |limit| to be restored */
-  name_pointer cur_mod_name; /* name of module being output */
+  char scratch[longest_name]; /* scratch area for section names */
+  name_pointer cur_section_name; /* name of section being output */
   boolean save_mode; /* value of |cur_mode| before a sequence of breaks */
   app(end_translation); /* append a sentinel */
   freeze_text; push_level(text_ptr-1);
@@ -2989,7 +3021,7 @@ output_C() /* outputs the current token list */
     reswitch: switch(a) {
       case end_translation: return;
       case identifier: case res_word: @<Output an identifier@>; break;
-      case mod_name: @<Output a module name@>; break;
+      case section_code: @<Output a section name@>; break;
       case math_rel: out_str("\\mathrel{");
       case noop: break;
       case cancel: case big_cancel: c=0; b=a;
@@ -3016,7 +3048,7 @@ narrower) text-italic font. Thus we output `\.{\\\v}\.{a}' but
 @<Output an identifier@>=
 out('\\');
 if (a==identifier) {
-  if (length(cur_name)==1) out('|')
+  if (is_tiny(cur_name)) out('|')
 @.\\|@>
   else { delim='.';
     for (j=cur_name->byte_start;j<(cur_name+1)->byte_start;j++)
@@ -3030,7 +3062,7 @@ if (a==identifier) {
 }
 else out('&') /* |a==res_word| */
 @.\\\&@>
-if (length(cur_name)==1) {
+if (is_tiny(cur_name)) {
   if (isxalpha((cur_name->byte_start)[0]))
     out('\\');
   out((cur_name->byte_start)[0]);
@@ -3097,41 +3129,43 @@ is suppressed (i.e., a line break that follows `\.{\\Y\\B}').
 @.\\2@>
 
 @ The remaining part of |make_output| is somewhat more complicated. When we
-output a module name, we may need to enter the parsing and translation
+output a section name, we may need to enter the parsing and translation
 routines, since the name may contain \Cee\ code embedded in
 \pb\ constructions. This \Cee\ code is placed at the end of the active
 input buffer and the translation process uses the end of the active
 |tok_mem| area.
 
-@<Output a module name@>= {
+@<Output a section name@>= {
   out_str("\\X");
 @.\\X@>
   cur_xref=(xref_pointer)cur_name->xref;
   if (cur_xref->num==file_flag) {an_output=1; cur_xref=cur_xref->xlink;}
   else an_output=0;
   if (cur_xref->num>=def_flag) {
-    out_mod(cur_xref->num-def_flag);
+    out_section(cur_xref->num-def_flag);
     if (phase==3) {
       cur_xref=cur_xref->xlink;
       while (cur_xref->num>=def_flag) {
         out_str(", ");
-        out_mod(cur_xref->num-def_flag);
+        out_section(cur_xref->num-def_flag);
       cur_xref=cur_xref->xlink;
       }
     }
   }
-  else out('0'); /* output the module number, or zero if it was undefined */
+  else out('0'); /* output the section number, or zero if it was undefined */
   out(':');
   if (an_output) out_str("\\.{");
 @.\\.@>
-  @<Output the text of the module name@>;
+  @<Output the text of the section name@>;
   if (an_output) out_str(" }");
   out_str("\\X");
 }
 
 @ @<Output the text...@>=
-k=cur_name->byte_start; k_limit=(cur_name+1)->byte_start;
-cur_mod_name=cur_name;
+sprint_section_name(scratch,cur_name);
+k=scratch;
+k_limit=scratch+strlen(scratch);
+cur_section_name=cur_name;
 while (k<k_limit) {
   b=*(k++);
   if (b=='@@') @<Skip next character, give error if not `\.{@@}'@>;
@@ -3155,7 +3189,7 @@ while (k<k_limit) {
 if (*k++!='@@') {
   printf("\n! Illegal control code in section name: <");
 @.Illegal control code...@>
-  print_id(cur_mod_name); printf("> "); mark_error;
+  print_section_name(cur_section_name); printf("> "); mark_error;
 }
 
 @ The \Cee\ text enclosed in \pb\ should not contain `\.{\v}' characters,
@@ -3170,7 +3204,7 @@ while (1) {
   if (k>=k_limit) {
     printf("\n! C text in section name didn't end: <");
 @.C text...didn't end@>
-    print_id(cur_mod_name); printf("> "); mark_error; break;
+    print_section_name(cur_section_name); printf("> "); mark_error; break;
   }
   b=*(k++);
   if (b=='@@') @<Copy a control code into the buffer@>
@@ -3201,16 +3235,16 @@ actually output the \TeX\ material instead of merely looking at the
 @c phase_two() {
 reset_input(); if (show_progress) printf("\nWriting the output file...");
 @.Writing the output file...@>
-module_count=0; format_visible=1; copy_limbo();
+section_count=0; format_visible=1; copy_limbo();
 finish_line(); flush_buffer(out_buf,0,0); /* insert a blank line, it looks nice */
-while (!input_has_ended) @<Translate the current module@>;
+while (!input_has_ended) @<Translate the current section@>;
 }
 
 @ The output file will contain the control sequence \.{\\Y} between non-null
-sections of a module, e.g., between the \TeX\ and definition parts if both
+sections of a section, e.g., between the \TeX\ and definition parts if both
 are nonempty. This puts a little white space between the parts when they are
 printed. However, we don't want \.{\\Y} to occur between two definitions
-within a single module. The variables |out_line| or |out_ptr| will
+within a single section. The variables |out_line| or |out_ptr| will
 change if a section is non-null, so the following macros `|save_position|'
 and `|emit_space_if_needed|' are able to handle the situation:
 
@@ -3226,21 +3260,21 @@ char *save_place; /* former value of |out_ptr| */
 boolean space_checked; /* have we done |emit_space_if_needed|? */
 boolean format_visible; /* should the next format declaration be output? */
 
-@ @<Translate the current module@>= {
-  module_count++;
-  @<Output the code for the beginning of a new module@>;
+@ @<Translate the current section@>= {
+  section_count++;
+  @<Output the code for the beginning of a new section@>;
   save_position;
-  @<Translate the \TeX\ part of the current module@>;
-  @<Translate the definition part of the current module@>;
-  @<Translate the \Cee\ part of the current module@>;
-  @<Show cross-references to this module@>;
-  @<Output the code for the end of a module@>;
+  @<Translate the \TeX\ part of the current section@>;
+  @<Translate the definition part of the current section@>;
+  @<Translate the \Cee\ part of the current section@>;
+  @<Show cross-references to this section@>;
+  @<Output the code for the end of a section@>;
 }
 
-@ Modules beginning with the \.{WEB} control sequence `\.{@@\ }' start in the
-output with the \TeX\ control sequence `\.{\\M}', followed by the module
-number. Similarly, `\.{@@*}' modules lead to the control sequence `\.{\\N}'.
-If this is a changed module, we put \.{*} just before the module number.
+@ Sections beginning with the \.{WEB} control sequence `\.{@@\ }' start in the
+output with the \TeX\ control sequence `\.{\\M}', followed by the section
+number. Similarly, `\.{@@*}' sections lead to the control sequence `\.{\\N}'.
+If this is a changed section, we put \.{*} just before the section number.
 
 @<Output the code for the beginning...@>=
 if (*(loc-1)!='*') out_str("\\M");
@@ -3249,11 +3283,11 @@ else {
   out_str("\\N");
 @.\\N@>
   if (show_progress)
-  printf("*%d",module_count); update_terminal; /* print a progress report */
+  printf("*%d",section_count); update_terminal; /* print a progress report */
 }
-out_mod(module_count); out_str(". ");
+out_section(section_count); out_str(". ");
 
-@ In the \TeX\ part of a module, we simply copy the source text, except that
+@ In the \TeX\ part of a section, we simply copy the source text, except that
 index entries are not copied and \Cee\ text within \pb\ is translated.
 
 @<Translate the \T...@>= do {
@@ -3263,7 +3297,7 @@ index entries are not copied and \Cee\ text within \pb\ is translated.
     case '@@': out('@@'); break;
     case TeX_string: case noop:
     case xref_roman: case xref_wildcard: case xref_typewriter:
-    case module_name: loc-=2; next_control=get_next(); /* skip to \.{@@>} */
+    case section_name: loc-=2; next_control=get_next(); /* skip to \.{@@>} */
       if (next_control==TeX_string)
         err_print("! TeX string should be in C text only"); break;
 @.TeX string should be...@>
@@ -3319,7 +3353,7 @@ takes place, so that the translation will normally end with \.{\\6} or
   if (text_ptr>max_text_ptr) max_text_ptr=text_ptr;
   if (tok_ptr>max_tok_ptr) max_tok_ptr=tok_ptr;
   if (scrap_ptr>max_scr_ptr) max_scr_ptr=scrap_ptr;
-#endif STAT
+#endif /* |STAT| */
   tok_ptr=tok_mem+1; text_ptr=tok_start+1; scrap_ptr=scrap_info;
     /* forget the tokens and the scraps */
 }
@@ -3377,25 +3411,25 @@ it starts after we scan the matching `\.)'.
 }
 
 @ Finally, when the \TeX\ and definition parts have been treated, we have
-|next_control>=begin_C|. We will make the global variable |this_module|
-point to the current module name, if it has a name.
+|next_control>=begin_C|. We will make the global variable |this_section|
+point to the current section name, if it has a name.
 
 @<Global...@>=
-name_pointer this_module; /* the current module name, or zero */
+name_pointer this_section; /* the current section name, or zero */
 
 @ @<Translate the \Cee...@>=
-this_module=name_dir;
-if (next_control<=module_name) {
+this_section=name_dir;
+if (next_control<=section_name) {
   emit_space_if_needed; init_stack;
   if (next_control==begin_C) next_control=get_next();
   else {
-    this_module=cur_module;
-    @<Check that |=| or |==| follows this module name, and
-      emit the scraps to start the module definition@>;
+    this_section=cur_section;
+    @<Check that |=| or |==| follows this section name, and
+      emit the scraps to start the section definition@>;
   }
-  while  (next_control<=module_name) {
+  while  (next_control<=section_name) {
     outer_parse();
-    @<Emit the scrap for a module name if present@>;
+    @<Emit the scrap for a section name if present@>;
   }
   finish_C(1);
 }
@@ -3408,15 +3442,15 @@ if (next_control!='=' && next_control!=eq_eq)
 @.You need an = sign...@>
   else next_control=get_next();
 if (out_ptr>out_buf+1 && *out_ptr=='Y' && *(out_ptr-1)=='\\') app(backup);
-    /* the module name will be flush left */
+    /* the section name will be flush left */
 @.\\Y@>
-app(mod_flag+this_module-name_dir);
-cur_xref=(xref_pointer)this_module->xref;
+app(section_flag+this_section-name_dir);
+cur_xref=(xref_pointer)this_section->xref;
 if(cur_xref->num==file_flag) cur_xref=cur_xref->xlink;
 app_str("${}");
-if (cur_xref->num!=module_count+def_flag) {
-  app_str("\\mathrel+"); /*module name is multiply defined*/
-  this_module=name_dir; /*so we won't give cross-reference info here*/
+if (cur_xref->num!=section_count+def_flag) {
+  app_str("\\mathrel+"); /*section name is multiply defined*/
+  this_section=name_dir; /*so we won't give cross-reference info here*/
 }
 app_str("\\E"); /* output an equivalence sign */
 @.\\E@>
@@ -3425,78 +3459,52 @@ app(force); app_scrap(stmt,no_math);
  /* this forces a line break unless `\.{@@+}' follows */
 
 @ @<Emit the scrap...@>=
-if (next_control<module_name) {
+if (next_control<section_name) {
   err_print("! You can't do that in C text");
 @.You can't do that...@>
   next_control=get_next();
 }
-else if (next_control==module_name) {
-  app(mod_flag+cur_module-name_dir); app_scrap(mod_scrap,maybe_math);
+else if (next_control==section_name) {
+  app(section_flag+cur_section-name_dir); app_scrap(section_scrap,maybe_math);
   next_control=get_next();
 }
 
-@ Cross references relating to a named module are given after the module ends.
+@ Cross references relating to a named section are given
+after the section ends.
 
 @<Show cross...@>=
-if (this_module>name_dir) {
-  @<Rearrange the list pointed to by |cur_xref|@>;
-  footnote(def_flag); footnote(0);
-}
-
-@ To rearrange the order of the linked list of cross-references, we need
-four more variables that point to cross-reference entries.  We'll end up
-with a list pointed to by |cur_xref|.
-
-@<Global...@>=
-xref_pointer next_xref, this_xref, first_xref, mid_xref;
-  /* pointer variables for rearranging a list */
-
-@ We want to rearrange the cross-reference list so that all the entries with
-|def_flag| come first, in ascending order; then come all the other
-entries, in ascending order.  There may be no entries in either one or both
-of these categories.
-
-@<Rearrange the list...@>=
-  first_xref=(xref_pointer)this_module->xref;
-  if (first_xref->num==file_flag){an_output=1;first_xref=first_xref->xlink;}
+if (this_section>name_dir) {
+  cur_xref=(xref_pointer)this_section->xref;
+  if (cur_xref->num==file_flag){an_output=1;cur_xref=cur_xref->xlink;}
   else an_output=0;
-  this_xref=first_xref->xlink; /* bypass current module number */
-  if (this_xref->num>def_flag) {
-    mid_xref=this_xref; cur_xref=0; /* this value doesn't matter */
-  do {
-    next_xref=this_xref->xlink; this_xref->xlink=cur_xref;
-    cur_xref=this_xref; this_xref=next_xref;
-  } while (this_xref->num>def_flag);
-  first_xref->xlink=cur_xref;
+  if (cur_xref->num>def_flag)
+    cur_xref=cur_xref->xlink; /* bypass current section number */
+  footnote(def_flag); footnote(cite_flag); footnote(0);
 }
-else mid_xref=xmem; /* first list null */
-cur_xref=xmem;
-while (this_xref!=xmem) {
-  next_xref=this_xref->xlink; this_xref->xlink=cur_xref;
-  cur_xref=this_xref; this_xref=next_xref;
-}
-if (mid_xref>xmem) mid_xref->xlink=cur_xref;
-else first_xref->xlink=cur_xref;
-cur_xref=first_xref->xlink;
 
 @ The |footnote| procedure gives cross-reference information about
-multiply defined module names (if the |flag| parameter is |def_flag|), or about
-the uses of a module name (if the |flag| parameter is zero). It assumes that
+multiply defined section names (if the |flag| parameter is
+|def_flag|), or about references to a section name
+(if |flag==cite_flag|), or to its uses (if |flag==0|). It assumes that
 |cur_xref| points to the first cross-reference entry of interest, and it
 leaves |cur_xref| pointing to the first element not printed.  Typical outputs:
 `\.{\\A101.}'; `\.{\\Us 370\\ET1009.}';
-`\.{\\As 8, 27\\*, \\ETs64.}'.
+`\.{\\As 8, 27\\*\\ETs64.}'.
 
-@c footnote(flag) /* outputs module cross-references */
+Note that the output of \.{CWEAVE} is not English-specific; users may
+supply new definitions for the macros \.{\\A}, \.{\\As}, etc.
+
+@c footnote(flag) /* outputs section cross-references */
 sixteen_bits flag;
 {
   xref_pointer q; /* cross-reference pointer variable */
   if (cur_xref->num<=flag) return;
   finish_line(); out('\\');
 @.\\A@>
+@.\\Q@>
 @.\\U@>
-  if (flag==0) out('U')@+else out('A');
-  @<Output all the module numbers on the reference list |cur_xref|@>;
+  out(flag==0? 'U': flag==cite_flag? 'Q': 'A');
+  @<Output all the section numbers on the reference list |cur_xref|@>;
   out('.');
 }
 
@@ -3504,10 +3512,10 @@ sixteen_bits flag;
 of cross-references is one, two, or more than two. Variable |q| points
 to the first cross-reference, and the last link is a zero.
 
-@<Output all the module numbers...@>=
+@<Output all the section numbers...@>=
 q=cur_xref; if (q->xlink->num>flag) out('s'); /* plural */
 while (1) {
-  out_mod(cur_xref->num-flag);
+  out_section(cur_xref->num-flag);
   cur_xref=cur_xref->xlink; /* point to the next cross-reference to output */
   if (cur_xref->num<=flag) break;
   if (cur_xref->xlink->num>flag) out_str(", "); /* not the last */
@@ -3516,7 +3524,7 @@ while (1) {
   }
 }
 
-@ @<Output the code for the end of a module@>=
+@ @<Output the code for the end of a section@>=
 out_str("\\fi"); finish_line();
 @.\\fi@>
 flush_buffer(out_buf,0,0); /* insert a blank line, it looks nice */
@@ -3526,7 +3534,7 @@ We are nearly finished! \.{WEAVE}'s only remaining task is to write out the
 index, after sorting the identifiers and index entries.
 
 If the user has set the |no_xref| flag (the |-x| option on the command line),
-just finish off the page, omitting the index, module name list, and table of
+just finish off the page, omitting the index, section name list, and table of
 contents.
 
 @c phase_three() {
@@ -3539,7 +3547,7 @@ else {
   phase=3; if (show_progress) printf("\nWriting the index...");
 @.Writing the index...@>
   if (change_exists) {
-    finish_line(); @<Tell about changed modules@>;
+    finish_line(); @<Tell about changed sections@>;
   }
   finish_line(); out_str("\\inx"); finish_line();
 @.\\inx@>
@@ -3547,7 +3555,7 @@ else {
   @<Sort and output the index@>;
   out_str("\\fin"); finish_line();
 @.\\fin@>
-  @<Output all the module names@>;
+  @<Output all the section names@>;
   out_str("\\con"); finish_line();
 @.\\con@>
 }
@@ -3555,22 +3563,22 @@ if (show_happiness) printf("\nDone.");
 check_complete(); /* was all of the change file used? */
 }
 
-@ Just before the index comes a list of all the changed modules, including
-the index module itself.
+@ Just before the index comes a list of all the changed sections, including
+the index section itself.
 
 @<Global...@>=
-sixteen_bits k_module; /* runs through the modules */
+sixteen_bits k_section; /* runs through the sections */
 
-@ @<Tell about changed modules@>= {
+@ @<Tell about changed sections@>= {
   /* remember that the index is already marked as changed */
-  k_module=0;
-  while (!changed_module[++k_module]);
+  k_section=0;
+  while (!changed_section[++k_section]);
   out_str("\\ch ");
-  out_mod(k_module);
+  out_section(k_section);
   while (1) {
-    while (!changed_module[++k_module]);
-    out_str(", "); out_mod(k_module);
-    if (k_module==module_count) break;
+    while (!changed_section[++k_section]);
+    out_str(", "); out_section(k_section);
+    if (k_section==section_count) break;
   }
   out('.');
 }
@@ -3635,12 +3643,12 @@ char *cur_byte; /* index into |byte_mem| */
 sixteen_bits cur_val; /* current cross-reference number */
 #ifdef STAT
 sort_pointer max_sort_ptr; /* largest value of |sort_ptr| */
-#endif STAT
+#endif /* |STAT| */
 
 @ @<Set init...@>=
 #ifdef STAT
 max_sort_ptr=scrap_info;
-#endif STAT
+#endif /* |STAT| */
 
 
 @ The desired alphabetic order is specified by the |collate| array; namely,
@@ -3678,7 +3686,7 @@ eight_bits d;
     sort_ptr++;
 #ifdef STAT
     if (sort_ptr>max_sort_ptr) max_sort_ptr=sort_ptr;
-#endif STAT
+#endif /* |STAT| */
     if (c==0) sort_ptr->depth=infinity;
     else sort_ptr->depth=d;
     sort_ptr->head=bucket[collate[c]]; bucket[collate[c]]=NULL;
@@ -3724,7 +3732,7 @@ while (sort_ptr>scrap_info) {
 
 @ @<Output the name...@>=
 switch (cur_name->ilk) {
-  case normal: if (length(cur_name)==1) out_str("\\|");
+  case normal: if (is_tiny(cur_name)) out_str("\\|");
     else {char *j;
       for (j=cur_name->byte_start;j<(cur_name+1)->byte_start;j++)
         if (islower(*j)) goto lowcase;
@@ -3759,8 +3767,8 @@ name_done:
 @<Invert the cross-reference list at |cur_name|, making |cur_xref| the head@>;
 do {
   out_str(", "); cur_val=cur_xref->num;
-  if (cur_val<def_flag) out_mod(cur_val);
-  else {out_str("\\["); out_mod(cur_val-def_flag); out(']');}
+  if (cur_val<def_flag) out_section(cur_val);
+  else {out_str("\\["); out_section(cur_val-def_flag); out(']');}
 @.\\[@>
   cur_xref=cur_xref->xlink;
 } while (cur_xref!=xmem);
@@ -3769,33 +3777,37 @@ out('.'); finish_line();
 @ List inversion is best thought of as popping elements off one stack and
 pushing them onto another. In this case |cur_xref| will be the head of
 the stack that we push things onto.
+@<Global...@>=
+xref_pointer next_xref, this_xref;
+  /* pointer variables for rearranging a list */
 
-@<Invert the cross-reference list at |cur_name|, making |cur_xref| the head@>=
+@ @<Invert the cross-reference list at |cur_name|, making |cur_xref| the head@>=
 this_xref=(xref_pointer)cur_name->xref; cur_xref=xmem;
 do {
   next_xref=this_xref->xlink; this_xref->xlink=cur_xref;
   cur_xref=this_xref; this_xref=next_xref;
 } while (this_xref!=xmem);
 
-@ The following recursive procedure walks through the tree of module names and
+@ The following recursive procedure walks through the tree of section names and
 prints them.
 @^recursion@>
 
-@c mod_print(p) /* print all module names in subtree |p| */
+@c section_print(p) /* print all section names in subtree |p| */
 name_pointer p;
 {
   if (p) {
-    mod_print(p->llink); out_str("\\I");
+    section_print(p->llink); out_str("\\I");
 @.\\I@>
     tok_ptr=tok_mem+1; text_ptr=tok_start+1; scrap_ptr=scrap_info; init_stack;
-    app(p-name_dir+mod_flag); make_output();
+    app(p-name_dir+section_flag); make_output();
+    footnote(cite_flag);
     footnote(0); /* |cur_xref| was set by |make_output| */
     finish_line();@/
-    mod_print(p->rlink);
+    section_print(p->rlink);
   }
 }
 
-@ @<Output all the module names@>=mod_print(root)
+@ @<Output all the section names@>=section_print(root)
 
 @ @c
 #ifdef STAT
@@ -3813,14 +3825,14 @@ print_stats() {
   printf("Sorting:\n");
   printf("%d levels (out of %d)\n",max_sort_ptr-scrap_info,max_scraps);
 }
-#endif
+#endif /* |STAT| */
 
 @* Index.
 If you have read and understood the code for Phase III above, you know what
-is in this index and how it got here. All modules in which an identifier is
+is in this index and how it got here. All sections in which an identifier is
 used are listed with that identifier, except that reserved words are
 indexed only when they appear in format definitions, and the appearances
-of identifiers in module names are not indexed. Underlined entries
+of identifiers in section names are not indexed. Underlined entries
 correspond to where the identifier was declared. Error messages, control
 sequences put into the output, and a few
 other things like ``recursion'' are indexed here too.

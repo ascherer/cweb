@@ -1,9 +1,10 @@
 % This file is part of CWEB.
-% This program by Silvio Levy is based on a program by D. E. Knuth.
+% This program by Silvio Levy and Donald E. Knuth 
+% is based on a program by Knuth.
 % It is distributed WITHOUT ANY WARRANTY, express or implied.
-% Version 2.1 -- Don Knuth, January 1992
+% Version 2.8 -- September 1992
 
-% Copyright (C) 1987,1990 Silvio Levy and Donald E. Knuth
+% Copyright (C) 1987,1990,1991,1992 Silvio Levy and Donald E. Knuth
 
 % Permission is granted to make and distribute verbatim copies of this
 % document provided that the copyright notice and this permission notice
@@ -50,8 +51,8 @@ extern int phase; /* which phase are we in? */
 @d or_or 037 /* `\.{\v\v}';  this corresponds to MIT's {\tentex\char'37} */
 
 @<Common code...@>=
-char mod_text[longest_name+1]; /* name being sought for */
-char *mod_text_end = mod_text+longest_name; /* end of |mod_text| */
+char section_text[longest_name+1]; /* name being sought for */
+char *section_text_end = section_text+longest_name; /* end of |section_text| */
 char *id_first; /* where the current identifier begins in the buffer */
 char *id_loc; /* just after the current identifier in the buffer */
 
@@ -63,26 +64,26 @@ extern char *buffer_end; /* end of |buffer| */
 extern char *loc; /* points to the next character to be read from the buffer*/
 extern char *limit; /* points to the last character in the buffer */
 
-@ Code related to identifier and module name storage:
+@ Code related to identifier and section name storage:
 @d length(c) (c+1)->byte_start-(c)->byte_start /* the length of a name */
-@d print_id(c) term_write((c)->byte_start,length((c)))
-  /* print identifier or module name */
-@d llink link /* left link in binary search tree for module names */
-@d rlink dummy.Rlink /* right link in binary search tree for module names */
+@d print_id(c) term_write((c)->byte_start,length((c))) /* print identifier */
+@d llink link /* left link in binary search tree for section names */
+@d rlink dummy.Rlink /* right link in binary search tree for section names */
 @d root name_dir->rlink /* the root of the binary search tree
-  for module names */
+  for section names */
+@d chunk_marker 0
 
 @<Common code...@>=
 typedef struct name_info {
   char *byte_start; /* beginning of the name in |byte_mem| */
   struct name_info *link;
   union {
-    struct name_info *Rlink; /* right link in binary search tree for module
+    struct name_info *Rlink; /* right link in binary search tree for section
       names */  
     char Ilk; /* used by identifiers in \.{WEAVE} only */
   } dummy;
   char *equiv_or_xref; /* info corresponding to names */
-} name_info; /* contains information about an identifier or module name */
+} name_info; /* contains information about an identifier or section name */
 typedef name_info *name_pointer; /* pointer into array of |name_info|s */
 typedef name_pointer *hash_pointer;
 extern char byte_mem[]; /* characters of names */
@@ -95,8 +96,8 @@ extern name_pointer hash[]; /* heads of hash lists */
 extern hash_pointer hash_end; /* end of |hash| */
 extern hash_pointer h; /* index into hash-head array */
 extern name_pointer id_lookup(); /* looks up a string in the identifier table */
-extern name_pointer mod_lookup(); /* finds module name */
-extern name_pointer prefix_lookup(); /* finds module name given a prefix */
+extern name_pointer section_lookup(); /* finds section name */
+extern name_pointer prefix_lookup(); /* finds section name given a prefix */
 
 @ Code related to error handling:
 @d spotless 0 /* |history| value for normal jobs */
@@ -145,11 +146,11 @@ extern reset_input(); /* initialize to read the web file and change file */
 extern get_line(); /* inputs the next line */
 extern check_complete(); /* checks that all changes were picked up */
 
-@ Code related to module numbers:
+@ Code related to section numbers:
 @<Common code...@>=
 typedef unsigned short sixteen_bits;
-extern sixteen_bits module_count; /* the current module number */
-extern boolean changed_module[]; /* is the module changed? */
+extern sixteen_bits section_count; /* the current section number */
+extern boolean changed_section[]; /* is the section changed? */
 extern boolean change_pending; /* is a decision about change still unclear? */
 extern boolean print_where; /* tells \.{TANGLE} to print line and file info */
 
@@ -167,7 +168,6 @@ extern boolean flags[]; /* an option for each 7-bit code */
 @d update_terminal fflush(stdout) /* empty the terminal output buffer */
 @d new_line putchar('\n') @d putxchar putchar
 @d term_write(a,b) fflush(stdout), write(1,a,b) /* write on the standard output */
-@d line_write(c) write(fileno(C_file),c) /* write on the C output file */
 @d C_printf(c,a) fprintf(C_file,c,a)
 @d C_putc(c) putc(c,C_file)
 

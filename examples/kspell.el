@@ -6,6 +6,18 @@
 ;; Based in part on "spell.el" from GNU Emacs; redistributed under
 ;; the terms of the GNU General Public License; NO WARRANTY implied.
 
+;; To install this, using the default directories defined below,
+;; install wordtest and extex in /usr/local/bin, then say
+;; "ln /usr/local/bin/extex /usr/local/bin/excweb", then install
+;; a suitable dictionary in /usr/local/lib/dict/words; one such
+;; dictionary can be found in ~ftp/pub/dict/words at labrea.stanford.edu.
+;; Also create an empty file called .words in your home directory.
+;; Finally, add (load-library "kspell") to your .emacs file, or
+;; include such a line in site-init.el if kspell is to be use by everybody.
+;; If you get a message like "Checking spelling of buffer...not correct"
+;; and nothing else, the probable cause is that the wordtest program
+;; could not open /usr/local/lib/dict/words or ~/.words for reading.
+
 (provide 'kspell)
 
 (defvar wordtest-command "wordtest" ;; maybe "/usr/local/bin/wordtest" better?
@@ -27,8 +39,9 @@
 (setq cweb-mode-hook '(lambda () (setq wordtest-filter "excweb")))
 
 (defvar wordtest-system-dictionary "/usr/local/lib/dict/words"
-  "*Sorted dictionary containing all \"correct\" words
+  "*Sorted dictionary containing all \"correct\" words,
 including all variant forms obtained by prefix and suffix transformations.")
+;; The standard UNIX dictionary /usr/dict/words is NOT satisfactory.
 
 (defvar wordtest-personal-dictionary "~/.words"
   "*Default dictionary to supplement the words in the system dictionary.

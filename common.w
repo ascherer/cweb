@@ -1,7 +1,8 @@
 % This file is part of CWEB.
-% This program by Silvio Levy is based on a program by D. E. Knuth.
+% This program by Silvio Levy and Donald E. Knuth
+% is based on a program by Knuth.
 % It is distributed WITHOUT ANY WARRANTY, express or implied.
-% Version 2.4 --- Don Knuth, June 1992
+% Version 2.8 --- Don Knuth, June 1992
 
 % Copyright (C) 1987,1990 Silvio Levy and Donald E. Knuth
 
@@ -16,16 +17,16 @@
 
 \def\v{\char'174} % vertical (|) in typewriter font
 
-\def\title{Common code for CTANGLE and CWEAVE (Version 2.7)}
+\def\title{Common code for CTANGLE and CWEAVE (Version 2.8)}
 \def\topofcontents{\null\vfill
   \centerline{\titlefont Common code for {\ttitlefont CTANGLE} and
     {\ttitlefont CWEAVE}}
   \vskip 15pt
-  \centerline{(Version 2.7)}
+  \centerline{(Version 2.8)}
   \vfill}
 \def\botofcontents{\vfill
 \noindent
-Copyright \copyright\ 1987,\thinspace1990 Silvio Levy and Donald E. Knuth
+Copyright \copyright\ 1987, 1990, 1991, 1992 Silvio Levy and Donald E. Knuth
 \bigskip\noindent
 Permission is granted to make and distribute verbatim copies of this
 document provided that the copyright notice and this permission notice
@@ -57,7 +58,7 @@ Here is the overall appearance of this file:
 @<Include files@>@/
 @<Definitions that should agree with \.{TANGLE} and \.{WEAVE}@>@;
 @<Other definitions@>@;
-@<Functions@>;
+@<Functions@>@;
 
 @ In certain cases \.{TANGLE} and \.{WEAVE} should do almost, but not
 quite, the same thing.  In these cases we've written common code for
@@ -83,7 +84,7 @@ The global variable |phase| tells which phase we are in.
 \.{CWEAVE} off to a good start. We will fill in the details of this
 procedure later.
 
-@<Functions...@>=
+@<Functions@>=
 common_init()
 {
   @<Initialize pointers@>;
@@ -229,11 +230,12 @@ Here's a shorthand expression for inequality between the two lines:
 char change_buffer[buf_size]; /* next line of |change_file| */
 char *change_limit; /* points to the last character in |change_buffer| */
 
-@ Procedure |prime_the_change_buffer| sets |change_buffer| in preparation
-for the next matching operation. Since blank lines in the change file are
-not used for matching, we have |(change_limit==change_buffer && !changing)|
-if and only if the change file is exhausted. This procedure is called only
-when |changing| is 1; hence error messages will be reported correctly.
+@ Procedure |prime_the_change_buffer| sets |change_buffer| in
+preparation for the next matching operation. Since blank lines in the change
+file are not used for matching, we have
+|(change_limit==change_buffer && !changing)| if and only if
+the change file is exhausted. This procedure is called only when
+|changing| is 1; hence error messages will be reported correctly.
 
 @<Func...@>=
 prime_the_change_buffer()
@@ -244,10 +246,9 @@ prime_the_change_buffer()
   @<Move |buffer| and |limit| to |change_buffer| and |change_limit|@>;
 }
 
-@ While looking for a line that begins with \.{@@x} in the change file,
-we allow lines that begin with \.{@@}, as long as they don't begin with
-\.{@@y} or \.{@@z} (which would probably indicate that the change file is
-fouled up).
+@ While looking for a line that begins with \.{@@x} in the change file, we
+allow lines that begin with \.{@@}, as long as they don't begin with \.{@@y},
+\.{@@z} or \.{@@i} (which would probably mean that the change file is fouled up).
 
 @<Skip over comment lines in the change file...@>=
 while(1) {
@@ -256,22 +257,11 @@ while(1) {
   if (limit<buffer+2) continue;
   if (buffer[0]!='@@') continue;
   if (isupper(buffer[1])) buffer[1]=tolower(buffer[1]);
-  @<Check for erroneous \.{@@i}@>;
   if (buffer[1]=='x') break;
-  if (buffer[1]=='y' || buffer[1]=='z') {
+  if (buffer[1]=='y' || buffer[1]=='z' || buffer[1]=='i') {
     loc=buffer+2;
-    err_print("! Where is the matching @@x?");
-@.Where is the match...@>
-  }
-}
-
-@ We do not allow includes in a change file, so as to avoid confusion.
-
-@<Check for erron...@>= {
-  if (buffer[1]=='i') {
-    loc=buffer+2;
-    err_print("! No includes allowed in change file");
-@.No includes allowed...@>
+    err_print("! Missing @@x in change file");
+@.Missing {\AT}x...@>
   }
 }
 
@@ -302,14 +292,14 @@ All of the text down to the \.{@@y} is supposed to match. An error
 message is issued if any discrepancy is found. Then the procedure
 prepares to read the next line from |change_file|.
 
-When a match is found, the current module is marked as changed unless
+When a match is found, the current section is marked as changed unless
 the first line after the \.{@@x} and after the \.{@@y} both start with
 either |'@@*'| or |'@@ '| (possibly preceded by whitespace).
 
 This procedure is called only when |buffer<limit|, i.e., when the
 current line is nonempty.
 
-@d if_module_start_make_pending(b) {@+*limit='!';
+@d if_section_start_make_pending(b) {@+*limit='!';
   for (loc=buffer;isspace(*loc);loc++) ;
   *limit=' ';
   if (*loc=='@@' && (isspace(*(loc+1)) || *(loc+1)=='*')) change_pending=b;
@@ -321,9 +311,9 @@ check_change() /* switches to |change_file| if the buffers match */
   int n=0; /* the number of discrepancies found */
   if (lines_dont_match) return;
   change_pending=0;
-  if (!changed_module[module_count]) {
-    if_module_start_make_pending(1);
-    if (!change_pending) changed_module[module_count]=1;
+  if (!changed_section[section_count]) {
+    if_section_start_make_pending(1);
+    if (!change_pending) changed_section[section_count]=1;
   }
   while (1) {
     changing=1; print_where=1; change_line++;
@@ -406,15 +396,15 @@ If we've just changed from the |cur_file| to the |change_file|, or if
 the |cur_file| has changed, we tell \.{TANGLE} to print this
 information in the \Cee\ file by means of the |print_where| flag.
 
-@d max_modules 2000 /* number of identifiers, strings, module names;
+@d max_sections 2000 /* number of identifiers, strings, section names;
   must be less than 10240 */
 
 @<Defin...@>=
 typedef unsigned short sixteen_bits;
-sixteen_bits module_count; /* the current module number */
-boolean changed_module[max_modules]; /* is the module changed? */
+sixteen_bits section_count; /* the current section number */
+boolean changed_section[max_sections]; /* is the section changed? */
 boolean change_pending; /* if the current change is not yet recorded in
-  |changed_module[module_count]| */
+  |changed_section[section_count]| */
 boolean print_where=0; /* should \.{TANGLE} print line and file info? */
 
 @ @<Fun...@>=
@@ -461,7 +451,7 @@ k=cur_file_name+strlen(cur_file_name);
 while (*j!=' '&&*j!='\t'&&*j!='"') *k++=*j++;
 *k='\0';
 if ((cur_file=fopen(cur_file_name,"r"))==NULL) {
-#endif INCLUDEDIR
+#endif /* |INCLUDEDIR| */
         include_depth--;
         err_print("! Cannot open include file");
 @.Cannot open include file@>
@@ -469,7 +459,7 @@ if ((cur_file=fopen(cur_file_name,"r"))==NULL) {
 #ifdef INCLUDEDIR
 else {cur_line=0; print_where=1;}
 }
-#endif INCLUDEDIR
+#endif /* |INCLUDEDIR| */
       else {cur_line=0; print_where=1;}
     }
     else {
@@ -503,17 +493,17 @@ else {cur_line=0; print_where=1;}
   }
   if (limit>buffer) { /* check if the change has ended */
     if (change_pending) {
-      if_module_start_make_pending(0);
+      if_section_start_make_pending(0);
       if (change_pending) {
-        changed_module[module_count]=1; change_pending=0;
+        changed_section[section_count]=1; change_pending=0;
       }
     }
     *limit=' ';
     if (buffer[0]=='@@') {
       if (isupper(buffer[1])) buffer[1]=tolower(buffer[1]);
-      @<Check for erron...@>;
       if (buffer[1]=='x' || buffer[1]=='y') {
-      loc=buffer+2; err_print("! Where is the matching @@z?");
+        loc=buffer+2;
+        err_print("! Where is the matching @@z?");
 @.Where is the match...@>
       }
       else if (buffer[1]=='z') {
@@ -533,12 +523,12 @@ check_complete(){
     limit=change_limit-change_buffer+buffer;
     changing=1; loc=buffer;
     err_print("! Change file entry did not match");
-  @.Change file entry did not match@>
+@.Change file entry did not match@>
   }
 }
 
 @* Storage of names and strings.
-Both \.{WEAVE} and \.{TANGLE} store identifiers, module names and
+Both \.{WEAVE} and \.{TANGLE} store identifiers, section names and
 other strings in a large array of |char|s, called |byte_mem|.
 Information about the names is kept in the array |name_dir|, whose
 elements are structures of type |name_info|, containing a pointer into
@@ -546,15 +536,15 @@ the |byte_mem| array (the address where the name begins) and other data.
 A |name_pointer| variable is a pointer into |name_dir|.
 
 @d max_bytes 90000 /* the number of bytes in identifiers,
-  index entries, and module names */
-@d max_names 4000 /* number of identifiers, strings, module names;
+  index entries, and section names; must be less than $2^{24}$ */
+@d max_names 4000 /* number of identifiers, strings, section names;
   must be less than 10240 */
 
 @<Definitions that...@>=
 typedef struct name_info {
   char *byte_start; /* beginning of the name in |byte_mem| */
   @<More elements of |name_info| structure@>@;
-} name_info; /* contains information about an identifier or module name */
+} name_info; /* contains information about an identifier or section name */
 typedef name_info *name_pointer; /* pointer into array of |name_info|s */
 char byte_mem[max_bytes]; /* characters of names */
 char *byte_mem_end = byte_mem+max_bytes-1; /* end of |byte_mem| */
@@ -566,8 +556,7 @@ p| appears in positions |p->byte_start| to |(p+1)->byte_start-1|, inclusive.
 The |print_id| macro prints this text on the user's terminal.
 
 @d length(c) (c+1)->byte_start-(c)->byte_start /* the length of a name */
-@d print_id(c) term_write((c)->byte_start,length((c)))
-  /* print identifier or module name */
+@d print_id(c) term_write((c)->byte_start,length((c))) /* print identifier */
 
 @ The first unused position in |byte_mem| and |name_dir| is
 kept in |byte_ptr| and |name_ptr|, respectively.  Thus we
@@ -618,7 +607,7 @@ for (h=hash; h<=hash_end; *h++=NULL) ;
 id_lookup(first,last,t) /* looks up a string in the identifier table */
 char *first; /* first character of string */
 char *last; /* last character of string plus one */
-sixteen_bits t; /* the |ilk|; used by \.{WEAVE} only */
+char t; /* the |ilk|; used by \.{WEAVE} only */
 {
   char *i=first; /* position in |buffer| */
   int h; /* hash code */
@@ -662,41 +651,105 @@ in a slightly different way in \.{WEAVE} than in \.{TANGLE}; hence the
   if (program==weave) init_p(p,t);
 }
 
-@ The names of modules are stored in |byte_mem| together
+@ The names of sections are stored in |byte_mem| together
 with the identifier names, but a hash table is not used for them because
-\.{TANGLE} needs to be able to recognize a module name when given a prefix of
-that name. A conventional binary search tree is used to retrieve module names,
+\.{TANGLE} needs to be able to recognize a section name when given a prefix of
+that name. A conventional binary search tree is used to retrieve section names,
 with fields called |llink| and |rlink| (where |llink| takes the place
 of |link|).  The root of this tree is stored in |name_dir->rlink|;
 this will be the only information in |name_dir[0]|.
 
 Since the space used by |rlink| has a different function for
-identifiers than for module names, we declare it as a |union|.
+identifiers than for section names, we declare it as a |union|.
 
-@d llink link /* left link in binary search tree for module names */
-@d rlink dummy.Rlink /* right link in binary search tree for module names */
+@d llink link /* left link in binary search tree for section names */
+@d rlink dummy.Rlink /* right link in binary search tree for section names */
 @d root name_dir->rlink /* the root of the binary search tree
-  for module names */
+  for section names */
 
 @<More elements of |name...@>=
 union {
-  struct name_info *Rlink; /* right link in binary search tree for module
-    names */  
-  sixteen_bits Ilk; /* used by identifiers in \.{WEAVE} only */
+  struct name_info *Rlink; /* right link in binary search tree for section
+    names */
+  char Ilk; /* used by identifiers in \.{WEAVE} only */
 } dummy;
 
 @ @<Init...@>=
 root=NULL; /* the binary search tree starts out with nothing in it */
 
-@ The |mod_lookup| procedure finds a module name in the
-search tree, after inserting it if necessary, and returns a pointer to
-where it was found.
+@ If |p| is a |name_pointer| variable, as we have seen,
+|p->byte_start| is the beginning of the area where the name
+corresponding to |p| is stored.  However, if |p| refers to a section
+name, the name may need to be stored in chunks, because it may
+``grow'': a prefix of the section name may be encountered before
+the full name.  Furthermore we need to know the length of the shortest
+prefix of the name that was ever encountered.
 
-According to the rules of \.{WEB}, no module name should be a proper
-prefix of another, so a ``clean'' comparison should occur between any
-two names. The result of |mod_lookup| is |name_dir| (the location of
-a dummy module name) if this prefix condition
-is violated. An error message is printed when such violations are detected.
+We solve this problem by inserting two extra bytes at |p->byte_start|,
+representing the length of the shortest prefix, when |p| is a
+section name. Furthermore, the last byte of the name will be a blank
+space if |p| is a prefix. In the latter case, the name pointer
+|p+1| will allow us to access additional chunks of the name:
+The second chunk will begin at the name pointer |(p+1)->link|,
+and if it too is a prefix (ending with blank) its |link| will point
+to additional chunks in the same way. Null links are represented by
+|name_dir|.
+
+@d first_chunk(p)  ((p)->byte_start+2)
+@d prefix_length(p) ((unsigned char)*((p)->byte_start)*256 +
+                (unsigned char)*((p)->byte_start+1))
+@d set_prefix_length(p,m) (*((p)->byte_start)=(m)/256,
+                 *((p)->byte_start+1)=(m)%256)
+
+@c
+print_section_name(p)
+name_pointer p;
+{
+  char *ss, *s = first_chunk(p);
+  name_pointer q = p+1;
+  while (p!=name_dir) {
+    ss = (p+1)->byte_start-1;
+    if (*ss==' ' && ss>=s) {
+      term_write(s,ss-s); p=q->link; q=p;
+    } else {
+      term_write(s,ss+1-s); p=name_dir; q=NULL;
+    }
+    s = p->byte_start;
+  }
+  if (q) term_write("...",3); /* complete name not yet known */
+}
+@#
+sprint_section_name(dest,p)
+  char*dest;
+  name_pointer p;
+{
+  char *ss, *s = first_chunk(p);
+  name_pointer q = p+1;
+  while (p!=name_dir) {
+    ss = (p+1)->byte_start-1;
+    if (*ss==' ' && ss>=s) {
+      p=q->link; q=p;
+    } else {
+      ss++; p=name_dir;
+    }
+    strncpy(dest,s,ss-s), dest+=ss-s;
+    s = p->byte_start;
+  }
+  *dest='\0';
+}
+@#
+print_prefix_name(p)
+name_pointer p;
+{
+  char *s = first_chunk(p);
+  int l = prefix_length(p);
+  term_write(s,l);
+  if (s+l<(p+1)->byte_start) term_write("...",3);
+}
+
+@ When we compare two section names, we'll need a function analogous to
+|strcmp|. But we do not assume the strings
+are null-terminated, and we keep an eye open for prefixes and extensions.
 
 @d less 0 /* the first name is lexicographically less than the second */
 @d equal 1 /* the first name is equal to the second */
@@ -704,41 +757,12 @@ is violated. An error message is printed when such violations are detected.
 @d prefix 3 /* the first name is a proper prefix of the second */
 @d extension 4 /* the first name is a proper extension of the second */
 
-@<Other...@>=
-name_pointer install_node();
-
-@ @c name_pointer
-mod_lookup(k,l) /* finds module name */
-char *k; /* first character of name */
-char *l; /* last character of name */
-{
-  short c = greater; /* comparison between two names */
-  name_pointer p = root; /* current node of the search tree */
-  name_pointer q = name_dir; /* father of node |p| */
-  while (p) {
-    c=web_strcmp(k,l+1,p->byte_start,(p+1)->byte_start);
-    q=p;
-    switch(c) {
-      case less: p=p->llink; continue;
-      case greater: p=p->rlink; continue;
-      case equal: return p;
-      default: err_print("! Incompatible section names"); return name_dir;
-@.Incompatible section names@>
-    }
-  }
-  return(install_node(q,c,k,l-k+1));
-}
-
-@ This function is like |strcmp|, but it does not assume the strings
-are null-terminated.
-
 @c
-web_strcmp(j,j1,k,k1) /* fuller comparison than |strcmp| */
-char *j; /* beginning of first string */
-char *j1; /* end of first string plus one */
-char *k; /* beginning of second string */
-char *k1; /* end of second string plus one */
+web_strcmp(j,j_len,k,k_len) /* fuller comparison than |strcmp| */
+  char *j, *k; /* beginning of first and second strings */
+  int j_len, k_len; /* length of strings */
 {
+  char *j1=j+j_len, *k1=k+k_len;
   while (k<k1 && j<j1 && *j==*k) k++, j++;
   if (k==k1) if (j==j1) return equal;
     else return extension;
@@ -747,71 +771,215 @@ char *k1; /* end of second string plus one */
   else return greater;
 }
 
-@ The reason we initialized |c| to |greater| is so that
-|name_pointer| will make |name_dir->rlink| point to the root of the tree 
-when |q=name_dir|, that is, the first time it is called.
+@ Adding a section name to the tree is straightforward if we know its
+parent and whether it's the |rlink| or |llink| of the parent.  As a
+special case, when the name is the first section being added, we set the
+``parent'' to |NULL|.  When a section name is created, it has only one
+chunk, which however may be just a prefix: the full name will
+hopefully be unveiled later.  Obviously, |prefix_length| starts
+out as the length of the first chunk, though it may decrease later.
 
 The information associated with a new node must be initialized
 in a slightly different way in \.{WEAVE} than in \.{TANGLE}; hence the
 |init_node| procedure.
 
-@c name_pointer
-install_node(parent,c,j,name_len) /* install a new node in the tree */
-name_pointer parent; /* parent of new node */
+@c
+name_pointer
+add_section_name(par,c,first,last,ispref) /* install a new node in the tree */
+name_pointer par; /* parent of new node */
 int c; /* right or left? */
-char *j; /* where replacement text starts */
-int name_len; /* length of replacement text */
+char *first; /* first character of section name */
+char *last; /* last character of section name, plus one */
+int ispref; /* are we adding a prefix or a full name? */
 {
-  name_pointer node=name_ptr; /* new node */
-  if (byte_ptr+name_len>byte_mem_end) overflow("byte memory");
-  if (name_ptr==name_dir_end) overflow("name");
-  if (c==less) parent->llink=node; else parent->rlink=node;
-  node->llink=NULL; node->rlink=NULL;
-  init_node(node);
-  strncpy(byte_ptr,j,name_len);
-  (++name_ptr)->byte_start=byte_ptr+=name_len;
-  return(node);
+  name_pointer p=name_ptr; /* new node */
+  char *s=first_chunk(p);
+  int name_len=last-first+ispref; /* length of section name */
+  if (s+name_len>byte_mem_end) overflow("byte memory");
+  if (name_ptr+1>=name_dir_end) overflow("name");
+  (++name_ptr)->byte_start=byte_ptr=s+name_len;
+  if (ispref) {
+    *(byte_ptr-1)=' ';
+    name_len--;
+    name_ptr->link=name_dir;
+    (++name_ptr)->byte_start=byte_ptr;
+  }
+  set_prefix_length(p,name_len);
+  (void) strncpy(s,first,name_len);
+  p->llink=NULL;
+  p->rlink=NULL;
+  init_node(p);
+  return par==NULL ? (root=p) : c==less ? (par->llink=p) : (par->rlink=p);
 }
 
-@ The |prefix_lookup| procedure is supposed to find exactly one module
-name that has |k..l| as a prefix. Actually the algorithm
-silently accepts also the situation that some module name is a prefix of
-|k..l|, because the user who painstakingly typed in more than
-necessary probably doesn't want to be told about the wasted effort.
-
-@c name_pointer
-prefix_lookup(k,l) /* finds module name given a prefix */
-char *k; /* first char of prefix */
-char *l; /* last char of prefix */
+@ @c
+extend_section_name(p,first,last,ispref)
+name_pointer p; /* name to be extended */
+char *first; /* beginning of extension text */
+char *last; /* one beyond end of extension text */
+int ispref; /* are we adding a prefix or a full name? */
 {
-  short c = greater; /* comparison between two names */
-  short count = 0; /* the number of hits */
-  name_pointer p = root; /* current node of the search tree */
-  name_pointer q = NULL;
-    /* another place to resume the search after one is done */
-  name_pointer r = name_dir; /* extension found */
-  while (p) {
-    c=web_strcmp(k,l+1,p->byte_start,(p+1)->byte_start);
-    switch(c) {
-      case less: p=p->llink; break;
-      case greater: p=p->rlink; break;
-      default: r=p; count++; q=p->rlink; p=p->llink;
+  char *s;
+  name_pointer q=p+1;
+  int name_len=last-first+ispref;
+  if (name_ptr>=name_dir_end) overflow("name");
+  while (q->link!=name_dir) q=q->link;
+  q->link=name_ptr;
+  s=name_ptr->byte_start;
+  name_ptr->link=name_dir;
+  if (s+name_len>byte_mem_end) overflow("byte memory");
+  (++name_ptr)->byte_start=byte_ptr=s+name_len;
+  (void) strncpy(s,first,name_len);
+  if (ispref) *(byte_ptr-1)=' ';
+}
+
+@ The |section_lookup| procedure is supposed to find a
+section name that matches a new name, installing the new name if
+its doesn't match an existing one. The new name is the string
+between |first| and |last|; a ``match'' means that the new name
+exactly equals or is a prefix or extension of a name in the tree.
+
+@c
+name_pointer
+section_lookup(first,last,ispref) /* find or install section name in tree */
+char *first, *last; /* first and last characters of new name */
+int ispref; /* is the new name a prefix or a full name? */
+{
+  int c; /* comparison between two names */
+  name_pointer p=root; /* current node of the search tree */
+  name_pointer q=NULL; /* another place to look in the tree */
+  name_pointer r=NULL; /* where a match has been found */
+  name_pointer par=NULL; /* parent of |p|, if |r| is |NULL|;
+            otherwise parent of |r| */
+  int name_len=last-first+1;
+  @<Look for matches for new name among shortest prefixes, complaining
+        if more than one is found@>;
+  @<If no match found, add new name to tree@>;
+  @<If one match found, check for compatibility and return match@>;
+}
+
+@ A legal new name matches an existing section name if and only if it
+matches the shortest prefix of that section name.  Therefore we can
+limit our search for matches to shortest prefixes, which eliminates
+the need for chunk-chasing at this stage.
+
+@<Look for matches for new name among...@>=
+while (p) { /* compare shortest prefix of |p| with new name */
+  c=web_strcmp(first,name_len,first_chunk(p),prefix_length(p));
+  if (c==less || c==greater) { /* new name does not match |p| */
+    if (r==NULL) /* no previous matches have been found */
+      par=p;
+    p=(c==less?p->llink:p->rlink);
+  } else { /* new name matches |p| */
+    if (r!=NULL) {  /* and also |r|: illegal */
+      printf("\n! Ambiguous prefix: matches <");
+@.Ambiguous prefix ... @>
+      print_prefix_name(p);
+      printf(">\n and <");
+      print_prefix_name(r);
+      err_print(">");
+      return name_dir; /* the unsection */
     }
-    if (p==NULL) {
-      p=q; q=NULL;
+    r=p; /* remember match */
+    p=p->llink; /* try another */
+    q=r->rlink; /* we'll get back here if the new |p| doesn't match */
+  }
+  if (p==NULL)
+    p=q, q=NULL; /* |q| held the other branch of |r| */
+}
+
+@ @<If no match ...@>=
+  if (r==NULL) /* no matches were found */
+    return add_section_name(par,c,first,last+1,ispref);
+
+@ Although error messages are given in anomalous cases, we do return the
+unique best match when a discrepancy is found, because users often
+change a title in one place while forgetting to change it elsewhere.
+
+@<If one match found, check for compatibility and return match@>=
+switch(section_name_cmp(&first,name_len,r)) {
+              /* compare all of |r| with new name */
+  case less: case greater:  /* no match: illegal */
+    printf("\n! Section name incompatible with <");
+@.Section name incompatible...@>
+    print_prefix_name(r);
+    printf(">,\n which abbreviates <");
+    print_section_name(r);
+    err_print(">");
+    return r;
+  case prefix:
+    if (!ispref) {
+      printf("\n! New name is a prefix of <");
+@.New name is a prefix...@>
+      print_section_name(r);
+      err_print(">");
+    }
+    else if (name_len<prefix_length(r)) set_prefix_length(r,name_len);
+    /* fall through */
+  case equal: return r;
+  case extension: if (!ispref || first<=last)
+        extend_section_name(r,first,last+1,ispref);
+      return r;
+  case bad_extension:
+      printf("\n! New name extends <");
+@.New name extends...@>
+      print_section_name(r);
+      err_print(">");
+    return r;
+}
+
+@ The return codes of |section_name_cmp|, which compares a string with
+the full name of a section, are those of |web_strcmp| plus
+|bad_extension|, used when the string is an extension of a
+supposedly already complete section name.  This function has a side
+effect when the comparison string is an extension: it advances the
+address of the first character of the string by an amount equal to
+the length of the known part of the section name.
+
+The name \.{@@<foo...@@>} should be an acceptable ``abbreviation''
+for \.{@@<foo@@>}. If such an abbreviation comes after the complete
+name, there's no trouble recognizing it. If it comes before the
+complete name, we simply append a null chunk. This logic requires
+us to regard \.{@@<foo...@@>} as an ``extension'' of itself.
+
+@d bad_extension 5
+
+@c
+section_name_cmp(pfirst,len,r)
+char **pfirst; /* pointer to beginning of comparison string */
+int len; /* length of string */
+name_pointer r; /* section name being compared */
+{
+  char *first=*pfirst; /* beginning of comparison string */
+  name_pointer q=r+1; /* access to subsequent chunks */
+  char *ss, *s=first_chunk(r);
+  int c; /* comparison */
+  int ispref; /* is chunk |r| a prefix? */
+  while (1) {
+    ss=(r+1)->byte_start-1;
+    if (*ss==' ' && ss>=r->byte_start) ispref=1,q=q->link;
+    else ispref=0,ss++,q=name_dir;
+    switch(c=web_strcmp(first,len,s,ss-s)) {
+    case equal: if (q==name_dir)
+        if (ispref) {
+          *pfirst=first+(ss-s);
+          return extension; /* null extension */
+        } else return equal;
+      else return (q->byte_start==(q+1)->byte_start)? equal: prefix;
+    case extension:
+      if (!ispref) return bad_extension;
+      first += ss-s;
+      if (q!=name_dir) {len -= ss-s; s=q->byte_start; r=q; continue;}
+      *pfirst=first; return extension;
+    default: return c;
     }
   }
-  if (count==0) err_print("! Name does not match");
-@.Name does not match@>
-  if (count>1) err_print("! Ambiguous prefix");
-@.Ambiguous prefix@>
-  return(r); /* the result will be |name_dir| if there was no match */
 }
 
 @ The last component of |name_info| is different for \.{TANGLE} and
-\.{WEAVE}.  In \.{TANGLE}, if |p| is a pointer to a module name,
+\.{WEAVE}.  In \.{TANGLE}, if |p| is a pointer to a section name,
 |p->equiv| is a pointer to its replacement text, an element of the
-array |text_info|.  In \.{WEAVE}, on the other hand, if 
+array |text_info|.  In \.{WEAVE}, on the other hand, if
 |p| points to an identifier, |p->xref| is a pointer to its
 list of cross-references, an element of the array |xmem|.  The make-up
 of |text_info| and |xmem| is discussed in the \.{TANGLE} and \.{WEAVE}
@@ -848,7 +1016,7 @@ Note that no period follows the error message, since the error routine
 will automatically supply a period. A newline is automatically supplied
 if the string begins with |"|"|.
 
-@<Functions...@>=
+@<Functions@>=
 err_print(s) /* prints `\..' and location of error message */
 char *s;
 {
@@ -880,7 +1048,7 @@ if (l>buffer) {
   for (k=buffer; k<l; k++) putchar(' '); /* space out the next line */
 }
 for (k=l; k<limit; k++) putchar(*k); /* print the part not yet read */
-if (*limit=='|') putchar('|'); /* end of \Cee\ text in module names */
+if (*limit=='|') putchar('|'); /* end of \Cee\ text in section names */
 putchar(' '); /* to separate the message from future asterisks */
 }
 
@@ -919,7 +1087,7 @@ wrap_up() {
   putchar('\n');
 #ifdef STAT
   if (show_stats) print_stats(); /* print statistics about memory usage */
-#endif
+#endif /* |STAT| */
   @<Print the job |history|@>;
   if (history > harmless_message) exit(1);
   else exit(0);
@@ -1109,7 +1277,6 @@ Several macros make other kinds of output convenient.
 @^system dependencies@>
 @d new_line putchar('\n') @d putxchar putchar
 @d term_write(a,b) fflush(stdout), write(1,a,b) /* write on the standard output */
-@d line_write(c) write(fileno(C_file),c) /* write on the C output file */
 @d C_printf(c,a) fprintf(C_file,c,a)
 @d C_putc(c) putc(c,C_file) /* isn't \UNIX\ wonderfully consistent? */
 
