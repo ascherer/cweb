@@ -2,7 +2,7 @@
 % This program by Silvio Levy and Donald E. Knuth
 % is based on a program by Knuth.
 % It is distributed WITHOUT ANY WARRANTY, express or implied.
-% Version 3.0 --- August 1993
+% Version 3.1 --- November 1993
 
 % Copyright (C) 1987,1990,1993 Silvio Levy and Donald E. Knuth
 
@@ -27,11 +27,11 @@
 \def\skipxTeX{\\{skip\_\TEX/}}
 \def\copyxTeX{\\{copy\_\TEX/}}
 
-\def\title{CWEAVE (Version 3.0)}
+\def\title{CWEAVE (Version 3.1)}
 \def\topofcontents{\null\vfill
   \centerline{\titlefont The {\ttitlefont CWEAVE} processor}
   \vskip 15pt
-  \centerline{(Version 3.0)}
+  \centerline{(Version 3.1)}
   \vfill}
 \def\botofcontents{\vfill
 \noindent
@@ -61,7 +61,7 @@ Joachim Schrod, Lee Wittenberg, and others who have contributed improvements.
 The ``banner line'' defined here should be changed whenever \.{CWEAVE}
 is modified.
 
-@d banner "This is CWEAVE (Version 3.0)\n"
+@d banner "This is CWEAVE (Version 3.1)\n"
 
 @c @<Include files@>@/
 @h
@@ -519,10 +519,10 @@ scanning routines.
 representation by means of the table |ccode|.
 
 @<Global...@>=
-eight_bits ccode[128]; /* meaning of a char following \.{@@} */
+eight_bits ccode[256]; /* meaning of a char following \.{@@} */
 
 @ @<Set ini...@>=
-{int c; for (c=0; c<=127; c++) ccode[c]=0;}
+{int c; for (c=0; c<256; c++) ccode[c]=0;}
 ccode[' ']=ccode['\t']=ccode['\n']=ccode['\v']=ccode['\r']=ccode['\f']
    =ccode['*']=new_section;
 ccode['@@']='@@'; /* `quoted' at sign */
@@ -569,7 +569,7 @@ skip_limbo() {
     if (loc>limit && get_line()==0) return;
     *(limit+1)='@@';
     while (*loc!='@@') loc++; /* look for '@@', then skip two chars */
-    if (loc++ <=limit) { int c=ccode[*loc++];
+    if (loc++ <=limit) { int c=ccode[(eight_bits)*loc++];
       if (c==new_section) return;
       if (c==noop) skip_restricted();
       else if (c==format_code) @<Process simple format in limbo@>;
@@ -593,7 +593,7 @@ skip_TeX() /* skip past pure \TEX/ code */
     *(limit+1)='@@';
     while (*loc!='@@' && *loc!='|') loc++;
     if (*loc++ =='|') return('|');
-    if (loc<=limit) return(ccode[*(loc++)]);
+    if (loc<=limit) return(ccode[(eight_bits)*(loc++)]);
   }
 }
 
@@ -663,14 +663,14 @@ get_next() /* produces the next input token */
     @<Check if we're at the end of a preprocessor command@>;
     if (loc>limit && get_line()==0) return(new_section);
     c=*(loc++);
-    if (isdigit(c) || c=='\\' || c=='.') @<Get a constant@>@;
+    if (xisdigit(c) || c=='\\' || c=='.') @<Get a constant@>@;
     else if (c=='\'' || c=='"' || (c=='L'&&(*loc=='\'' || *loc=='"'))@|
            || (c=='<' && sharp_include_line==1))
         @<Get a string@>@;
-    else if (isalpha(c) || isxalpha(c) || ishigh(c))
+    else if (xisalpha(c) || isxalpha(c) || ishigh(c))
       @<Get an identifier@>@;
     else if (c=='@@') @<Get control code and possible section name@>@;
-    else if (isspace(c)) continue; /* ignore spaces and tabs */
+    else if (xisspace(c)) continue; /* ignore spaces and tabs */
     if (c=='#' && loc==buffer+1) @<Raise preprocessor flag@>;
     mistake: @<Compress two-symbol operator@>@;
     return(c);
@@ -707,7 +707,7 @@ name as a string.
 boolean sharp_include_line=0; /* are we scanning a |#include| line? */
 
 @ @<Check if next token is |include|@>=
-while (loc<=buffer_end-7 && isspace(*loc)) loc++;
+while (loc<=buffer_end-7 && xisspace(*loc)) loc++;
 if (loc<=buffer_end-6 && strncmp(loc,"include",7)==0) sharp_include_line=1;
 
 @ When we get to the end of a preprocessor line,
@@ -775,22 +775,22 @@ are pointers into the array |section_text|, not into |buffer|.
 @<Get a constant@>= {
   id_first=id_loc=section_text+1;
   if (*(loc-1)=='\\') {*id_loc++='~';
-  while (isdigit(*loc)) *id_loc++=*loc++;} /* octal constant */
+  while (xisdigit(*loc)) *id_loc++=*loc++;} /* octal constant */
   else if (*(loc-1)=='0') {
     if (*loc=='x' || *loc=='X') {*id_loc++='^'; loc++;
-      while (isxdigit(*loc)) *id_loc++=*loc++;} /* hex constant */
-    else if (isdigit(*loc)) {*id_loc++='~';
-      while (isdigit(*loc)) *id_loc++=*loc++;} /* octal constant */
+      while (xisxdigit(*loc)) *id_loc++=*loc++;} /* hex constant */
+    else if (xisdigit(*loc)) {*id_loc++='~';
+      while (xisdigit(*loc)) *id_loc++=*loc++;} /* octal constant */
     else goto dec; /* decimal constant */
   }
   else { /* decimal constant */
-    if (*(loc-1)=='.' && !isdigit(*loc)) goto mistake; /* not a constant */
+    if (*(loc-1)=='.' && !xisdigit(*loc)) goto mistake; /* not a constant */
     dec: *id_loc++=*(loc-1);
-    while (isdigit(*loc) || *loc=='.') *id_loc++=*loc++;
+    while (xisdigit(*loc) || *loc=='.') *id_loc++=*loc++;
     if (*loc=='e' || *loc=='E') { /* float constant */
       *id_loc++='_'; loc++;
       if (*loc=='+' || *loc=='-') *id_loc++=*loc++;
-      while (isdigit(*loc)) *id_loc++=*loc++;
+      while (xisdigit(*loc)) *id_loc++=*loc++;
     }
   }
   while (*loc=='u' || *loc=='U' || *loc=='l' || *loc=='L'
@@ -851,7 +851,7 @@ whether there is more work to do.
 
 @<Get control code and possible section name@>= {
   c=*loc++;
-  switch(ccode[c]) {
+  switch(ccode[(eight_bits)c]) {
     case translit_code: err_print("! Use @@l in limbo only"); continue;
 @.Use @@l in limbo...@>
     case underline: xref_switch=def_flag; continue;
@@ -862,7 +862,7 @@ whether there is more work to do.
       @<Scan the section name and make |cur_section| point to it@>;
     case verbatim: @<Scan a verbatim string@>;
     case ord: @<Get a string@>;
-    default: return(ccode[c]);
+    default: return(ccode[(eight_bits)c]);
   }
 }
 
@@ -898,7 +898,7 @@ while (1) {
   c=*loc;
   @<If end of name or erroneous control code, |break|@>;
   loc++; if (k<section_text_end) k++;
-  if (isspace(c)) {
+  if (xisspace(c)) {
     c=' '; if (*(k-1)==' ') k--;
   }
 *k=c;
@@ -917,7 +917,7 @@ if (c=='@@') {
   if (c=='>') {
     loc+=2; break;
   }
-  if (ccode[c]==new_section) {
+  if (ccode[(eight_bits)c]==new_section) {
     err_print("! Section name didn't end"); break;
 @.Section name didn't end@>
   }
@@ -1316,7 +1316,7 @@ finish_line() /* do this at the end of a line */
   if (out_ptr>out_buf) flush_buffer(out_ptr,0,0);
   else {
     for (k=buffer; k<=limit; k++)
-      if (!(isspace(*k))) return;
+      if (!(xisspace(*k))) return;
     flush_buffer(out_buf,0,0);
   }
 }
@@ -1449,8 +1449,8 @@ copy_limbo()
     while (*loc!='@@') out(*(loc++));
     if (loc++<=limit) {
       c=*loc++;
-      if (ccode[c]==new_section) break;
-      switch (ccode[c]) {
+      if (ccode[(eight_bits)c]==new_section) break;
+      switch (ccode[(eight_bits)c]) {
         case translit_code: out_str("\\ATL"); break;
 @.\\ATL@>
         case '@@': out('@@'); break;
@@ -1483,10 +1483,10 @@ copy_TeX()
     *(limit+1)='@@';
     while ((c=*(loc++))!='|' && c!='@@') {
       out(c);
-      if (out_ptr==out_buf+1 && (isspace(c))) out_ptr--;
+      if (out_ptr==out_buf+1 && (xisspace(c))) out_ptr--;
     }
     if (c=='|') return('|');
-    if (loc<=limit) return(ccode[*(loc++)]);
+    if (loc<=limit) return(ccode[(eight_bits)*(loc++)]);
   }
 }
 
@@ -1529,7 +1529,10 @@ int bal; /* brace balance */
     c=*(loc++);
     if (c=='|') return(bal);
     if (is_long_comment) @<Check for end of comment@>;
-    if (phase==2) app_tok(c);
+    if (phase==2) {
+      if (ishigh(c)) app_tok(quoted_char);
+      app_tok(c);
+    }
     @<Copy special things when |c=='@@', '\\'|@>;
     if (c=='{') bal++;
     else if (c=='}') {
@@ -3588,7 +3591,7 @@ if (a==identifier) {
 @.\\|@>
   else { delim='.';
     for (j=cur_name->byte_start;j<(cur_name+1)->byte_start;j++)
-      if (islower(*j)) { /* not entirely uppercase */
+      if (xislower(*j)) { /* not entirely uppercase */
          delim='\\'; break;
       }
   out(delim);
@@ -3847,7 +3850,7 @@ else {
     loc++;
   }
   else {
-    for (sec_depth=0; isdigit(*loc);loc++)
+    for (sec_depth=0; xisdigit(*loc);loc++)
       sec_depth = sec_depth*10 + (*loc) -'0';
   }
   while (*loc == ' ') loc++; /* remove spaces before group title */
@@ -4220,7 +4223,7 @@ for (h=hash; h<=hash_end; h++) {
     cur_name=next_name; next_name=cur_name->link;
     if (cur_name->xref!=(char*)xmem) {
       c=(eight_bits)((cur_name->byte_start)[0]);
-      if (isupper(c)) c=tolower(c);
+      if (xisupper(c)) c=tolower(c);
       blink[cur_name-name_dir]=bucket[c]; bucket[c]=cur_name;
     }
   }
@@ -4330,7 +4333,7 @@ while (sort_ptr>scrap_info) {
     if (cur_byte==(cur_name+1)->byte_start) c=0; /* hit end of the name */
     else {
       c=(eight_bits) *cur_byte;
-      if (isupper(c)) c=tolower(c);
+      if (xisupper(c)) c=tolower(c);
     }
   blink[cur_name-name_dir]=bucket[c]; bucket[c]=cur_name;
   } while (next_name);
@@ -4354,7 +4357,7 @@ switch (cur_name->ilk) {
   case normal: if (is_tiny(cur_name)) out_str("\\|");
     else {char *j;
       for (j=cur_name->byte_start;j<(cur_name+1)->byte_start;j++)
-        if (islower(*j)) goto lowcase;
+        if (xislower(*j)) goto lowcase;
       out_str("\\."); break;
 lowcase: out_str("\\\\");
     }

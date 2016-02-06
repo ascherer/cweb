@@ -1,0 +1,512 @@
+;
+## version $VER: CWEB.catalog 1.2 (13.5.1994)
+## codeset 0
+## language deutsch
+;
+; Dies sind die Übersetzungen der englischen Texte, die in den Modulen
+; COMMON.W, CTANGLE.W und CWEAVE.W und den zugehörigen Änderungsdateien
+; verwendet werden.  Hieraus läßt sich ein deutscher Katalog erstellen.
+; Zur Verwendung ist AmigaOS 2.1 oder höher notwendig.  Die Erzeugung
+; eines Systemkatalogs geschieht mit Hilfe von CatComp durch den Aufruf:
+;
+;     PROMPT> CatComp cweb.cd cweb.d.ct CATALOG deutsch/cweb.catalog
+;
+; Diese Datei kann als Ausgangspunkt für Übersetzungen in andere Sprachen
+; dienen.  Sollte jemand so eine Übersetzung anfertigen, würde ich mich
+; über die Zusendung der CatalogTranslation freuen.
+;
+; Datum: 6. Dezember 1993 (Version 1.0 aufgestellt)
+;
+; Autor: Andreas Scherer
+;        Abt-Wolf-Straße 17
+;        96215 Lichtenfels
+;        Deutschland
+;
+; Änderungen: 18. Januar 1994: Versionsinformation eingebaut (V1.1)
+;             13. Mai 1993:    Neuer Patch Level wegen der
+;                              dynamischen Speicherallokierung (V1.2)
+;
+; Copyright (c) 1993,1994 Andreas Scherer
+;
+; Die Anfertigung und Verteilung von unveränderten Kopien dieses
+; Dokumentes ist erlaubt, sofern der Urheberrechtshinweis und dieser
+; Berechtigungshinweis bei allen Kopien erhalten bleibt.
+;
+; Die Anfertigung und Verteilung von veränderten Versionen dieses
+; Dokumentes ist erlaubt unter den Bedingungen für unveränderte Kopien,
+; sofern das gesamte hiervon abgeleitete Werk unter den Bedingungen eines
+; mit diesem vergleichbaren Berechtigungshinweises verteilt wird.
+;
+; Permission is granted to make and distribute verbatim copies of this
+; document provided that the copyright notice and this permission notice
+; are preserved on all copies.
+;
+; Permission is granted to copy and distribute modified versions of this
+; document under the conditions for verbatim copying, provided that the
+; entire resulting derived work is distributed under the terms of a
+; permission notice identical to this one.
+;
+MSG_ERROR_CO9
+! Eingabezeile zu lang
+; ! Input line too long
+;
+MSG_ERROR_CO13
+! Fehlendes @x in der Änderungsdatei
+; ! Missing @x in change file
+;
+MSG_ERROR_CO14
+! Änderungsdatei endete nach @x
+; ! Change file ended after @x
+;
+MSG_ERROR_CO16_1
+! Änderungsdatei endete vor @y
+; ! Change file ended before @y
+;
+MSG_ERROR_CO16_2
+! CWEB-Datei endete während einer Änderung
+; ! CWEB file ended during a change
+;
+MSG_ERROR_CO17_1
+! Wo ist das zugehörige @y?
+; ! Where is the matching @y?
+;
+MSG_ERROR_CO17_2
+der vorangegangenen Zeilen stimmen nicht überein
+; of the preceding lines failed to match
+;
+MSG_FATAL_CO19_1
+! Kann Eingabedatei nicht öffnen: 
+; ! Cannot open input file 
+;
+MSG_FATAL_CO19_2
+! Kann Änderungsdatei nicht öffnen: 
+; ! Cannot open change file 
+;
+MSG_ERROR_CO21_1
+! Name der Einfügedatei nicht angegeben
+; ! Include file name not given
+;
+MSG_ERROR_CO21_2
+! Zu viele verschachtelte Einfügungen
+; ! Too many nested includes
+;
+MSG_ERROR_CO22
+! Name der Einfügedatei zu lang
+; ! Include file name too long
+;
+MSG_ERROR_CO23
+! Kann Einfügedatei nicht öffnen
+; ! Cannot open include file
+;
+MSG_ERROR_CO25_1
+! Änderungsdatei endete ohne @z
+; ! Change file ended without @z
+;
+MSG_ERROR_CO25_2
+! Wo ist das zugehörige @z?
+; ! Where is the matching @z?
+;
+MSG_ERROR_CO26
+! Eintrag in der Änderungsdatei stimmt nicht überein
+; ! Change file entry did not match
+;
+MSG_OVERFLOW_CO39_1
+Byte-Speicher
+; byte memory
+;
+MSG_OVERFLOW_CO39_2
+Bezeichner
+; name
+;
+MSG_ERROR_CO50_1
+\n! Mehrdeutiger Präfix: paßt zu <
+; \n! Ambiguous prefix: matches <
+;
+MSG_ERROR_CO50_2
+>\n und <
+; >\n and <
+;
+MSG_ERROR_CO52_1
+\n! Neuer Name ist Präfix von <
+; \n! New name is a prefix of <
+;
+MSG_ERROR_CO52_2
+\n! Neuer Name erweitert <
+; \n! New name extends <
+;
+MSG_ERROR_CO52_3
+\n! Abschnittname paßt nicht zu <
+; \n! Section name incompatible with <
+;
+MSG_ERROR_CO52_4
+>,\n einer Abkürzung von <
+; >,\n which abbreviates <
+;
+MSG_ERROR_CO59_1
+. (Zeile %d der Änderungsdatei)\n
+; . (l. %d of change file)\n
+;
+MSG_ERROR_CO59_2
+. (Zeile %d)\n
+; . (l. %d)\n
+;
+MSG_ERROR_CO59_3
+. (Zeile %d der Einfügedatei %s)\n
+; . (l. %d of include file %s)\n
+;
+MSG_HAPPINESS_CO62
+(Keine Fehler gefunden.)\n
+; (No errors were found.)\n
+;
+MSG_WARNING_CO62
+(Hast du die obige Warnung gesehen?)\n
+; (Did you see the warning message above?)\n
+;
+MSG_ERROR_CO62
+(Entschuldige bitte, aber ich glaube, etwas stimmt nicht.)\n
+; (Pardon me, but I think I spotted something wrong.)\n
+;
+MSG_FATAL_CO62
+(Das war ein fataler Fehler, also laß das.)\n
+; (That was a fatal error, my friend.)\n
+;
+MSG_FATAL_CO65
+\n! Tut mir leid, Kapazität für %s überschritten
+; \n! Sorry, %s capacity exceeded
+;
+MSG_FATAL_CO66
+! Das kann nicht sein: 
+; ! This can't happen: 
+;
+MSG_FATAL_CO73
+! Name der Ausgabedatei sollte mit .tex enden\n
+; ! Output file name should end with .tex\n
+;
+MSG_FATAL_CO75_1
+! Aufruf: ctangle [Optionen] webfile[.w] [{changefile[.ch]|-} [outfile[.c]]]\nOptionen sind (+ schaltet ein, - schaltet aus, Vorgabe in Klammern):\nb [+] Gib eine Startmeldung aus\nh [+] Bestätige einen fehlerfreien Lauf\np [+] Zeige einen Zwischenbericht\ns [-] Melde die Verbrauchsstatistik\n
+; ! Usage: ctangle [options] webfile[.w] [{changefile[.ch]|-} [outfile[.c]]]\nOptions are (+ turns on, - turns off, default in brackets):\nb [+] print banner line\nh [+] print happy message\np [+] give progress reports\ns [-] show statistics\n
+;
+MSG_FATAL_CO75_2
+! Aufruf: cweave [Optionen] webfile[.w] [{changefile[.ch]|-} [outfile[.c]]]\nOptionen sind (+ schaltet ein, - schaltet aus, Vorgabe in Klammern):\na [+] Verwende AMIGA-spezifische Schlüsselworte\nb [+] Gib eine Startmeldung aus\nf [+] Erzwinge Zeilenumbrüche nach jeder Anweisung\ng [+] Verwende die deutschen Makros aus gcwebmac.tex\nh [+] Bestätige einen fehlerfreien Lauf\ni [+] Rücke Parameterdeklarationen ein\no [+] Trenne Deklarationen und Anweisungen\np [+] Zeige einen Zwischenbericht\ns [-] Melde die Verbrauchsstatistik\nx [+] Füge Indexe und Inhaltsverzeichnisse ein\n
+; ! Usage: cweave [options] webfile[.w] [{changefile[.ch]|-} [outfile[.tex]]]\nOptions are (+ turns on, - turns off, default in brackets):\na [+] use AMIGA specific keywords\nb [+] print banner line\nf [+] force line breaks\ng [+] use German macros as of gcwebmac.tex\nh [+] print happy message\ni [+] indent parameter declarations\no [+] separate declarations and statements\np [+] give progress reports\ns [-] show statistics\nx [+] include indexes and table of contents\n
+;
+MSG_FATAL_CO75_3
+! Aufruf: cweave [Optionen] webfile[.w] [{changefile[.ch]|-} [outfile[.c]]]\nOptionen sind (+ schaltet ein, - schaltet aus, Vorgabe in Klammern):\nb [+] Gib eine Startmeldung aus \nf [+] Erzwinge Zeilenumbrüche nach jeder Anweisung\ng [+] Verwende die deutschen Makros aus gcwebmac.tex\nh [+] Bestätige einen fehlerfreien Lauf\ni [+] Rücke Parameterdeklarationen ein\no [+] Trenne Deklarationen und Anweisungen\np [+] Zeige einen Zwischenbericht\ns [-] Melde die Verbrauchsstatistik\nx [+] Füge Indexe und Inhaltsverzeichnisse ein\n
+; ! Usage: cweave [options] webfile[.w] [{changefile[.ch]|-} [outfile[.tex]]]\nOptions are (+ turns on, - turns off, default in brackets):\nb [+] print banner line\nf [+] force line breaks\ng [+] use German macros as of gcwebmac.tex\nh [+] print happy message\ni [+] indent parameter declarations\no [+] separate declarations and statements\np [+] give progress reports\ns [-] show statistics\nx [+] include indexes and table of contents\n
+;
+MSG_FATAL_CO76
+! Dateiname zu lang\n
+; ! File name too long\n
+;
+MSG_FATAL_CO78
+! Kann Ausgabedatei nicht öffnen: 
+; ! Cannot open output file 
+;
+MSG_ERROR_CO82
+! Einfügepfad zu lang
+; ! Include path too long
+;
+MSG_FATAL_CO85
+! Fehler bei der Speicherallokierung
+; ! Memory allocation failure
+;
+MSG_BANNER_CT1
+Dies ist CTANGLE (Version 3.1 [p9d])\n
+; This is CTANGLE (Version 3.1 [p9d])\n
+;
+MSG_OVERFLOW_CT26
+Token
+; token
+;
+MSG_OVERFLOW_CT30
+Stack
+; stack
+;
+MSG_ERROR_CT34
+\n! Nicht vorhanden: <
+; \n! Not present: <
+;
+MSG_OVERFLOW_CT40
+Ausgabedateien
+; output files
+;
+MSG_WARNING_CT42
+\n! Kein Programmtext vorhanden.
+; \n! No program text was specified.
+;
+MSG_PROGRESS_CT42_1
+\nSchreibe die Ausgabedatei (%s):
+; \nWriting the output file (%s):
+;
+MSG_PROGRESS_CT42_2
+\nSchreibe die Ausgabedateien:
+; \nWriting the output files:
+;
+MSG_PROGRESS_CT42_3
+\nFertig.
+; \nDone.
+;
+MSG_CONFUSION_CT47
+Unpassendes Zeichen in einer Makrodefinition
+; macro defs have strange char
+;
+MSG_ERROR_CT60_1
+! Eingabe endete mitten in einem Kommentar
+; ! Input ended in mid-comment
+;
+MSG_ERROR_CT60_2
+! Abschnittname endete mitten in einem Kommentar
+; ! Section name ended in mid-comment
+;
+MSG_ERROR_CT67_1
+! Zeichenkette nicht beendet
+; ! String didn't end
+;
+MSG_ERROR_CT67_2
+! Eingabe endete mitten in einer Zeichenkette
+; ! Input ended in middle of string
+;
+MSG_ERROR_CT67_3
+\n! Zeichenkette zu lang: 
+; \n! String too long: 
+;
+MSG_ERROR_CT68_1
+! Verwende @l ausschließlich im Einführungsteil
+; ! Use @l in limbo only
+;
+MSG_ERROR_CT68_2
+! In Kontrolltexten sollten doppelte @ verwendet werden
+; ! Double @ should be used in control text
+;
+MSG_ERROR_CT69
+! In ASCII Konstanten sollten doppelte @ verwendet werden
+; ! Double @ should be used in ASCII constant
+;
+MSG_ERROR_CT72_1
+! Eingabe endete in einem Abschnittnamen
+; ! Input ended in section name
+;
+MSG_ERROR_CT72_2
+\n! Abschnittname zu lang: 
+; \n! Section name too long: 
+;
+MSG_ERROR_CT73_1
+! Abschnittname nicht beendet
+; ! Section name didn't end
+;
+MSG_ERROR_CT73_2
+! Verschachtelung von Abschnittnamen nicht erlaubt
+; ! Nesting of section names not allowed
+;
+MSG_ERROR_CT74
+! Verbatim-Zeichenkette nicht beendet
+; ! Verbatim string didn't end
+;
+MSG_OVERFLOW_CT76
+Text
+; text
+;
+MSG_ERROR_CT78
+! @d, @f und @c werden im C-Text ignoriert
+; ! @d, @f and @c are ignored in C text
+;
+MSG_ERROR_CT79
+! Fehlendes `@ ' vor einem Abschnittnamen
+; ! Missing `@ ' before a named section
+;
+MSG_ERROR_CT80
+! In Zeichenketten sollten doppelte @ verwendet werden
+; ! Double @ should be used in string
+;
+MSG_ERROR_CT81
+! Unbekannte Escape-Sequenz
+; ! Unrecognized escape sequence
+;
+MSG_ERROR_CT85
+! Definition übergangen, muß mit einem Bezeichner anfangen
+; ! Definition flushed, must start with identifier
+;
+MSG_ERROR_CT93
+! Im Einführungsteil sollten doppelte @ verwendet werden
+; ! Double @ should be used in limbo
+;
+MSG_ERROR_CT94_1
+! Ungültige Hexadezimalzahl nach @l
+; ! Improper hex number following @l
+;
+MSG_ERROR_CT94_2
+! Ersetzungstext in @l zu lang
+; ! Replacement string in @l too long
+;
+MSG_STATS_CT95_1
+\nStatistik über den Speicherbedarf:\n
+; \nMemory usage statistics:\n
+;
+MSG_STATS_CT95_2
+%ld Namen (von %ld)\n
+; %ld names (out of %ld)\n
+;
+MSG_STATS_CT95_3
+%ld Ersetzungstexte (von %ld)\n
+; %ld replacement texts (out of %ld)\n
+;
+MSG_STATS_CT95_4
+%ld Byte (von %ld)\n
+; %ld bytes (out of %ld)\n
+;
+MSG_STATS_CT95_5
+%ld Token (von %ld)\n
+; %ld tokens (out of %ld)\n
+;
+MSG_BANNER_CW1
+Dies ist CWEAVE (Version 3.1 [p9d])\n
+; This is CWEAVE (Version 3.1 [p9d])\n
+;
+MSG_OVERFLOW_CW21
+Querverweise
+; cross-reference
+;
+MSG_ERROR_CW54
+! Kontrollzeichen sind in Abschnittnamen verboten
+; ! Control codes are forbidden in section name
+;
+MSG_ERROR_CW56_1
+! Kontrolltext nicht beendet
+; ! Control text didn't end
+;
+MSG_ERROR_CW56_2
+! Kontrollzeichen sind in Kontrolltexten verboten
+; ! Control codes are forbidden in control text
+;
+MSG_OVERFLOW_CW61
+Abschnittnummer
+; section number
+;
+MSG_ERROR_CW71_1
+! Fehlender linker Bezeichner von @s
+; ! Missing left identifier of @s
+;
+MSG_ERROR_CW71_2
+! Fehlender rechter Bezeichner von @s
+; ! Missing right identifier of @s
+;
+MSG_WARNING_CW75_1
+\n! Nicht definiert: <
+; \n! Never defined: <
+;
+MSG_WARNING_CW75_2
+\n! Nicht benutzt: <
+; \n! Never used: <
+;
+MSG_WARNING_CW85
+\n! Zeile mußte umgebrochen werden (Ausgabezeile %d):\n
+; \n! Line had to be broken (output l. %d):\n
+;
+MSG_ERROR_CW92_1
+! Fehlende } in Kommentar
+; ! Missing } in comment
+;
+MSG_ERROR_CW92_2
+! Zusätzliche } in Kommentar
+; ! Extra } in comment
+;
+MSG_ERROR_CW94
+! Unerlaubte Verwendung von @ in Kommentar
+; ! Illegal use of @ in comment
+;
+MSG_WARNING_CW171
+\nNichtreduzierbare Scrap-Folge in Abschnitt %d:
+; \nIrreducible scrap sequence in section %d:
+;
+MSG_WARNING_CW172
+\nAnalyse nach Zeile %d:\n
+; \nTracing after l. %d:\n
+;
+MSG_OVERFLOW_CW176
+Scrap/Token/Text
+; scrap/token/text
+;
+MSG_ERROR_CW182
+! Fehlendes `|' nach C-Text
+; ! Missing `|' after C text
+;
+MSG_ERROR_CW201
+\n! Unerlaubtes Kontrollzeichen in Abschnittname: <
+; \n! Illegal control code in section name: <
+;
+MSG_ERROR_CW202
+\n! C-Text in Abschnittname nicht beendet: <
+; \n! C text in section name didn't end: <
+;
+MSG_OVERFLOW_CW202
+Puffer
+; buffer
+;
+MSG_PROGRESS_CW204
+\nSchreibe die Ausgabedatei...
+; \nWriting the output file...
+;
+MSG_ERROR_CW209_1
+! TeX-Zeichenkette sollte nur in C-Text stehen
+; ! TeX string should be in C text only
+;
+MSG_ERROR_CW209_2
+! Das geht nicht im TeX-Text
+; ! You can't do that in TeX text
+;
+MSG_ERROR_CW213
+! Ungültige Makrodefinition
+; ! Improper macro definition
+;
+MSG_ERROR_CW214
+! Ungültige Formatdefinition
+; ! Improper format definition
+;
+MSG_ERROR_CW217
+! Hinter dem Abschnittnamen muß ein = Zeichen stehen
+; ! You need an = sign after the section name
+;
+MSG_ERROR_CW218
+! Das geht nicht im C-Text
+; ! You can't do that in C text
+;
+MSG_PROGRESS_CW225
+\nSchreibe den Index...
+; \nWriting the index...
+;
+MSG_FATAL_CW225_1
+! Kann die Indexdatei nicht öffnen: 
+; ! Cannot open index file 
+;
+MSG_FATAL_CW225_2
+! Kann die Abschnittdatei nicht öffnen: 
+; ! Cannot open section file 
+;
+MSG_OVERFLOW_CW237
+Sortieren
+; sorting
+;
+MSG_STATS_CW248_1
+%ld Querverweise (von %ld)\n
+; %ld cross-references (out of %ld)\n
+;
+MSG_STATS_CW248_2
+Parsen:\n
+; Parsing:\n
+;
+MSG_STATS_CW248_3
+%ld Scraps (von %ld)\n
+; %ld scraps (out of %ld)\n
+;
+MSG_STATS_CW248_4
+%ld Texte (von %ld)\n
+; %ld texts (out of %ld)\n
+;
+MSG_STATS_CW248_5
+%ld Ebenen (von %ld)\n
+; %ld levels (out of %ld)\n
+;
+MSG_STATS_CW248_6
+Sortieren:\n
+; Sorting:\n
+;

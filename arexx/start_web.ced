@@ -1,0 +1,361 @@
+/*
+ * AREXX $VER: Start_Web.ced†3.8 (24.6.1994)
+ *
+ * DESCRIPTION: This AREXX script saves and weaves or tangles the current
+ *              CED Pro 3 view (it is very easy to use this script with
+ *              version 2 of CED, just look for the keyword `CED2' and
+ *              change by hand).  Then it loads the resulting `.tex' or
+ *              `.c' or `.cpp' file into a new view.  If a changefile is
+ *              present to the webfile in the current view, i.e., a file
+ *              with extension `.ch' instead of `.w' (or `.web' or `.wpp'),
+ *              it will be taken into account.  To use this script, install
+ *              two calls in the DOS/ARexx interface of CED of the form
+ *
+ *                 CWeb:ARexx/Start_Web CTangle
+ *                 CWeb:ARexx/Start_Web CWeave
+ *
+ *              If you are a COOL programmer and want to receive C++ source
+ *              files with an appropriate extension, you should add a third
+ *              call of the form
+ *
+ *                 CWeb:ARexx/Start_Web CTangle ++
+ *
+ *              with two arguments, so that CTANGLE will produce `.cpp'
+ *              file extensions.  You don't need a second entry for CWEAVE
+ *              when using C++, since CWEAVE always produces `.tex' files.
+ *
+ * CREATION DATE: 11.09.1992 (V0.1 and V0.2)
+ *
+ * AUTHOR: Andreas Scherer
+ *         Abt-Wolf-Straﬂe 17
+ *         96215 Lichtenfels
+ *         Germany
+ *
+ * CHANGES: 25.10.1992: `change file' included (V0.3)
+ *          28.02.1993: `.web' extension is now permissible (V0.4)
+ *                      Options `+a +g' are default in my CWEAVE version.
+ *          19.03.1993: Absolute path name of the WEB file is taken into
+ *                      account due to CWEB 2.7 (V0.5)
+ *          31.08.1993: CWEB 2.7 [p6b] now returns RC=[0,5,10,20];
+ *                      give appropriate messages in CED (V0.6)
+ *          07.09.1993: Rely on system path to find CTANGLE/CWEAVE (V0.7)
+ *          03.10.1993: Refinement of program call for Cygnus Ed 3.5:
+ *                      ARexx<-->CED window isn't temporary anymore;
+ *                      output of CTANGLE/CWEAVE will be redirected
+ *                      to the log file `T:web.log'.  This file is loaded
+ *                      in case of an error (V0.8)
+ *          06.10.1993: Single script for both CTANGLE and CWEAVE (V1.0)
+ *          07.10.1993: Localization of all requester texts for German
+ *                      and English users.  Catalog with the English
+ *                      translation provided.  These features work for
+ *                      WorkBench 2.1 and higher; the script works with
+ *                      lower versions too (V1.1)
+ *          09.10.1993: Updated for CWEB 2.8 (V1.2)
+ *          20.10.1993: Allow special device name "RAM DISK:" (V1.3)
+ *          25.10.1993: Updated for CWEB 3.0 (V2.0)
+ *          04.11.1993: New patch level CWEB 3.0 [p8e] (V2.1)
+ *          10.11.1993: Saving bug fixed, a negative number of changes
+ *                      is possible for the current view (V2.2)
+ *          18.11.1993: Updated for CWEB 3.1 (V2.3)
+ *          19.11.1993: Naming simplification (V2.4)
+ *          21.11.1993: When called `CTangle ++', this script produces
+ *                      C++ output files with `.cpp' extensions.  Also
+ *                      the new extension `.wpp' is permissible (V3.0)
+ *          30.11.1993: New patch level CWEB 3.1 [p9a] (V3.1)
+ *          06.12.1993: Localization improved and new catalog name to
+ *                      avoid collisions with the localization of
+ *                      CWEB 3.1 [p9b]†(V3.2)
+ *          01.01.1994: Pre-V38 users want to see the warning and
+ *                      error messages as well (V3.3)
+ *          31.01.1994: We are at patch level [p9c].
+ *                      RESULTFILE is not editable. (V3.4)
+ *          02.04.1994: Localization improved; only one set of
+ *                      default strings needed (V3.5)
+ *          13.04.1994: PROG_NAME tested in uppercase mode (V3.6)
+ *          13.05.1994: New patch level [p9d]. (V3.7)
+ *          24.06.1994: New option `m'.  (V3.8)
+ *
+ * COPYRIGHT: (c) 1992-1994 Andreas Scherer
+ *
+ * Permission is granted to make and distribute verbatim copies of this
+ * document provided that the copyright notice and this permission notice
+ * are preserved on all copies.
+ *
+ * Permission is granted to copy and distribute modified versions of this
+ * document under the conditions for verbatim copying, provided that the
+ * entire resulting derived work is distributed under the terms of a
+ * permission notice identical to this one.
+ */
+
+Options FailAt 21
+Options Results
+
+/*
+ * The pre-1.0 version of this script actually consisted of two
+ * separate scripts for CTANGLE and CWEAVE.  To facilitate further
+ * improvements, the name of the program we want to call is passed
+ * as a single argument on startup, possibly with a second `++' for
+ * C++ programmers.  It should be one of the strings `CTangle',
+ * `CTangle ++' (watch your space!) or `CWeave'.  (You don't need an
+ * extra `CWeave ++' command.)
+ */
+Parse Arg PROG_NAME CPP .
+
+/*
+ * Since CTANGLE either has the same command line options as CWEAVE
+ * or ignores the others it is save to have a common specification
+ * of activated or deactivated switches.  According to the CWEB user
+ * manual options are activated by `+' and deactivated by `-'.
+ * The current implementation of the programs understand the following
+ * list of command line options:
+ *
+ *     a - Amiga-defined identifiers are keywords [+] (W)
+ *     b - Print a banner line                    [+] (TW)
+ *     f - Force line breaks                      [+] (W)
+ *     g - Use German macros `gcwebmac.tex'       [+] (W)
+ *     h - Print a happy message                  [+] (TW)
+ *     i - Indent parameter declarations          [+] (W)
+ *     m - ARexx communication to SAS/C's browser [-] (TW)
+ *     o - Separate declarations and statements   [+] (W)
+ *     p - Give progress report                   [+] (TW)
+ *     s - Show statistics                        [-] (TW)
+ *     x - Include indexes and table of contents  [+] (W)
+ *
+ * The hard-wired defaults are in brackets.  A `T' or `W' in
+ * braces indicates that CTANGLE or CWEAVE acknowledges the option.
+ *
+ * For the purposes of this script I set the default language
+ * to German and request that the statistics are written to the
+ * log file as explained below.  Also I prefer that parameter
+ * declarations do not get indented in old-style function headers.
+ */
+WEB_OPTS = "-i +s"
+
+/*
+ * WorkBench 2.1/3.0 users are provided with localized messages in
+ * their system default language.  This may be either German or English.
+ * (Other languages are welcome!)  Default in this script, in case the
+ * catalogs can not be used, is the German version for all arguments
+ * to the `GetCatalogStr' function.  (You will have to edit these strings
+ * by hand if you don't have WorkBench 2.1/3.0, so go get the latest
+ * version of the best!)
+ */
+MSG_ERROR_EXTENSION = "Fehler, die Datei muﬂ eine Endung `.w', `.web' oder `.wpp' haben."
+MSG_ERROR_FATAL     = "mit fatalem Fehler abgebrochen! Keine Ausgabe!"
+MSG_ERROR_ERROR     = "beendet mit Fehler! Ausgabe fehlerhaft!"
+MSG_ERROR_WARNING   = "beendet mit Warnung!" || '0A'X || "Ausgabe wahrscheinlich korrekt."
+MSG_ERROR_END       = "Fehler bei"
+
+If 38 <= MyGetEnv("WORKBENCH") Then
+  If ~Show('Libraries','locale.library') Then
+    Call AddLib('locale.library',0,-30)
+
+LOCALE_FOUND = Show('Libraries','locale.library')
+
+If 1 = LOCALE_FOUND Then Do
+  catalog = OpenCatalog("cweb_arexx.catalog","deutsch",0);
+  MSG_ERROR_EXTENSION = GetCatalogStr(catalog,0,MSG_ERROR_EXTENSION)
+  MSG_ERROR_FATAL     = GetCatalogStr(catalog,1,MSG_ERROR_FATAL)
+  MSG_ERROR_ERROR     = GetCatalogStr(catalog,2,MSG_ERROR_ERROR)
+  MSG_ERROR_WARNING   = GetCatalogStr(catalog,3,MSG_ERROR_WARNING)
+  MSG_ERROR_END       = GetCatalogStr(catalog,4,MSG_ERROR_END)
+End
+
+/*
+ * Give a little progress message to the Cygnus Ed 3.5 user.
+ * Comment this out if you use Cygnus Ed 2.12 (CED2).
+ */
+DM PROG_NAME "V3.1 [p9d] Copyright © 1993-1994 Andreas Scherer"
+
+/*
+ * Get the full filename from CED.
+ * CED2 uses numbers instead of strings.
+ */
+Status FileName /* 19  */
+FULLNAME = RESULT
+
+/*
+ * Make "RAM DISK:" a special case.
+ */
+If "RAM DISK:" = Upper(Left(FULLNAME,9)) Then
+  FULLNAME = "RAM:" ||  SubStr(FULLNAME,10)
+
+/*
+ * Error messages and warnings of CTANGLE and CWEAVE will be written
+ * to a temporary log file, which can be loaded for debugging.  It will
+ * contain the complete screen output of CTANGLE/CWEAVE.
+ */
+LOGFILE = "T:cweb.log"
+
+/*
+ * We need an absolute file name.
+ */
+IVOL     = Index(FULLNAME,":")
+IDIRS    = LastPos("/",SubStr(FULLNAME,1+IVOL))
+FILEONLY = SubStr(FULLNAME,IVOL+1+IDIRS)
+IBASE    = LastPos(".",FILEONLY)
+
+If 0 = IBASE Then
+  IBASE = Length(FILEONLY)
+Else
+  IBASE = IBASE - 1
+
+/*
+ * CWEB files normally have a `.w' extension.
+ */
+If "" = SubStr(FULLNAME,1+IVOL+IDIRS+IBASE) | "W" ~= Upper(Right(FULLNAME,1)) Then Do
+
+/*
+ * But you may also use the `.web' form.
+ */
+  If "" = SubStr(FULLNAME,1+IVOL+IDIRS+IBASE) | "WEB" ~= Upper(Right(FULLNAME,3)) Then Do
+
+/*
+ * And for C++ programmers there is even the `.wpp' form, so they can mix
+ * ANSI-C and COOL programs in the same directory.
+ */
+    If "" = SubStr(FULLNAME,1+IVOL+IDIRS+IBASE) | "WPP" ~= Upper(Right(FULLNAME,3)) Then Do
+
+/*
+ * No other file extensions will be accepted.
+ */
+      Okay1 MSG_ERROR_EXTENSION
+      Call EndGame
+    End
+  End
+End
+
+/*
+ * Fix the full name of the file including device or directory name.
+ */
+If 0 = IVOL Then Do
+  DIREC = Pragma('d')
+  If '/' ~= Right(DIREC,1) & ':' ~= Right(DIREC,1) Then
+    DIREC = DIREC||'/'
+  FULLNAME = DIREC||FULLNAME
+  Drop DIREC
+End
+
+/*
+ * In case there is a `change file', it has a `.ch' extension.  If there
+ * is no change file in the current directory a dummy value is inserted.
+ */
+CHANGEFILE = Left(FULLNAME,IVOL+IDIRS+IBASE)||'.ch'
+
+If ~Exists(CHANGEFILE) Then
+  CHANGEFILE = "-"
+
+/*
+ * This file will hopefully be created by CTANGLE/CWEAVE.
+ */
+RESULTFILE = Left(FULLNAME,IVOL+IDIRS+IBASE)
+
+If 'CTANGLE' = Upper(PROG_NAME) Then Do
+  If '++' = CPP Then
+    RESULTFILE = RESULTFILE||'.cpp'
+  Else
+    RESULTFILE = RESULTFILE||'.c'
+End
+If 'CWEAVE' = Upper(PROG_NAME) Then
+  RESULTFILE = RESULTFILE||'.tex'
+
+/*
+ * Remember the path name of the WEB file.
+ */
+PATHNAME = Left(FULLNAME,IVOL+IDIRS)
+
+Drop IVOL IDIRS IBASE
+
+/*
+ * Save only if the file has been modified.  So get the number of changes
+ * to the file in the current view.  This number can be negative! so test
+ * for unequal to zero instead of greater than zero.  CED2 uses numbers
+ * instead of strings.
+ */
+Status NumChanges /* 18  */
+If 0 ~= RESULT Then
+  Save
+
+/*
+ * Change the current directory first.
+ */
+Pragma('Directory',PATHNAME)
+
+/*
+ * Now call the CTANGLE or the CWEAVE program.  We don't change the
+ * host address, because there may be more than one Cygnus Ed running,
+ * each having its own ARexx port name and we want to see the results
+ * in the right one.
+ */
+Address COMMAND PROG_NAME WEB_OPTS FULLNAME CHANGEFILE RESULTFILE ">" LOGFILE
+
+/*
+ * Patch level [p6b] of `common.w' now returns error and warning codes
+ * as defined for the AMIGA system.  Take appropriate actions.
+ */
+If 20 = RC Then Do
+  Okay1 PROG_NAME MSG_ERROR_FATAL
+  OW LOGFILE /* Use 'jump to file' with CED2.  */
+  Call EndGame
+End; Else If 10 = RC Then Do
+  Okay1 PROG_NAME MSG_ERROR_ERROR
+  OW LOGFILE /* Use 'jump to file' with CED2.  */
+  Call EndGame
+End; Else If 5 = RC Then Do
+  Okay2 PROG_NAME MSG_ERROR_WARNING
+
+  If 0 = RESULT Then Do
+    OW LOGFILE /* Use 'jump to file' with CED2.  */
+    Call EndGame
+  End
+End
+
+/*
+ * Make sure the WEB-file is loaded.  This works with CED 3.5+ only.
+ */
+OW FULLNAME
+
+/*
+ * Now load the resulting `.tex' or `.c' file into a new CED view.
+ */
+If Exists(RESULTFILE) Then Do
+  'jump to file "'RESULTFILE'"'
+
+/*
+ * The `.tex'- or `.c'-file is already in a CED view.  Leave it, then
+ * load it again.  Is there a better way to do this?
+ */
+  If 0 ~= RESULT Then
+    Quit
+
+  Open new
+  Open RESULTFILE
+
+/*
+ * Make sure the resultfile can't be edited.
+ */
+  Status Editable
+  If 1 = RESULT Then
+    Editable File
+End; Else
+  Okay1 MSG_ERROR_END PROG_NAME
+
+EndGame:
+  If 1 = LOCALE_FOUND Then
+    CloseCatalog(catalog);
+  DM /* Comment this out when using CED2.  */
+  Exit
+Return
+
+/*
+ * When will ARexx supply GetEnv/SetEnv?
+ */
+MyGetEnv: Procedure
+Parse Arg NAME
+
+If Open(TEMPFILE,"ENV:"||NAME,'r') Then Do
+  GIVES = Readln(TEMPFILE)
+  Call Close TEMPFILE
+End; Else GIVES = 37
+
+Return GIVES

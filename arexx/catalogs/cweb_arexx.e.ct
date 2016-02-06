@@ -1,0 +1,55 @@
+;
+## version $VER: CWEB_AREXX.E.CT 1.2 (6.12.1993)
+## codeset 0
+## language english
+;
+; These are translated versions of the German texts used in the
+; ARexx script `Start_Web.ced' for production of an English catalog.
+; To use it AmigaOS 2.1 or higher is needed.  Creation of the system
+; catalog can be done by means of a program like CatComp with:
+;
+;     PROMPT> CatComp cweb_arexx.cd cweb_arexx.e.ct CATALOG english/cweb_arexx.catalog
+;
+; This file can be the starting point for translations into other
+; languages as well.  Should someone create such a translation, I
+; would appreciate to receive a copy of the CatalogTranslation.
+;
+; Author: Andreas Scherer
+;         Abt-Wolf-Straﬂe 17
+;         96215 Lichtenfels
+;         Germany
+;
+; Copyright (c) 1993 Andreas Scherer
+;
+; CHANGES: 06.12.1993: New catalog name to avoid collisions with the
+;                      catalog of the CWEB system. (V1.2)
+;
+; Permission is granted to make and distribute verbatim copies of this
+; document provided that the copyright notice and this permission notice
+; are preserved on all copies.
+;
+; Permission is granted to copy and distribute modified versions of this
+; document under the conditions for verbatim copying, provided that the
+; entire resulting derived work is distributed under the terms of a
+; permission notice identical to this one.
+;
+MSG_ERROR_EXTENSION
+Error, file must have a `.w' or `.web' or `.wpp' extension.
+; Fehler, die Datei muﬂ eine Endung `.w', `.web' oder `.wpp' haben.
+;
+MSG_ERROR_FATAL
+aborted with fatal error! No output!
+; mit fatalem Fehler abgebrochen! Keine Ausgabe!
+;
+MSG_ERROR_ERROR
+terminated with error! Output faulty!
+; beendet mit Fehler! Ausgabe fehlerhaft!
+;
+MSG_ERROR_WARNING
+terminated with warning!\nOutput probably correct.
+; beendet mit Warnung!\nAusgabe wahrscheinlich korrekt.
+;
+MSG_ERROR_END
+Error with
+; Fehler bei
+;

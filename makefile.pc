@@ -1,12 +1,12 @@
-# This file, makefile.amiga, is part of CWEB.
+# This file, makefile.pc, is part of CWEB.
 # It is distributed WITHOUT ANY WARRANTY, express or implied.
 #
-# Modified for the SAS/C 6.51 compiler under AmigaOS 2.1 on an AMIGA 2000 by
-# Andreas Scherer (Abt-Wolf-Straﬂe 17, 96215 Lichtenfels, Germany), March 1993
+# Modified for the Borland Turbo C/C++ 3.1 compiler under MSDOS by
+# Andreas Scherer (Abt-Wolf-Straﬂe 17, 96215 Lichtenfels, Germany), July 1994
 # Last updated by Andreas Scherer, July 2, 1994
 
 # Copyright (C) 1987,1990,1993 Silvio Levy and Donald E. Knuth
-# Copyright (C) 1993,1994 Andreas Scherer
+# Copyright (C) 1994 Andreas Scherer
 
 # Permission is granted to make and distribute verbatim copies of this
 # document provided that the copyright notice and this permission notice
@@ -17,31 +17,28 @@
 # entire resulting derived work is distributed under the terms of a
 # permission notice identical to this one.
 
-# 
+#
 # Read the README file, then edit this file to reflect local conditions
 #
 
 # directory for TeX inputs (cwebmac.tex, ccwebmac.tex, or gcwebmac.tex go here)
-MACROSDIR= cweb:macros/
+MACROSDIR= macros/
 
 # directory for CWEB inputs in @i files
-CWEBINPUTS= CWeb:,CWeb:include,CWeb:inputs
+CWEBINPUTS= inputs/
 
 # extension for manual pages ("l" distinguishes local from system stuff)
 MANEXT= l
 #MANEXT= 1
 
 # directory for manual pages (cweb.1 goes here)
-MANDIR= cweb:
+MANDIR=
 
 # destination directory for executables; must end in /
-DESTDIR= cweb:bin/
+DESTDIR= bin/
 
 # directory for GNU EMACS Lips code (cweb.el goes here)
-EMACSDIR= s:
-
-# directory for language catalogs with message texts of the script file
-CATDIR= Locale:catalogs/
+EMACSDIR=
 
 # directory for the language header file "cweb.h"
 CATINCLUDE= bin/catalogs/
@@ -72,14 +69,10 @@ PCHANGES=
 # Set MCHANGES to wmerge-foo.ch if you need changes to wmerge.w
 MCHANGES=wmerge.ch
 
-# These lists of arguments are specific for SC and SLINK.
+# These lists of arguments are specific for BCC.
 # Change, add or delete things here to suit your personal conditions.
-OBJS = LIB:cres.o
-LIBS = LIB:sc.lib+LIB:amiga.lib
-CFLAGS = cpu=ANY idir=$(CATINCLUDE) OPTIMIZE \
-	def=_STRICT_ANSI def=CWEBINPUTS="$(CWEBINPUTS)" \
-	NOSTKCHK NOICONS
-LINKFLAGS = VERBOSE NOICONS STRIPDEBUG LIB $(LIBS) FROM $(OBJS)
+CFLAGS = -I$(CATINCLUDE) -DCWEBINPUTS="$(CWEBINPUTS)" -mh -AT
+LINKFLAGS = $(CFLAGS)
 
 # By default my version of cweave includes the option for AMIGA keywords
 # and the use of German macros.  So you have to switch these off for all
@@ -87,12 +80,12 @@ LINKFLAGS = VERBOSE NOICONS STRIPDEBUG LIB $(LIBS) FROM $(OBJS)
 WFLAGS=-fag
 
 # What C compiler are you using?
-CC = SC
-LINK = SLink
-MAKE = SMake
+CC = bcc
+LINK = bcc
+MAKE = make
 
 # RM and CP are used below in case rm and cp are aliased
-RM= delete
+RM= del
 CP= copy
 INSTALL= copy
 
@@ -118,25 +111,25 @@ ALL =  $(ALMOSTALL) cweave.w
 .w.tex:
 	$(CWEAVE) $(WFLAGS) $* $*
 
-.tex.dvi:	
-	virtex &plain "\language=0 \input " $<
+.tex.dvi:       
+	tex $<
 
 .w.dvi:
 	$(MAKE) $*.tex
 	$(MAKE) $*.dvi
 
-.c.o:
-	$(CC) $(CFLAGS) $*.c
+.c.obj:
+	$(CC) $(CFLAGS) -c $*.c
 
 .w.c:
 	$(CTANGLE) $* $*
 
-.w.o:
+.w.obj:
 	$(MAKE) $*.c
-	$(MAKE) $*.o
+	$(MAKE) $*.obj
 
 # When you say `smake' without any arguments, `smake' will jump to this item
-default: ctangle cweave
+default: ctangle.exe cweave.exe
 
 # The complete set of files contains the two programs `ctangle' and
 # `cweave' plus the program `wmerge', the manuals `cwebman' and `cwebmang'
@@ -144,9 +137,9 @@ default: ctangle cweave
 all: progs docs
 
 # The objects of desire
-progs: ctangle cweave wmerge
+progs: ctangle.exe cweave.exe wmerge.exe
 
-cautiously: ctangle
+cautiously: $(CTANGLE)
 	$(CP) common.c SAVEcommon.c
 	$(CTANGLE) common $(CCHANGES)
 	diff common.c SAVEcommon.c
@@ -165,27 +158,26 @@ SAVEcommon.c:
 common.c: common.w $(CCHANGES)
 	$(CTANGLE) common $(CCHANGES)
 
-common.o: common.c $(CATINCLUDE)cweb.h
+common.obj: common.c $(CATINCLUDE)cweb.h
 
-ctangle: ctangle.o common.o
-	$(LINK) $(LINKFLAGS) common.o ctangle.o TO ctangle
+ctangle.exe: ctangle.obj common.obj
+	$(LINK) $(LINKFLAGS) ctangle.obj common.obj
 
 ctangle.c: ctangle.w $(TCHANGES)
 	$(CTANGLE) ctangle $(TCHANGES)
 
-ctangle.o: ctangle.c $(CATINCLUDE)cweb.h $(COMMONH)
+ctangle.obj: ctangle.c $(CATINCLUDE)cweb.h $(COMMONH)
 
-cweave: cweave.o common.o
-	$(LINK) $(LINKFLAGS) common.o cweave.o TO cweave
+cweave.exe: cweave.obj common.obj
+	$(LINK) $(LINKFLAGS) cweave.obj common.obj
 
 cweave.c: cweave.w $(WCHANGES)
 	$(CTANGLE) cweave $(WCHANGES)
 
-cweave.o: cweave.c $(CATINCLUDE)cweb.h $(COMMONH)
-	$(CC) $(CFLAGS) code=FAR cweave.c
+cweave.obj: cweave.c $(CATINCLUDE)cweb.h $(COMMONH)
 
-wmerge: wmerge.c
-	$(CC) $(CFLAGS) link wmerge.c TO wmerge
+wmerge.exe: wmerge.c
+	$(CC) $(CFLAGS) wmerge.c
 
 wmerge.c: wmerge.w $(MCHANGES)
 	$(CTANGLE) wmerge $(MCHANGES)
@@ -234,13 +226,25 @@ wmerge.tex: wmerge.w $(MCHANGES)
 
 # be sure to leave ctangle.c and common.c and $(COMMONH) for bootstrapping
 clean:
-	$(RM) \#?.(o|lnk|bak|log|dvi|toc|idx|scn) \
-	common.tex cweave.tex cweave.c ctangle.tex cweave ctangle \
-	cwebmang.tex wmerge.tex wmerge
+	$(RM) *.obj 
+	$(RM) *.bak
+	$(RM) *.log 
+	$(RM) *.dvi 
+	$(RM) *.toc 
+	$(RM) *.idx 
+	$(RM) *.scn 
+	$(RM) common.tex 
+	$(RM) cweave.tex 
+	$(RM) cweave.c 
+	$(RM) ctangle.tex 
+	$(RM) cweave.exe 
+	$(RM) ctangle.exe 
+	$(RM) cwebmang.tex 
+	$(RM) wmerge.tex 
+	$(RM) wmerge.exe
 
 # Install the new program versions where they can be found
-install: bin/ctangle bin/cweave bin/wmerge $(MACROSDIR)ccwebmac.tex \
-	arexx/catalogs/english/cweb.catalog
-	$(INSTALL) cweave $(DESTDIR)$(DESTPREF)weave
-	$(INSTALL) ctangle $(DESTDIR)$(DESTPREF)tangle
-	$(INSTALL) wmerge $(DESTDIR)wmerge
+install: bin/ctangle bin/cweave bin/wmerge $(MACROSDIR)ccwebmac.tex
+	$(INSTALL) cweave.exe $(DESTDIR)$(DESTPREF)weave.exe
+	$(INSTALL) ctangle.exe $(DESTDIR)$(DESTPREF)tangle.exe
+	$(INSTALL) wmerge.exe $(DESTDIR)wmerge.exe

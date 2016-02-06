@@ -1,12 +1,13 @@
-# This file, makefile.amiga, is part of CWEB.
+# This file, makefile.unix, is part of CWEB.
 # It is distributed WITHOUT ANY WARRANTY, express or implied.
-#
-# Modified for the SAS/C 6.51 compiler under AmigaOS 2.1 on an AMIGA 2000 by
-# Andreas Scherer (Abt-Wolf-Straﬂe 17, 96215 Lichtenfels, Germany), March 1993
-# Last updated by Andreas Scherer, July 2, 1994
+
+# Modified for the CC compiler under HP-UX on a HP Apollo 400 at Bayreuth
+# University by Andreas Scherer (sorry, no e-mail; Abt-Wolf-Straﬂe 17,
+# 96215 Lichtenfels, Federal Republic of Germany), July 1, 1994.
+# Other UNIX compilers like c89 or gcc can work with this file as well.
 
 # Copyright (C) 1987,1990,1993 Silvio Levy and Donald E. Knuth
-# Copyright (C) 1993,1994 Andreas Scherer
+# Copyright (C) 1994 Andreas Scherer
 
 # Permission is granted to make and distribute verbatim copies of this
 # document provided that the copyright notice and this permission notice
@@ -22,29 +23,26 @@
 #
 
 # directory for TeX inputs (cwebmac.tex, ccwebmac.tex, or gcwebmac.tex go here)
-MACROSDIR= cweb:macros/
+MACROSDIR= /usr/local/lib/tex/inputs
 
 # directory for CWEB inputs in @i files
-CWEBINPUTS= CWeb:,CWeb:include,CWeb:inputs
+CWEBINPUTS=/usr/local/lib/cweb
 
 # extension for manual pages ("l" distinguishes local from system stuff)
 MANEXT= l
 #MANEXT= 1
 
 # directory for manual pages (cweb.1 goes here)
-MANDIR= cweb:
+MANDIR= /usr/man/man$(MANEXT)
 
 # destination directory for executables; must end in /
-DESTDIR= cweb:bin/
+DESTDIR= /usr/local/bin/
 
-# directory for GNU EMACS Lips code (cweb.el goes here)
-EMACSDIR= s:
-
-# directory for language catalogs with message texts of the script file
-CATDIR= Locale:catalogs/
+# directory for GNU EMACS Lisp code (cweb.el goes here)
+EMACSDIR= /usr/local/emacs/lisp
 
 # directory for the language header file "cweb.h"
-CATINCLUDE= bin/catalogs/
+CATINCLUDE=./bin/catalogs
 
 # Set DESTPREF to null if you want to call the executables "tangle" and "weave"
 # (probably NOT a good idea; we recommend leaving DESTPREF=c)
@@ -72,14 +70,23 @@ PCHANGES=
 # Set MCHANGES to wmerge-foo.ch if you need changes to wmerge.w
 MCHANGES=wmerge.ch
 
-# These lists of arguments are specific for SC and SLINK.
-# Change, add or delete things here to suit your personal conditions.
-OBJS = LIB:cres.o
-LIBS = LIB:sc.lib+LIB:amiga.lib
-CFLAGS = cpu=ANY idir=$(CATINCLUDE) OPTIMIZE \
-	def=_STRICT_ANSI def=CWEBINPUTS="$(CWEBINPUTS)" \
-	NOSTKCHK NOICONS
-LINKFLAGS = VERBOSE NOICONS STRIPDEBUG LIB $(LIBS) FROM $(OBJS)
+# We keep debugging info around, for fun, but most users don't need it.
+# These lists of arguments are specific for CC.  Change, add or delete
+# things here to suit your personal conditions.
+# The following set of options work for CC 8.00 on HP-UX 8.00.
+CFLAGS = -g -tp,/usr/local/bin/cpp.sh -I$(CATINCLUDE) \
+	-DCWEBINPUTS=\"$(CWEBINPUTS)\" -O
+
+# The following set of options work for CC 9.30 on HP-UX 9.01.
+#CFLAGS = -g -Aa -I$(CATINCLUDE) -DCWEBINPUTS=\"$(CWEBINPUTS)\" +O3
+
+# The following set of options work for CC and GCC on SunOS 4 and SGI's
+# IRIX 4.0.5.  They are standard for many other UNIX-C compilers.
+#CFLAGS = -g -I$(CATINCLUDE) -DCWEBINPUTS=\"$(CWEBINPUTS)\" -O
+
+# All linkers tested worked fine with this option.
+LINKFLAGS = -g
+#LINKFLAGS = -s # for smaller (stripped) executables on many UNIX systems
 
 # By default my version of cweave includes the option for AMIGA keywords
 # and the use of German macros.  So you have to switch these off for all
@@ -87,20 +94,18 @@ LINKFLAGS = VERBOSE NOICONS STRIPDEBUG LIB $(LIBS) FROM $(OBJS)
 WFLAGS=-fag
 
 # What C compiler are you using?
-CC = SC
-LINK = SLink
-MAKE = SMake
+CC = cc
+MAKE = make
 
 # RM and CP are used below in case rm and cp are aliased
-RM= delete
-CP= copy
-INSTALL= copy
+RM= /bin/rm
+CP= /bin/cp
 
 ##########  You shouldn't have to change anything after this point #######
 
-CWEAVE = cweave
-CTANGLE = ctangle
-WMERGE = wmerge
+CWEAVE = ./bin/cweave
+CTANGLE = ./bin/ctangle
+WMERGE=./bin/wmerge
 SOURCES = cweave.w common.w ctangle.w
 ALMOSTALL = common.w ctangle.w wmerge.w makefile readme \
 	common.c common.h $(COMMONH) ctangle.c wmerge.c \
@@ -119,14 +124,14 @@ ALL =  $(ALMOSTALL) cweave.w
 	$(CWEAVE) $(WFLAGS) $* $*
 
 .tex.dvi:	
-	virtex &plain "\language=0 \input " $<
+	tex $<
 
 .w.dvi:
 	$(MAKE) $*.tex
 	$(MAKE) $*.dvi
 
 .c.o:
-	$(CC) $(CFLAGS) $*.c
+	$(CC) $(CFLAGS) -c $*.c
 
 .w.c:
 	$(CTANGLE) $* $*
@@ -135,7 +140,7 @@ ALL =  $(ALMOSTALL) cweave.w
 	$(MAKE) $*.c
 	$(MAKE) $*.o
 
-# When you say `smake' without any arguments, `smake' will jump to this item
+# When you say `make' without any arguments, `make' will jump to this item
 default: ctangle cweave
 
 # The complete set of files contains the two programs `ctangle' and
@@ -168,24 +173,23 @@ common.c: common.w $(CCHANGES)
 common.o: common.c $(CATINCLUDE)cweb.h
 
 ctangle: ctangle.o common.o
-	$(LINK) $(LINKFLAGS) common.o ctangle.o TO ctangle
+	$(CC) $(LINKFLAGS) -o ctangle ctangle.o common.o 
 
-ctangle.c: ctangle.w $(TCHANGES)
+ctangle.c: ctangle.w $(TCHANGES) $(COMMONH)
 	$(CTANGLE) ctangle $(TCHANGES)
 
 ctangle.o: ctangle.c $(CATINCLUDE)cweb.h $(COMMONH)
 
 cweave: cweave.o common.o
-	$(LINK) $(LINKFLAGS) common.o cweave.o TO cweave
+	$(CC) $(LINKFLAGS) -o cweave cweave.o common.o
 
-cweave.c: cweave.w $(WCHANGES)
+cweave.c: cweave.w $(WCHANGES) $(COMMONH)
 	$(CTANGLE) cweave $(WCHANGES)
 
 cweave.o: cweave.c $(CATINCLUDE)cweb.h $(COMMONH)
-	$(CC) $(CFLAGS) code=FAR cweave.c
 
 wmerge: wmerge.c
-	$(CC) $(CFLAGS) link wmerge.c TO wmerge
+	$(CC) $(CFLAGS) -o wmerge wmerge.c
 
 wmerge.c: wmerge.w $(MCHANGES)
 	$(CTANGLE) wmerge $(MCHANGES)
@@ -196,6 +200,8 @@ $(COMMONH): common.h $(CHCHANGES)
 	$(WMERGE) common.h $(CHCHANGES) $(COMMONH)
 
 # Take a good lecture for bedtime reading
+doc: $(SOURCES:.w=.dvi)
+
 docs: cwebman.dvi cwebmang.dvi common.dvi ctangle.dvi cweave.dvi wmerge.dvi
 
 cwebman.dvi: cwebman.tex
@@ -234,13 +240,35 @@ wmerge.tex: wmerge.w $(MCHANGES)
 
 # be sure to leave ctangle.c and common.c and $(COMMONH) for bootstrapping
 clean:
-	$(RM) \#?.(o|lnk|bak|log|dvi|toc|idx|scn) \
-	common.tex cweave.tex cweave.c ctangle.tex cweave ctangle \
+	$(RM) -f -r *~ *.o common.tex cweave.tex cweave.c ctangle.tex \
+	*.log *.dvi *.toc *.idx *.scn core cweave.w.[12] cweave ctangle \
 	cwebmang.tex wmerge.tex wmerge
 
 # Install the new program versions where they can be found
-install: bin/ctangle bin/cweave bin/wmerge $(MACROSDIR)ccwebmac.tex \
-	arexx/catalogs/english/cweb.catalog
-	$(INSTALL) cweave $(DESTDIR)$(DESTPREF)weave
-	$(INSTALL) ctangle $(DESTDIR)$(DESTPREF)tangle
-	$(INSTALL) wmerge $(DESTDIR)wmerge
+install: all
+	$(CP) cweave $(DESTDIR)$(DESTPREF)weave
+	chmod 755 $(DESTDIR)$(DESTPREF)weave
+	$(CP) ctangle $(DESTDIR)$(DESTPREF)tangle
+	chmod 755 $(DESTDIR)$(DESTPREF)tangle
+	$(CP) cweb.1 $(MANDIR)/cweb.$(MANEXT)
+	chmod 644 $(MANDIR)/cweb.$(MANEXT)
+	$(CP) cwebmac.tex $(MACROSDIR)
+	chmod 644 $(MACROSDIR)/cwebmac.tex
+	$(CP) cweb.el $(EMACSDIR)
+	chmod 644 $(EMACSDIR)/cweb.el
+
+bundle: $(ALL)
+	sed -n '1,2200 p' cweave.w > cweave.w.1
+	sed -n '2201,$$ p' cweave.w > cweave.w.2
+	/usr/local/bin/shar -m100000 -c -v -f cweb $(ALMOSTALL) cweave.w.[12]
+
+tags: $(ALL)
+	etags -z $(ALL)
+
+cweb.tar: $(ALL)
+	tar cvhf cweb.tar $(ALL)
+
+floppy: $(ALL)
+	bar cvhf /dev/rfd0 $(ALL)
+	bar tvf /dev/rfd0
+	eject

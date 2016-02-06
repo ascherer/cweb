@@ -1,0 +1,211 @@
+/*rx
+ *  Compile.ced ... ARexx program to compile and review error/warning
+ *  messages in SAS/C 6.3 programs while within CED Pro 3.5.
+ *  Requires (minimum tested versions): ARexx 1.15, SAS/C 6.3, CED Pro 3.5
+ *
+ *  Copyright © 1992, 1993  Loren J. Rittle
+ *  Copyright © 1993 Andreas Scherer
+ *
+ *  Use as you will, just document your changes and keep the copyright and
+ *  header comment notice intact.  SAS and ASDG have explicit permission to
+ *  include this work in their respective compiler/editor packages.  All
+ *  other commercial use is prohibited.  This ARexx program must be
+ *  distributed in source form.  This work is provided in the hopes that
+ *  it will be useful, but no warranty is implied or given.
+ *
+ *  Based upon past non-scmsg based versions of Compile.ced,
+ *  Copyright © 1990, 1991  Loren J. Rittle
+ *
+ *  Loren J. Rittle (rittle@comm.mot.com)
+ *  Sun Apr 18 03:06:46 1993
+ *
+ *  This script works with Cygnus Ed Professional V3.5+ and is
+ *  incompatible with earlier versions of this fine editor.
+ *  Changes for CED 3.5 support are
+ *  Copyright © 1993 Andreas Scherer
+ *
+ *  Sun Oct 10 15:00:00 1993
+ *
+ *  Notes:
+ *
+ *  Your env:sc/SCMSG file should contain lines that look something
+ *  like the following to work with CED 3.5:
+ *
+ *        PORTNAME rexx_ced
+ *        EDITCOMMAND ed %f
+ *        GOTOFILE OW "%f\n"
+ *        GOTOLINE LL "%l\n" DM %m
+ *
+ *  Your env:sc/SCOPTIONS file should contain the following line:
+ *
+ *        ERRORREXX
+ *
+ *  I bind this macro to F7.  Hit once to compile (actually (s)make),
+ *  then again to step through the errors.  Every visited error is
+ *  removed from the message database.  If the last error was visited,
+ *  the message database can be rebuilt.  To quit the loop in this
+ *  script, send the 'quit' command to SCMSG (via DOS or ARexx)
+ */
+
+/* NO GENERAL USER MODIFIABLE PARTS BELOW THIS COMMENT. */
+
+options results
+options failat 31
+
+/*
+ *  Somehow the working paths of CED and SCMSG aren't the same.
+ *  Force this to be the path of the current CED view.
+ */
+Status 19
+FULLNAME = RESULT
+
+IVOL     = Index(FULLNAME,":")
+IDIRS    = LastPos("/",SubStr(FULLNAME,1+IVOL))
+FILEONLY = SubStr(FULLNAME,IVOL+1+IDIRS)
+IBASE    = LastPos(".",FILEONLY)
+
+If 0 = IBASE Then
+  IBASE = Length(FILEONLY)
+Else
+  IBASE = IBASE - 1
+
+PATHNAME = Left(FULLNAME,IVOL+IDIRS)
+FILENAME = SubStr(FULLNAME,IVOL+IDIRS+1,IBASE)
+
+Pragma('Directory',PATHNAME)
+
+Drop IVOL IDIRS FILEONLY IBASE
+
+/*
+ *  Make sure that SCMSG is running.  The error messages are not
+ *  displayed in a SCMSG window but in the information line of CED 3.5.
+ *  This feature can not be used with earlier versions of CED.
+ */
+address command 'run <nil: >nil: sc:c/scmsg rexxonly'
+address command 'waitforport SC_SCMSG'
+
+address SC_SCMSG 'errnum'
+if "" = RESULT then do
+    DM
+    'okay2' 'Rebuild error/warning database?'
+    if result then
+      do
+	address SC_SCMSG 'clear'
+	some_changes = 0
+	status 66; views = result
+	do i = 1 to views-1
+	  'next view'
+	  status 18; changes = result
+	  if changes ~= 0 then
+	    some_changes = 1
+	end
+	'next view'
+	if some_changes then
+	  do
+	    'okay2' 'Save all changes?'
+	    if result then
+	      'save all changes'
+	    else
+	      do
+		status 18; changes = result
+		if changes ~= 0 then
+		  do
+		    'okay2' 'Save changes to this one file at least?'
+		    if result then
+		      'save'
+		  end
+	      end
+	  end
+	else
+	  do
+	    status 18; changes = result
+	    if changes ~= 0 then
+	      do
+		'okay2' 'Save changes to this file?'
+		if result then
+		  'save'
+	      end
+	  end
+	'getstring' "'smake <nil: >nil: -sk "||FILENAME||"' 'Enter command to rebuild database:'"
+	commandline = result
+	if word(commandline,1) = 'smake' then
+	  if ~exists('makefile') & ~exists('smakefile') then
+	    do
+	      'okay2' 'Warning: No [s]makefile, continue?'
+	      if ~result then
+		commandline = 'RESULT'
+	    end
+	if commandline = 'RESULT' then
+	  do
+	    status 19; filename = result
+	    commandline = 'sc' filename
+	    'okay2' 'Would you like to execute "'commandline'" instead?'
+	    if ~result then do
+	      DM
+	      exit 0
+	    end
+	  end
+
+	address command commandline
+	commandrc = rc
+
+        address SC_SCMSG 'errnum'
+        if "" = RESULT then do
+	    if commandrc = 0 then
+	      'okay1' 'No errors/warnings.'
+	    else
+	      'okay1' 'Improper build or bad command.'
+	    DM
+	    exit 0
+          end
+      end
+    else
+      do
+	address SC_SCMSG 'errnum'
+	if result = '' then do
+	  DM
+	  exit 0
+	end
+	'okay2' 'Recycle through error/warning database?'
+	if result then
+	  address SC_SCMSG 'next'
+	else
+	  do
+	    address SC_SCMSG 'prev'
+	    DM
+	    exit 0
+	  end
+      end
+  end
+
+address SC_SCMSG 'file'
+file = result
+address SC_SCMSG 'line'
+line = result
+
+OW file
+LL line
+
+address SC_SCMSG 'altfile'
+altfile = result
+if altfile ~= '' then
+  do
+    address SC_SCMSG 'altline'
+    altline = result
+    if PATHNAME||altfile = FULLNAME Then
+      split view
+    else
+      OW altfile
+    LL altline
+  end
+
+address SC_SCMSG 'errnum'
+errornumber = result
+
+address SC_SCMSG 'class'
+class = result
+
+address SC_SCMSG 'text'
+DM class errornumber':' result
+
+address SC_SCMSG 'delete'

@@ -1,0 +1,36 @@
+% standard macros for CWEB listings (in addition to plain.tex)
+% Version 2.4 --- Don Knuth, June 1992
+% Version 2.4 [p5] --- Hans-Hermann Bode, July 1992
+% Version 2.7 --- Don Knuth, July 1992
+% Version 2.7 [p6] --- Hans-Hermann Bode, September 1992
+% Version 2.8 --- Don Knuth, September 1992
+% Version 2.8 [p7] --- Andreas Scherer, October 1993
+% Version 3.0 --- Don Knuth, June 1993
+% Version 3.0 [p8c] --- Hans-Hermann Bode, June 1993
+% Version 3.0 [p8d] --- Andreas Scherer, October 1993
+% Version 3.0 [p8e] --- Andreas Scherer, November 1993
+% Version 3.1 [p9b] --- Andreas Scherer, January 1994
+% Version 3.1 [p9c] --- Andreas Scherer, June 1994
+
+\input cwebmac.tex
+\xdef\fmtversion{\fmtversion+CWEB3.1[p9c]}
+
+\def\Cpp{\CPLUSPLUS/} % for backward compatibility
+
+\font\tenss=cmss10 \let\cmntfont\tenss % comment font
+
+\def\C#1{\5\5\quad$\triangleright\,${\cmntfont#1}$\,\triangleleft$}
+\def\SHC#1{\5\5\quad$\diamond\,${\cmntfont#1}}
+
+\let\K=\leftarrow % "honest" alternative to standard assignment operator
+
+\pageshift=-0.5truecm % shift righthand pages wrt lefthand ones
+
+\def\normaloutput#1#2#3{\shipout\vbox{% Why not `\global\hoffset'?
+  \ifodd\pageno\global\hoffset=\pageshift\else\global\hoffset=0in\fi
+  \vbox to\fullpageheight{
+  \iftitle\global\titlefalse
+  \else\hbox to\pagewidth{\vbox to10pt{}\ifodd\pageno #3\else#2\fi}\fi
+  \vfill#1}} % parameter #1 is the page itself
+  \ifnum\pageno<0\global\advance\pageno by-1
+  \else\global\advance\pageno by1\fi}

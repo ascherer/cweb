@@ -1,0 +1,59 @@
+;
+; LOCALE $VER CWEB_AREXX.CD 1.2 (6.12.1993)
+;
+; Dies sind alle deutschen Originaltexte, wie sie im ARexx-Script
+; `Start_Web.ced' verwendet werden.  Sie können als Ausgangsbasis
+; für Übersetzungen in andere Sprachen dienen.  Voraussetzung dazu
+; ist aber AmigaOS 2.1 oder höher.  Um Vorlagen für andere Sprachen
+; zu erzeugen, empfiehlt sich die Verwendung eines Programmes wie
+; `CatComp', dessen Aufruf hier exemplarisch angegeben sei:
+;
+;     PROMPT> CatComp cweb_arexx.cd CTFILE cweb_arexx.<sprache>.ct
+;
+; Wenn jemand weitere Übersetzungen anfertigt, möge er mir doch
+; bitte eine Kopie der CatalogTranslation zusenden, damit ich sie
+; in zukünftigen Versionen dieses Archives verteilen kann.
+;
+; Autor: Andreas Scherer
+;        Abt-Wolf-Straße 17
+;        96215 Lichtenfels
+;        Germany
+;
+; Copyright (c) 1993 Andreas Scherer
+;
+; ÄNDERUNGEN: 06.12.1993: Namensänderung, da jetzt das komplette
+;                         CWEB-System einen Katalog CWEB.CATALOG
+;                         besitzt. (V1.2)
+;
+; Die Anfertigung und Verteilung von unveränderten Kopien dieses
+; Dokumentes ist erlaubt, sofern der Urheberrechtshinweis und dieser
+; Berechtigungshinweis bei allen Kopien erhalten bleibt.
+;
+; Die Anfertigung und Verteilung von veränderten Versionen dieses
+; Dokumentes ist erlaubt unter den Bedingungen für unveränderte Kopien,
+; sofern das gesamte hiervon abgeleitete Werk unter den Bedingungen eines
+; mit diesem vergleichbaren Berechtigungshinweises verteilt wird.
+;
+; Permission is granted to make and distribute verbatim copies of this
+; document provided that the copyright notice and this permission notice
+; are preserved on all copies.
+;
+; Permission is granted to copy and distribute modified versions of this
+; document under the conditions for verbatim copying, provided that the
+; entire resulting derived work is distributed under the terms of a
+; permission notice identical to this one.
+;
+MSG_ERROR_EXTENSION (0/40/70)
+Fehler, die Datei muß eine Endung `.w', `.web' oder `.wpp' haben.
+;
+MSG_ERROR_FATAL (1/30/50)
+mit fatalem Fehler abgebrochen! Keine Ausgabe!
+;
+MSG_ERROR_ERROR (2/30/50)
+beendet mit Fehler! Ausgabe fehlerhaft!
+;
+MSG_ERROR_WARNING (3/40/60)
+beendet mit Warnung!\nAusgabe wahrscheinlich korrekt.
+;
+MSG_ERROR_END (4/10/20)
+Fehler bei

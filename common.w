@@ -2,7 +2,7 @@
 % This program by Silvio Levy and Donald E. Knuth
 % is based on a program by Knuth.
 % It is distributed WITHOUT ANY WARRANTY, express or implied.
-% Version 3.0 --- August 1993
+% Version 3.1 --- November 1993
 
 % Copyright (C) 1987,1990,1993 Silvio Levy and Donald E. Knuth
 
@@ -17,12 +17,12 @@
 
 \def\v{\char'174} % vertical (|) in typewriter font
 
-\def\title{Common code for CTANGLE and CWEAVE (Version 3.0)}
+\def\title{Common code for CTANGLE and CWEAVE (Version 3.1)}
 \def\topofcontents{\null\vfill
   \centerline{\titlefont Common code for {\ttitlefont CTANGLE} and
     {\ttitlefont CWEAVE}}
   \vskip 15pt
-  \centerline{(Version 3.0)}
+  \centerline{(Version 3.1)}
   \vfill}
 \def\botofcontents{\vfill
 \noindent
@@ -151,6 +151,8 @@ some of \.{CWEB}'s routines use the fact that it is safe to refer to
 
 @d buf_size 100 /* for \.{CWEAVE} and \.{CTANGLE} */
 @d long_buf_size 500 /* for \.{CWEAVE} */
+@d xisspace(c) (isspace(c)&&((unsigned char)c<0200))
+@d xisupper(c) (isupper(c)&&((unsigned char)c<0200))
 
 @<Definitions...@>=
 char buffer[long_buf_size]; /* where each line of input goes */
@@ -264,7 +266,7 @@ while(1) {
   if (!input_ln(change_file)) return;
   if (limit<buffer+2) continue;
   if (buffer[0]!='@@') continue;
-  if (isupper(buffer[1])) buffer[1]=tolower(buffer[1]);
+  if (xisupper(buffer[1])) buffer[1]=tolower(buffer[1]);
   if (buffer[1]=='x') break;
   if (buffer[1]=='y' || buffer[1]=='z' || buffer[1]=='i') {
     loc=buffer+2;
@@ -308,9 +310,9 @@ This procedure is called only when |buffer<limit|, i.e., when the
 current line is nonempty.
 
 @d if_section_start_make_pending(b) {@+*limit='!';
-  for (loc=buffer;isspace(*loc);loc++) ;
+  for (loc=buffer;xisspace(*loc);loc++) ;
   *limit=' ';
-  if (*loc=='@@' && (isspace(*(loc+1)) || *(loc+1)=='*')) change_pending=b;
+  if (*loc=='@@' && (xisspace(*(loc+1)) || *(loc+1)=='*')) change_pending=b;
 }
 
 @c
@@ -333,7 +335,7 @@ check_change() /* switches to |change_file| if the buffers match */
       return;
     }
     if (limit>buffer+1 && buffer[0]=='@@') {
-      if (isupper(buffer[1])) buffer[1]=tolower(buffer[1]);
+      if (xisupper(buffer[1])) buffer[1]=tolower(buffer[1]);
       @<If the current line starts with \.{@@y},
         report any discrepancies and |return|@>;
     }
@@ -540,7 +542,7 @@ The remainder of the \.{@@i} line after the file name is ignored.
     }
     *limit=' ';
     if (buffer[0]=='@@') {
-      if (isupper(buffer[1])) buffer[1]=tolower(buffer[1]);
+      if (xisupper(buffer[1])) buffer[1]=tolower(buffer[1]);
       if (buffer[1]=='x' || buffer[1]=='y') {
         loc=buffer+2;
         err_print("! Where is the matching @@z?");

@@ -1,0 +1,396 @@
+;
+; LOCALE $VER: CWEB.CD 1.2 (13.5.1994)
+;
+; This is the description of all English strings used in the three
+; modules COMMON.W, CTANGLE.W, CWEAVE.W and their related change files.
+; It can serve as a starting point for translations into other languages.
+; For this purpose AmigaOS 2.1 or higher is needed.  To create catalog
+; translations for other languages, use a program like `CatComp' with
+; the command line:
+;
+;     PROMPT> CatComp cweb.cd CTFILE cweb.<sprache>.ct
+;
+; To make use of the catalog in the C programs of the CWEB system, use:
+;
+;     PROMPT> CatComp cweb.cd CFILE cweb.h
+;
+; Should somebody create translations for other languages, I would
+; appreciate to receive a copy of the CatalogTranslation for further
+; inclusion in this archive.
+;
+; Date: December 6, 1993 (Setup of version 1.0)
+;
+; Autor: Andreas Scherer
+;        Abt-Wolf-Straﬂe 17
+;        96215 Lichtenfels
+;        Germany
+;
+; Changes: January 18, 1994: Version information included. (V1.1)
+;          May 13, 1994:     New patch level with dynamic memory
+;                            allocation. (V1.2)
+;                       
+;
+; Copyright (c) 1993,1994 Andreas Scherer
+;
+; Permission is granted to make and distribute verbatim copies of this
+; document provided that the copyright notice and this permission notice
+; are preserved on all copies.
+;
+; Permission is granted to copy and distribute modified versions of this
+; document under the conditions for verbatim copying, provided that the
+; entire resulting derived work is distributed under the terms of a
+; permission notice identical to this one.
+;
+; Messages displayed in COMMON.W and COMMON.CH:
+;
+MSG_ERROR_CO9 (/0/)
+! Input line too long
+;
+MSG_ERROR_CO13 (/0/)
+! Missing @x in change file
+;
+MSG_ERROR_CO14 (/0/)
+! Change file ended after @x
+;
+MSG_ERROR_CO16_1 (/0/)
+! Change file ended before @y
+;
+MSG_ERROR_CO16_2 (/0/)
+! CWEB file ended during a change
+;
+MSG_ERROR_CO17_1 (/0/)
+! Where is the matching @y?
+;
+MSG_ERROR_CO17_2 (/0/)
+of the preceding lines failed to match
+;
+MSG_FATAL_CO19_1 (/0/)
+! Cannot open input file 
+;
+MSG_FATAL_CO19_2 (/0/)
+! Cannot open change file 
+;
+MSG_ERROR_CO21_1 (/0/)
+! Include file name not given
+;
+MSG_ERROR_CO21_2 (/0/)
+! Too many nested includes
+;
+MSG_ERROR_CO22 (/0/)
+! Include file name too long
+;
+MSG_ERROR_CO23 (/0/)
+! Cannot open include file
+;
+MSG_ERROR_CO25_1 (/0/)
+! Change file ended without @z
+;
+MSG_ERROR_CO25_2 (/0/)
+! Where is the matching @z?
+;
+MSG_ERROR_CO26 (/0/)
+! Change file entry did not match
+;
+MSG_OVERFLOW_CO39_1 (/0/)
+byte memory
+;
+MSG_OVERFLOW_CO39_2 (/0/)
+name
+;
+MSG_ERROR_CO50_1 (/0/)
+\n! Ambiguous prefix: matches <
+;
+MSG_ERROR_CO50_2 (/0/)
+>\n and <
+;
+MSG_ERROR_CO52_1 (/0/)
+\n! New name is a prefix of <
+;
+MSG_ERROR_CO52_2 (/0/)
+\n! New name extends <
+;
+MSG_ERROR_CO52_3 (/0/)
+\n! Section name incompatible with <
+;
+MSG_ERROR_CO52_4 (/0/)
+>,\n which abbreviates <
+;
+MSG_ERROR_CO59_1 (/0/)
+. (l. %d of change file)\n
+;
+MSG_ERROR_CO59_2 (/0/)
+. (l. %d)\n
+;
+MSG_ERROR_CO59_3 (/0/)
+. (l. %d of include file %s)\n
+;
+MSG_HAPPINESS_CO62 (/0/)
+(No errors were found.)\n
+;
+MSG_WARNING_CO62 (/0/)
+(Did you see the warning message above?)\n
+;
+MSG_ERROR_CO62 (/0/)
+(Pardon me, but I think I spotted something wrong.)\n
+;
+MSG_FATAL_CO62 (/0/)
+(That was a fatal error, my friend.)\n
+;
+MSG_FATAL_CO65 (/0/)
+\n! Sorry, %s capacity exceeded
+;
+MSG_FATAL_CO66 (/0/)
+! This can't happen: 
+;
+MSG_FATAL_CO73 (/0/)
+! Output file name should end with .tex\n
+;
+MSG_FATAL_CO75_1 (/0/)
+! Usage: ctangle [options] webfile[.w] [{changefile[.ch]|-} [outfile[.c]]]\nOptions are (+ turns on, - turns off, default in brackets):\nb [+] print banner line\nh [+] print happy message\np [+] give progress reports\ns [-] show statistics\n
+;
+MSG_FATAL_CO75_2 (/0/)
+! Usage: cweave [options] webfile[.w] [{changefile[.ch]|-} [outfile[.tex]]]\nOptions are (+ turns on, - turns off, default in brackets):\na [+] use AMIGA specific keywords\nb [+] print banner line\nf [+] force line breaks\ng [+] use German macros as of gcwebmac.tex\nh [+] print happy message\ni [+] indent parameter declarations\no [+] separate declarations and statements\np [+] give progress reports\ns [-] show statistics\nx [+] include indexes and table of contents\n
+;
+MSG_FATAL_CO75_3 (/0/)
+! Usage: cweave [options] webfile[.w] [{changefile[.ch]|-} [outfile[.tex]]]\nOptions are (+ turns on, - turns off, default in brackets):\nb [+] print banner line\nf [+] force line breaks\ng [+] use German macros as of gcwebmac.tex\nh [+] print happy message\ni [+] indent parameter declarations\no [+] separate declarations and statements\np [+] give progress reports\ns [-] show statistics\nx [+] include indexes and table of contents\n
+;
+MSG_FATAL_CO76 (/0/)
+! File name too long\n
+;
+MSG_FATAL_CO78 (/0/)
+! Cannot open output file 
+;
+MSG_ERROR_CO82 (/0/)
+! Include path too long
+;
+MSG_FATAL_CO85 (/0/)
+! Memory allocation failure
+;
+; Messages displayed in CTANGLE.W and CTANGLE.CH:
+;
+MSG_BANNER_CT1 (/0/)
+This is CTANGLE (Version 3.1 [p9d])\n
+;
+MSG_OVERFLOW_CT26 (/0/)
+token
+;
+MSG_OVERFLOW_CT30 (/0/)
+stack
+;
+MSG_ERROR_CT34 (/0/)
+\n! Not present: <
+;
+MSG_OVERFLOW_CT40 (/0/)
+output files
+;
+MSG_WARNING_CT42 (/0/)
+\n! No program text was specified.
+;
+MSG_PROGRESS_CT42_1 (/0/)
+\nWriting the output file (%s):
+;
+MSG_PROGRESS_CT42_2 (/0/)
+\nWriting the output files:
+;
+MSG_PROGRESS_CT42_3 (/0/)
+\nDone.
+;
+MSG_CONFUSION_CT47 (/0/)
+macro defs have strange char
+;
+MSG_ERROR_CT60_1 (/0/)
+! Input ended in mid-comment
+;
+MSG_ERROR_CT60_2 (/0/)
+! Section name ended in mid-comment
+;
+MSG_ERROR_CT67_1 (/0/)
+! String didn't end
+;
+MSG_ERROR_CT67_2 (/0/)
+! Input ended in middle of string
+;
+MSG_ERROR_CT67_3 (/0/)
+\n! String too long: 
+;
+MSG_ERROR_CT68_1 (/0/)
+! Use @l in limbo only
+;
+MSG_ERROR_CT68_2 (/0/)
+! Double @ should be used in control text
+;
+MSG_ERROR_CT69 (/0/)
+! Double @ should be used in ASCII constant
+;
+MSG_ERROR_CT72_1 (/0/)
+! Input ended in section name
+;
+MSG_ERROR_CT72_2 (/0/)
+\n! Section name too long: 
+;
+MSG_ERROR_CT73_1 (/0/)
+! Section name didn't end
+;
+MSG_ERROR_CT73_2 (/0/)
+! Nesting of section names not allowed
+;
+MSG_ERROR_CT74 (/0/)
+! Verbatim string didn't end
+;
+MSG_OVERFLOW_CT76 (/0/)
+text
+;
+MSG_ERROR_CT78 (/0/)
+! @d, @f and @c are ignored in C text
+;
+MSG_ERROR_CT79 (/0/)
+! Missing `@ ' before a named section
+;
+MSG_ERROR_CT80 (/0/)
+! Double @ should be used in string
+;
+MSG_ERROR_CT81 (/0/)
+! Unrecognized escape sequence
+;
+MSG_ERROR_CT85 (/0/)
+! Definition flushed, must start with identifier
+;
+MSG_ERROR_CT93 (/0/)
+! Double @ should be used in limbo
+;
+MSG_ERROR_CT94_1 (/0/)
+! Improper hex number following @l
+;
+MSG_ERROR_CT94_2 (/0/)
+! Replacement string in @l too long
+;
+MSG_STATS_CT95_1 (/0/)
+\nMemory usage statistics:\n
+;
+MSG_STATS_CT95_2 (/0/)
+%ld names (out of %ld)\n
+;
+MSG_STATS_CT95_3 (/0/)
+%ld replacement texts (out of %ld)\n
+;
+MSG_STATS_CT95_4 (/0/)
+%ld bytes (out of %ld)\n
+;
+MSG_STATS_CT95_5 (/0/)
+%ld tokens (out of %ld)\n
+;
+; Messages displayed in CWEAVE.W and CWEAVE.CH
+;
+MSG_BANNER_CW1 (/0/)
+This is CWEAVE (Version 3.1 [p9d])\n
+;
+MSG_OVERFLOW_CW21 (/0/)
+cross-reference
+;
+MSG_ERROR_CW54 (/0/)
+! Control codes are forbidden in section name
+;
+MSG_ERROR_CW56_1 (/0/)
+! Control text didn't end
+;
+MSG_ERROR_CW56_2 (/0/)
+! Control codes are forbidden in control text
+;
+MSG_OVERFLOW_CW61 (/0/)
+section number
+;
+MSG_ERROR_CW71_1 (/0/)
+! Missing left identifier of @s
+;
+MSG_ERROR_CW71_2 (/0/)
+! Missing right identifier of @s
+;
+MSG_WARNING_CW75_1 (/0/)
+\n! Never defined: <
+;
+MSG_WARNING_CW75_2 (/0/)
+\n! Never used: <
+;
+MSG_WARNING_CW85 (/0/)
+\n! Line had to be broken (output l. %d):\n
+;
+MSG_ERROR_CW92_1 (/0/)
+! Missing } in comment
+;
+MSG_ERROR_CW92_2 (/0/)
+! Extra } in comment
+;
+MSG_ERROR_CW94 (/0/)
+! Illegal use of @ in comment
+;
+MSG_WARNING_CW171 (/0/)
+\nIrreducible scrap sequence in section %d:
+;
+MSG_WARNING_CW172 (/0/)
+\nTracing after l. %d:\n
+;
+MSG_OVERFLOW_CW176 (/0/)
+scrap/token/text
+;
+MSG_ERROR_CW182 (/0/)
+! Missing `|' after C text
+;
+MSG_ERROR_CW201 (/0/)
+\n! Illegal control code in section name: <
+;
+MSG_ERROR_CW202 (/0/)
+\n! C text in section name didn't end: <
+;
+MSG_OVERFLOW_CW202 (/0/)
+buffer
+;
+MSG_PROGRESS_CW204 (/0/)
+\nWriting the output file...
+;
+MSG_ERROR_CW209_1 (/0/)
+! TeX string should be in C text only
+;
+MSG_ERROR_CW209_2 (/0/)
+! You can't do that in TeX text
+;
+MSG_ERROR_CW213 (/0/)
+! Improper macro definition
+;
+MSG_ERROR_CW214 (/0/)
+! Improper format definition
+;
+MSG_ERROR_CW217 (/0/)
+! You need an = sign after the section name
+;
+MSG_ERROR_CW218 (/0/)
+! You can't do that in C text
+;
+MSG_PROGRESS_CW225 (/0/)
+\nWriting the index...
+;
+MSG_FATAL_CW225_1 (/0/)
+! Cannot open index file 
+;
+MSG_FATAL_CW225_2 (/0/)
+! Cannot open section file 
+;
+MSG_OVERFLOW_CW237 (/0/)
+sorting
+;
+MSG_STATS_CW248_1 (/0/)
+%ld cross-references (out of %ld)\n
+;
+MSG_STATS_CW248_2 (/0/)
+Parsing:\n
+;
+MSG_STATS_CW248_3 (/0/)
+%ld scraps (out of %ld)\n
+;
+MSG_STATS_CW248_4 (/0/)
+%ld texts (out of %ld)\n
+;
+MSG_STATS_CW248_5 (/0/)
+%ld levels (out of %ld)\n
+;
+MSG_STATS_CW248_6 (/0/)
+Sorting:\n

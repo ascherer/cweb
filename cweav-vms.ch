@@ -12,25 +12,25 @@ modified:
 
 (also modified by Don Knuth to keep version numbers uptodate)
 
-@x l.61 (01-FEB-1992 ST)
-@d banner "This is CWEAVE (Version 2.8)\n"
+@x l.64 section 1 (01-FEB-1992 ST) (18-NOV-1993 AS)
+@d banner "This is CWEAVE (Version 3.0)\n"
 @y
-@d banner "This is CWEAVE (VAX/VMS Version 2.8)\n"
+@d banner "This is CWEAVE (VAX/VMS Version 3.0)\n"
 @z
 
-@x l.35 common.h (01-FEB-1992 ST)
+@x l.36 section 6 (from common.h) (01-FEB-1992 ST) (18-NOV-1993 AS)
 #include <stdio.h>
 @y
 #include stdio /* VMS searches Textlibraries faster */
 @z
 
-@x l.545 (1991 JM) (01-FEB-1992 ST)
-#include "ctype.h"
+@x l.645 section 38 (1991 JM) (01-FEB-1992 ST) (18-NOV-1993 AS)
+#include <ctype.h>
 @y
 #include ctype /* VMS searches Textlibraries faster */
 @z
 
-@x l.550 (01-FEB-1992 ST)
+@x l.651 section 39 (01-FEB-1992 ST) (18-NOV-1993 AS)
 @d isxalpha(c) ((c)=='_') /* non-alpha character allowed in identifier */
 @y
 @d isxalpha(c) ((c)=='_' || (c)=='$') /* non-alpha characters allowed in id */

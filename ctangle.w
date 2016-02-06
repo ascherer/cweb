@@ -2,7 +2,7 @@
 % This program by Silvio Levy and Donald E. Knuth
 % is based on a program by Knuth.
 % It is distributed WITHOUT ANY WARRANTY, express or implied.
-% Version 3.0 --- August 1993
+% Version 3.1 --- November 1993
 
 % Copyright (C) 1987,1990,1993 Silvio Levy and Donald E. Knuth
 
@@ -22,11 +22,11 @@
 \mathchardef\RA="3221 % right arrow
 \mathchardef\BA="3224 % double arrow
 
-\def\title{CTANGLE (Version 3.0)}
+\def\title{CTANGLE (Version 3.1)}
 \def\topofcontents{\null\vfill
   \centerline{\titlefont The {\ttitlefont CTANGLE} processor}
   \vskip 15pt
-  \centerline{(Version 3.0)}
+  \centerline{(Version 3.1)}
   \vfill}
 \def\botofcontents{\vfill
 \noindent
@@ -56,7 +56,7 @@ Joachim Schrod, Lee Wittenberg, and others who have contributed improvements.
 The ``banner line'' defined here should be changed whenever \.{CTANGLE}
 is modified.
 
-@d banner "This is CTANGLE (Version 3.0)\n"
+@d banner "This is CTANGLE (Version 3.1)\n"
 
 @c
 @<Include files@>@/
@@ -773,11 +773,11 @@ milestones.
 @d new_section 0312 /* control code for `\.{@@\ }' and `\.{@@*}' */
 
 @<Global...@>=
-eight_bits ccode[128]; /* meaning of a char following \.{@@} */
+eight_bits ccode[256]; /* meaning of a char following \.{@@} */
 
 @ @<Set ini...@>= {
   int c; /* must be |int| so the |for| loop will end */
-  for (c=0; c<=127; c++) ccode[c]=ignore;
+  for (c=0; c<256; c++) ccode[c]=ignore;
   ccode[' ']=ccode['\t']=ccode['\n']=ccode['\v']=ccode['\r']=ccode['\f']
    =ccode['*']=new_section;
   ccode['@@']='@@'; ccode['=']=string;
@@ -806,7 +806,7 @@ skip_ahead() /* skip to next control code */
     *(limit+1)='@@';
     while (*loc!='@@') loc++;
     if (loc<=limit) {
-      loc++; c=ccode[*loc]; loc++;
+      loc++; c=ccode[(eight_bits)*loc]; loc++;
       if (c!=ignore || *(loc-1)=='>') return(c);
     }
   }
@@ -853,7 +853,7 @@ boolean is_long_comment;
       loc++; return(comment_continues=0);
     }
     if (c=='@@') {
-      if (ccode[*loc]==new_section) {
+      if (ccode[(eight_bits)*loc]==new_section) {
         err_print("! Section name ended in mid-comment"); loc--;
 @.Section name ended in mid-comment@>
         return(comment_continues=0);
@@ -905,13 +905,13 @@ get_next() /* produces the next input token */
       else continue;
     }
     loc++;
-    if (isdigit(c) || c=='\\' || c=='.') @<Get a constant@>@;
+    if (xisdigit(c) || c=='\\' || c=='.') @<Get a constant@>@;
     else if (c=='\'' || c=='"' || (c=='L'&&(*loc=='\'' || *loc=='"')))
         @<Get a string@>@;
     else if (isalpha(c) || isxalpha(c) || ishigh(c))
       @<Get an identifier@>@;
     else if (c=='@@') @<Get control code and possible section name@>@;
-    else if (isspace(c)) {
+    else if (xisspace(c)) {
         if (!preprocessing || loc>limit) continue;
           /* we don't want a blank after a final backslash */
         else return(' '); /* ignore spaces and tabs, unless preprocessing */
@@ -961,22 +961,22 @@ switch(c) {
 
 @ @<Get a constant@>= {
   id_first=loc-1;
-  if (*id_first=='.' && !isdigit(*loc)) goto mistake; /* not a constant */
-  if (*id_first=='\\') while (isdigit(*loc)) loc++; /* octal constant */
+  if (*id_first=='.' && !xisdigit(*loc)) goto mistake; /* not a constant */
+  if (*id_first=='\\') while (xisdigit(*loc)) loc++; /* octal constant */
   else {
     if (*id_first=='0') {
       if (*loc=='x' || *loc=='X') { /* hex constant */
-        loc++; while (isxdigit(*loc)) loc++; goto found;
+        loc++; while (xisxdigit(*loc)) loc++; goto found;
       }
     }
-    while (isdigit(*loc)) loc++;
+    while (xisdigit(*loc)) loc++;
     if (*loc=='.') {
     loc++;
-    while (isdigit(*loc)) loc++;
+    while (xisdigit(*loc)) loc++;
     }
     if (*loc=='e' || *loc=='E') { /* float constant */
       if (*++loc=='+' || *loc=='-') loc++;
-      while (isdigit(*loc)) loc++;
+      while (xisdigit(*loc)) loc++;
     }
   }
   found: while (*loc=='u' || *loc=='U' || *loc=='l' || *loc=='L'
@@ -1035,7 +1035,7 @@ convention, but do not allow the string to be longer than |longest_name|.
 whether there is more work to do.
 
 @<Get control code and possible section name@>= {
-  c=ccode[*loc++];
+  c=ccode[(eight_bits)*loc++];
   switch(c) {
     case ignore: continue;
     case output_defs_code: output_defs_seen=1; return(c);
@@ -1114,7 +1114,7 @@ while (1) {
   c=*loc;
   @<If end of name or erroneous nesting, |break|@>;
   loc++; if (k<section_text_end) k++;
-  if (isspace(c)) {
+  if (xisspace(c)) {
     c=' '; if (*(k-1)==' ') k--;
   }
 *k=c;
@@ -1133,11 +1133,11 @@ if (c=='@@') {
   if (c=='>') {
     loc+=2; break;
   }
-  if (ccode[c]==new_section) {
+  if (ccode[(eight_bits)c]==new_section) {
     err_print("! Section name didn't end"); break;
 @.Section name didn't end@>
   }
-  if (ccode[c]==section_name) {
+  if (ccode[(eight_bits)c]==section_name) {
     err_print("! Nesting of section names not allowed"); break;
 @.Nesting of section names...@>
   }
@@ -1291,13 +1291,13 @@ code internally.
     case 'a':c='\7';@+break;
     case '?':c='?';@+break;
     case 'x':
-      if (isdigit(*(id_first+1))) c=*(++id_first)-'0';
-      else if (isxdigit(*(id_first+1))) {
+      if (xisdigit(*(id_first+1))) c=*(++id_first)-'0';
+      else if (xisxdigit(*(id_first+1))) {
         ++id_first;
         c=toupper(*id_first)-'A'+10;
       }
-      if (isdigit(*(id_first+1))) c=16*c+*(++id_first)-'0';
-      else if (isxdigit(*(id_first+1))) {
+      if (xisdigit(*(id_first+1))) c=16*c+*(++id_first)-'0';
+      else if (xisxdigit(*(id_first+1))) {
         ++id_first;
         c=16*c+toupper(*id_first)-'A'+10;
       }
@@ -1462,8 +1462,8 @@ skip_limbo()
     while (*loc!='@@') loc++;
     if (loc++<=limit) {
       c=*loc++;
-      if (ccode[c]==new_section) break;
-      switch (ccode[c]) {
+      if (ccode[(eight_bits)c]==new_section) break;
+      switch (ccode[(eight_bits)c]) {
         case translit_code: @<Read in transliteration of a character@>; break;
         case format_code: case '@@': break;
         case control_text: if (c=='q' || c=='Q') {
@@ -1481,19 +1481,19 @@ skip_limbo()
 }
 
 @ @<Read in transliteration of a character@>=
-  while(isspace(*loc)&&loc<limit) loc++;
+  while(xisspace(*loc)&&loc<limit) loc++;
   loc+=3;
-  if (loc>limit || !isxdigit(*(loc-3)) || !isxdigit(*(loc-2)) @|
-         || (*(loc-3)>='0' && *(loc-3)<='7') || !isspace(*(loc-1)))
+  if (loc>limit || !xisxdigit(*(loc-3)) || !xisxdigit(*(loc-2)) @|
+         || (*(loc-3)>='0' && *(loc-3)<='7') || !xisspace(*(loc-1)))
     err_print("! Improper hex number following @@l");
 @.Improper hex number...@>
   else {
     unsigned i;
     char *beg;
     sscanf(loc-3,"%x",&i);
-    while(isspace(*loc)&&loc<limit) loc++;
+    while(xisspace(*loc)&&loc<limit) loc++;
     beg=loc;
-    while(loc<limit&&(isalpha(*loc)||isdigit(*loc)||*loc=='_')) loc++;
+    while(loc<limit&&(xisalpha(*loc)||xisdigit(*loc)||*loc=='_')) loc++;
     if (loc-beg>=translit_length)
       err_print("! Replacement string in @@l too long");
 @.Replacement string in @@l...@>

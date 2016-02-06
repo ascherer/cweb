@@ -1,0 +1,143 @@
+%
+% TEX/LATEX $VER: MAC8.TEX 1.0 (23.6.1994)
+%
+% SYNOPSIS: Conversion of umlauts and special characters of the
+%           Macintosh 8-bit charset for plain TeX with the encoding
+%           of Computer Modern Font.  Some (but not all) characters
+%           with codes higher than code 127 are replaced by their
+%           TeX equivalents.  This encoding is *different* to the
+%           DC encoding, which is very popular in the international
+%           TeX community.
+%
+% DATE: 23.06.94: Derived from ECMA94.TEX by manual encoding according
+%                 to the font table presented by Yannis Haralambous in
+%                 his article ``A typewriter font for the Macintosh
+%                 8-bit font table'', TUGboat 13/4 (1992).  (V1.0)
+%
+% AUTHOR: Andreas Scherer
+%         Abt-Wolf-Stra{\ss}e 17
+%         96215 Lichtenfels
+%         Germany
+%         Phone: [++49] (0) 9571 / 2013
+%
+% Please send suggestions and bug reports to this address.
+%
+% COPYRIGHT: There is no restriction to the usage of this file.
+%
+% checksum = "07975 143 618 7694"
+% This string was automatically created by Robert Solovay's program.
+
+% See `lplain.tex' for TeX 3.0 (>= Version 2.09  Feb 8, 1990)
+%
+% if not(TeX >= 3.0) do_nothing, else ...
+\ifx\undefined\inputlineno \else
+\ifnum\inputlineno=-1 \else
+
+\message{MAC8-to-TeX conversion}
+
+\lccode`^^80=`^^8a \uccode`^^80=`^^80 \catcode`^^80=\active \def ^^80{\"A}
+\lccode`^^81=`^^8c \uccode`^^81=`^^81 \catcode`^^81=\active \def ^^81{{\AA}}
+\lccode`^^82=`^^8d \uccode`^^82=`^^82 \catcode`^^82=\active \def ^^82{\c{C}}
+\lccode`^^83=`^^8e \uccode`^^83=`^^83 \catcode`^^83=\active \def ^^83{\'E}
+\lccode`^^84=`^^96 \uccode`^^84=`^^84 \catcode`^^84=\active \def ^^84{\~N}
+\lccode`^^85=`^^9a \uccode`^^85=`^^85 \catcode`^^85=\active \def ^^85{\"O}
+\lccode`^^86=`^^9f \uccode`^^86=`^^86 \catcode`^^86=\active \def ^^86{\"U}
+\lccode`^^87=`^^87 \uccode`^^87=`^^e7 \catcode`^^87=\active \def ^^87{\'a}
+\lccode`^^88=`^^88 \uccode`^^88=`^^cb \catcode`^^88=\active \def ^^88{\`a}
+\lccode`^^89=`^^89 \uccode`^^89=`^^e5 \catcode`^^89=\active \def ^^89{\^a}
+\lccode`^^8a=`^^8a \uccode`^^8a=`^^80 \catcode`^^8a=\active \def ^^8a{\"a}
+\lccode`^^8b=`^^8b \uccode`^^8b=`^^cc \catcode`^^8b=\active \def ^^8b{\~a}
+\lccode`^^8c=`^^8c \uccode`^^8c=`^^81 \catcode`^^8c=\active \def ^^8c{{\aa}}
+\lccode`^^8d=`^^8d \uccode`^^8d=`^^82 \catcode`^^8d=\active \def ^^8d{\c{c}}
+\lccode`^^8e=`^^8e \uccode`^^8e=`^^83 \catcode`^^8e=\active \def ^^8e{\'e}
+\lccode`^^8f=`^^8f \uccode`^^8f=`^^e9 \catcode`^^8f=\active \def ^^8f{\`e}
+\lccode`^^90=`^^90 \uccode`^^90=`^^e6 \catcode`^^90=\active \def ^^90{\^e}
+\lccode`^^91=`^^91 \uccode`^^91=`^^e8 \catcode`^^91=\active \def ^^91{\"e}
+\lccode`^^92=`^^92 \uccode`^^92=`^^ea \catcode`^^92=\active \def ^^92{{\'\i}}
+\lccode`^^93=`^^93 \uccode`^^93=`^^ed \catcode`^^93=\active \def ^^93{{\`\i}}
+\lccode`^^94=`^^94 \uccode`^^94=`^^eb \catcode`^^94=\active \def ^^94{{\^\i}}
+\lccode`^^95=`^^95 \uccode`^^95=`^^ec \catcode`^^95=\active \def ^^95{{\"\i}}
+\lccode`^^96=`^^96 \uccode`^^96=`^^84 \catcode`^^96=\active \def ^^96{\~n}
+\lccode`^^97=`^^97 \uccode`^^97=`^^ee \catcode`^^97=\active \def ^^97{\'o}
+\lccode`^^98=`^^98 \uccode`^^98=`^^f1 \catcode`^^98=\active \def ^^98{\`o}
+\lccode`^^99=`^^99 \uccode`^^99=`^^ef \catcode`^^99=\active \def ^^99{\^o}
+\lccode`^^9a=`^^9a \uccode`^^9a=`^^85 \catcode`^^9a=\active \def ^^9a{\"o}
+\lccode`^^9b=`^^9b \uccode`^^9b=`^^cd \catcode`^^9b=\active \def ^^9b{\~o}
+\lccode`^^9c=`^^9c \uccode`^^9c=`^^f2 \catcode`^^9c=\active \def ^^9c{\'u}
+\lccode`^^9d=`^^9d \uccode`^^9d=`^^f4 \catcode`^^9d=\active \def ^^9d{\`u}
+\lccode`^^9e=`^^9e \uccode`^^9e=`^^f3 \catcode`^^9e=\active \def ^^9e{\^u}
+\lccode`^^9f=`^^9f \uccode`^^9f=`^^86 \catcode`^^9f=\active \def ^^9f{\"u}
+
+\lccode`^^a1=`^^a1 \uccode`^^a1=`^^a1 \catcode`^^a1=\active \def ^^a1{$^\circ$}
+
+\lccode`^^a3=`^^a3 \uccode`^^a3=`^^a3 \catcode`^^a3=\active \def ^^a3{{\it\$}}
+\lccode`^^a4=`^^a4 \uccode`^^a4=`^^a4 \catcode`^^a4=\active \def ^^a4{{\S}}
+
+\lccode`^^a6=`^^a6 \uccode`^^a6=`^^a6 \catcode`^^a6=\active \def ^^a6{{\P}}
+\lccode`^^a7=`^^a7 \uccode`^^a7=`^^a7 \catcode`^^a7=\active \def ^^a7{\ss{}}
+
+\lccode`^^a9=`^^a9 \uccode`^^a9=`^^a9 \catcode`^^a9=\active \def ^^a9{{\copyright}}
+
+\lccode`^^ae=`^^be \uccode`^^ae=`^^ae \catcode`^^ae=\active \def ^^ae{{\AE}}
+\lccode`^^af=`^^bf \uccode`^^af=`^^af \catcode`^^af=\active \def ^^af{{\O}}
+
+\lccode`^^b1=`^^b1 \uccode`^^b1=`^^b1 \catcode`^^b1=\active \def ^^b1{$\pm$}
+
+\lccode`^^b5=`^^b5 \uccode`^^b5=`^^b5 \catcode`^^b5=\active \def ^^b5{$\mu$}
+
+\lccode`^^be=`^^be \uccode`^^be=`^^ae \catcode`^^be=\active \def ^^be{{\ae}}
+\lccode`^^bf=`^^bf \uccode`^^bf=`^^af \catcode`^^bf=\active \def ^^bf{{\o}}
+\lccode`^^c0=`^^c0 \uccode`^^c0=`^^c0 \catcode`^^c0=\active \def ^^c0{{?`}}
+\lccode`^^c1=`^^c1 \uccode`^^c1=`^^c1 \catcode`^^c1=\active \def ^^c1{{!`}}
+
+\lccode`^^cb=`^^88 \uccode`^^cb=`^^cb \catcode`^^cb=\active \def ^^cb{\`A}
+\lccode`^^cc=`^^8b \uccode`^^cc=`^^cc \catcode`^^cc=\active \def ^^cc{\~A}
+\lccode`^^cd=`^^9b \uccode`^^cd=`^^cd \catcode`^^cd=\active \def ^^cd{\~O}
+
+\lccode`^^d6=`^^d6 \uccode`^^d6=`^^d6 \catcode`^^d6=\active \def ^^d6{$\div$}
+
+\lccode`^^d8=`^^d8 \uccode`^^d8=`^^d9 \catcode`^^d8=\active \def ^^d8{\"y}
+\lccode`^^d9=`^^d8 \uccode`^^d9=`^^d9 \catcode`^^d9=\active \def ^^d9{\"Y}
+
+\lccode`^^e5=`^^89 \uccode`^^e5=`^^e5 \catcode`^^e5=\active \def ^^e5{\^A}
+\lccode`^^e6=`^^90 \uccode`^^e6=`^^e6 \catcode`^^e6=\active \def ^^e6{\^E}
+\lccode`^^e7=`^^87 \uccode`^^e7=`^^e7 \catcode`^^e7=\active \def ^^e7{\'A}
+\lccode`^^e8=`^^91 \uccode`^^e8=`^^e8 \catcode`^^e8=\active \def ^^e8{\"E}
+\lccode`^^e9=`^^8f \uccode`^^e9=`^^e9 \catcode`^^e9=\active \def ^^e9{\`E}
+\lccode`^^ea=`^^92 \uccode`^^ea=`^^ea \catcode`^^ea=\active \def ^^ea{\'I}
+\lccode`^^eb=`^^94 \uccode`^^eb=`^^eb \catcode`^^eb=\active \def ^^eb{\^I}
+\lccode`^^ec=`^^95 \uccode`^^ec=`^^ec \catcode`^^ec=\active \def ^^ec{\"I}
+\lccode`^^ed=`^^93 \uccode`^^ed=`^^ed \catcode`^^ed=\active \def ^^ed{\`I}
+\lccode`^^ee=`^^97 \uccode`^^ee=`^^ee \catcode`^^ee=\active \def ^^ee{\'O}
+\lccode`^^ef=`^^99 \uccode`^^ef=`^^ef \catcode`^^ef=\active \def ^^ef{\^O}
+
+\lccode`^^f1=`^^98 \uccode`^^f1=`^^f1 \catcode`^^f1=\active \def ^^f1{\`O}
+\lccode`^^f2=`^^9c \uccode`^^f2=`^^f2 \catcode`^^f2=\active \def ^^f2{\'U}
+\lccode`^^f3=`^^9e \uccode`^^f3=`^^f3 \catcode`^^f3=\active \def ^^f3{\^U}
+\lccode`^^f4=`^^9d \uccode`^^f4=`^^f4 \catcode`^^f4=\active \def ^^f4{\`U}
+
+\def\Cstringchars{% Avoid any whitespace!
+  \def ^^80{{\"A}}\def ^^81{{\tt\AA}}\def ^^82{{\tt\c{C}}}%
+  \def ^^83{{\tt\'E}}\def ^^84{{\tt\~N}}\def ^^85{{\tt\"O}}%
+  \def ^^86{{\tt\"U}}\def ^^87{{\tt\'a}}\def ^^88{{\tt\`a}}%
+  \def ^^89{{\tt\^a}}\def ^^8a{{\tt\"a}}\def ^^8b{{\tt\~a}}%
+  \def ^^8c{{\tt\aa}}\def ^^8d{{\tt\c{c}}}\def ^^8e{{\tt\'e}}%
+  \def ^^8f{{\tt\`e}}\def ^^90{{\tt\^e}}\def ^^91{{\tt\"e}}%
+  \def ^^92{{\tt\'\i}}\def ^^93{{\tt\`\i}}\def ^^94{{\tt\^\i}}%
+  \def ^^95{{\tt\"\i}}\def ^^96{{\tt\~n}}\def ^^97{{\tt\'o}}%
+  \def ^^98{{\tt\`o}}\def ^^99{{\tt\^o}}\def ^^9a{{\tt\"o}}%
+  \def ^^9b{{\tt\~o}}\def ^^9c{{\tt\'u}}\def ^^9d{{\tt\`u}}%
+  \def ^^9e{{\tt\^u}}\def ^^9f{{\tt\"u}}\def ^^a7{{\tt\ss}}%
+  \def ^^ae{{\tt\AE}}\def ^^af{{\tt\O}}\def ^^be{{\tt\ae}}%
+  \def ^^bf{{\tt\o}}\def ^^c0{{\tt?`}}\def ^^c1{{\tt!`}}%
+  \def ^^cb{{\tt\`A}}\def ^^cc{{\tt\~A}}\def ^^cd{{\tt\~O}}%
+  \def ^^d8{{\tt\"y}}\def ^^d9{{\tt\"Y}}\def ^^e5{{\tt\^A}}%
+  \def ^^e6{{\tt\^E}}\def ^^e7{{\tt\'A}}\def ^^e8{{\tt\"E}}%
+  \def ^^e9{{\tt\`E}}\def ^^ea{{\tt\'I}}\def ^^eb{{\tt\^I}}%
+  \def ^^ec{{\tt\"I}}\def ^^ed{{\tt\`I}}\def ^^ee{{\tt\'O}}%
+  \def ^^ef{{\tt\^O}}\def ^^f1{{\tt\`O}}\def ^^f2{{\tt\'U}}%
+  \def ^^f3{{\tt\^U}}\def ^^f4{{\tt\`U}}}
+
+\fi\fi
+
+\endinput

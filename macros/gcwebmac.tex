@@ -1,0 +1,124 @@
+% standard macros for CWEB listings (in addition to plain.tex)
+% Version 2.0 --- Don Knuth, July 1990
+% Version 2.0 [german] --- Carsten Steger, October 1991
+% Version 2.0 [german] --- Andreas Scherer, February 1993
+% Version 2.7 --- Don Knuth, July 1992
+% Version 2.7 [p6c] --- Andreas Scherer, September 1993
+% Version 2.8 --- Don Knuth, September 1992
+% Version 2.8 [german] --- Carsten Steger, 1993
+% Version 2.8 [p7] --- Andreas Scherer, October 1993
+% Version 3.0 --- Don Knuth, June 1993
+% Version 3.0 [p8e] --- Andreas Scherer, November 1993
+% Version 3.1 [p9b] --- Andreas Scherer, January 1994
+% Version 3.1 [p9c] --- Andreas Scherer, March 1994
+% Version 3.1 [p9d] --- Andreas Scherer, July 1994
+
+\input ccwebmac.tex
+
+% The following macro files include umlauts and special characters
+% according to different character encodings.  Choose the one that
+% suits your system.  There is a `\Cstringchars' macro defined.
+\input ecma94.tex % ISO 8859-1/ECMA-94/Latin-1
+%\input hp8.tex   % HP Roman 8
+%\input mac8.tex  % Macintosh 8-bit font
+%\input pc850.tex % IBM PC International Codepage 850
+
+\def\.#1{\leavevmode\hbox{\tentex % typewriter type for strings
+  \Cstringchars % special characters in a string
+  \let\\=\BS % backslash in a string
+  \let\{=\LB % left brace in a string
+  \let\}=\RB % right brace in a string
+  \let\~=\TL % tilde in a string
+  \let\ =\SP % space in a string
+  \let\_=\UL % underline in a string
+  \let\&=\AM % ampersand in a string
+  \let\^=\CF % circumflex in a string
+  #1\kern.05em}}
+
+\def\postATL#1 #2 {\bf Buchstabe \\{\uppercase{\char"#1}}
+   wird getangled als \tentex "#2"\egroup\par}
+\def\ATH{\X\kern-.5em:Pr\"aprozessor Definitionen\X}
+
+\def\A{\note{Siehe auch Abschnitt}} % xref for doubly defined section name
+\def\As{\note{Siehe auch die Abschnitte}} % xref for multiply defined section name
+
+\def\ET{ und~} % conjunction between two section numbers
+\def\ETs{ und~} % conjunction between the last two of several section numbers
+
+\def\Q{\note{Dieser Programmteil wird zitiert in Abschnitt}} % xref for mention of a section
+\def\Qs{\note{Dieser Programmteil wird zitiert in den Abschnitten}} % xref for mentions of a section
+
+\def\U{\note{Dieser Programmteil wird verwendet in Abschnitt}} % xref for use of a section
+\def\Us{\note{Dieser Programmteil wird verwendet in den Abschnitten}} % xref for uses of a section
+
+\gtitle={\.{CWEB} Ausgabe} % this running head is reset by starred sections
+\mark{\noexpand\nullsec0{\the\gtitle}}
+
+\def\ch{\note{Die folgenden Abschnitte sind vom Change-File ver\"andert worden:}
+  \let\*=\relax}
+
+\def\fin{\par\vfill\eject % this is done when we are ending the index
+  \ifpagesaved\null\vfill\eject\fi % output a null index column
+  \if L\lr\else\null\vfill\eject\fi % finish the current page
+  \parfillskip 0pt plus 1fil
+  \def\grouptitle{ABSCHNITTSNAMEN}
+  \let\topsecno=\nullsec
+  \message{Abschnittsnamen:}
+  \output={\normaloutput\page\lheader\rheader}
+  \setpage
+  \def\note##1##2.{\quad{\eightrm##1~##2.}}
+  \def\Q{\note{Zitiert in Abschnitt}} % crossref for mention of a section
+  \def\Qs{\note{Zitiert in den Abschnitten}} % crossref for mentions of a section
+  \def\U{\note{Verwendet in Abschnitt}} % crossref for use of a section
+  \def\Us{\note{Verwendet in den Abschnitten}} % crossref for uses of a section
+  \def\I{\par\hangindent 2em}\let\*=*
+  \readsections}
+\def\con{\par\vfill\eject % finish the section names
+% \ifodd\pageno\else\titletrue\null\vfill\eject\fi % for duplex printers
+  \rightskip 0pt \hyphenpenalty 50 \tolerance 200
+  \setpage \output={\normaloutput\page\lheader\rheader}
+  \titletrue % prepare to output the table of contents
+  \pageno=\contentspagenumber
+  \def\grouptitle{INHALTSVERZEICHNIS:}
+  \message{Inhaltsverzeichnis:}
+  \topofcontents
+  \line{\hfil Abschnitt\hbox to3em{\hss Seite}}
+  \let\ZZ=\contentsline
+  \readcontents\relax % read the contents info
+  \botofcontents \end} % print the contents page(s) and terminate
+\def\today{\number\day.~\ifcase\month\or
+  Januar\or Februar\or M\"arz\or April\or Mai\or Juni\or
+  Juli\or August\or September\or Oktober\or November\or Dezember\fi
+  \space\number\year}
+\newcount\twodigits
+\def\hours{\twodigits=\time \divide\twodigits by60 \printtwodigits
+  \null\space\sc Uhr\space % distinguish between time and year
+  \multiply\twodigits by-60 \advance\twodigits by\time \printtwodigits}
+\def\datethis{\def\startsection{\leftline{\sc\today\ um \hours}\bigskip
+  \let\startsection=\stsec\stsec}}
+  % say `\datethis' in limbo, to get your listing timestamped before section 1
+\def\datecontentspage{%
+  \def\topofcontents{\leftline{\sc\today\ um \hours}\bigskip
+   \centerline{\titlefont\title}\vfill}} % timestamps the contents page
+
+% German quotes as of `German.sty', Version 2.4a, 12 April 1992.
+% save current category code of `@'.
+\chardef\atcode=\catcode`\@
+\catcode`\@=11 % \makeatletter.
+\expandafter\let\expandafter\protect\csname protect\endcsname
+\def\allowhyphens{\penalty\@M \hskip\z@skip}
+\def\set@low@box#1{\setbox\tw@\hbox{,}\setbox\z@\hbox{#1}%
+  \setbox\z@\hbox{\dimen@\ht\z@ \advance\dimen@ -\ht\tw@
+      \lower\dimen@\box\z@}%
+  \ht\z@\ht\tw@ \dp\z@\dp\tw@}
+\def\save@sf@q#1{{\ifhmode \edef\@SF{\spacefactor\the\spacefactor}\else
+  \let\@SF\empty \fi \leavevmode #1\@SF}}
+\def\@glqq{\save@sf@q{\set@low@box{''\/}\box\z@\kern-.04em\allowhyphens}}
+\def\glqq{\protect\@glqq}
+\def\@grqq{\save@sf@q{\kern-.07em``\kern.07em}}
+\def\grqq{\protect\@grqq}
+\def\@glq{\save@sf@q{\set@low@box{'\/}\box\z@\kern-.04em\allowhyphens}}
+\def\glq{\protect\@glq}
+\def\@grq{\save@sf@q{\kern-.0125em`\kern.07em}}
+\def\grq{\protect\@grq}
+\catcode`\@=\atcode % return to previous catcode.

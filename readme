@@ -1,9 +1,17 @@
-% This file is part of CWEB.
+							-*-Text-*-
+% This file is part of CWEB.  (Set TAB to 8 spaces.)
 % The CWEB programs by Silvio Levy are based on programs by D. E. Knuth.
 % They are distributed WITHOUT ANY WARRANTY, express or implied.
-% This README file last updated June 1993 by Don Knuth
+% This README file was last updated July 9, 1994 by Andreas Scherer
+
+% This is CWEB, Version 3.1 [p9d] of July 2, 1994, 19:30:00.
+% This package includes CWEB, Version 3.1 of November 1993.
 
 % Copyright (C) 1987,1990,1993 Silvio Levy and Donald E. Knuth
+% Copyright (C) 1991-1993 Hans-Hermann Bode
+% Copyright (C) 1992 Klaus Guntermann
+% Copyright (C) 1991,1993 Carsten Steger
+% Copyright (C) 1993,1994 Andreas Scherer
 
 % Permission is granted to make and distribute verbatim copies of this
 % document provided that the copyright notice and this permission notice
@@ -14,73 +22,299 @@
 % entire resulting derived work is distributed under the terms of a
 % permission notice identical to this one.
 
-% Please send comments, suggestions, etc. to levy@geom.umn.edu.
+% Please send comments, suggestions, etc., concerning the original CWEB
+% implementation to levy@geom.umn.edu.
+% Please send comments, suggestions, etc., related to changes specific
+% for MSDOS and TURBOC to Hans-Hermann Bode,
+% hhbode@@dosuni1.rz.uni-osnabrueck.de or HHBODE@@DOSUNI1.BITNET.
+% Please send comments, suggestions, etc., related to changes specific
+% for AMIGA and SAS/C, and catalog translations to Andreas Scherer,
+% Abt-Wolf-Straße 17, 96215 Lichtenfels, Germany, [++49](0)9571/2013.
 
-This directory contains the following files:
+This is the ANSI-C/C++ implementation of Silvio Levy's and Donald E.
+Knuth's CWEB system, compiled and provided with changefiles for ANSI-C
+and a makefile for Turbo C++ by Hans-Hermann Bode, including additional
+changes to improve support of ANSI-C compilers and a makefile for C89
+by Klaus Guntermann, and including additional changes for full support
+of ANSI-C compilers and a makefile for SAS/C 6.x on the AMIGA by Andreas
+Scherer.  Additional features are described below.
 
-Makefile
-README
-comm-amiga.ch
-comm-man.ch
-comm-pc.ch
-comm-vms.ch
-common.c
-common.h
-common.w
-ctang-man.ch
-ctang-pc.ch
-ctang-vms.ch
-ctangle.c
-ctangle.w
-cweav-man.ch
-cweav-pc.ch
-cweav-vms.ch
-cweave.w
-cweb.1
-cweb.el
-cwebmac.tex
-cwebman.tex
-examples/
-prod.w
+Note that the changes for the Turbo-C++ compiler are made conditional
+(they will become effective only if the symbol __TURBOC__ is defined,
+which automatically is the case when compiled with Turbo C++), so users
+of other systems with ANSI-C compilers might be able to compile the
+sources without editing.
 
-(If you got cweb by mail, you may have cweave.w.1 and cweave.w.2
-instead of cweave.w.  The first thing to say then is
+Note that the changes for the AMIGA and SAS/C 6.x compiler support are
+made conditional (they will become effective only if the symbol _AMIGA
+is defined, which automatically is the case when compiled with the SAS/C
+compiler).
 
-cat cweave.w.[12] > cweave.w
+AMIGA patch 3.1 [p9d] was evaluated on July 1, 1994, by Andreas Scherer
+and Burkhard Schmitt of Bayreuth University with CC and GCC on a HP Apollo
+workstation and a Sun 4 workstation and a SGI workstation.
+AMIGA patch 3.1 [p9d] was evaluated on July 2, 1994, by Andreas Scherer
+with Borland C++ version 3.1 on a PC without any problems.
+There are new versions of both MAKEFILE.PC and MAKEFILE.UNIX providing
+better support for the internal dependencies.
 
-)
+This directory contains the following files from the original CWEB
+distribution (`.' denotes the current directory):
 
-The file cwebman.tex is the user manual.
-The examples directory contains additional examples of the use of CWEB.
-The files common.c and ctangle.c are used for bootstrapping.
-The file cweb.1 is a manual page.
-The file cweb.el is suggested for GNU-Emacs users.
-The files *-man.ch are used if you want to make the full 227-page CWEB manual.
-The other files named *.ch are sample change files for local customization.
+./makefile.unix		extended makefile from the original distribution
+./readme		extended readme file from the original distribution
+./common.h		header file to be included in ctangle.w and cweave.w
+./common.w		common code for ctangle and cweave
+./comm-man.ch		change file for the complete documentation
+./comm-vms.ch		example change file for VAX/VMS (not incorporated)
+./ctangle.w		the tangle processor
+./ctang-man.ch		change file for the complete documentation
+./ctang-vms.ch		example change file for VAX/VMS (not incorporated)
+./cweave.w		the weave processor
+./cweav-man.ch		change file for the complete documentation
+./cweav-vms.ch		example change file for VAX/VMS (not incorporated)
+./cweb.1		manual page (nroff format)
+./cweb.el		elisp file for GNU Emacs
+./cwebman.tex		the user manual
+./prod.w		production rules to be included in cweave.w
+./wmerge.w		WEB-like file merger by Silvio Levy
+./examples		directory containing examples of CWEB programming
+./examples/extex.w	- spellchecking filter for TeX and CWEB by Don Knuth
+./examples/kspell.el	- Emacs interface to extex/wordtest
+./examples/makefile.org	- generic makefile for CWEB applications
+./examples/oemacs.el	- Emacs interface to oemacs
+./examples/oemacs.w	- non-portable example program for OpenWindows
+./examples/readme.org	- readme file from the examples directory
+./examples/treeprint.w	- tree-structured directory lister by Norman Ramsey
+./examples/wc.w		- UNIX word-count utility
+./examples/wordtest.w	- spellchecker by Don Knuth
+./examples/xlib_types.w	- include file for XView programs
+./examples/xview_types.w  mega-ditto
+./macros/cwebmac.tex	macros for formatting
 
-IMPORTANT: Please touch *.c before proceeding.
-Then edit the opening lines of Makefile so that it has the proper
-directory information for your local system.
+The following change files for AMIGA and PC provided with the original
+distribution are incorporated into the present change files in full (well,
+almost full: the memory restrictions for MSDOS had not to be met for UNIX
+and AMIGA, so throw them away) detail by preprocessor conditionals and
+are no longer present in this distribution:
 
-To make ctangle and cweave say `make all'; this should produce roughly
-the following actions (possibly with harmless warning messages from cc):
+./comm-amiga.ch
+./comm-pc.ch
+./ctang-amiga.ch
+./ctang-pc.ch
+./cweav-amiga.ch
+./cweav-pc.ch
 
-cc -g -w -c ctangle.c
-cc -g -w -DCWEBINPUTS=\"/usr/local/lib/cweb\" -c common.c
-cc -g -o ctangle ctangle.o common.o 
-./ctangle cweave
-cc -g -w -c cweave.c
-cc -g -w -o cweave cweave.o common.o
+The following files were added to this distribution by various contributors:
+
+general:
+./comm-p.h		wmerged product of common.h and comm-p.hch
+./comm-p.hch		change file for common.h
+./common.c		ctangled product of common.w and common.ch
+./common.ch		change file for common.w
+./ctangle.c		ctangled product of ctangle.w and ctangle.ch
+./ctangle.ch		change file for ctangle.w
+./cweave.ch		change file for cweave.w
+./cweb.man		manual page (ASCII format)
+./cweb31.readme		description file from the AmiNet distribution
+./cwebmang.ch		change file for cwebman.tex
+./wmerge.c		ctangled product from wmerge.w and wmerge.ch
+./wmerge.ch		change file for wmerge.w
+./examples/cct.w	program to translate between character code tables
+./examples/commonwords.w program to count word frequencies in text files
+./examples/extex.ch	change file for extex.w
+./examples/matrix.wpp	C++ program to invert complex 4x4 matrices
+./examples/primes.w     program to print the first 1000 prime numbers
+./examples/sample.w     program to produce random numbers
+./examples/treeprint.ch	change file for treeprint.w
+./examples/wc.ch	change file for wc.w
+./examples/wordtest.ch	change file for wordtest.w
+./include/ecma94.w	Transliteration table for Latin-1
+./include/hp8.w		Transliteration table for HP Roman 8
+./include/mac8.w	Transliteration table for Macintosh 8-bit font
+./include/pc850.w	Transliteration table for Codepage 850
+./macros/ccwebmac.tex	beautifications for cwebmac.tex
+./macros/ecma94.tex	Umlauts and special characters for Latin-1
+./macros/gcwebmac.tex	German captions in addition to cwebmac.tex
+./macros/hp8.tex	Umlauts and special characters for HP Roman 8
+./macros/mac8.tex	Umlauts and special characters for Macintosh 8-bit
+./macros/pc850.tex	Umlauts and special characters for Codepage 850
+
+special for PC users by Hans-Hermann Bode modified by Andreas Scherer:
+./makefile.pc		makefile for Turbo C++
+
+special for users of cc, c89, gcc or other ANSI C compilers for UNIX
+by Klaus Guntermann modified by Andreas Scherer according to the original
+makefile from the CWEB distribution:
+./makefile.unix		makefile for cc, c89, gcc, ...
+
+special for AMIGA users by Andreas Scherer:
+./makefile.amiga	makefile for SAS/C compiler 6.0 and up
+./arexx/compile.ced	ARexx script to start SAS/C 6.x from CED (V3.5+)
+./arexx/start_web.ced	ARexx script to start cweave and ctangle from CED
+./arexx/catalogs/cweb_arexx.cd Catalog description for German defaults
+./arexx/catalogs/cweb_arexx.e.ct Catalog translation for English users
+./arexx/catalogs/english/cweb_arexx.catalog Message catalog for English users
+./bin/ctangle		executable ctangle processor, Amiga version
+./bin/cweave		executable cweave processor, Amiga version
+./bin/wmerge		executable WEB merge program, Amiga version
+./bin/catalogs/cweb.cd	Catalog description for English defaults
+./bin/catalogs/cweb.d.ct Catalog translation for German users
+./bin/catalogs/cweb.h	header file with the English defaults
+./bin/catalogs/gcweb.h	header file with the German defaults
+./bin/catalogs/deutsch/cweb.catalog Message catalog for German users
+./examples/makefile	makefile for SAS/C compiler 6.0 and up
+
+The additional files with extensions .h, .w, .tex, and .c are
+reproducable from the other sources by means of an executable
+wmerge, ctangle, cweave, and an ANSI-C compiler.
+
+Before starting, you should run cwebmang.tex (needs cwebmac.tex and
+ccwebmac.tex and gcwebmac.tex!) through TeX and print out the manual.
+
+Make sure, that the files you got are in proper format (if you took
+them from a ZIP archive, line ends might still contain carriage return
+and linefeed characters, which may not be appropriate for your operating
+system).
+
+How to create the binaries:
+
+1.  Rename `makefile.amiga' to `makefile' or `smakefile', for use with
+SMAKE.  If you want to install the package on a UNIX system with CC, C89 or
+GCC, use `makefile.unix' instead.  If you want to install the package on
+MSDOS with TURBOC, use `makefile.pc' instead.
+
+2.  Check the entries in the makefile for local conditions like a different
+compiler name or additional compiler options you want to use.  Check also
+the other lines in the makefile so that all directory definitions are set
+properly for your local system configuration.
+
+3.  Touch common.c, ctangle.c, and wmerge.c to make them up-to-date.
+To make ctangle, cweave and the wmerge processor say `make progs'; this
+should  produce actions similar to the following, possibly with harmless
+warning messages from the compiler (there won't be any if you use the
+SAS/C 6.x compiler, except some optimizer messages), and e.g., the options
+and the name of the compiler may be as modified in the makefile:
+
+	sc $(CFLAGS) ctangle.c
+	sc $(CFLAGS) common.c
+	slink FROM $(OBJS) ctangle.o TO ctangle LIB $(LIBS)
+	ctangle cweave cweave.ch
+	sc $(CFLAGS) cweave.c
+	slink FROM $(OBJS) cweave.o TO cweave LIB $(LIBS)
+	sc $(CFLAGS) link wmerge.c
+
+or on UNIX systems
+
+	cc -g -w -c ctangle.c
+	cc -g -w -DCWEBINPUTS=\"/usr/local/lib/cweb\" -c common.c
+	cc -g -o ctangle ctangle.o common.o 
+	./ctangle cweave
+	cc -g -w -c cweave.c
+	cc -g -w -o cweave cweave.o common.o
+	cc -g -w -o wmerge wmerge.c
 
 To get some reassurance that things are OK, you can say `make cautiously',
-which ensures that CTANGLE will reproduce itself. (Otherwise the source
+which ensures that ctangle will reproduce itself.  (Otherwise the source
 files common.w and ctangle.w won't actually have been used.)
 
-To install cweave and ctangle say `make install'. You probably need to
-be superuser to do this; but it's wise to `make all' first, BEFORE
-becoming superuser and saying `make install'.
+To install cweave, ctangle, wmerge, cwebmac.tex, ccwebmac.tex, and
+gcwebmac.tex, the manual page, an emacs macro file, and the ARexx script
+files and associated language catalogs, say `make install'.  You may also
+decide to move the files manually to their proper places.  See the Makefile
+for details, what to move, and for suggestions, where to move it.  And see
+the ARexx script itself for details how to make use of it from CygnusEd
+Professional Editor.
 
-Note that change files for VMS, AMIGA, and PCs are provided.  When you are
-first bootstrapping to a new system, you may need to edit common.c and
-ctangle.c by hand, but the vast majority of the change-file changes are
-minor refinements that are not necessary for a rudimentary ctangle.
+If you want to recompile the programs for another system, you should take a
+look inside the change files common.ch, comm-p.hch, ctangle.ch, and
+cweave.ch.  Some of the entries marked with "SYSTEM DEPENDENCIES" may need
+modifications appropriate for the target system.  All change files are set
+up to work for Amiga, PC, and UNIX identically, so no further changes will
+be needed if you use on of these systems.
+
+Incidentally, if you try the recompilation with another compiler for
+another system, you may have no luck without changing the sources.
+In this case, it is necessary to do all the required changes in the
+.c file first, until you can compile ctangle.c and common.c.  But it
+is necessary then, to add the same modifications to the change file
+(never make any changes to the .w files!).  Finally processing ctangle.w
+and the extended change file for ctangle with the modified ctangle will
+create the same contents as the modifications made by hand.  If such
+changes are needed for a common compiler, please notify the authors
+about this and send the extended changes.
+
+Do not edit one of the .w files under any circumstances.  Do all
+modifications in the associated .ch files, but keep in mind that
+you'll need a working ctangle processor to generate the updated .c
+files.  And beware:  CWEB version 3 needs a ctangle and cweave with
+`longest_name==1000', so any older version with `longest_name==400' will
+fail!  Furthermore, do not edit common.h, prod.w, or cwebmac.tex.
+Make your modifications to comm-p.hch and add change files for the
+other two.  To incorporate the changes you will need a working wmerge
+program.  This will be prepared when ctangle and cweave are created.
+There is a tangled wmerge.c also in case you don't have a working
+ctangle processor so far.  However, feel free to make changes to the
+macroc files ccwebmac.tex and gcwebmac.tex in the ./macros subdirectory.
+
+If you want a full documentation of the tangle and weave programs,
+type `make docs'.  The documentation created will include all changes
+introduced by the .ch files.  To get a list of all catalog strings, you
+should also print the file ./bin/catalogs/cweb.h with the original set
+of output strings and possibly ./bin/catalogs/cweb.d.ct for a clue to
+translations.  If you want to use CWEB on a system without localization,
+there is the file ./bin/catalogs/gcweb.h, so German program versions
+can be created easily.
+
+To delete all intermediate files created in the make processes say
+`make clean'.  You will be left with the files in this distribution.
+
+The weave and tangle processors as well as wmerge now recognize a
+CWEBINPUTS environment variable.  When an include file name (argument
+to the @i command) can not be found in the current directory or in the
+absolute path, a multi-path search is performed.  CWEBINPUTS---if not
+empty---may contain a list of search path names, delimited by
+PATH_SEPARATORs, i.e., commas.  The current directory is represented
+by an empty path entry, but it is searched first anyway.  Device names
+must end in an DEVICE_SEPARATOR, i.e., colons.  Example for AmigaOS:
+
+	setenv CWEBINPUTS "RAM:,CWEB:includes"
+
+In the respective makefiles for AMIGA, UNIX and PC some decent defaults
+are set in the compile time constant CWEBINPUTS.
+
+The tangle and weave processors of this implementation are able to
+process traditional C, ANSI C, and C++.  Note that ctangle always uses
+a default extension .c for its output file; this may not be appropriate
+for some C++ compilers, but you can work around this by supplying a third
+argument in the command line (see cwebman).
+
+Patch level [p9b] of this implementation introduced localization to other
+languages than English.  All output strings of ctangle or cweave were
+replaced by variable references to an array AppStrings in cweb.h, set to the
+English defaults at startup time.  This works for all systems and compilers
+in a compatible way.  However, version 2.1 of the AMIGA operating system
+introduced the use of language catalogs, thus enabling programs and
+applications to be inherently multilingual without recompilation.  To
+activate this feature, you only have to install AmigaOS 2.1/3.0.  A German
+catalog is already there at the right place (./bin/catalogs/deutsch), so
+ctangle and cweave will great you in German, if you start them from their
+home directory ./bin and if your system default language is German.
+Catalog translations for other languages can easily be installed.
+
+Patch level [p9d] of this implementation introduced dynamic memory allocation
+for all internal arrays except for `flags[256]'.  By this method both ctangle
+and cweave can be compiled in the `NEAR' data segment, so on the AMIGA they
+can be made `resident', i.e., they can reside in RAM and don't have to be
+loaded from disk after the first time.
+
+Patch level [p9d] of this implementation introduced an ARexx communication
+facility between CWEB (i.e., ctangle and cweave) and the `Message Browser'
+SCMSG, included in the SAS/C 6.X development system.  If you run CWEB with
+the `+m' option, any warnings or error messages will be displayed in the
+window of SCMSG.  The default setting is `off'.  You can control the
+behaviour of this feature by setting the environment variable SCMSGOPT
+to a string with any legal command line options for SCMSG as described
+in the documentation provided with the compiler package by SAS Institute.
+If the environment variable is not set, the default behaviour of SCMSG
+will be used.
