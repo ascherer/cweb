@@ -148,7 +148,7 @@ case 'n': if ((*targv)[2]) for (u=*targv+2;*u;u++) ord[*u]=0;
   break;
 case 'd': if (sscanf((char*)*targv+2,"%u",&delta)==1 && delta<256) break;
   goto print_usage;
-case 'm': if (sscanf((char*)*targv+2,"%u",&max_length)==1 &
+case 'm': if (sscanf((char*)*targv+2,"%u",&max_length)==1 &&
     max_length<=MAX_LENGTH_LIMIT) break;
   goto print_usage;
 default: print_usage: fprintf(stderr,
