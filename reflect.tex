@@ -1,0 +1,567 @@
+\input cwebmac
+\datethis
+\nocon
+
+\M{1}This is a quick program to find all canonical forms of reflection networks
+for small $n$.
+
+Well, when I wrote that paragraph I believed it, but subsequently I have added
+lots of bells and whistles because I wanted to compute more stuff. At
+present this code determines the number $B_n$ of equivalence classes of
+reflection networks (i.e., irredundant primitive sorting networks);
+also the number of weak equivalence classes, either with ($C_{n+1}$) or without
+($D_{n+1}$) anti-isomorphism; and the number of preweak equivalence
+classes ($E_{n+1}$), which is the number of simple arrangements of
+$n+1$ pseudolines in a projective plane. For each representative of
+$D_{n+1}$ it also computes the ``score,'' which is the number of ways
+to add another pseudoline crossing the network.
+
+If compiled without the \PB{\.{NOPRINT}} switch, each member of $B_n$ is
+printed
+as a string of transposition numbers, generated in
+lexicographic order. This is followed by \.* if the string is also
+a representative of $C_{n+1}$ when prefixed by $01\ldots n$. And if the string
+is also a representative of $D_{n+1}$, you also get the score in brackets,
+followed by \.\# if it is a representative of $E_{n+1}$. If not a
+representative of $D_{n+1}$, the symbol \.> is printed followed by the
+string of an anti-equivalent network.
+
+If compiled with the \PB{\.{DEBUG}} switch, you also get intermediate output
+about
+the backtrack tree and the networks generated while searching for
+anti-equivalence and preweak equivalence.
+
+I wrote this program to allow $n$ up to 10; but integer overflow will
+surely occur in $B_{10}\approx2\times10^{10}$, if I ever get a computer fast
+enough to run that case. When $n=7$, this program took 48 seconds to run, on
+January 12, 1991; the running time for $n=6$ was 1 second, and
+for $n=8$ it was 57 minutes. Therefore I made a stripped-down version
+to enumerate only $B_n$ when $n=9$.
+
+\Y\B\8\#\&{include} \.{<stdio.h>}\par
+\fi
+
+\M{2}There's an array $a[1\mathrel{.\,.}n]$ containing $k$ inversions; an
+index \PB{\|j} showing where we are going to try to reduce the inversions
+by swapping \PB{\|a[\|j]} with \PB{$\|a[\|j+\T{1}]$}; and two arrays for
+backtracking.
+At choice-level \PB{\|l} we set \PB{\|t[\|l]} to the current \PB{\|j} value,
+and
+we also set \PB{\|c[\|l]} to 1 if we swapped, 0 if we didn't.
+
+\Y\B\4\D$\\{swap}(\|j)$ \6
+${}\{{}$\5
+\1\&{int} \\{tmp}${}\K\|a[\|j]{}$;\5
+${}\|a[\|j]\K\|a[\|j+\T{1}]{}$;\5
+${}\|a[\|j+\T{1}]\K\\{tmp}{}$;\5
+${}\}{}$\2\par
+\B\4\D$\\{npairs}$ \5
+\T{120}\C{ should be greater than $2{n+1\choose2}$ }\par
+\B\4\D$\\{ncycle}$ \5
+\T{240}\C{ should be greater than $4{n+1\choose2}$ }\par
+\Y\B\4\X2:Global variables\X${}\E{}$\6
+\&{int} \|n;\C{ number of elements to be reflected }\6
+\&{int} \|a[\T{10}];\C{ array that shows progress }\6
+\&{int} \|k;\C{ number of inversions yet to be removed }\6
+\&{int} \|j;\C{ current place in array }\6
+\&{int} \|l;\C{ current choice level }\6
+\&{int} \|c[\\{npairs}];\C{ code for choices made }\6
+\&{int} \|t[\\{npairs}];\C{ \PB{\|j} values where choices were made }\6
+\&{int} \|i${},{}$ \\{ii}${},{}$ \\{iii};\C{ general-purpose indices }\6
+\&{int} \\{bn}${},{}$ \\{cn}${},{}$ \\{dn}${},{}$ \\{en};\C{ counters for
+$B_n$, $C_{n+1}$, $D_{n+1}$, $E_{n+1}$ }\6
+\&{int} \\{smin}${},{}$ \\{smax};\C{ counters for ``scores'' }\6
+\&{float} \\{stot};\C{ grand total of scores }\par
+\As8\ET13.
+\U3.\fi
+
+\M{3}The value of \PB{\|n} is supposed to be an argument.
+
+\Y\B\4\D$\\{abort}(\|s)$ \6
+${}\{{}$\5
+\1${}\\{fprintf}(\\{stderr},\39\|s){}$;\5
+\\{exit}(\T{1});\5
+${}\}{}$\2\par
+\Y\B\X2:Global variables\X\7
+${}\\{main}(\\{argc},\39\\{argv}){}$\1\1\6
+\&{int} \\{argc};\C{ number of args }\6
+\&{char} ${}{*}{*}\\{argv}{}$;\C{ the args }\2\2\6
+${}\{{}$\1\6
+\&{if} ${}(\\{argc}\I\T{2}){}$\1\5
+\\{abort}(\.{"Usage:\ reflect\ n\\n"});\2\6
+\&{if} ${}(\\{sscanf}(\\{argv}[\T{1}],\39\.{"\%d"},\39{\AND}\|n)\I\T{1}\V\|n<%
+\T{2}\V\|n>\T{10}){}$\1\5
+\\{abort}(\.{"n\ should\ be\ in\ the\ }\)\.{range\ 2..10!\\n"});\2\6
+\X4:Initialize\X;\6
+\X5:Run through all canonical reflection networks\X;\6
+${}\\{printf}(\.{"B=\%d,\ C=\%d,\ D=\%d,\ E}\)\.{=\%d\\n"},\39\\{bn},\39\\{cn},%
+\39\\{dn},\39\\{en});{}$\6
+${}\\{printf}(\.{"scores\ min=\%d,\ max=}\)\.{\%d,\ mean=\%.1f\\n"},\39%
+\\{smin},\39\\{smax},\39\\{stot}/{}$(\&{float}) \\{dn});\6
+\4${}\}{}$\2\par
+\fi
+
+\M{4}\B\X4:Initialize\X${}\E{}$\6
+\&{for} ${}(\|j\K\T{1};{}$ ${}\|j\Z\|n;{}$ ${}\|j\PP){}$\1\5
+${}\|a[\|j]\K\|n+\T{1}-\|j;{}$\2\6
+${}\|k\K\|n*(\|n-\T{1}){}$;\5
+${}\|k\MRL{{/}{\K}}\T{2};{}$\6
+${}\|c[\T{0}]\K\T{0}{}$;\C{ a convenient sentinel }\6
+${}\|l\K\T{1};{}$\6
+${}\|j\K\|n;{}$\6
+${}\\{bn}\K\\{cn}\K\\{dn}\K\\{en}\K\\{smax}\K\T{0};{}$\6
+${}\\{stot}\K\T{0.0};{}$\6
+${}\\{smin}\K\T{1000000000}{}$;\par
+\U3.\fi
+
+\M{5}\B\X5:Run through all canonical reflection networks\X${}\E{}$\6
+\4\\{moveleft}:\5
+${}\|j\MM;{}$\6
+\4\\{loop}:\6
+\&{if} ${}(\|j\E\T{0}){}$\5
+${}\{{}$\1\6
+\&{if} ${}(\|k\E\T{0}){}$\1\5
+\X7:Print a solution\X;\2\6
+\X6:Backtrack, either going to \PB{\\{loop}} or to \PB{\\{finished}} when all
+possibilities are exhausted\X;\6
+\4${}\}{}$\2\6
+\&{if} ${}(\|a[\|j]<\|a[\|j+\T{1}]){}$\1\5
+\&{goto} \\{moveleft};\2\6
+${}\|t[\|l]\K\|j;{}$\6
+${}\|c[\|l\PP]\K\T{0};{}$\6
+\&{goto} \\{moveleft};\6
+\4\\{finished}:\5
+;\par
+\U3.\fi
+
+\M{6}\B\X6:Backtrack, either going to \PB{\\{loop}} or to \PB{\\{finished}}
+when all possibilities are exhausted\X${}\E{}$\6
+\&{while} ${}(\|c[\MM\|l]){}$\5
+${}\{{}$\1\6
+${}\|j\K\|t[\|l];{}$\6
+\\{swap}(\|j);\6
+${}\|k\PP;{}$\6
+\4${}\}{}$\2\6
+\&{if} ${}(\|l\E\T{0}){}$\1\5
+\&{goto} \\{finished};\2\6
+${}\|j\K\|t[\|l];{}$\6
+${}\|c[\|l\PP]\K\T{1};{}$\6
+\\{swap}(\|j);\6
+${}\|k\MM;{}$\6
+\&{if} ${}(\PP\|j\E\|n){}$\1\5
+${}\|j\MM;{}$\2\6
+\&{goto} \\{loop};\par
+\U5.\fi
+
+\M{7}\B\X7:Print a solution\X${}\E{}$\6
+${}\{{}$\6
+\8\#\&{ifdef} \.{DEBUG}\1\6
+\&{for} ${}(\|i\K\T{1};{}$ ${}\|i<\|l;{}$ ${}\|i\PP){}$\1\5
+${}\\{putchar}(\.{'0'}+\|c[\|i]);{}$\2\6
+\\{putchar}(\.{':'});\6
+\8\#\&{endif}\6
+\8\#\&{ifndef} \.{NOPRINT}\6
+\&{for} ${}(\|i\K\T{1};{}$ ${}\|i<\|l;{}$ ${}\|i\PP){}$\1\6
+\&{if} (\|c[\|i])\1\5
+${}\\{putchar}(\.{'0'}-\T{1}+\|t[\|i]);{}$\2\2\6
+\8\#\&{endif}\6
+\X9:Check if it gives a new CC system on \PB{$\|n+\T{1}$} elements\X;\6
+\8\#\&{ifndef} \.{NOPRINT}\6
+\\{putchar}(\.{'\\n'});\6
+\8\#\&{endif}\6
+${}\\{bn}\PP;{}$\6
+\4${}\}{}$\2\par
+\U5.\fi
+
+\M{8}Here's part of the program I wrote after getting the above to work.
+The idea is to see if the almost-canonical form for an (\PB{$\|n+%
+\T{1}$})-element
+network is weakly equivalent to any lexicographically smaller
+almost-canonical forms. If not, we print an asterisk, because it
+represents a new weak equivalence class.
+
+The forms are kept in locations \PB{\|r} through \PB{$\|r+\|n(\|n+\T{1})/\T{2}-%
+\T{1}$} of array \PB{\|b},
+which starts out like \PB{\|t} but with the transpositions 1, 2, \dots,~$n$
+prefaced. End-around shifts are performed (advancing \PB{\|r} by~1 each time)
+until the original form appears again.
+
+\Y\B\4\X2:Global variables\X${}\mathrel+\E{}$\6
+\&{int} \|b[\\{ncycle}];\C{ larger array used for testing weak equivalence }\6
+\&{int} \|r${},{}$ \\{rr};\C{ the first and last active locations in \PB{\|b} }%
+\6
+\&{int} \|d[\\{npairs}];\C{ copy of the present network }\6
+\&{int} \\{rrr};\C{ $n+1\choose2$ }\par
+\fi
+
+\M{9}\B\X9:Check if it gives a new CC system on \PB{$\|n+\T{1}$} elements\X${}%
+\E{}$\6
+\&{for} ${}(\\{rr}\K\T{0};{}$ ${}\\{rr}<\|n;{}$ ${}\\{rr}\PP){}$\1\5
+${}\|b[\\{rr}]\K\\{rr}+\T{1};{}$\2\6
+\&{for} ${}(\|i\K\T{1};{}$ ${}\|i<\|l;{}$ ${}\|i\PP){}$\1\6
+\&{if} (\|c[\|i])\5
+${}\{{}$\1\6
+${}\|b[\\{rr}]\K\|d[\\{rr}]\K\|t[\|i];{}$\6
+${}\\{rr}\PP;{}$\6
+\4${}\}{}$\2\2\6
+${}\|d[\\{rr}]\K\T{1}{}$;\C{ sentinel }\6
+${}\\{rrr}\K\\{rr};{}$\6
+${}\|r\K\T{0};{}$\6
+\&{while} (\T{1})\5
+${}\{{}$\1\6
+\X10:Shift the first transposition to the other end\X;\6
+\&{if} ${}(\|b[\|r]\E\T{1}){}$\1\5
+\X11:Test lexicographic order; \PB{\&{break}} if equal or less\X;\2\6
+\4${}\}{}$\2\par
+\U7.\fi
+
+\M{10}\B\X10:Shift the first transposition to the other end\X${}\E{}$\6
+$\|j\K\|n-\|b[\|r\PP];{}$\6
+\&{for} ${}(\|i\K\\{rr}\PP;{}$ ${}\|b[\|i-\T{1}]<\|j;{}$ ${}\|i\MM){}$\1\5
+${}\|b[\|i]\K\|b[\|i-\T{1}];{}$\2\6
+${}\|b[\|i]\K\|j+\T{1}{}$;\par
+\U9.\fi
+
+\M{11}\B\X11:Test lexicographic order; \PB{\&{break}} if equal or less\X${}%
+\E{}$\6
+${}\{{}$\1\6
+${}\|b[\\{rr}]\K\T{0}{}$;\C{ sentinel, is less than the 1 we put in \PB{\|d} }\6
+\&{for} ${}(\|i\K\|r+\|n;{}$ ${}\|b[\|i]\E\|d[\|i-\|r];{}$ ${}\|i\PP){}$\1\5
+;\2\6
+\&{if} ${}(\|b[\|i]<\|d[\|i-\|r]){}$\5
+${}\{{}$\1\6
+\&{if} ${}(\|i\E\\{rr}){}$\5
+${}\{{}$\C{ total equality }\6
+\8\#\&{ifndef} \.{NOPRINT}\1\6
+\\{putchar}(\.{'*'});\6
+\8\#\&{endif}\6
+${}\\{cn}\PP;{}$\6
+\X12:Make the big test for pre-weak equivalence\X;\6
+\4${}\}{}$\2\6
+\&{break};\6
+\4${}\}{}$\2\6
+\4${}\}{}$\2\par
+\U9.\fi
+
+\M{12}Well, after I got that going I couldn't resist continuing until I had
+all simple arrangements of pseudolines enumerated. That requires looking at
+another $n+1\choose2$ cases to see if they are weakly equivalent to anything
+seen before.
+
+And, surprise, it also meant testing for anti-isomorphism.
+
+\Y\B\4\X12:Make the big test for pre-weak equivalence\X${}\E{}$\6
+\X14:Reset \PB{\|b} to a double cycle\X;\6
+\X15:Test the reverse of \PB{\|b} for weak equivalence; \PB{\&{goto} \\{done}}
+if weakly equivalent to a previous case\X;\6
+\X22:Compute the score for this weak equivalence/antiequivalence class rep\X;\6
+\&{for} ${}(\|r\K\T{0};{}$ ${}\|r<\\{rrr};{}$ ${}\|r\PP){}$\5
+${}\{{}$\1\6
+\X20:Move the ``pole'' into the cell preceding the first transposition module%
+\X;\6
+\&{for} ${}(\\{ref}\K\T{0};{}$ ${}\\{ref}<\T{2};{}$ ${}\\{ref}\PP){}$\5
+${}\{{}$\1\6
+\&{if} ${}(\\{ref}\E\T{0}){}$\1\6
+\&{for} ${}(\|i\K\T{0};{}$ ${}\|i<\\{rrr};{}$ ${}\|i\PP){}$\1\5
+${}\|y[\|i]\K\|x[\|i];{}$\2\2\6
+\&{else}\1\5
+\X16:Replace the present \PB{\|x} by the reverse of \PB{\|y}\X;\2\6
+\X17:If the new network is weakly equivalent to a lexicographically smaller
+one, \PB{\&{goto} \\{done}}\X;\6
+\4${}\}{}$\2\6
+\4${}\}{}$\2\6
+\8\#\&{ifndef} \.{NOPRINT}\6
+\\{putchar}(\.{'\#'});\C{ a new preweak class, not related to anything earlier
+}\6
+\8\#\&{endif}\6
+${}\\{en}\PP;{}$\6
+\4\\{done}:\5
+;\par
+\U11.\fi
+
+\M{13}For this part of the program we use an array \PB{\|x} analogous to \PB{%
+\|b}; also
+variables \PB{\|s} and \PB{\\{ss}} analogous to \PB{\|r} and~\PB{\\{rr}}; also
+an array \PB{\|e} analogous
+to \PB{\|d}.
+
+\Y\B\4\X2:Global variables\X${}\mathrel+\E{}$\6
+\&{int} \|x[\\{ncycle}];\C{ network to be tested for weak equivalence }\6
+\&{int} \|m;\C{ largest element in \PB{\|x} so far }\6
+\&{int} \|y[\\{npairs}];\C{ elements to be carried around to the right as \PB{%
+\|x} is formed }\6
+\&{int} \\{jj};\C{ the number of elements in \PB{\|y} }\6
+\&{int} \|s${},{}$ \\{ss};\C{ the active region of \PB{\|x} }\6
+\&{int} \|e[\\{npairs}];\C{ starting point }\6
+\&{int} \\{rep};\C{ number of repetitions }\6
+\&{int} \\{ref};\C{ number of reflections }\par
+\fi
+
+\M{14}At this point \PB{$\|i-\|r$} points just past the end of the \PB{\|d}
+data, and
+the first \PB{\|n} entries of \PB{\|b} are still equal to 1, 2, \dots,~\PB{%
+\|n}.
+The network we construct here is not necessarily in canonical form.
+
+\Y\B\4\X14:Reset \PB{\|b} to a double cycle\X${}\E{}$\6
+$\\{rr}\K\|i-\|r;{}$\6
+\&{for} ${}(\|i\K\|n;{}$ ${}\|i<\\{rr};{}$ ${}\|i\PP){}$\1\5
+${}\|b[\|i]\K\|d[\|i];{}$\2\6
+\&{for} ( ; ${}\|i<\\{rr}+\\{rr};{}$ ${}\|i\PP){}$\1\5
+${}\|b[\|i]\K\|n+\T{1}-\|b[\|i-\\{rr}]{}$;\2\par
+\U12.\fi
+
+\M{15}One nice thing is that reflection and turning upside down preserve
+canonicity when we do both simultaneously.
+
+\Y\B\4\X15:Test the reverse of \PB{\|b} for weak equivalence; \PB{\&{goto} %
+\\{done}} if weakly equivalent to a previous case\X${}\E{}$\6
+\&{for} ${}(\|i\K\T{0};{}$ ${}\|i<\\{rrr};{}$ ${}\|i\PP){}$\1\5
+${}\|x[\\{rrr}-\T{1}-\|i]\K\|n+\T{1}-\|b[\|i];{}$\2\6
+${}\|s\K\T{0}{}$;\5
+${}\\{ss}\K\\{rrr};{}$\6
+\&{while} ${}(\|x[\|s]>\T{1}){}$\1\5
+\X19:End-around shift \PB{\|x}\X;\2\6
+\&{for} ${}(\|i\K\|s+\|n;{}$ ${}\|i<\\{ss};{}$ ${}\|i\PP){}$\1\5
+${}\|e[\|i-\|s]\K\|x[\|i];{}$\2\6
+${}\|e[\\{rrr}]\K\T{1}{}$;\C{ another sentinel }\6
+\&{while} (\T{1}) $\{$ $\|x[\\{ss}]\K\T{0}{}$;\C{ sentinel }\6
+\&{for} ${}(\|i\K\|s+\|n;{}$ ${}\|x[\|i]\E\|d[\|i-\|s];{}$ ${}\|i\PP){}$\1\5
+;\2\6
+\&{if} ${}(\|i\E\\{ss}){}$\1\5
+\&{break};\C{ anti-isomorphic to itself }\2\6
+\&{if} ${}(\|x[\|i]<\|d[\|i-\|s]){}$\5
+${}\{{}$\C{ anti-isomorphic to previous guy }\6
+\8\#\&{ifndef} \.{NOPRINT}\1\6
+\\{putchar}(\.{'>'});\6
+\&{for} ${}(\|i\K\|s+\|n;{}$ ${}\|i<\\{ss};{}$ ${}\|i\PP){}$\1\5
+${}\\{putchar}(\|x[\|i]+\.{'0'}-\T{1});{}$\2\6
+\8\#\&{endif}\6
+\&{goto} \\{done};\6
+\4${}\}{}$\2\6
+\&{do} \X19:End-around shift \PB{\|x}\X \6
+\&{while} ${}(\|x[\|s]>\T{1}){}$\1\5
+;\2\6
+${}\|x[\\{ss}]\K\T{0};{}$\6
+\&{for} ${}(\|i\K\|s+\|n;{}$ ${}\|x[\|i]\E\|e[\|i-\|s];{}$ ${}\|i\PP){}$\1\5
+;\2\6
+\&{if} ${}(\|i\E\\{ss}){}$\1\5
+\&{break};\C{ anti-isomorphic to some future guy }\2\6
+$\}{}$\par
+\U12.\fi
+
+\M{16}\B\X16:Replace the present \PB{\|x} by the reverse of \PB{\|y}\X${}\E{}$\6
+${}\{{}$\1\6
+\&{for} ${}(\|i\K\T{0};{}$ ${}\|i<\\{rrr};{}$ ${}\|i\PP){}$\1\5
+${}\|x[\\{rrr}-\T{1}-\|i]\K\|n+\T{1}-\|y[\|i];{}$\2\6
+${}\|s\K\T{0}{}$;\5
+${}\\{ss}\K\\{rrr};{}$\6
+\&{while} ${}(\|x[\|s]>\T{1}){}$\1\5
+\X19:End-around shift \PB{\|x}\X;\2\6
+\8\#\&{ifdef} \.{DEBUG}\6
+\\{putchar}(\.{'/'});\6
+\X25:If debugging, print the active region of \PB{\|x}\X;\6
+\8\#\&{endif}\6
+\4${}\}{}$\2\par
+\U12.\fi
+
+\M{17}\B\X17:If the new network is weakly equivalent to a lexicographically
+smaller one, \PB{\&{goto} \\{done}}\X${}\E{}$\6
+\&{for} ${}(\|i\K\|s+\|n;{}$ ${}\|i<\\{ss};{}$ ${}\|i\PP){}$\1\5
+${}\|e[\|i-\|s]\K\|x[\|i];{}$\2\6
+\&{while} (\T{1}) $\{$ \X18:If the \PB{\|x} network is weakly equivalent to an
+earlier one, \PB{\&{goto} \\{done}}; if weakly equivalent to the present one, %
+\PB{\&{goto} \\{okay}}\X;\6
+\&{do} \X19:End-around shift \PB{\|x}\X \6
+\&{while} ${}(\|x[\|s]>\T{1}){}$\1\5
+;\2\6
+\X25:If debugging, print the active region of \PB{\|x}\X;\6
+${}\|x[\\{ss}]\K\T{0}{}$;\C{ sentinel }\6
+\&{for} ${}(\|i\K\|s+\|n;{}$ ${}\|x[\|i]\E\|e[\|i-\|s];{}$ ${}\|i\PP){}$\1\5
+;\2\6
+\&{if} ${}(\|i\E\\{ss}){}$\1\5
+\&{break};\C{ now \PB{\|x} is back to its original state and we found nothing }%
+\2\6
+$\}$ \6
+\4\\{okay}:\5
+;\par
+\U12.\fi
+
+\M{18}\B\X18:If the \PB{\|x} network is weakly equivalent to an earlier one, %
+\PB{\&{goto} \\{done}}; if weakly equivalent to the present one, \PB{\&{goto} %
+\\{okay}}\X${}\E{}$\6
+$\|x[\\{ss}]\K\T{0}{}$;\C{ sentinel }\6
+\&{for} ${}(\|i\K\|s+\|n;{}$ ${}\|x[\|i]\E\|d[\|i-\|s];{}$ ${}\|i\PP){}$\1\5
+;\2\6
+\&{if} ${}(\|i\E\\{ss}){}$\1\5
+\&{goto} \\{okay};\2\6
+\&{if} ${}(\|x[\|i]<\|d[\|i-\|s]){}$\1\5
+\&{goto} \\{done};\2\par
+\U17.\fi
+
+\M{19}\B\X19:End-around shift \PB{\|x}\X${}\E{}$\6
+${}\{{}$\1\6
+${}\|j\K\|n-\|x[\|s\PP];{}$\6
+\&{for} ${}(\|i\K\\{ss}\PP;{}$ ${}\|x[\|i-\T{1}]<\|j;{}$ ${}\|i\MM){}$\1\5
+${}\|x[\|i]\K\|x[\|i-\T{1}];{}$\2\6
+${}\|x[\|i]\K\|j+\T{1};{}$\6
+\4${}\}{}$\2\par
+\Us15, 16\ETs17.\fi
+
+\M{20}The only somewhat tricky operation comes in here. We use the fact that
+the first `1' in a canonical network is always immediately followed by
+2, \dots,~\PB{\|n}; reversing these, decreasing the previous by~1, and
+increasing
+the remaining by~1 takes that line around the pole. This operation might
+require carrying some transpositions around from left to right.
+
+\Y\B\4\X20:Move the ``pole'' into the cell preceding the first transposition
+module\X${}\E{}$\6
+\X24:If debugging, print the active region of \PB{\|b}\X;\6
+${}\|s\K\T{0}{}$;\5
+${}\\{ss}\K\\{rrr};{}$\6
+${}\\{iii}\K\\{jj}\K\T{0};{}$\6
+${}\|x[\T{0}]\K\|m\K\\{rep}\K\|b[\|r];{}$\6
+${}\\{rr}\K\|r+\\{rrr};{}$\6
+\&{for} ${}(\|i\K\|r+\T{1};{}$ ${}\|i<\\{rr};{}$ ${}\|i\PP){}$\5
+${}\{{}$\1\6
+${}\|j\K\|b[\|i]-\T{1};{}$\6
+\X21:Insert the value \PB{$\|j+\T{1}$} canonically into \PB{\|x}\X;\6
+\4${}\}{}$\2\6
+\&{for} ${}(\|i\K\T{0};{}$ ${}\\{iii}<\\{rrr}-\T{1};{}$ ${}\|i\PP){}$\5
+${}\{{}$\1\6
+${}\|j\K\|n-\T{1}-\|y[\|i];{}$\6
+\X21:Insert the value \PB{$\|j+\T{1}$} canonically into \PB{\|x}\X;\6
+\4${}\}{}$\2\6
+\X25:If debugging, print the active region of \PB{\|x}\X;\6
+\&{while} ${}(\\{rep}\MM){}$\5
+${}\{{}$\1\6
+${}\|m\K\T{0};{}$\6
+\&{for} ${}(\|i\K\T{0};{}$ ${}\|x[\|i]\I\T{1};{}$ ${}\|i\PP){}$\5
+${}\{{}$\1\6
+${}\|x[\|i]\MM;{}$\6
+\&{if} ${}(\|x[\|i]>\|m){}$\1\5
+${}\|m\K\|x[\|i];{}$\2\6
+\4${}\}{}$\2\6
+${}\\{iii}\K\|i-\T{1};{}$\6
+${}\\{jj}\K\T{0};{}$\6
+\&{for} ${}(\|j\K\|n-\T{1};{}$ ${}\|j\G\T{0};{}$ ${}\|j\MM){}$\1\6
+\&{if} ${}(\|j\E\T{0}\W\|i\E\T{0}){}$\5
+${}\{{}$\1\6
+${}\|x[\T{0}]\K\|m\K\T{1};{}$\6
+${}\\{iii}\K\T{0};{}$\6
+\4${}\}{}$\2\6
+\&{else}\1\5
+\X21:Insert the value \PB{$\|j+\T{1}$} canonically into \PB{\|x}\X;\2\2\6
+\&{for} ${}(\|i\MRL{+{\K}}\|n;{}$ ${}\|i<\\{rrr};{}$ ${}\|i\PP){}$\5
+${}\{{}$\1\6
+${}\|j\K\|x[\|i];{}$\6
+\X21:Insert the value \PB{$\|j+\T{1}$} canonically into \PB{\|x}\X;\6
+\4${}\}{}$\2\6
+\&{for} ${}(\|i\K\T{0};{}$ ${}\\{iii}<\\{ss}-\T{1};{}$ ${}\|i\PP){}$\5
+${}\{{}$\1\6
+${}\|j\K\|n-\T{1}-\|y[\|i];{}$\6
+\X21:Insert the value \PB{$\|j+\T{1}$} canonically into \PB{\|x}\X;\6
+\4${}\}{}$\2\6
+\X25:If debugging, print the active region of \PB{\|x}\X;\6
+\4${}\}{}$\2\par
+\U12.\fi
+
+\M{21}We must carry over items that exceed \PB{\|m}, which denotes the maximum
+value stored so far, because we want the first element of \PB{\|x[\T{0}]} to
+remain
+in place.
+
+\Y\B\4\X21:Insert the value \PB{$\|j+\T{1}$} canonically into \PB{\|x}\X${}%
+\E{}$\6
+\&{if} ${}(\|j>\|m){}$\1\5
+${}\|y[\\{jj}\PP]\K\|j;{}$\2\6
+\&{else}\5
+${}\{{}$\1\6
+\&{if} ${}(\|j\E\|m){}$\1\5
+${}\|m\PP;{}$\2\6
+\&{for} ${}(\\{ii}\K\PP\\{iii};{}$ ${}\|x[\\{ii}-\T{1}]<\|j;{}$ ${}\\{ii}%
+\MM){}$\1\5
+${}\|x[\\{ii}]\K\|x[\\{ii}-\T{1}];{}$\2\6
+${}\|x[\\{ii}]\K\|j+\T{1};{}$\6
+\4${}\}{}$\2\par
+\U20.\fi
+
+\M{22}The score is computed in several passes, although I do know how to
+do it in linear time. Since the \PB{\|x} array is currently unused, I store
+in \PB{\|x[\|i]} the score for the cell following transposition \PB{\|i}.
+
+\Y\B\4\X22:Compute the score for this weak equivalence/antiequivalence class
+rep\X${}\E{}$\6
+$\\{dn}\PP;{}$\6
+${}\\{rr}\K\\{rrr}+\\{rrr};{}$\6
+\&{for} ${}(\|i\K\T{0};{}$ ${}\|i<\\{rr};{}$ ${}\|i\PP){}$\1\5
+${}\|x[\|i]\K\T{1};{}$\2\6
+\&{for} ${}(\|j\K\T{2};{}$ ${}\|j\Z\|n;{}$ ${}\|j\PP){}$\1\5
+\X23:Fill in the cell counts \PB{\|x[\|i]} for cases when \PB{$\|b[\|i]\K\|j$}%
+\X;\2\6
+${}\{{}$\5
+\1\&{register} \&{int} \\{score}${}\K\T{0};{}$\7
+\&{for} ${}(\|i\K\T{0};{}$ ${}\|i<\\{rr};{}$ ${}\|i\PP){}$\1\6
+\&{if} ${}(\|b[\|i]\E\|n){}$\1\5
+${}\\{score}\MRL{+{\K}}\|x[\|i];{}$\2\2\6
+${}\\{stot}\MRL{+{\K}}{}$(\&{float}) \\{score};\6
+\&{if} ${}(\\{score}>\\{smax}){}$\1\5
+${}\\{smax}\K\\{score};{}$\2\6
+\&{if} ${}(\\{score}<\\{smin}){}$\1\5
+${}\\{smin}\K\\{score};{}$\2\6
+\8\#\&{ifndef} \.{NOPRINT}\6
+${}\\{printf}(\.{"\ [\%d]"},\39\\{score});{}$\6
+\8\#\&{endif}\6
+\4${}\}{}$\2\par
+\U12.\fi
+
+\M{23}As we fill the cell counts, we assume that \PB{\|x[\\{ii}]} is the
+previous cell
+having \PB{$\|b[\|i]\K\|j$}. We assume that \PB{$\|b[\|i]\E\|i+\T{1}$} for %
+\PB{$\T{0}\Z\|i<\|n$}.
+
+\Y\B\4\X23:Fill in the cell counts \PB{\|x[\|i]} for cases when \PB{$\|b[\|i]\K%
+\|j$}\X${}\E{}$\6
+${}\{{}$\5
+\1\&{int} \\{acc}${}\K\T{0};{}$\6
+\&{int} \|p;\C{ most recent \PB{\|x[\|i]} when \PB{$\|b[\|i]\K\|j-\T{1}$} }\7
+${}\\{ii}\K\\{rr};{}$\6
+\&{for} ${}(\|i\K\T{0};{}$ ${}\|i<\\{rr};{}$ ${}\|i\PP){}$\5
+${}\{{}$\5
+\1\&{register} \&{int} \\{delta}${}\K\|j-\|b[\|i];{}$\7
+\&{if} ${}(\\{delta}\E\T{0}){}$\5
+${}\{{}$\1\6
+${}\|x[\\{ii}]\K\\{acc};{}$\6
+${}\\{ii}\K\|i;{}$\6
+${}\\{acc}\K\|p;{}$\6
+\4${}\}{}$\2\6
+\&{else} \&{if} ${}(\\{delta}\E\T{1}){}$\5
+${}\{{}$\1\6
+${}\|p\K\|x[\|i];{}$\6
+${}\\{acc}\MRL{+{\K}}\|p;{}$\6
+\4${}\}{}$\2\6
+\4${}\}{}$\2\6
+${}\|x[\\{ii}]\K\\{acc}+\|x[\\{rr}];{}$\6
+\4${}\}{}$\2\par
+\U22.\fi
+
+\M{24}\B\X24:If debugging, print the active region of \PB{\|b}\X${}\E{}$\6
+\8\#\&{ifdef} \.{DEBUG}\6
+\\{printf}(\.{"\\n>"});\6
+\&{for} ${}(\|m\K\|r;{}$ ${}\|m<\|r+\\{rrr};{}$ ${}\|m\PP){}$\1\5
+${}\\{putchar}(\|b[\|m]+\.{'0'}-\T{1});{}$\2\6
+\8\#\&{endif}\par
+\U20.\fi
+
+\M{25}\B\X25:If debugging, print the active region of \PB{\|x}\X${}\E{}$\6
+\8\#\&{ifdef} \.{DEBUG}\6
+\\{printf}(\.{"\\n\ \ "});\6
+\&{for} ${}(\|m\K\|s;{}$ ${}\|m<\\{ss};{}$ ${}\|m\PP){}$\1\5
+${}\\{putchar}(\|x[\|m]+\.{'0'}-\T{1});{}$\2\6
+\8\#\&{endif}\par
+\Us16, 17\ETs20.\fi
+
+\inx
+\fin
+\end

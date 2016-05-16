@@ -1,0 +1,49 @@
+\I\X6:Backtrack, either going to \PB{\\{loop}} or to \PB{\\{finished}} when all
+possibilities are exhausted\X
+\U5.
+\I\X9:Check if it gives a new CC system on \PB{$\|n+\T{1}$} elements\X
+\U7.
+\I\X22:Compute the score for this weak equivalence/antiequivalence class rep\X
+\U12.
+\I\X19:End-around shift \PB{\|x}\X
+\Us15, 16\ETs17.
+\I\X23:Fill in the cell counts \PB{\|x[\|i]} for cases when \PB{$\|b[\|i]\K%
+\|j$}\X
+\U22.
+\I\X2, 8, 13:Global variables\X
+\U3.
+\I\X24:If debugging, print the active region of \PB{\|b}\X
+\U20.
+\I\X25:If debugging, print the active region of \PB{\|x}\X
+\Us16, 17\ETs20.
+\I\X17:If the new network is weakly equivalent to a lexicographically smaller
+one, \PB{\&{goto} \\{done}}\X
+\U12.
+\I\X18:If the \PB{\|x} network is weakly equivalent to an earlier one, \PB{%
+\&{goto} \\{done}}; if weakly equivalent to the present one, \PB{\&{goto} %
+\\{okay}}\X
+\U17.
+\I\X4:Initialize\X
+\U3.
+\I\X21:Insert the value \PB{$\|j+\T{1}$} canonically into \PB{\|x}\X
+\U20.
+\I\X12:Make the big test for pre-weak equivalence\X
+\U11.
+\I\X20:Move the ``pole'' into the cell preceding the first transposition module%
+\X
+\U12.
+\I\X7:Print a solution\X
+\U5.
+\I\X16:Replace the present \PB{\|x} by the reverse of \PB{\|y}\X
+\U12.
+\I\X14:Reset \PB{\|b} to a double cycle\X
+\U12.
+\I\X5:Run through all canonical reflection networks\X
+\U3.
+\I\X10:Shift the first transposition to the other end\X
+\U9.
+\I\X11:Test lexicographic order; \PB{\&{break}} if equal or less\X
+\U9.
+\I\X15:Test the reverse of \PB{\|b} for weak equivalence; \PB{\&{goto} %
+\\{done}} if weakly equivalent to a previous case\X
+\U12.
