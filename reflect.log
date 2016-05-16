@@ -1,5 +1,8 @@
-This is TeX, Version 3.14159265 (TeX Live 2015) (preloaded format=tex 2016.3.7)  16 MAY 2016 15:13
-**\let\pdf+ \input reflect.tex
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdftex 2016.5.15)  16 MAY 2016 15:21
+entering extended mode
+ restricted \write18 enabled.
+ %&-line parsing enabled.
+**reflect.tex -o reflect2.pdf
 (./reflect.tex (./cwebmac.tex
 \PPbox=\box16
 \MMbox=\box17
@@ -7,21 +10,21 @@ This is TeX, Version 3.14159265 (TeX Live 2015) (preloaded format=tex 2016.3.7) 
 \MODbox=\box19
 \bak=\box20
 \bakk=\box21
-\ind=\count26
-\gdepth=\count27
-\secpagedepth=\count28
-\gtitle=\toks12
+\ind=\count27
+\gdepth=\count28
+\secpagedepth=\count29
+\gtitle=\toks13
 \intersecskip=\skip18
-\toksA=\toks13
-\toksB=\toks14
-\toksC=\toks15
-\toksD=\toks16
-\toksE=\toks17
-\toksF=\toks18
-\usersanitizer=\toks19
-\countA=\count29
-\countB=\count30
-\countC=\count31
+\toksA=\toks14
+\toksB=\toks15
+\toksC=\toks16
+\toksD=\toks17
+\toksE=\toks18
+\toksF=\toks19
+\usersanitizer=\toks20
+\countA=\count30
+\countB=\count31
+\countC=\count32
 \pagewidth=\dimen16
 \pageheight=\dimen17
 \fullpageheight=\dimen18
@@ -29,10 +32,27 @@ This is TeX, Version 3.14159265 (TeX Live 2015) (preloaded format=tex 2016.3.7) 
 \cont=\write0
 \sbox=\box22
 \lbox=\box23
-\twodigits=\count32
-) [1
+\twodigits=\count33
+) [1{/opt/texlive/2015/texmf-var/fonts/map/pdftex/updmap/pdftex.map}
 \openout0 = `reflect.toc'.
 
-] [2] [3] [4] [5] [6] [7] [8] [9] Index:
-(./reflect.idx) [10] Section names: (./reflect.scn) [11] )
-Output written on reflect.dvi (11 pages, 82592 bytes).
+] [2] [3] [4] [5] [6] [7] [8] [9] Index: (./reflect.idx)
+[10] (./reflect.toc) Section names: (./reflect.scn) [11] )</opt/texlive/2015/te
+xmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></opt/texlive/2015/texmf-dis
+t/fonts/type1/public/amsfonts/cm/cmex10.pfb></opt/texlive/2015/texmf-dist/fonts
+/type1/public/amsfonts/cm/cmmi10.pfb></opt/texlive/2015/texmf-dist/fonts/type1/
+public/amsfonts/cm/cmmi7.pfb></opt/texlive/2015/texmf-dist/fonts/type1/public/a
+msfonts/cm/cmr10.pfb></opt/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/
+cm/cmr7.pfb></opt/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.p
+fb></opt/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></op
+t/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></opt/texliv
+e/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmtex10.pfb></opt/texlive/2015
+/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></opt/texlive/2015/texmf-
+dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
+Output written on reflect.pdf (11 pages, 184918 bytes).
+PDF statistics:
+ 451 PDF objects out of 1000 (max. 8388607)
+ 421 compressed objects within 5 object streams
+ 1 named destinations out of 1000 (max. 500000)
+ 177 words of extra memory for PDF output out of 10000 (max. 10000000)
+
