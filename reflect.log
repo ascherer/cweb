@@ -1,5 +1,8 @@
-This is TeX, Version 3.14159265 (TeX Live 2015) (preloaded format=tex 2016.3.7)  16 MAY 2016 15:34
-**\let\pdf+ \input reflect.tex
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdftex 2016.5.15)  16 MAY 2016 15:37
+entering extended mode
+ restricted \write18 enabled.
+ %&-line parsing enabled.
+**reflect.tex
 (./reflect.tex (./cwebmac.tex
 \PPbox=\box16
 \MMbox=\box17
@@ -7,21 +10,21 @@ This is TeX, Version 3.14159265 (TeX Live 2015) (preloaded format=tex 2016.3.7) 
 \MODbox=\box19
 \bak=\box20
 \bakk=\box21
-\ind=\count26
-\gdepth=\count27
-\secpagedepth=\count28
-\gtitle=\toks12
+\ind=\count27
+\gdepth=\count28
+\secpagedepth=\count29
+\gtitle=\toks13
 \intersecskip=\skip18
-\toksA=\toks13
-\toksB=\toks14
-\toksC=\toks15
-\toksD=\toks16
-\toksE=\toks17
-\toksF=\toks18
-\usersanitizer=\toks19
-\countA=\count29
-\countB=\count30
-\countC=\count31
+\toksA=\toks14
+\toksB=\toks15
+\toksC=\toks16
+\toksD=\toks17
+\toksE=\toks18
+\toksF=\toks19
+\usersanitizer=\toks20
+\countA=\count30
+\countB=\count31
+\countC=\count32
 \pagewidth=\dimen16
 \pageheight=\dimen17
 \fullpageheight=\dimen18
@@ -29,10 +32,86 @@ This is TeX, Version 3.14159265 (TeX Live 2015) (preloaded format=tex 2016.3.7) 
 \cont=\write0
 \sbox=\box22
 \lbox=\box23
-\twodigits=\count32
-) [1
+\twodigits=\count33
+) [1{/opt/texlive/2015/texmf-var/fonts/map/pdftex/updmap/pdftex.map}
 \openout0 = `reflect.toc'.
 
-] Index: (./reflect.idx [2]) [3]
-Section names: (./reflect.scn) [4] )
-Output written on reflect.dvi (4 pages, 49592 bytes).
+] Index: (./reflect.idx [2]) [3] (./reflect.toc)
+Section names: (./reflect.scn) [4] )pdfTeX warning (dest): num19 has been refer
+enced but does not exist, replaced by a fixed one
+
+pdfTeX warning (dest): num14 has been referenced but does not exist, replaced b
+y a fixed one
+
+pdfTeX warning (dest): num10 has been referenced but does not exist, replaced b
+y a fixed one
+
+pdfTeX warning (dest): num9 has been referenced but does not exist, replaced by
+ a fixed one
+
+pdfTeX warning (dest): num21 has been referenced but does not exist, replaced b
+y a fixed one
+
+pdfTeX warning (dest): num18 has been referenced but does not exist, replaced b
+y a fixed one
+
+pdfTeX warning (dest): num15 has been referenced but does not exist, replaced b
+y a fixed one
+
+pdfTeX warning (dest): num12 has been referenced but does not exist, replaced b
+y a fixed one
+
+pdfTeX warning (dest): num22 has been referenced but does not exist, replaced b
+y a fixed one
+
+pdfTeX warning (dest): num24 has been referenced but does not exist, replaced b
+y a fixed one
+
+pdfTeX warning (dest): num11 has been referenced but does not exist, replaced b
+y a fixed one
+
+pdfTeX warning (dest): num7 has been referenced but does not exist, replaced by
+ a fixed one
+
+pdfTeX warning (dest): num23 has been referenced but does not exist, replaced b
+y a fixed one
+
+pdfTeX warning (dest): num20 has been referenced but does not exist, replaced b
+y a fixed one
+
+pdfTeX warning (dest): num17 has been referenced but does not exist, replaced b
+y a fixed one
+
+pdfTeX warning (dest): num16 has been referenced but does not exist, replaced b
+y a fixed one
+
+pdfTeX warning (dest): num6 has been referenced but does not exist, replaced by
+ a fixed one
+
+pdfTeX warning (dest): num4 has been referenced but does not exist, replaced by
+ a fixed one
+
+pdfTeX warning (dest): num13 has been referenced but does not exist, replaced b
+y a fixed one
+
+pdfTeX warning (dest): num8 has been referenced but does not exist, replaced by
+ a fixed one
+
+</opt/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></opt/t
+exlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></opt/texlive/
+2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></opt/texlive/2015/te
+xmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></opt/texlive/2015/texmf-dist
+/fonts/type1/public/amsfonts/cm/cmr10.pfb></opt/texlive/2015/texmf-dist/fonts/t
+ype1/public/amsfonts/cm/cmr7.pfb></opt/texlive/2015/texmf-dist/fonts/type1/publ
+ic/amsfonts/cm/cmr8.pfb></opt/texlive/2015/texmf-dist/fonts/type1/public/amsfon
+ts/cm/cmsy10.pfb></opt/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/c
+msy7.pfb></opt/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmtex10.p
+fb></opt/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></op
+t/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
+Output written on reflect.pdf (4 pages, 164379 bytes).
+PDF statistics:
+ 362 PDF objects out of 1000 (max. 8388607)
+ 340 compressed objects within 4 object streams
+ 1 named destinations out of 1000 (max. 500000)
+ 177 words of extra memory for PDF output out of 10000 (max. 10000000)
+
