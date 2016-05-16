@@ -1,8 +1,11 @@
 \input cwebmac
 \datethis
 \nocon
+\let\maybe=\iffalse
+\def\title{RFL}
 
-\M{1}This is a quick program to find all canonical forms of reflection networks
+\M{1\*}This is a quick program to find all canonical forms of reflection
+networks
 for small $n$.
 
 Well, when I wrote that paragraph I believed it, but subsequently I have added
@@ -36,12 +39,22 @@ surely occur in $B_{10}\approx2\times10^{10}$, if I ever get a computer fast
 enough to run that case. When $n=7$, this program took 48 seconds to run, on
 January 12, 1991; the running time for $n=6$ was 1 second, and
 for $n=8$ it was 57 minutes. Therefore I made a stripped-down version
-to enumerate only $B_n$ when $n=9$.
+to enumerate only $B_n$ when $n=9$. In fact, this program is that stripped
+down version, contrary to what is said above. This program does $n=7$ in
+4~seconds, $n=8$ in 4:42 minutes, and I think it will do $n=9$ in about
+10 hours. I tried several experiments for benchmarking, since this program
+is clearly compute-bound: Compiling with \.{-g} instead of with \.{-O}
+increased the running time for $n=8$ to 6:19; if I also removed the
+\PB{\&{register}} hints on variables \PB{$\|i,\\{ii},\\{iii},\|j$}, it went up
+to 9:09.
+With optimization and no register hints it took 6:38.
+(When I actually computed $B_9=112018190$, I used the slowest version,
+with no register hints and the \.{-g} switch; that took 19:50:37.)
 
 \Y\B\8\#\&{include} \.{<stdio.h>}\par
 \fi
 
-\M{2}There's an array $a[1\mathrel{.\,.}n]$ containing $k$ inversions; an
+\M{2\*}There's an array $a[1\mathrel{.\,.}n]$ containing $k$ inversions; an
 index \PB{\|j} showing where we are going to try to reduce the inversions
 by swapping \PB{\|a[\|j]} with \PB{$\|a[\|j+\T{1}]$}; and two arrays for
 backtracking.
@@ -59,45 +72,43 @@ ${}\}{}$\2\par
 \T{120}\C{ should be greater than $2{n+1\choose2}$ }\par
 \B\4\D$\\{ncycle}$ \5
 \T{240}\C{ should be greater than $4{n+1\choose2}$ }\par
-\Y\B\4\X2:Global variables\X${}\E{}$\6
+\Y\B\4\X2\*:Global variables\X${}\E{}$\6
 \&{int} \|n;\C{ number of elements to be reflected }\6
 \&{int} \|a[\T{10}];\C{ array that shows progress }\6
 \&{int} \|k;\C{ number of inversions yet to be removed }\6
-\&{int} \|j;\C{ current place in array }\6
 \&{int} \|l;\C{ current choice level }\6
 \&{int} \|c[\\{npairs}];\C{ code for choices made }\6
 \&{int} \|t[\\{npairs}];\C{ \PB{\|j} values where choices were made }\6
-\&{int} \|i${},{}$ \\{ii}${},{}$ \\{iii};\C{ general-purpose indices }\6
 \&{int} \\{bn}${},{}$ \\{cn}${},{}$ \\{dn}${},{}$ \\{en};\C{ counters for
 $B_n$, $C_{n+1}$, $D_{n+1}$, $E_{n+1}$ }\6
 \&{int} \\{smin}${},{}$ \\{smax};\C{ counters for ``scores'' }\6
 \&{float} \\{stot};\C{ grand total of scores }\par
 \As8\ET13.
-\U3.\fi
+\U3\*.\fi
 
-\M{3}The value of \PB{\|n} is supposed to be an argument.
+\M{3\*}The value of \PB{\|n} is supposed to be an argument.
 
 \Y\B\4\D$\\{abort}(\|s)$ \6
 ${}\{{}$\5
 \1${}\\{fprintf}(\\{stderr},\39\|s){}$;\5
 \\{exit}(\T{1});\5
 ${}\}{}$\2\par
-\Y\B\X2:Global variables\X\7
+\Y\B\X2\*:Global variables\X\7
 ${}\\{main}(\\{argc},\39\\{argv}){}$\1\1\6
 \&{int} \\{argc};\C{ number of args }\6
 \&{char} ${}{*}{*}\\{argv}{}$;\C{ the args }\2\2\6
-${}\{{}$\1\6
+${}\{{}$\5
+\1\&{register} \&{int} \|j;\C{ current place in array }\6
+\&{register} \&{int} \|i${},{}$ \\{ii}${},{}$ \\{iii};\C{ general-purpose
+indices }\7
 \&{if} ${}(\\{argc}\I\T{2}){}$\1\5
 \\{abort}(\.{"Usage:\ reflect\ n\\n"});\2\6
 \&{if} ${}(\\{sscanf}(\\{argv}[\T{1}],\39\.{"\%d"},\39{\AND}\|n)\I\T{1}\V\|n<%
 \T{2}\V\|n>\T{10}){}$\1\5
 \\{abort}(\.{"n\ should\ be\ in\ the\ }\)\.{range\ 2..10!\\n"});\2\6
 \X4:Initialize\X;\6
-\X5:Run through all canonical reflection networks\X;\6
-${}\\{printf}(\.{"B=\%d,\ C=\%d,\ D=\%d,\ E}\)\.{=\%d\\n"},\39\\{bn},\39\\{cn},%
-\39\\{dn},\39\\{en});{}$\6
-${}\\{printf}(\.{"scores\ min=\%d,\ max=}\)\.{\%d,\ mean=\%.1f\\n"},\39%
-\\{smin},\39\\{smax},\39\\{stot}/{}$(\&{float}) \\{dn});\6
+\X5\*:Run through all canonical reflection networks\X;\6
+${}\\{printf}(\.{"B=\%d\\n"},\39\\{bn});{}$\6
 \4${}\}{}$\2\par
 \fi
 
@@ -112,16 +123,22 @@ ${}\|j\K\|n;{}$\6
 ${}\\{bn}\K\\{cn}\K\\{dn}\K\\{en}\K\\{smax}\K\T{0};{}$\6
 ${}\\{stot}\K\T{0.0};{}$\6
 ${}\\{smin}\K\T{1000000000}{}$;\par
-\U3.\fi
+\U3\*.\fi
 
-\M{5}\B\X5:Run through all canonical reflection networks\X${}\E{}$\6
+\M{5\*}\B\X5\*:Run through all canonical reflection networks\X${}\E{}$\6
 \4\\{moveleft}:\5
 ${}\|j\MM;{}$\6
 \4\\{loop}:\6
 \&{if} ${}(\|j\E\T{0}){}$\5
 ${}\{{}$\1\6
-\&{if} ${}(\|k\E\T{0}){}$\1\5
-\X7:Print a solution\X;\2\6
+\&{if} ${}(\|k\E\T{0}){}$\1\6
+\&{if} ${}((\PP\\{bn}\MOD\T{1000000})\E\T{0}){}$\5
+${}\{{}$\1\6
+\&{for} ${}(\|i\K\T{1};{}$ ${}\|i<\|l;{}$ ${}\|i\PP){}$\1\6
+\&{if} (\|c[\|i])\1\5
+${}\\{putchar}(\.{'0'}-\T{1}+\|t[\|i]);{}$\2\2\6
+\\{putchar}(\.{'\\n'});\6
+\4${}\}{}$\2\2\6
 \X6:Backtrack, either going to \PB{\\{loop}} or to \PB{\\{finished}} when all
 possibilities are exhausted\X;\6
 \4${}\}{}$\2\6
@@ -132,7 +149,7 @@ ${}\|c[\|l\PP]\K\T{0};{}$\6
 \&{goto} \\{moveleft};\6
 \4\\{finished}:\5
 ;\par
-\U3.\fi
+\U3\*.\fi
 
 \M{6}\B\X6:Backtrack, either going to \PB{\\{loop}} or to \PB{\\{finished}}
 when all possibilities are exhausted\X${}\E{}$\6
@@ -151,7 +168,7 @@ ${}\|k\MM;{}$\6
 \&{if} ${}(\PP\|j\E\|n){}$\1\5
 ${}\|j\MM;{}$\2\6
 \&{goto} \\{loop};\par
-\U5.\fi
+\U5\*.\fi
 
 \M{7}\B\X7:Print a solution\X${}\E{}$\6
 ${}\{{}$\6
@@ -171,7 +188,7 @@ ${}\\{putchar}(\.{'0'}-\T{1}+\|t[\|i]);{}$\2\2\6
 \8\#\&{endif}\6
 ${}\\{bn}\PP;{}$\6
 \4${}\}{}$\2\par
-\U5.\fi
+\fi
 
 \M{8}Here's part of the program I wrote after getting the above to work.
 The idea is to see if the almost-canonical form for an (\PB{$\|n+%
@@ -186,7 +203,7 @@ which starts out like \PB{\|t} but with the transpositions 1, 2, \dots,~$n$
 prefaced. End-around shifts are performed (advancing \PB{\|r} by~1 each time)
 until the original form appears again.
 
-\Y\B\4\X2:Global variables\X${}\mathrel+\E{}$\6
+\Y\B\4\X2\*:Global variables\X${}\mathrel+\E{}$\6
 \&{int} \|b[\\{ncycle}];\C{ larger array used for testing weak equivalence }\6
 \&{int} \|r${},{}$ \\{rr};\C{ the first and last active locations in \PB{\|b} }%
 \6
@@ -285,7 +302,7 @@ variables \PB{\|s} and \PB{\\{ss}} analogous to \PB{\|r} and~\PB{\\{rr}}; also
 an array \PB{\|e} analogous
 to \PB{\|d}.
 
-\Y\B\4\X2:Global variables\X${}\mathrel+\E{}$\6
+\Y\B\4\X2\*:Global variables\X${}\mathrel+\E{}$\6
 \&{int} \|x[\\{ncycle}];\C{ network to be tested for weak equivalence }\6
 \&{int} \|m;\C{ largest element in \PB{\|x} so far }\6
 \&{int} \|y[\\{npairs}];\C{ elements to be carried around to the right as \PB{%
@@ -360,7 +377,7 @@ ${}\\{ss}\K\\{rrr};{}$\6
 \X19:End-around shift \PB{\|x}\X;\2\6
 \8\#\&{ifdef} \.{DEBUG}\6
 \\{putchar}(\.{'/'});\6
-\X25:If debugging, print the active region of \PB{\|x}\X;\6
+\X25\*:If debugging, print the active region of \PB{\|x}\X;\6
 \8\#\&{endif}\6
 \4${}\}{}$\2\par
 \U12.\fi
@@ -375,7 +392,7 @@ earlier one, \PB{\&{goto} \\{done}}; if weakly equivalent to the present one, %
 \&{do} \X19:End-around shift \PB{\|x}\X \6
 \&{while} ${}(\|x[\|s]>\T{1}){}$\1\5
 ;\2\6
-\X25:If debugging, print the active region of \PB{\|x}\X;\6
+\X25\*:If debugging, print the active region of \PB{\|x}\X;\6
 ${}\|x[\\{ss}]\K\T{0}{}$;\C{ sentinel }\6
 \&{for} ${}(\|i\K\|s+\|n;{}$ ${}\|x[\|i]\E\|e[\|i-\|s];{}$ ${}\|i\PP){}$\1\5
 ;\2\6
@@ -433,7 +450,7 @@ ${}\{{}$\1\6
 ${}\|j\K\|n-\T{1}-\|y[\|i];{}$\6
 \X21:Insert the value \PB{$\|j+\T{1}$} canonically into \PB{\|x}\X;\6
 \4${}\}{}$\2\6
-\X25:If debugging, print the active region of \PB{\|x}\X;\6
+\X25\*:If debugging, print the active region of \PB{\|x}\X;\6
 \&{while} ${}(\\{rep}\MM){}$\5
 ${}\{{}$\1\6
 ${}\|m\K\T{0};{}$\6
@@ -463,7 +480,7 @@ ${}\{{}$\1\6
 ${}\|j\K\|n-\T{1}-\|y[\|i];{}$\6
 \X21:Insert the value \PB{$\|j+\T{1}$} canonically into \PB{\|x}\X;\6
 \4${}\}{}$\2\6
-\X25:If debugging, print the active region of \PB{\|x}\X;\6
+\X25\*:If debugging, print the active region of \PB{\|x}\X;\6
 \4${}\}{}$\2\par
 \U12.\fi
 
@@ -554,7 +571,7 @@ ${}\\{putchar}(\|b[\|m]+\.{'0'}-\T{1});{}$\2\6
 \8\#\&{endif}\par
 \U20.\fi
 
-\M{25}\B\X25:If debugging, print the active region of \PB{\|x}\X${}\E{}$\6
+\M{25\*}\B\X25\*:If debugging, print the active region of \PB{\|x}\X${}\E{}$\6
 \8\#\&{ifdef} \.{DEBUG}\6
 \\{printf}(\.{"\\n\ \ "});\6
 \&{for} ${}(\|m\K\|s;{}$ ${}\|m<\\{ss};{}$ ${}\|m\PP){}$\1\5
@@ -562,6 +579,7 @@ ${}\\{putchar}(\|x[\|m]+\.{'0'}-\T{1});{}$\2\6
 \8\#\&{endif}\par
 \Us16, 17\ETs20.\fi
 
+\ch 1\*, 2\*, 3\*, 5\*, 25\*.
 \inx
 \fin
 \end
