@@ -14,6 +14,8 @@
 \else \pdftextrue \pdfoutput=1 % changed in 3.69
   \def\Black{\pdfliteral{0 g 0 G}}  % use rgb colors for direct PDF output too
   \def\Blue{\pdfliteral{0 0 1 rg 0 0 1 RG}}
+  \def\Green{\pdfliteral{0 1 0 rg 0 1 0 RG}}
+  \def\Red{\pdfliteral{1 0 0 rg 1 0 0 RG}}
 \fi\fi
 \newif\ifacro \ifpdf\acrotrue\fi \ifpdftex\acrotrue\fi
 
@@ -284,10 +286,10 @@
   \ifpdftex\smash{\raise\baselineskip\hbox to0pt{%
 %     \let\*=\empty\pdfdest num \secstar fith}} % bad space in versions < 3.68
      \let\*=\empty\pdfdest num \secstar fith}}% changed in version 3.68
+     \Red\smash{\llap{\vrule height 10pt width 10pt}}\Black
   \else\ifpdf\smash{\raise\baselineskip\hbox to0pt{%
      \let\*=\empty\special{%
-       pdf: dest (\romannumeral\secstar) [ @thispage /FitH @ypos ]}%
-     \special{color push rgb 1 0 0}\smash{\llap{\vrule height 10pt width 10pt}}\special{color pop}}}\fi\fi}
+       pdf: dest (\romannumeral\secstar) [ @thispage /FitH @ypos ]}}}\fi\fi}
 \let\startsection=\stsec
 \def\defin#1{\global\advance\ind by 2 \1\&{#1 } } % begin `define' or `format'
 \def\A{\note{See also section}} % xref for doubly defined section name
@@ -330,8 +332,7 @@
     \ifnum#1>0\countB=#1 \advance\countB by-1
       \advancenumber{chunk\the\countB.\expnumber{curr\the\countB}}\fi\fi
   \ifpdf\special{pdf: outline #1 << /Title (\the\toksE) /Dest
-    [ @thispage /FitH @ypos ] >>}%
-    \special{color push rgb 0 0 1}\smash{\llap{\vrule height 10pt width 10pt}}\special{color pop}\fi
+    [ @thispage /FitH @ypos ] >>}\fi
   \ifon\startsection{\bf#3.\quad}\ignorespaces}
 \def\MN#1{\par % common code for \M, \N
   {\xdef\secstar{#1}\let\*=\empty\xdef\secno{#1}}% remove \* from section name
@@ -480,6 +481,7 @@
   \ifacro \def\outsecname{Names of the sections} \let\Xpdf\X
 %  \ifpdftex \makebookmarks \pdfdest name {NOS} fitb % in versions < 3.68
   \ifpdftex \pdfdest name {NOS} fith % changed in version 3.69
+  \Green\smash{\llap{\vrule height 10pt width 10pt}}\Black
     \pdfoutline goto name {NOS} count -\secno {\outsecname}
     \def\X##1:##2\X{\Xpdf##1:##2\X \firstsecno##1.%
       {\toksF={}\makeoutlinetoks##2\outlinedone\outlinedone}%
@@ -487,7 +489,6 @@
   \else\ifpdf
     \special{pdf: outline -1 << /Title (\outsecname)
       /Dest [ @thispage /FitH @ypos ] >>}
-    \special{color push rgb 0 1 0}\smash{\llap{\vrule height 10pt width 10pt}}\special{color pop}
     \def\X##1:##2\X{\Xpdf##1:##2\X \firstsecno##1.%
       {\toksF={}\makeoutlinetoks##2\outlinedone\outlinedone}%
       \special{pdf: outline 0 << /Title (\the\toksE)
