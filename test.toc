@@ -1,5 +1,5 @@
 \catcode `\@=11\relax 
-\ZZ {Intro}{1}{1}{2}{Intro}
-\ZZ {Index}{1}{4}{3}{Index}
+\ZZ {Intro}{1}{1}{1}{Intro}
+\ZZ {Index}{1}{4}{2}{Index}
 
 \catcode `\@=12\relax 

@@ -1,5 +1,8 @@
-This is TeX, Version 3.14159265 (TeX Live 2015) (preloaded format=tex 2016.2.18)  18 MAY 2016 15:33
-**\let\pdf+ \input test.tex
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdftex 2016.5.18)  18 MAY 2016 15:38
+entering extended mode
+ restricted \write18 enabled.
+ %&-line parsing enabled.
+**test
 (./test.tex (./cwebmac.tex
 \PPbox=\box16
 \MMbox=\box17
@@ -7,21 +10,21 @@ This is TeX, Version 3.14159265 (TeX Live 2015) (preloaded format=tex 2016.2.18)
 \MODbox=\box19
 \bak=\box20
 \bakk=\box21
-\ind=\count26
-\gdepth=\count27
-\secpagedepth=\count28
-\gtitle=\toks12
+\ind=\count27
+\gdepth=\count28
+\secpagedepth=\count29
+\gtitle=\toks13
 \intersecskip=\skip18
-\toksA=\toks13
-\toksB=\toks14
-\toksC=\toks15
-\toksD=\toks16
-\toksE=\toks17
-\toksF=\toks18
-\usersanitizer=\toks19
-\countA=\count29
-\countB=\count30
-\countC=\count31
+\toksA=\toks14
+\toksB=\toks15
+\toksC=\toks16
+\toksD=\toks17
+\toksE=\toks18
+\toksF=\toks19
+\usersanitizer=\toks20
+\countA=\count30
+\countB=\count31
+\countC=\count32
 \pagewidth=\dimen16
 \pageheight=\dimen17
 \fullpageheight=\dimen18
@@ -29,10 +32,27 @@ This is TeX, Version 3.14159265 (TeX Live 2015) (preloaded format=tex 2016.2.18)
 \cont=\write0
 \sbox=\box22
 \lbox=\box23
-\twodigits=\count32
-) *1 [2
+\twodigits=\count33
+) *1 [1{/opt/texlive/2015/texmf-var/fonts/map/pdftex/updmap/pdftex.map}
 \openout0 = `test.toc'.
 
-] *4 Index: (./test.idx) [3] Section names:
-(./test.scn) [4] Table of contents: (./test.toc) [0] )
-Output written on test.dvi (4 pages, 13188 bytes).
+] *4 Index: (./test.idx) [2] (./test.toc) Section names:
+(./test.scn) [3] Table of contents: (./test.toc) [0] )</opt/texlive/2015/texmf-
+dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></opt/texlive/2015/texmf-dist/fo
+nts/type1/public/amsfonts/cm/cmmi10.pfb></opt/texlive/2015/texmf-dist/fonts/typ
+e1/public/amsfonts/cm/cmr10.pfb></opt/texlive/2015/texmf-dist/fonts/type1/publi
+c/amsfonts/cm/cmr7.pfb></opt/texlive/2015/texmf-dist/fonts/type1/public/amsfont
+s/cm/cmr8.pfb></opt/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9
+.pfb></opt/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmsl10.pfb></
+opt/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></opt/tex
+live/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></opt/texlive/201
+5/texmf-dist/fonts/type1/public/amsfonts/cm/cmtex10.pfb></opt/texlive/2015/texm
+f-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></opt/texlive/2015/texmf-dist/
+fonts/type1/public/amsfonts/cm/cmtt10.pfb>
+Output written on test.pdf (4 pages, 131040 bytes).
+PDF statistics:
+ 112 PDF objects out of 1000 (max. 8388607)
+ 93 compressed objects within 1 object stream
+ 1 named destinations out of 1000 (max. 500000)
+ 41 words of extra memory for PDF output out of 10000 (max. 10000000)
+
