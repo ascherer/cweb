@@ -1,0 +1,38 @@
+This is TeX, Version 3.14159265 (TeX Live 2015) (preloaded format=tex 2016.2.18)  18 MAY 2016 15:33
+**\let\pdf+ \input test.tex
+(./test.tex (./cwebmac.tex
+\PPbox=\box16
+\MMbox=\box17
+\MGbox=\box18
+\MODbox=\box19
+\bak=\box20
+\bakk=\box21
+\ind=\count26
+\gdepth=\count27
+\secpagedepth=\count28
+\gtitle=\toks12
+\intersecskip=\skip18
+\toksA=\toks13
+\toksB=\toks14
+\toksC=\toks15
+\toksD=\toks16
+\toksE=\toks17
+\toksF=\toks18
+\usersanitizer=\toks19
+\countA=\count29
+\countB=\count30
+\countC=\count31
+\pagewidth=\dimen16
+\pageheight=\dimen17
+\fullpageheight=\dimen18
+\pageshift=\dimen19
+\cont=\write0
+\sbox=\box22
+\lbox=\box23
+\twodigits=\count32
+) *1 [2
+\openout0 = `test.toc'.
+
+] *4 Index: (./test.idx) [3] Section names:
+(./test.scn) [4] Table of contents: (./test.toc) [0] )
+Output written on test.dvi (4 pages, 13188 bytes).
