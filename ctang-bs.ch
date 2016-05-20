@@ -30,25 +30,14 @@ is modified.
 @ The following parameters were sufficient in the original \.{TANGLE} to
 handle \TEX/,
 so they should be sufficient for most applications of \.{CTANGLE}.
-If you change |max_bytes|, |max_names| or |hash_size| you should also
-change them in the file |"common.w"|.
 
-@d max_bytes 90000 /* the number of bytes in identifiers,
-  index entries, and section names; used in |"common.w"| */
 @d max_toks 270000 /* number of bytes in compressed \CEE/ code */
-@d max_names 4000 /* number of identifiers, strings, section names;
-  must be less than 10240; used in |"common.w"| */
 @d max_texts 2500 /* number of replacement texts, must be less than 10240 */
-@d hash_size 353 /* should be prime; used in |"common.w"| */
-@d longest_name 10000 /* section names shouldn't be longer than this */
 @d stack_size 50 /* number of simultaneous levels of macro expansion */
-@d buf_size 100 /* for \.{CWEAVE} and \.{CTANGLE} */
 @y
 @ The following parameters were sufficient in the original \.{TANGLE} to
 handle \TEX/,
 so they should be sufficient for most applications of \.{CTANGLE}.
-If you change |max_bytes|, |max_names| or |hash_size| you should also
-change them in the file |"common.w"|.
 
 (This is a modified version of \.{CTANGLE}, and in fact one of the parameters
 has been reduced in value.  The parameter |max_toks|
@@ -60,16 +49,9 @@ systems that are tight on memory.  Consider, for
 instance, an 80286-based machine with several TSRs and drivers, trying
 to run \.{CTANGLE} from a makefile.)
 
-@d max_bytes 90000 /* the number of bytes in identifiers,
-  index entries, and section names; used in |"common.w"| */
 @d max_toks 170000 /* number of bytes in compressed \CEE/ code */
-@d max_names 4000 /* number of identifiers, strings, section names;
-  must be less than 10240; used in |"common.w"| */
 @d max_texts 2500 /* number of replacement texts, must be less than 10240 */
-@d hash_size 353 /* should be prime; used in |"common.w"| */
-@d longest_name 10000 /* section names shouldn't be longer than this */
 @d stack_size 50 /* number of simultaneous levels of macro expansion */
-@d buf_size 100 /* for \.{CWEAVE} and \.{CTANGLE} */
 @z
 
 

@@ -17,10 +17,6 @@ change files that have -bs in their name instead of -pc.)
 @z
 
 @x section 4
-@d max_bytes 90000 /* the number of bytes in identifiers,
-@y
-@d max_bytes (unsigned)60000 /* the number of bytes in identifiers,
-@z
 @x
 @d max_refs 20000 /* number of cross-references; must be less than 65536 */
 @y
