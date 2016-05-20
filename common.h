@@ -190,3 +190,15 @@ extern FILE *active_file; /* currently active file for \.{CWEAVE} output */
 
 @<Common code...@>=
 extern void common_init();
+
+@ Common magic numbers used in |"common.w"|, |"ctangle.w"|, |"cweave.w"|.
+Please make sure that these values match in |"common.w"|.
+
+@d buf_size 100 /* for \.{CWEAVE} and \.{CTANGLE} */
+@d longest_name 10000 /* section names and strings shouldn't be longer than this */
+@d long_buf_size (buf_size+longest_name) /* for \.{CWEAVE} */
+@d hash_size 353 /* should be prime */
+@d max_bytes 90000 /* the number of bytes in identifiers,
+  index entries, and section names; must be less than $2^{24}$ */
+@d max_names 4000 /* number of identifiers, strings, section names;
+  must be less than 10240 */
