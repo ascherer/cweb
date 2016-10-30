@@ -1298,7 +1298,7 @@ be output.
 
 @<Global...@>=
 char out_buf[line_length+1]; /* assembled characters */
-char *out_ptr; /* just after last character in |out_buf| */
+char *out_ptr = out_buf; /* last character in |out_buf| */
 char *out_buf_end = out_buf+line_length; /* end of |out_buf| */
 int out_line; /* number of next line to be output */
 
@@ -1321,7 +1321,7 @@ of commented-out text).
 @c
 void
 flush_buffer(b,per_cent,carryover)
-char *b;  /* outputs from |out_buf+1| to |b|,where |b<=out_ptr| */
+char *b; /* outputs from |out_buf+1| to |b|, where |b<=out_ptr| */
 boolean per_cent,carryover;
 {
   char *j; j=b; /* pointer into |out_buf| */
@@ -1361,13 +1361,12 @@ finish_line() /* do this at the end of a line */
 }
 
 @ In particular, the |finish_line| procedure is called near the very
-beginning of phase two. We initialize the output variables in a slightly
-tricky way so that the first line of the output file will be
-`\.{\\input cwebmac}'.
+beginning of phase two. We initialize the output variables so that
+the first line of the output file will be `\.{\\input cwebmac}'.
 
 @<Set init...@>=
-out_ptr=out_buf+1; out_line=1; active_file=tex_file;
-*out_ptr='c'; tex_printf("\\input cwebma");
+out_line=1; active_file=tex_file;
+tex_printf("\\input cwebma"); out('c');
 
 @ When we wish to append one character |c| to the output buffer, we write
 `|out(c)|'; this will cause the buffer to be emptied if it was already
