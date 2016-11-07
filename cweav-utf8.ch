@@ -1,4 +1,21 @@
 @x
+@c @<Include files@>@/
+@y
+@c
+#include <wchar.h>
+#include <locale.h>
+#include <wctype.h>
+@<Include files@>@/
+@z
+
+@x
+  argc=ac; argv=av;
+@y
+  setlocale(LC_CTYPE, "en_US.UTF-8");
+  argc=ac; argv=av;
+@z
+
+@x
 @d buf_size 100 /* maximum length of input line, plus one */
 @y
 @d buf_size 1000 /* maximum length of input line, plus one */
@@ -11,13 +28,15 @@
 @z
 
 @x
+@d is_tiny(p) ((p+1)->byte_start==(p)->byte_start+1)
+@y
+@d is_tiny(p) ((p+1)->byte_start==(p)->byte_start+mblen((p)->byte_start, MB_CUR_MAX))
+@z
+
+@x
 @d out(c) {if (out_ptr>=out_buf_end) break_out(); *(++out_ptr)=c;}
 @y
-@<Predecl...@>=
-void out(char c);
-@ @c
-void out(char c)
-{
+@d out(c) {
   int utf8count = 0;
   for (char *i = out_buf; i<=out_ptr; i++) {
     if ((((eight_bits)(*i) & (1<<7)) &&
@@ -28,7 +47,6 @@ void out(char c)
   if (utf8count>80) break_out();
   *(++out_ptr)=c;
 }
-@ Dummy.
 @z
 
 @x
@@ -69,19 +87,38 @@ void out(char c)
 @z
 
 @x
-  } else if (is_tiny(cur_name)) out('|')@;
+      if (xislower(*p)) { /* not entirely uppercase */
+         delim='\\'; break;
+      }
 @y
-  } else if (is_tiny(cur_name)) out('|');
+      if (xislower(*p)) { /* not entirely uppercase */
+         delim='\\'; break;
+      }
+      else if (ishigh(*p)) {
+          wchar_t wc;
+          mbtowc(&wc, p, MB_CUR_MAX);
+          if (iswlower(wc)) {
+            delim = '\\'; break;
+          }
+        }
 @z
 
 @x
-      if (b!='0' || force_lines==0) out(b)@;
+  out((cur_name->byte_start)[0]);
 @y
-      if (b!='0' || force_lines==0) out(b);
+  out((cur_name->byte_start)[0]);
+  for (int w = 1; w < mblen(cur_name->byte_start, MB_CUR_MAX); w++)
+    out((cur_name->byte_start)[w]);
 @z
 
 @x
-  else if (b!='|') out(b)
+        if (xislower(*j)) goto lowcase;
 @y
-  else if (b!='|') out(b);
+        if (xislower(*j)) goto lowcase;
+        else if (ishigh(*j)) {
+          wchar_t wc;
+          mbtowc(&wc, j, MB_CUR_MAX);
+          if (iswlower(wc))
+            goto lowcase;
+        }
 @z
