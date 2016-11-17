@@ -19,7 +19,7 @@
 %
 % DEK takes no responsibility for the changefiles; they should be
 % maintained independently. His job is to correct errors in
-% ctangle.w, cweave.w, common.w, cwebmac.tex, cwebman.tex,
+% ctangle.w, cweave.w, prod.w, common.w, cwebmac.tex, cwebman.tex,
 % and in the files of examples/*.w, nothing more.
 
 This directory contains the following files:
