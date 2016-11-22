@@ -2,7 +2,7 @@
 #line 5 "./main.w"
 
 /*1:*/
-#line 1 "./sub1.h"
+#line 4 "./main.ch"
 
 int unused= TEST;
 #line 4 "./main.w"
