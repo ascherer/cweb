@@ -448,6 +448,10 @@ id_lookup("ifndef",NULL,if_like);
 id_lookup("include",NULL,if_like);
 id_lookup("inline",NULL,int_like);
 id_lookup("int",NULL,raw_int);
+id_lookup("int8_t",NULL,raw_int);
+id_lookup("int16_t",NULL,raw_int);
+id_lookup("int32_t",NULL,raw_int);
+id_lookup("int64_t",NULL,raw_int);
 id_lookup("jmp_buf",NULL,raw_int);
 id_lookup("ldiv_t",NULL,raw_int);
 id_lookup("line",NULL,if_like);
@@ -487,6 +491,10 @@ id_lookup("try",NULL,else_like);
 id_lookup("typedef",NULL,typedef_like);
 id_lookup("typeid",NULL,raw_int);
 id_lookup("typename",NULL,struct_like);
+id_lookup("uint8_t",NULL,raw_int);
+id_lookup("uint16_t",NULL,raw_int);
+id_lookup("uint32_t",NULL,raw_int);
+id_lookup("uint64_t",NULL,raw_int);
 id_lookup("undef",NULL,if_like);
 id_lookup("union",NULL,struct_like);
 id_lookup("unsigned",NULL,raw_int);
@@ -1971,6 +1979,10 @@ identifier&|exp|: \.{\\\\\{}identifier with underlines and
 \.{include}&|if_like|: \stars&maybe\cr
 \.{inline}&|int_like|: \stars&maybe\cr
 \.{int}&|raw_int|: \stars&maybe\cr
+\.{int8_t}&|raw_int|: \stars&maybe\cr
+\.{int16_t}&|raw_int|: \stars&maybe\cr
+\.{int32_t}&|raw_int|: \stars&maybe\cr
+\.{int64_t}&|raw_int|: \stars&maybe\cr
 \.{jmp\_buf}&|raw_int|: \stars&maybe\cr
 \.{ldiv\_t}&|raw_int|: \stars&maybe\cr
 \.{line}&|if_like|: \stars&maybe\cr
@@ -2012,6 +2024,10 @@ identifier&|exp|: \.{\\\\\{}identifier with underlines and
 \.{typedef}&|typedef_like|: \stars&maybe\cr
 \.{typeid}&|raw_int|: \stars&maybe\cr
 \.{typename}&|struct_like|: \stars&maybe\cr
+\.{uint8_t}&|raw_int|: \stars&maybe\cr
+\.{uint16_t}&|raw_int|: \stars&maybe\cr
+\.{uint32_t}&|raw_int|: \stars&maybe\cr
+\.{uint64_t}&|raw_int|: \stars&maybe\cr
 \.{undef}&|if_like|: \stars&maybe\cr
 \.{union}&|struct_like|: \stars&maybe\cr
 \.{unsigned}&|raw_int|: \stars&maybe\cr
