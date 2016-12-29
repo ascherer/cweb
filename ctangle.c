@@ -5,6 +5,8 @@
 #line 35 "common.h"
 
 #include <stdio.h> 
+#include <stdint.h> 
+#include <stdbool.h> 
 
 /*:6*//*62:*/
 #line 888 "ctangle.w"
@@ -142,13 +144,13 @@
 /*5:*/
 #line 29 "common.h"
 
-typedef short boolean;
-typedef char unsigned eight_bits;
+typedef bool boolean;
+typedef uint8_t eight_bits;
 extern boolean program;
 extern int phase;
 
 /*:5*//*7:*/
-#line 57 "common.h"
+#line 59 "common.h"
 
 char section_text[longest_name+1];
 char*section_text_end= section_text+longest_name;
@@ -156,7 +158,7 @@ char*id_first;
 char*id_loc;
 
 /*:7*//*8:*/
-#line 72 "common.h"
+#line 74 "common.h"
 
 extern char buffer[];
 extern char*buffer_end;
@@ -164,7 +166,7 @@ extern char*loc;
 extern char*limit;
 
 /*:8*//*9:*/
-#line 87 "common.h"
+#line 89 "common.h"
 
 typedef struct name_info{
 char*byte_start;
@@ -192,7 +194,7 @@ extern name_pointer section_lookup();
 extern void print_section_name(),sprint_section_name();
 
 /*:9*//*10:*/
-#line 122 "common.h"
+#line 124 "common.h"
 
 extern history;
 extern err_print();
@@ -201,7 +203,7 @@ extern void fatal();
 extern void overflow();
 
 /*:10*//*11:*/
-#line 137 "common.h"
+#line 139 "common.h"
 
 extern include_depth;
 extern FILE*file[];
@@ -223,23 +225,23 @@ extern get_line();
 extern check_complete();
 
 /*:11*//*12:*/
-#line 158 "common.h"
+#line 160 "common.h"
 
-typedef unsigned short sixteen_bits;
+typedef uint16_t sixteen_bits;
 extern sixteen_bits section_count;
 extern boolean changed_section[];
 extern boolean change_pending;
 extern boolean print_where;
 
 /*:12*//*13:*/
-#line 170 "common.h"
+#line 172 "common.h"
 
 extern int argc;
 extern char**argv;
 extern boolean flags[];
 
 /*:13*//*14:*/
-#line 182 "common.h"
+#line 184 "common.h"
 
 extern FILE*C_file;
 extern FILE*tex_file;
@@ -248,7 +250,7 @@ extern FILE*scn_file;
 extern FILE*active_file;
 
 /*:14*//*15:*/
-#line 191 "common.h"
+#line 193 "common.h"
 
 extern void common_init();
 #line 128 "ctangle.w"

@@ -27,13 +27,15 @@ First comes general stuff:
 @d cweave 1
 
 @<Common code for \.{CWEAVE} and \.{CTANGLE}@>=
-typedef short boolean;
-typedef char unsigned eight_bits;
+typedef bool boolean;
+typedef uint8_t eight_bits;
 extern boolean program; /* \.{CWEAVE} or \.{CTANGLE}? */
 extern int phase; /* which phase are we in? */
 
 @ @<Include files@>=
 #include <stdio.h>
+#include <stdint.h>
+#include <stdbool.h>
 
 @ Code related to the character set:
 @^ASCII code dependencies@>
@@ -156,7 +158,7 @@ extern check_complete(); /* checks that all changes were picked up */
 
 @ Code related to section numbers:
 @<Common code...@>=
-typedef unsigned short sixteen_bits;
+typedef uint16_t sixteen_bits;
 extern sixteen_bits section_count; /* the current section number */
 extern boolean changed_section[]; /* is the section changed? */
 extern boolean change_pending; /* is a decision about change still unclear? */

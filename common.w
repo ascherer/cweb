@@ -71,7 +71,7 @@ both, differentiating between the two by means of the global variable
 @d cweave 1
 
 @<Definitions...@>=
-typedef short boolean;
+typedef bool boolean;
 boolean program; /* \.{CWEAVE} or \.{CTANGLE}? */
 
 @ \.{CWEAVE} operates in three phases: First it inputs the source
@@ -164,6 +164,8 @@ char *loc=buffer; /* points to the next character to be read from the buffer */
 
 @ @<Include files@>=
 #include <stdio.h>
+#include <stdbool.h>
+#include <stdint.h>
 
 @ In the unlikely event that your standard I/O library does not
 support |feof|, |getc|, and |ungetc| you may have to change things here.
@@ -416,7 +418,7 @@ information in the \CEE/ file by means of the |print_where| flag.
   must be less than 10240 */
 
 @<Defin...@>=
-typedef unsigned short sixteen_bits;
+typedef uint16_t sixteen_bits;
 sixteen_bits section_count; /* the current section number */
 boolean changed_section[max_sections]; /* is the section changed? */
 boolean change_pending; /* if the current change is not yet recorded in
