@@ -68,9 +68,21 @@ char *out_buf_end = out_buf+line_length*MB_LEN_MAX; /* end of |out_buf| */
 @d out(c) {if (out_ptr>=out_buf_end) break_out(); *(++out_ptr)=c;}
 @y
 @d out(c) {
-  if ((ssize_t)mbsntowcs(NULL,out_buf,out_ptr-out_buf+1,0)>line_length) break_out();
+  if ((ssize_t)mbsntowcs(NULL,out_buf+1,out_ptr-(out_buf+1)+1,0)>=line_length) break_out();
   *(++out_ptr)=c;
 }
+@z
+
+@x l.1430
+  term_write(out_buf+1, out_ptr-out_buf-1);
+  new_line; mark_harmless;
+  flush_buffer(out_ptr-1,1,1); return;
+@y
+  k=out_ptr;
+  while (mblen(k,MB_CUR_MAX)==-1) k--;
+  term_write(out_buf+1, out_ptr-out_buf-mblen(k,MB_CUR_MAX));
+  new_line; mark_harmless;
+  flush_buffer(out_ptr-mblen(k,MB_CUR_MAX),1,1); return;
 @z
 
 @x l.3359
@@ -93,18 +105,18 @@ char *out_buf_end = out_buf+line_length*MB_LEN_MAX; /* end of |out_buf| */
   char scratch[longest_name*MB_LEN_MAX]; /* scratch area for section names */
 @z
 
-@x l.3752
+@x l.3753
       if (xislower(*p)) { /* not entirely uppercase */
          delim='\\'; break;
       }
 @y
-      {
-        wchar_t wc;
-        mbtowc(&wc, p, MB_CUR_MAX);
-        if (iswlower(wc)) {
-          delim='\\'; break;
-        }
+    {
+      wchar_t wc;
+      mbtowc(&wc, p, MB_CUR_MAX);
+      if (iswlower(wc)) { /* not entirely uppercase */
+        delim='\\'; break;
       }
+    }
 @z
 
 @x l.3768
@@ -167,11 +179,12 @@ strcpy(collate+213,"\357\360\362\363\364\365\366\367\370\371\372\373\374\375\376
 @z
 
 @x l.4536
+      for (j=cur_name->byte_start;j<(cur_name+1)->byte_start;j++)
         if (xislower(*j)) goto lowcase;
 @y
-        {
-          wchar_t wc;
-          mbtowc(&wc, j, MB_CUR_MAX);
-          if (iswlower(wc)) goto lowcase;
-        }
+      for (j=cur_name->byte_start;j<(cur_name+1)->byte_start;j++) {
+        wchar_t wc;
+        mbtowc(&wc, j, MB_CUR_MAX);
+        if (iswlower(wc)) goto lowcase;
+      }
 @z
