@@ -1,4 +1,4 @@
-% This file is part of CWEB.
+% This file is part of CTWILL, a modification of CWEB.
 % This program by Silvio Levy and Donald E. Knuth
 % is based on a program by Knuth.
 % It is distributed WITHOUT ANY WARRANTY, express or implied.
@@ -248,9 +248,6 @@ We use \\{in}, \\{out}, \\{back} and
     $O$\.\ \alt $N$ $S$ & |operator delete|\cr
 \+& |operator_like| |comma| & |exp| & \&{operator},\cr
 \+\dagit& |operator_like| & |new_exp| & |operator char*|\cr
-\advance\midcol-8pt
-\+& |typedef_like| \alt|int_like| |cast| \alt|comma| |semi| &
-    |typedef_like| |exp| \alt|comma| |semi| & \&{typedef} \&{int} \&I,\cr
 \advance\midcol-3pt
 \+\dag200\enspace& |typedef_like| |decl_head| \alt|exp| |int_like| &
       |typedef_like| |decl_head| \hfill $D=D$\alt $E^{**}$ $I^{**}$ \unskip &
@@ -297,10 +294,10 @@ must not be immediately followed by a |binop|.
 Rule 114: The |operator_like| must not be immediately followed by
 |raw_ubin|.
 
+Rule 123: The mathness of the |colon| or |base| changes to `yes'.
+
 Rule 200: The |exp| must not be immediately followed by |lpar| or~|exp|.
 
 Rule 202: The |raw_int| must be immediately followed by |semi| or |comma|.
-
-Rule 123: The mathness of the |colon| or |base| changes to `yes'.
 
 \endgroup
