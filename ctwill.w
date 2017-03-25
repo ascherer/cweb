@@ -1711,7 +1711,7 @@ beginning of phase two. We initialize the output variables in a slightly
 tricky way so that the first line of the output file will be
 `\.{\\input ctwimac}'. Or, if the user has specified proofing by
 saying \.{+P} on the command line, it's `\.{\\input proofmac}',
-! a set of macros used when debugging mini-index entries.
+a set of macros used when debugging mini-index entries.
 
 @<Set init...@>=
 out_ptr=out_buf+1; out_line=1; active_file=tex_file;
