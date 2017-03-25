@@ -4561,6 +4561,7 @@ if (*(loc-1)!='*') {
   if (right_start_switch) {
     out_str("N"); right_start_switch=0;
 @.\\NN@>
+  }
   {@+ char s[32];@+sprintf(s,"{%d}",sec_depth+1);@+out_str(s);@+}
   if (show_progress)
   printf("*%d",section_count); update_terminal; /* print a progress report */
