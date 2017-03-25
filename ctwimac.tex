@@ -375,7 +375,7 @@
   \ifnum\@n=0 \nsize=0pt
   \else \nsize=3pt \multiply\nsize\@n \advance\nsize 1.25pc \fi
   \ifvoid\partialpage\else\advance\nsize 5pt \advance\nsize\ht\partialpage\fi
-  \advance\nsize\ht\newsec 
+  \advance\nsize\ht\newsec
   \message{\the\nsize} % show the page break decision amount
   \ifbr \global\brfalse \flushout \message{/\secno}\fi
   \ifdim\nsize>\pagethresh \flushout \message{\secno}\fi

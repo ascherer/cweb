@@ -358,7 +358,7 @@ int compare(p,q)
   if (*pp || *qq) return (int)*pp-(int)*qq;
   if (p->id[0]!=q->id[0]) return p->id[0]-q->id[0];
   return p->id[1]-q->id[1];
-}  
+}
 
 @ The collation order follows a string copied from \.{CWEAVE}.
 

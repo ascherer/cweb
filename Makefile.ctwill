@@ -10,7 +10,7 @@ ALL = Makefile ctwill.w common.w common.h prod.w ctwill.diffs prod.diffs \
 .w.tex:
 	cweave $*.w
 
-.tex.dvi:	
+.tex.dvi:
 	tex $*.tex
 
 .w.dvi:

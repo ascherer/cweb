@@ -246,7 +246,7 @@ which are quite different from the change files you set up for tangling.
 (End of user manual. We now resume the program for \.{CWEAVE}, with occasional
 outbursts of new code.)
 
-@d max_tex_chars 50 /* limit on the \TeX\ part of a meaning */    
+@d max_tex_chars 50 /* limit on the \TeX\ part of a meaning */
 
 @ \.{CWEAVE} has a fairly straightforward outline.  It operates in
 three phases: First it inputs the source file and stores cross-reference
@@ -1338,7 +1338,7 @@ false_alarm:
     *q='\0';
   }
 }
-     
+
 @ At the present point in the program we
 have |*(loc-1)==verbatim|; we set |id_first| to the beginning
 of the string itself, and |id_loc| to its ending-plus-one location in the
@@ -3461,7 +3461,7 @@ if (cat1==decl_head) {
   else if (cat2==semi) {
     big_app1(pp); big_app(' '); big_app2(pp+1); reduce(pp,3,decl,-1,201);
   }
-} else if (cat1==int_like && cat2==raw_int && 
+} else if (cat1==int_like && cat2==raw_int &&
     (cat3==semi || cat3==comma)) squash(pp+2,1,exp,1,202);
 
 @ @<Cases for |delete_like|@>=
