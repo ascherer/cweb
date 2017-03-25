@@ -1717,7 +1717,7 @@ saying \.{+P} on the command line, it's `\.{\\input proofmac}',
 out_ptr=out_buf+1; out_line=1; active_file=tex_file;
 *out_ptr='c';
 if (flags['P']) tex_printf("\\input proofma");
-! else tex_printf("\\input ctwima");
+else tex_printf("\\input ctwima");
 
 @ When we wish to append one character |c| to the output buffer, we write
 `|out(c)|'; this will cause the buffer to be emptied if it was already
