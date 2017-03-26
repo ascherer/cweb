@@ -2,7 +2,8 @@
 CFLAGS = -g
 CWEBINPUTS = /usr/local/lib/cweb
 
-ALL = Makefile ctwill.w common.w common.h prod.w ctwill.diffs prod-twill.ch \
+ALL = Makefile ctwill.w common.w common.h prod.w ctwill.diffs \
+      prod-twill.w prod-twill.ch \
       proofmac.tex ctwimac.tex refsort.w twinx.w twinxmac.tex
 
 .SUFFIXES: .dvi .tex .w .ref .sref
@@ -37,7 +38,7 @@ prod-twill.w: prod.w prod-twill.ch
 ctwill: ctwill.o common.o
 	cc $(CFLAGS) -o ctwill ctwill.o common.o
 
-ctwill.c: prod.w common.h
+ctwill.c: prod-twill.w common.h
 
 common.o: common.c
 	$(CC) $(CFLAGS) -DCWEBINPUTS=\"$(CWEBINPUTS)\" -c common.c

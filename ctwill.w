@@ -2407,7 +2407,7 @@ identifier&|exp|: \.{\\\\\{}identifier with underlines and
 The construction \.{@@t}\thinspace stuff\/\thinspace\.{@@>} contributes
 \.{\\hbox\{}\thinspace  stuff\/\thinspace\.\} to the following scrap.
 
-@i prod.w
+@i prod-twill.w
 
 @* Implementing the productions.
 More specifically, a scrap is a structure consisting of a category
