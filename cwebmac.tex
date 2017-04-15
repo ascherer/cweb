@@ -141,8 +141,8 @@
       \space depth \thedepth\space << /Border [0 0 0]
       /Type /Action /Subtype /Link /A << /S /URI /URI (#2) >> >>}\box0\relax}%
   \else #1 ({\tt#2})\fi\fi}
-\def\TILDE/{\TL} % ~ in a URL
-\def\UNDER/{\UL} % _ in a URL
+{\catcode`\~=12 \gdef\TILDE/{~}} % ~ in a URL
+{\catcode`\_=12 \gdef\UNDER/{_}} % _ in a URL
 
 \ifacro % The following are pdf macros
 \def\thewidth{\the\wd0 \space}
