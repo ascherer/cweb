@@ -1,14 +1,18 @@
 @* String literals in \CEE/.
 
+@s char16_t char
+@s char32_t char
+
 @c
 #include <stdio.h>
 #include <stdlib.h>
 #include <stddef.h>
 #include <uchar.h>
 #include <locale.h>
+
 int main(void)
 {
-    char s1[] = "a猫🍌"; // or "a\u732B\U0001F34C"
+    char s1[] = "a猫🍌"; // or |"a\u732B\U0001F34C"|
     char s2[] = u8"a猫🍌";
     char16_t s3[] = u"a猫🍌";
     char32_t s4[] = U"a猫🍌";
