@@ -1,8 +1,5 @@
 @* String literals in \CEE/.
 
-@s char16_t char
-@s char32_t char
-
 @c
 #include <stdio.h>
 #include <stdlib.h>
