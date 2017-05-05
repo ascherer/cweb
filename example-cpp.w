@@ -1,3 +1,6 @@
+@* String literals in \CPLUSPLUS/.
+
+@c
 #include <iostream>
  
 char array1[] = "Foo" "bar";
@@ -19,3 +22,5 @@ int main()
     std::cout << s1;
     std::cout << s2;
 }
+
+@* Index.

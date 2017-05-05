@@ -1,3 +1,6 @@
+@* String literals in \CEE/.
+
+@c
 #include <stdio.h>
 #include <stdlib.h>
 #include <stddef.h>
@@ -28,3 +31,5 @@ int main(void)
     for(size_t n = 0; n < sizeof s5 / sizeof *s5; ++n) 
        printf("%#x ", s5[n]); puts(" }");
 }
+
+@* Index.
