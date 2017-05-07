@@ -20,7 +20,7 @@ const char* literal = __DATE__;
 printf("%s\n", literal);
 
 @ @<Wide string literal@>=
-const wchar_t* wide_literal = L"Hällö, W€lt!";
+const wchar_t* wide_literal = L"Hello, World!";
 printf("%ls\n", wide_literal);
 
 @ @<Concatenated string...@>=
@@ -28,7 +28,7 @@ const char* conc_literal = "Hello, " "World! (" __DATE__ ")";
 printf("%s\n", conc_literal);
 
 @ @<Concatenated wide string...@>=
-const wchar_t* wide_conc_literal = L"Hällö, " L"W€lt! (" __DATE__ ")";
+const wchar_t* wide_conc_literal = L"Hello, " L"World! (" __DATE__ ")";
 printf("%ls\n", wide_conc_literal);
 
 @* Index.
