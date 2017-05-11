@@ -12,6 +12,7 @@ int main(void)
    @<Wide string literal@>@;
    @<Concatenated string literal@>@;
    @<Concatenated wide string literal@>@;
+   @<Function return@>@;
    return EXIT_SUCCESS;
 }
 
@@ -30,5 +31,11 @@ printf("%s\n", conc_literal);
 @ @<Concatenated wide string...@>=
 const wchar_t* wide_conc_literal = L"Hello, " L"World! (" __DATE__ L")";
 printf("%ls\n", wide_conc_literal);
+
+@ @<Function...@>=
+const wchar_t* crap(void)
+{
+   return (L"Hello, World\n");
+}
 
 @* Index.
