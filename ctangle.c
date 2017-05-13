@@ -15,37 +15,37 @@
 /*:62*/
 #line 65 "ctangle.w"
 
-#define banner  "This is CTANGLE (Version 3.64)\n"  \
+#define banner   "This is CTANGLE (Version 3.64)\n"  \
 
-#define max_bytes  90000 \
+#define max_bytes   90000 \
 
-#define max_toks  270000
-#define max_names  4000 \
+#define max_toks   270000
+#define max_names   4000 \
 
-#define max_texts  2500
-#define hash_size  353
-#define longest_name  10000
-#define stack_size  50
-#define buf_size  100 \
+#define max_texts   2500
+#define hash_size   353
+#define longest_name   10000
+#define stack_size   50
+#define buf_size   100 \
 
-#define ctangle  0
-#define cweave  1 \
+#define ctangle   0
+#define cweave   1 \
 
-#define and_and  04
-#define lt_lt  020
-#define gt_gt  021
-#define plus_plus  013
-#define minus_minus  01
-#define minus_gt  031
-#define not_eq  032
-#define lt_eq  034
-#define gt_eq  035
-#define eq_eq  036
-#define or_or  037
-#define dot_dot_dot  016
-#define colon_colon  06
-#define period_ast  026
-#define minus_gt_ast  027 \
+#define and_and   04
+#define lt_lt   020
+#define gt_gt   021
+#define plus_plus   013
+#define minus_minus   01
+#define minus_gt   031
+#define not_eq   032
+#define lt_eq   034
+#define gt_eq   035
+#define eq_eq   036
+#define or_or   037
+#define dot_dot_dot   016
+#define colon_colon   06
+#define period_ast   026
+#define minus_gt_ast   027 \
 
 #define xisalpha(c) (isalpha(c) &&((eight_bits) c<0200) ) 
 #define xisdigit(c) (isdigit(c) &&((eight_bits) c<0200) ) 
@@ -56,75 +56,75 @@
 
 #define length(c) (c+1) ->byte_start-(c) ->byte_start
 #define print_id(c) term_write((c) ->byte_start,length((c) ) ) 
-#define llink  link
-#define rlink  dummy.Rlink
-#define root  name_dir->rlink \
+#define llink   link
+#define rlink   dummy.Rlink
+#define root   name_dir->rlink \
 
-#define chunk_marker  0 \
+#define chunk_marker   0 \
 
-#define spotless  0
-#define harmless_message  1
-#define error_message  2
-#define fatal_message  3
-#define mark_harmless  {if(history==spotless) history= harmless_message;}
-#define mark_error  history= error_message
+#define spotless   0
+#define harmless_message   1
+#define error_message   2
+#define fatal_message   3
+#define mark_harmless   {if(history==spotless) history= harmless_message;}
+#define mark_error   history= error_message
 #define confusion(s) fatal("! This can't happen: " ,s)  \
 
-#define max_file_name_length  60
-#define cur_file  file[include_depth]
-#define cur_file_name  file_name[include_depth]
-#define web_file_name  file_name[0]
-#define cur_line  line[include_depth] \
+#define max_file_name_length   60
+#define cur_file   file[include_depth]
+#define cur_file_name   file_name[include_depth]
+#define web_file_name   file_name[0]
+#define cur_line   line[include_depth] \
 
-#define show_banner  flags['b' ]
-#define show_progress  flags['p' ]
-#define show_happiness  flags['h' ] \
+#define show_banner   flags['b' ]
+#define show_progress   flags['p' ]
+#define show_happiness   flags['h' ] \
 
-#define update_terminal  fflush(stdout) 
-#define new_line  putchar('\n' ) 
-#define putxchar  putchar
+#define update_terminal   fflush(stdout) 
+#define new_line   putchar('\n' ) 
+#define putxchar   putchar
 #define term_write(a,b) fflush(stdout) ,fwrite(a,sizeof(char) ,b,stdout) 
 #define C_printf(c,a) fprintf(C_file,c,a) 
 #define C_putc(c) putc(c,C_file)  \
 
-#define equiv  equiv_or_xref \
+#define equiv   equiv_or_xref \
 
-#define section_flag  max_texts \
+#define section_flag   max_texts \
 
-#define string  02
-#define join  0177
-#define output_defs_flag  (2*024000-1)  \
+#define string   02
+#define join   0177
+#define output_defs_flag   (2*024000-1)  \
 
-#define cur_end  cur_state.end_field
-#define cur_byte  cur_state.byte_field
-#define cur_name  cur_state.name_field
-#define cur_repl  cur_state.repl_field
-#define cur_section  cur_state.section_field \
+#define cur_end   cur_state.end_field
+#define cur_byte   cur_state.byte_field
+#define cur_name   cur_state.name_field
+#define cur_repl   cur_state.repl_field
+#define cur_section   cur_state.section_field \
 
-#define section_number  0201
-#define identifier  0202 \
+#define section_number   0201
+#define identifier   0202 \
 
-#define normal  0
-#define num_or_id  1
-#define post_slash  2
-#define unbreakable  3
-#define verbatim  4 \
+#define normal   0
+#define num_or_id   1
+#define post_slash   2
+#define unbreakable   3
+#define verbatim   4 \
 
-#define max_files  256
-#define translit_length  10 \
+#define max_files   256
+#define translit_length   10 \
 
-#define ignore  0
-#define ord  0302
-#define control_text  0303
-#define translit_code  0304
-#define output_defs_code  0305
-#define format_code  0306
-#define definition  0307
-#define begin_C  0310
-#define section_name  0311
-#define new_section  0312 \
+#define ignore   0
+#define ord   0302
+#define control_text   0303
+#define translit_code   0304
+#define output_defs_code   0305
+#define format_code   0306
+#define definition   0307
+#define begin_C   0310
+#define section_name   0311
+#define new_section   0312 \
 
-#define constant  03 \
+#define constant   03 \
 
 #define isxalpha(c) ((c) =='_' ||(c) =='$' )  \
 
@@ -133,7 +133,7 @@
 
 #define compress(c) if(loc++<=limit) return(c)  \
 
-#define macro  0
+#define macro   0
 #define app_repl(c) {if(tok_ptr==tok_mem_end) overflow("token" ) ;*tok_ptr++= c;} \
 
 
@@ -728,7 +728,7 @@ eight_bits cur_char;
 char*j,*k;
 restart:
 switch(cur_char){
-case'\n' :if(protect&&out_state!=verbatim)C_putc(' ' );
+case '\n' :if(protect&&out_state!=verbatim)C_putc(' ' );
 if(protect||out_state==verbatim)C_putc('\\' );
 flush_buffer();if(out_state!=verbatim)out_state= normal;break;
 /*53:*/
@@ -803,7 +803,7 @@ break;
 /*:50*/
 #line 664 "ctangle.w"
 ;
-case'=' :case'>' :C_putc(cur_char);C_putc(' ' );
+case '=' :case '>' :C_putc(cur_char);C_putc(' ' );
 out_state= normal;break;
 case join:out_state= unbreakable;break;
 case constant:if(out_state==verbatim){
@@ -811,10 +811,10 @@ out_state= num_or_id;break;
 }
 if(out_state==num_or_id)C_putc(' ' );out_state= verbatim;break;
 case string:if(out_state==verbatim){C_putc(' ' );out_state= normal;}
-else if(out_state==num_or_id){C_putc(' ' );out_state= verbatim;}
-else out_state= verbatim;break;
-case'/' :C_putc('/' );out_state= post_slash;break;
-case'*' :if(out_state==post_slash)C_putc(' ' );
+else{if(out_state==num_or_id)C_putc(' ' );out_state= verbatim;}
+break;
+case '/' :C_putc('/' );out_state= post_slash;break;
+case '*' :if(out_state==post_slash)C_putc(' ' );
 
 default:C_putc(cur_char);out_state= normal;break;
 }
@@ -1158,24 +1158,24 @@ mistake:/*64:*/
 #line 951 "ctangle.w"
 
 switch(c){
-case'+' :if(*loc=='+' )compress(plus_plus);break;
-case'-' :if(*loc=='-' ){compress(minus_minus);}
+case '+' :if(*loc=='+' )compress(plus_plus);break;
+case '-' :if(*loc=='-' ){compress(minus_minus);}
 else if(*loc=='>' )if(*(loc+1)=='*' ){loc++;compress(minus_gt_ast);}
 else compress(minus_gt);break;
-case'.' :if(*loc=='*' ){compress(period_ast);}
+case '.' :if(*loc=='*' ){compress(period_ast);}
 else if(*loc=='.' &&*(loc+1)=='.' ){
 loc++;compress(dot_dot_dot);
 }
 break;
-case':' :if(*loc==':' )compress(colon_colon);break;
-case'=' :if(*loc=='=' )compress(eq_eq);break;
-case'>' :if(*loc=='=' ){compress(gt_eq);}
+case ':' :if(*loc==':' )compress(colon_colon);break;
+case '=' :if(*loc=='=' )compress(eq_eq);break;
+case '>' :if(*loc=='=' ){compress(gt_eq);}
 else if(*loc=='>' )compress(gt_gt);break;
-case'<' :if(*loc=='=' ){compress(lt_eq);}
+case '<' :if(*loc=='=' ){compress(lt_eq);}
 else if(*loc=='<' )compress(lt_lt);break;
-case'&' :if(*loc=='&' )compress(and_and);break;
-case'|' :if(*loc=='|' )compress(or_or);break;
-case'!' :if(*loc=='=' )compress(not_eq);break;
+case '&' :if(*loc=='&' )compress(and_and);break;
+case '|' :if(*loc=='|' )compress(or_or);break;
+case '!' :if(*loc=='=' )compress(not_eq);break;
 }
 
 /*:64*/
@@ -1319,15 +1319,15 @@ c= 8*c+*(++id_first)-'0' ;
 }
 }
 else switch(c){
-case't' :c= '\t' ;break;
-case'n' :c= '\n' ;break;
-case'b' :c= '\b' ;break;
-case'f' :c= '\f' ;break;
-case'v' :c= '\v' ;break;
-case'r' :c= '\r' ;break;
-case'a' :c= '\7' ;break;
-case'?' :c= '?' ;break;
-case'x' :
+case 't' :c= '\t' ;break;
+case 'n' :c= '\n' ;break;
+case 'b' :c= '\b' ;break;
+case 'f' :c= '\f' ;break;
+case 'v' :c= '\v' ;break;
+case 'r' :c= '\r' ;break;
+case 'a' :c= '\7' ;break;
+case '?' :c= '?' ;break;
+case 'x' :
 if(xisdigit(*(id_first+1)))c= *(++id_first)-'0' ;
 else if(xisxdigit(*(id_first+1))){
 ++id_first;
@@ -1339,9 +1339,9 @@ else if(xisxdigit(*(id_first+1))){
 c= 16*c+toupper(*id_first)-'A' +10;
 }
 break;
-case'\\' :c= '\\' ;break;
-case'\'' :c= '\'' ;break;
-case'\"' :c= '\"' ;break;
+case '\\' :c= '\\' ;break;
+case '\'' :c= '\'' ;break;
+case '\"' :c= '\"' ;break;
 default:err_print("! Unrecognized escape sequence" );
 
 }
@@ -1368,7 +1368,7 @@ case new_section:goto done;
 /*:78*/
 #line 1211 "ctangle.w"
 
-case')' :app_repl(a);
+case ')' :app_repl(a);
 if(t==macro)app_repl(' ' );
 break;
 default:app_repl(a);
@@ -1546,7 +1546,7 @@ translit[i-0200][loc-beg]= '\0' ;
 /*:94*/
 #line 1495 "ctangle.w"
 ;break;
-case format_code:case'@' :break;
+case format_code:case '@' :break;
 case control_text:if(c=='q' ||c=='Q' ){
 while((c= skip_ahead())=='@' );
 if(*(loc-1)!='>' )
