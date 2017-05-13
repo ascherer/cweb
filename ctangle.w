@@ -670,8 +670,8 @@ restart:
         }
         if(out_state==num_or_id) C_putc(' '); out_state=verbatim; break;
       case string: if (out_state==verbatim) { C_putc(' '); out_state=normal; }
-        else if (out_state==num_or_id) { C_putc(' '); out_state=verbatim; }
-        else out_state=verbatim; break;
+        else { if (out_state==num_or_id) C_putc(' '); out_state=verbatim; }
+        break;
       case '/': C_putc('/'); out_state=post_slash; break;
       case '*': if (out_state==post_slash) C_putc(' ');
         /* fall through */
