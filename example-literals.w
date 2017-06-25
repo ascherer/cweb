@@ -29,7 +29,7 @@ const char* conc_literal = "Hello, " "World! (" __DATE__ ")";
 printf("%s\n", conc_literal);
 
 @ @<Concatenated wide string...@>=
-const wchar_t* wide_conc_literal = L"Hello, " L"World! (" __DATE__ L")";
+const wchar_t* wide_conc_literal = L"Hello, " L"World! (" __DATE__@= @>L")";
 printf("%ls\n", wide_conc_literal);
 
 @ @<Function...@>=
