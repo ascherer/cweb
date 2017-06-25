@@ -5,6 +5,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+@<Function return@>@;
+
 int main(void)
 {
    setlocale(LC_ALL, "en_US.utf8");
@@ -12,7 +14,6 @@ int main(void)
    @<Wide string literal@>@;
    @<Concatenated string literal@>@;
    @<Concatenated wide string literal@>@;
-   @<Function return@>@;
    return EXIT_SUCCESS;
 }
 
