@@ -1,0 +1,284 @@
+\catcode`@=11
+
+\input utfplainmac
+
+\message{Loading EC fonts}
+
+\font\tenrm=ecrm1000 % roman text
+\font\tctenrm=tcrm1000
+% \font\sevenrm=ecrm0700
+% \font\fiverm=ecrm0500
+
+\font\tenbf=ecbx1000 % boldface extended
+\font\tctenbf=tcbx1000
+% \font\sevenbf=ecbx0700
+% \font\fivebf=ecbx0500
+
+\font\tentt=ectt1000 % typewriter
+\font\tctentt=tctt1000
+
+\font\tensl=ecsl1000 % slanted roman
+\font\tctensl=tcsl1000
+
+\font\tenit=ecti1000 % text italic
+\font\tctenit=tcti1000
+
+% \font\tenrm=ptmr8t % roman text
+% \font\sevenrm=ptmr8t at 7pt
+% \font\fiverm=ptmr8t at 5pt
+
+% \font\tenbf=ptmb8t % boldface extended
+% \font\sevenbf=ptmb8t at 7pt
+% \font\fivebf=ptmb8t at 5pt
+
+% \font\tentt=pcrr8t % typewriter
+
+% \font\tensl=ptmro8t % slanted roman
+
+% \font\tenit=ptmri8t % text italic
+
+% \textfont0=\tenrm \scriptfont0=\sevenrm \scriptscriptfont0=\fiverm
+% \textfont1=\teni \scriptfont1=\seveni \scriptscriptfont1=\fivei
+% \textfont2=\tensy \scriptfont2=\sevensy \scriptscriptfont2=\fivesy
+% \textfont3=\tenex \scriptfont3=\tenex \scriptscriptfont3=\tenex
+% \textfont\itfam=\tenit
+% \textfont\slfam=\tensl
+% \textfont\bffam=\tenbf \scriptfont\bffam=\sevenbf
+%   \scriptscriptfont\bffam=\fivebf
+% \textfont\ttfam=\tentt
+
+\def\rm{\fam\z@\let\tcfont\tctenrm\tenrm}
+\def\it{\fam\itfam\let\tcfont\tctenit\tenit}
+\def\sl{\fam\slfam\let\tcfont\tctensl\tensl}
+\def\bf{\fam\bffam\let\tcfont\tctenbf\tenbf}
+\def\tt{\fam\ttfam\let\tcfont\tctentt\tentt}
+
+% set the font
+\rm
+
+\catcode`\@=11
+
+% special characters
+\chardef\pound="BF
+\chardef\IJ="9C
+\chardef\ij="BC
+\chardef\L="8A
+\chardef\l="AA
+\chardef\DH="D0
+\chardef\dh="F0
+\chardef\TH="DE
+\chardef\th="FE
+\chardef\NG="8D
+\chardef\ng="AD
+\chardef\AA="C5
+\chardef\aa="E5
+\chardef\AE="C6
+\chardef\ae="E6
+\chardef\OE="D7
+\chardef\oe="F7
+\chardef\O="D8
+\chardef\o="F8
+\chardef\SS="DF
+\chardef\ss="FF
+\chardef\i="19
+\chardef\j="1A
+\let\DJ=\DH
+\chardef\dj="9E
+
+\def\@firstoftwo#1#2{#1}
+\def\@secondoftwo#1#2{#2}
+\def\@ifundefined#1{\expandafter\ifx\csname#1\endcsname\relax
+  \expandafter\@firstoftwo\else\expandafter\@secondoftwo\fi}
+
+%%% \make@ec@accent is syntactic sugar; for example
+%%% \make@ec@accent\x{abc} is equivalent to
+%%%
+%%% \def\x#1{\@ifundefined{ec@abc@\detokenize{#1}}
+%%%   {\csname ec@abc\endcsname{#1}}{\csname ec@abc@#1\endcsname}}}
+%%%
+%%% Thus a call like \x{y} looks whether \ec@abc@y is defined; if it
+%%% is, then use it, otherwise resort to \ec@abc{y}, where \ec@abc is
+%%% the general accent command. In this way we can define \x{y} to
+%%% print a single character, for hyphenation purposes, for example.
+\def\make@ec@accent#1#2{%
+  \def#1##1{\@ifundefined{ec@#2@\detokenize{##1}}
+    {\csname ec@#2\endcsname{##1}}{\csname ec@#2@##1\endcsname}}}
+\make@ec@accent\`{grave}
+\make@ec@accent\'{acute}
+\make@ec@accent\^{circumflex}
+\make@ec@accent\~{tilde}
+\make@ec@accent\"{dieresis}
+\make@ec@accent\H{doubleacute}
+\make@ec@accent\r{ring}
+\make@ec@accent\v{caron}
+\make@ec@accent\u{breve}
+\make@ec@accent\={macron}
+\make@ec@accent\.{dotabove}
+\make@ec@accent\c{cedilla}
+\make@ec@accent\k{ogonek}
+
+%%% Now we define the accents; for example \ec@grave is defined as it
+%%% is \` in Plain TeX, except for the code point of the accent. But
+%%% we define also \ec@grave@A to print just a character which will
+%%% then participate to hyphenation and kerning. The same for all
+%%% other characters which are available in T1 encoded fonts. In some
+%%% special cases we provide also some complicated definition, to
+%%% cover peculiar situation (like \c{g}, where the cedilla should go
+%%% over the g).
+
+% grave accent
+\def\ec@grave#1{{\accent"0 #1}}
+\chardef\ec@grave@A="C0
+\chardef\ec@grave@a="E0
+\chardef\ec@grave@E="C8
+\chardef\ec@grave@e="E8
+\chardef\ec@grave@I="CC
+\chardef\ec@grave@i="EC
+\chardef\ec@grave@O="D2
+\chardef\ec@grave@o="F2
+\chardef\ec@grave@U="D9
+\chardef\ec@grave@u="F9
+
+% acute accent
+\def\ec@acute#1{{\accent"1 #1}}
+\chardef\ec@acute@A="C1
+\chardef\ec@acute@a="E1
+\chardef\ec@acute@E="C9
+\chardef\ec@acute@e="E9
+\chardef\ec@acute@I="CD
+\chardef\ec@acute@i="ED
+\chardef\ec@acute@C="82
+\chardef\ec@acute@c="A2
+\chardef\ec@acute@L="88
+\chardef\ec@acute@l="A8
+\chardef\ec@acute@N="8B
+\chardef\ec@acute@n="AB
+\chardef\ec@acute@O="D3
+\chardef\ec@acute@o="F3
+\chardef\ec@acute@R="8F
+\chardef\ec@acute@r="AF
+\chardef\ec@acute@S="91
+\chardef\ec@acute@s="B1
+\chardef\ec@acute@U="DA
+\chardef\ec@acute@u="FA
+\chardef\ec@acute@Z="99
+\chardef\ec@acute@z="B9
+
+% circumflex accent
+\def\ec@circumflex#1{{\accent"2 #1}}
+\chardef\ec@circumflex@A="C2
+\chardef\ec@circumflex@a="E2
+\chardef\ec@circumflex@E="CA
+\chardef\ec@circumflex@e="EA
+\chardef\ec@circumflex@I="CE
+\chardef\ec@circumflex@i="EE
+\chardef\ec@circumflex@O="D4
+\chardef\ec@circumflex@o="F4
+\chardef\ec@circumflex@U="DB
+\chardef\ec@circumflex@u="FB
+
+% tilde accent
+\def\ec@tilde#1{{\accent"3 #1}}
+\chardef\ec@tilde@A="C3
+\chardef\ec@tilde@a="E3
+\chardef\ec@tilde@N="D1
+\chardef\ec@tilde@n="F1
+\chardef\ec@tilde@O="D5
+\chardef\ec@tilde@o="F5
+
+% dieresis
+\def\ec@dieresis#1{{\accent"4 #1}}
+\chardef\ec@dieresis@A="C4
+\chardef\ec@dieresis@a="E4
+\chardef\ec@dieresis@E="CB
+\chardef\ec@dieresis@e="EB
+\chardef\ec@dieresis@I="CF
+\chardef\ec@dieresis@i="EF
+\chardef\ec@dieresis@O="D6
+\chardef\ec@dieresis@o="F6
+\chardef\ec@dieresis@U="DC
+\chardef\ec@dieresis@u="FC
+\chardef\ec@dieresis@Y="98
+\chardef\ec@dieresis@y="A8
+
+% double acute (hungarian umlaut)
+\def\ec@doubleacute#1{{\accent"5 #1}}
+\chardef\ec@doubleacute@O="8E
+\chardef\ec@doubleacute@o="AE
+\chardef\ec@doubleacute@U="97
+\chardef\ec@doubleacute@u="B7
+
+% ring
+\def\ec@ring#1{{\accent"6 #1}}
+% \chardef\ec@ring@A="C5
+% \chardef\ec@ring@a="E5
+\chardef\ec@ring@U="97
+\chardef\ec@ring@u="B7
+
+% caron
+\def\ec@caron#1{{\accent"7 #1}}
+\chardef\ec@caron@C="83
+\chardef\ec@caron@c="A3
+\chardef\ec@caron@D="84
+\chardef\ec@caron@d="A4
+\chardef\ec@caron@E="85
+\chardef\ec@caron@e="A5
+\chardef\ec@caron@L="89
+\chardef\ec@caron@l="A9
+\chardef\ec@caron@N="8C
+\chardef\ec@caron@n="AC
+\chardef\ec@caron@R="90
+\chardef\ec@caron@r="B0
+\chardef\ec@caron@S="92
+\chardef\ec@caron@s="B2
+\chardef\ec@caron@T="94
+\chardef\ec@caron@t="B4
+\chardef\ec@caron@Z="9A
+\chardef\ec@caron@z="BA
+
+% breve
+\def\ec@breve#1{{\accent"8 #1}}
+\chardef\ec@breve@G="87
+\chardef\ec@breve@g="A7
+
+% macron
+\def\ec@macron#1{{\accent"9 #1}}
+
+% dot above
+\def\ec@dotabove#1{{\accent"A #1}}
+\chardef\ec@dotabove@Z="9B
+\chardef\ec@dotabove@z="BB
+
+% cedilla
+\def\ec@cedilla#1{{\setbox\z@\hbox{#1}\ifdim\ht\z@=1ex\accent"0B #1%
+  \else\ooalign{\unhbox\z@\crcr\hidewidth\char"0B\hidewidth}\fi}}
+\chardef\ec@cedilla@C="C7
+\chardef\ec@cedilla@c="E7
+\chardef\ec@cedilla@S="93
+\chardef\ec@cedilla@s="B3
+\chardef\ec@cedilla@T="95
+\chardef\ec@cedilla@t="B5
+\def\ec@cedilla@g{\accent`\`g}
+
+% ogonek
+\def\ec@ogonek#1{{\ooalign{\null#1\crcr\hidewidth\char"0C\hidewidth}}}
+\chardef\ec@ogonek@A="81
+\chardef\ec@ogonek@a="A1
+\chardef\ec@ogonek@E="86
+\chardef\ec@ogonek@e="A6
+%%% lowercase u is special
+\def\ec@ogonek@u{{\ooalign{\null u\crcr\hidewidth\char"0C}}}
+
+% bar under
+\def\b#1{{\o@lign{\relax#1\crcr\hidewidth\sh@ft{-3ex}%
+  \vbox to.2ex{\hbox{\char"09}\vss}\hidewidth}}}
+
+%%% A special purpose macro
+% catalan dot
+\def\c@talandot#1{\kern#1em\llap{$\m@th\cdot$}\kern-#1em}
+\def\Lmiddledot{L\c@talandot{-.1}}
+\def\lmiddledot{l\c@talandot{.15}}
+
+\catcode`@=12
+
+\endinput

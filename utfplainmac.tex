@@ -1,0 +1,170 @@
+% -*- coding: utf-8 -*-
+% We set a safe catcode for ^ and ^^^; XeTeX uses the ^^^^ convention for
+% specifying arbitrary 16 bit code points. So if XeTeX is used, \gobble
+% eats up ^^^^0021, while with an 8 bit engine only ^^^ is
+% swallowed and \next is not \empty. In the end, \ifunicode is \iftrue if
+% the engine is Unicode aware, it is \iffalse if the engine is 8 bit.
+
+\catcode`\^=7
+\catcode`\~=\active 
+
+\newif\ifunicodeengine
+\begingroup
+\catcode30=12 % just in case: 30 is `\^^^
+\def\gobble#1#2{}
+\edef\next{\gobble^^^^0021}
+\expandafter\endgroup
+\ifx\next\empty\unicodeenginetrue\else\unicodeenginefalse\fi
+
+\message{Engine is \ifunicodeengine Unicode aware\else 8 bit\fi, loading UTF-8 combinations}
+
+\ifunicodeengine
+%%% Make the first argument active and define it as the fourth
+%%% The trick avoids a global definition: the \lowercase changes
+%%% ~ into #1 as active character; then \endgroup\def#1 is put
+%%% back into the token stream (here #1 stands for the actual
+%%% character given as argument); the same trick is used for
+%%% \UseUnicodeCharacter, which must have an argument expressed
+%%% as a four digit hexadecimal number (with uppercase A..F).
+  \def\DoUTFCombination#1#2#3#4{\catcode"#1\active
+    \begingroup\lccode`~="#1\lowercase{\endgroup\def~}{#4}}
+  \def\UseUnicodeCharacter#1{\begingroup\lccode`~="#1\lowercase{\endgroup~}}
+\else
+%%% The UTF-8 prefixes are made active; they just look at the
+%%% following token, which is a category 12 character unless something
+%%% strange has happened, and forms with it a control sequence that
+%%% will be defined later
+  \catcode`\^^c2=\active
+  \def^^c2#1{\csname UTFprefix-c2#1\endcsname}
+  \catcode`\^^c3=\active
+  \def^^c3#1{\csname UTFprefix-c3#1\endcsname}
+  \catcode`\^^c4=\active
+  \def^^c4#1{\csname UTFprefix-c4#1\endcsname}
+  \catcode`\^^c5=\active
+  \def^^c5#1{\csname UTFprefix-c5#1\endcsname}
+  \catcode`\^^c6=\active
+  \def^^c6#1{\csname UTFprefix-c6#1\endcsname}
+  \catcode`\^^c7=\active
+  \def^^c7#1{\csname UTFprefix-c7#1\endcsname}
+  \catcode`\^^c8=\active
+  \def^^c8#1{\csname UTFprefix-c8#1\endcsname}
+  \catcode`\^^cb=\active
+  \def^^cb#1{\csname UTFprefix-cb#1\endcsname}
+
+%%% If the file is input by a UTF-8 unaware engine, we define the main
+%%% command that associates the UTF-8 character (actually a two byte
+%%% combination) to a list of tokens; we define also
+%%% \UseUnicodeCharacter to access the same replacement text via an
+%%% auxiliary macro \UTFCodePoint-xxxx, where xxxx stands for the
+%%% argument to \UseUnicodeCharacter, a four digit hexadecimal number
+%%% (uppercase A..F).
+  \def\DoUTFCombination#1#2#3#4{%
+    \expandafter\def\csname UTFprefix-#2#3\endcsname{#4}%
+    \expandafter\def\csname UTFCodePoint-#1\endcsname{#4}%
+  }
+  \def\UseUnicodeCharacter#1{\csname UTFCodePoint-#1\endcsname}
+\fi
+
+%%% Some (actually many) UTF-8 characters cannot be printed with T1
+%%% or TS1 encoded fonts
+\newif\ifUTFwarning \UTFwarningtrue
+\def\BadUTF#1{%
+  \ifUTFwarning
+    \global\UTFwarningfalse
+    \errhelp{Look in the log file for unsupported characters}%
+    \errmessage{Unsupported UTF character}%
+  \fi
+  \wlog{Character #1 not currently supported on line
+    \the\inputlineno}%
+}
+
+%%% A shorthand for choosing the text companion font
+\def\tcsym#1{{\tcfont\char#1}}
+
+%%% The list of characters: Unicode code point, prefix and second
+%%% byte, then the definition.
+\DoUTFCombination{00A0}{c2}{^^a0}{~} % NO-BREAK SPACE
+\DoUTFCombination{00A1}{c2}{^^a1}{!`} % INVERTED EXCLAMATION MARK
+\DoUTFCombination{00A2}{c2}{^^a2}{\tcsym{"8B}} % CENT SIGN
+\DoUTFCombination{00A3}{c2}{^^a3}{\pound} % POUND SIGN
+\DoUTFCombination{00A4}{c2}{^^a4}{\tcsym{"A4}} % CURRENCY SIGN
+\DoUTFCombination{00A5}{c2}{^^a5}{\tcsym{"A5}} % YEN SIGN
+\DoUTFCombination{00A6}{c2}{^^a6}{\tcsym{"A6}} % BROKEN BAR
+\DoUTFCombination{00A7}{c2}{^^a7}{\tcsym{"A7}} % SECTION SIGN
+\DoUTFCombination{00A8}{c2}{^^a8}{\"{}} % DIAERESIS
+\DoUTFCombination{00A9}{c2}{^^a9}{\tcsym{"A9}} % COPYRIGHT SIGN
+\DoUTFCombination{00AA}{c2}{^^aa}{\tcsym{"AA}} % FEMININE ORDINAL INDICATOR
+\DoUTFCombination{00AB}{c2}{^^ab}{>} % RIGHT-POINTING DOUBLE ANGLE QUOTATION MARK
+\DoUTFCombination{00BC}{c2}{^^bc}{\tcsym{"BC}} % VULGAR FRACTION ONE QUARTER
+\DoUTFCombination{00BD}{c2}{^^bd}{\tcsym{"BD}} % VULGAR FRACTION ONE HALF
+\DoUTFCombination{00BE}{c2}{^^be}{\tcsym{"BE}} % VULGAR FRACTION THREE QUARTERS
+\DoUTFCombination{00BF}{c2}{^^bf}{?`} % INVERTED QUESTION MARK
+
+\DoUTFCombination{00C0}{c3}{^^80}{\`A} % LATIN CAPITAL LETTER A WITH GRAVE
+\DoUTFCombination{00C1}{c3}{^^81}{\'A} % LATIN CAPITAL LETTER A WITH ACUTE
+\DoUTFCombination{00C2}{c3}{^^82}{\^A} % LATIN CAPITAL LETTER A WITH CIRCUMFLEX
+\DoUTFCombination{00C3}{c3}{^^83}{\~A} % LATIN CAPITAL LETTER A WITH TILDE
+\DoUTFCombination{00C4}{c3}{^^84}{\"A} % LATIN CAPITAL LETTER A WITH DIAERESIS
+\DoUTFCombination{00C5}{c3}{^^85}{\AA} % LATIN CAPITAL LETTER A WITH RING ABOVE
+\DoUTFCombination{00C6}{c3}{^^86}{\AE} % LATIN CAPITAL LETTER AE
+\DoUTFCombination{00C7}{c3}{^^87}{\c{A}} % LATIN CAPITAL LETTER C WITH CEDILLA
+\DoUTFCombination{00C8}{c3}{^^88}{\`E} % LATIN CAPITAL LETTER E WITH GRAVE
+\DoUTFCombination{00C9}{c3}{^^89}{\'E} % LATIN CAPITAL LETTER E WITH ACUTE
+\DoUTFCombination{00CA}{c3}{^^8a}{\^E} % LATIN CAPITAL LETTER E WITH CIRCUMFLEX
+\DoUTFCombination{00CB}{c3}{^^8b}{\"E} % LATIN CAPITAL LETTER E WITH DIAERESIS
+\DoUTFCombination{00CC}{c3}{^^8c}{\`I} % LATIN CAPITAL LETTER I WITH GRAVE
+\DoUTFCombination{00CD}{c3}{^^8d}{\'I} % LATIN CAPITAL LETTER I WITH ACUTE
+\DoUTFCombination{00CE}{c3}{^^8e}{\^I} % LATIN CAPITAL LETTER I WITH CIRCUMFLEX
+\DoUTFCombination{00CF}{c3}{^^8f}{\"I} % LATIN CAPITAL LETTER I WITH DIAERESIS
+\DoUTFCombination{00D0}{c3}{^^90}{\DH} % LATIN CAPITAL LETTER ETH
+\DoUTFCombination{00D1}{c3}{^^91}{\~N} % LATIN CAPITAL LETTER N WITH TILDE
+\DoUTFCombination{00D2}{c3}{^^92}{\`O} % LATIN CAPITAL LETTER O WITH GRAVE
+\DoUTFCombination{00D3}{c3}{^^93}{\'O} % LATIN CAPITAL LETTER O WITH ACUTE
+\DoUTFCombination{00D4}{c3}{^^94}{\^O} % LATIN CAPITAL LETTER O WITH CIRCUMFLEX
+\DoUTFCombination{00D5}{c3}{^^95}{\~O} % LATIN CAPITAL LETTER O WITH TILDE
+\DoUTFCombination{00D6}{c3}{^^96}{\"O} % LATIN CAPITAL LETTER O WITH DIAERESIS
+\DoUTFCombination{00D7}{c3}{^^97}{\tcsym{"D6}} % MULTIPLICATION SIGN
+\DoUTFCombination{00D8}{c3}{^^98}{\O} % LATIN CAPITAL LETTER O WITH STROKE
+\DoUTFCombination{00D9}{c3}{^^99}{\`U} % LATIN CAPITAL LETTER U WITH GRAVE
+\DoUTFCombination{00DA}{c3}{^^9a}{\'U} % LATIN CAPITAL LETTER U WITH ACUTE
+\DoUTFCombination{00DB}{c3}{^^9b}{\^U} % LATIN CAPITAL LETTER U WITH CIRCUMFLEX
+\DoUTFCombination{00DC}{c3}{^^9c}{\"U} % LATIN CAPITAL LETTER U WITH DIAERESIS
+\DoUTFCombination{00DD}{c3}{^^9d}{\'Y} % LATIN CAPITAL LETTER Y WITH ACUTE
+\DoUTFCombination{00DE}{c3}{^^9e}{\TH} % LATIN CAPITAL LETTER THORN
+\DoUTFCombination{00DF}{c3}{^^9f}{\ss} % LATIN SMALL LETTER SHARP S
+\DoUTFCombination{00E0}{c3}{^^a0}{\`a} % LATIN SMALL LETTER A WITH GRAVE
+\DoUTFCombination{00E1}{c3}{^^a1}{\'a} % LATIN SMALL LETTER A WITH ACUTE
+\DoUTFCombination{00E2}{c3}{^^a2}{\^a} % LATIN SMALL LETTER A WITH CIRCUMFLEX
+\DoUTFCombination{00E3}{c3}{^^a3}{\~a} % LATIN SMALL LETTER A WITH TILDE
+\DoUTFCombination{00E4}{c3}{^^a4}{\"a} % LATIN SMALL LETTER A WITH DIAERESIS
+\DoUTFCombination{00E5}{c3}{^^a5}{\aa} % LATIN SMALL LETTER A WITH RING ABOVE
+\DoUTFCombination{00E6}{c3}{^^a6}{\ae} % LATIN SMALL LETTER AE
+\DoUTFCombination{00E7}{c3}{^^a7}{\c{c}} % LATIN SMALL LETTER C WITH CEDILLA
+\DoUTFCombination{00E8}{c3}{^^a8}{\`e} % LATIN SMALL LETTER E WITH GRAVE
+\DoUTFCombination{00E9}{c3}{^^a9}{\'e} % LATIN SMALL LETTER E WITH ACUTE
+\DoUTFCombination{00EA}{c3}{^^aa}{\^e} % LATIN SMALL LETTER E WITH CIRCUMFLEX
+\DoUTFCombination{00EB}{c3}{^^ab}{\"e} % LATIN SMALL LETTER E WITH DIAERESIS
+\DoUTFCombination{00EC}{c3}{^^ac}{\`i} % LATIN SMALL LETTER I WITH GRAVE
+\DoUTFCombination{00ED}{c3}{^^ad}{\'i} % LATIN SMALL LETTER I WITH ACUTE
+\DoUTFCombination{00EE}{c3}{^^ae}{\^i} % LATIN SMALL LETTER I WITH CIRCUMFLEX
+\DoUTFCombination{00EF}{c3}{^^af}{\"i} % LATIN SMALL LETTER I WITH DIAERESIS
+\DoUTFCombination{00F0}{c3}{^^b0}{\dh} % LATIN SMALL LETTER ETH
+\DoUTFCombination{00F1}{c3}{^^b1}{\~n} % LATIN SMALL LETTER N WITH TILDE
+\DoUTFCombination{00F2}{c3}{^^b2}{\`o} % LATIN SMALL LETTER O WITH GRAVE
+\DoUTFCombination{00F3}{c3}{^^b3}{\'o} % LATIN SMALL LETTER O WITH ACUTE
+\DoUTFCombination{00F4}{c3}{^^b4}{\^o} % LATIN SMALL LETTER O WITH CIRCUMFLEX
+\DoUTFCombination{00F5}{c3}{^^b5}{\~o} % LATIN SMALL LETTER O WITH TILDE
+\DoUTFCombination{00F6}{c3}{^^b6}{\"o} % LATIN SMALL LETTER O WITH DIAERESIS
+\DoUTFCombination{00F7}{c3}{^^b7}{\tcsym{"F6}} % DIVISION SIGN
+\DoUTFCombination{00F8}{c3}{^^b8}{\o} % LATIN SMALL LETTER O WITH STROKE
+\DoUTFCombination{00F9}{c3}{^^b9}{\`u} % LATIN SMALL LETTER U WITH GRAVE
+\DoUTFCombination{00FA}{c3}{^^ba}{\'u} % LATIN SMALL LETTER U WITH ACUTE
+\DoUTFCombination{00FB}{c3}{^^bb}{\^u} % LATIN SMALL LETTER U WITH CIRCUMFLEX
+\DoUTFCombination{00FC}{c3}{^^bc}{\"u} % LATIN SMALL LETTER U WITH DIAERESIS
+\DoUTFCombination{00FD}{c3}{^^bd}{\'y} % LATIN SMALL LETTER Y WITH ACUTE
+\DoUTFCombination{00FE}{c3}{^^be}{\th} % LATIN SMALL LETTER THORN
+\DoUTFCombination{00FF}{c3}{^^bf}{\"y} % LATIN SMALL LETTER Y WITH DIAERESIS
+
+%%%% Other characters omitted
+
+\endinput
