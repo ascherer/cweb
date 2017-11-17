@@ -7,10 +7,10 @@ char array1[] = "Foo" "bar";
 // same as
 char array2[] = { 'F', 'o', 'o', 'b', 'a', 'r', '\0' };
 
-const char* s1 = R"foo(
-Hello
-World
-)foo";
+const char* s1 = @=R"foo(@>@|
+@=Hello@>@|
+@=World@>@|
+@=)foo"@>;
 //same as
 const char* s2 = "\nHello\nWorld\n";
  
