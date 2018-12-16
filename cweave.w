@@ -76,10 +76,9 @@ is modified.
 @<Global variables@>@/
 @<Predeclaration of procedures@>
 
-@ For string handling we include the {\mc ANSI C} system header file instead
-of predeclaring the standard system functions |strlen|, |strcmp|, |strcpy|,
+@ For string handling we include the system header file instead of
+predeclaring the standard system functions |strlen|, |strcmp|, |strcpy|,
 |strncmp|, and |strncpy|.
-@^system dependencies@>
 
 @<Include files@>=
 #include <string.h>
@@ -4671,9 +4670,9 @@ print_stats(void) {
             (long)(max_sort_ptr-scrap_info),(long)max_scraps);
 }
 
-@* Function declarations.  Here are declarations---conforming to
-{\mc ANSI~C}---of all functions in this code, as far as they are
-not already in |"common.h"|.  These are private to \.{CWEAVE}.
+@* Function declarations.  Here are declarations of all functions in
+this code, as far as they are not already in |"common.h"|.  These are
+private to \.{CWEAVE}.
 
 @<Predecl...@>=
 static eight_bits copy_TeX(void);@/

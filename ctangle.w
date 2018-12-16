@@ -71,8 +71,8 @@ is modified.
 @<Global variables@>@/
 @<Predeclaration of procedures@>@/
 
-@ For string handling we include the {\mc ANSI C} system header file instead
-of predeclaring the standard system functions |strlen|, |strcmp|, |strcpy|,
+@ For string handling we include the system header file instead of
+predeclaring the standard system functions |strlen|, |strcmp|, |strcpy|,
 |strncmp|, and |strncpy|.
 
 @<Include files@>=

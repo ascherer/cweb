@@ -1416,10 +1416,9 @@ Several macros make other kinds of output convenient.
 @d C_printf(c,a) fprintf(C_file,c,a)
 @d C_putc(c) putc(c,C_file) /* isn't \CEE/ wonderfully consistent? */
 
-@ For string handling we include the {\mc ANSI C} system header file instead
-of predeclaring the standard system functions |strlen|, |strcmp|, |strcpy|,
+@ For string handling we include the system header file instead of
+predeclaring the standard system functions |strlen|, |strcmp|, |strcpy|,
 |strncmp|, and |strncpy|.
-@^system dependencies@>
 
 @<Include...@>=
 #include <string.h>
