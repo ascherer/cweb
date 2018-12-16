@@ -1276,7 +1276,6 @@ scan_args(void)
   register char *s; /* register for scanning strings */
   boolean found_web=0,found_change=0,found_out=0;
              /* have these names been seen? */
-  boolean flag_change;
 
   strcpy(change_file_name,"/dev/null");
   while (--argc > 0) {
