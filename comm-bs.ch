@@ -21,7 +21,7 @@ by using "huge" pointers.
 
 
 @x Section 27.
-@d max_names 4000 /* number of identifiers, strings, section names;
+@d max_names 10239 /* number of identifiers, strings, section names;
   must be less than 10240 */
 
 @<Definitions that...@>=
@@ -35,7 +35,7 @@ char *byte_mem_end = byte_mem+max_bytes-1; /* end of |byte_mem| */
 name_info name_dir[max_names]; /* information about names */
 name_pointer name_dir_end = name_dir+max_names-1; /* end of |name_dir| */
 @y
-@d max_names 4000 /* number of identifiers, strings, section names;
+@d max_names 10239 /* number of identifiers, strings, section names;
   must be less than 10240 */
 
 @f huge extern
@@ -76,14 +76,14 @@ byte_mem_end = byte_mem+max_bytes-1;
 
 @x Section 42.
 void
-print_section_name(p)
-name_pointer p;
+print_section_name(
+name_pointer p)
 {
   char *ss, *s = first_chunk(p);
 @y
 void
-print_section_name(p)
-name_pointer p;
+print_section_name(
+name_pointer p)
 {
   char huge* ss, huge* s = first_chunk(p);
 @z
@@ -91,16 +91,16 @@ name_pointer p;
 
 @x Section 43.
 void
-sprint_section_name(dest,p)
-  char*dest;
-  name_pointer p;
+sprint_section_name(
+  char *dest,
+  name_pointer p)
 {
   char *ss, *s = first_chunk(p);
 @y
 void
-sprint_section_name(dest,p)
-  char*dest;
-  name_pointer p;
+sprint_section_name(
+  char *dest,
+  name_pointer p)
 {
   char huge* ss, huge* s = first_chunk(p);
 @z
@@ -108,38 +108,38 @@ sprint_section_name(dest,p)
 
 @x Section 44.
 void
-print_prefix_name(p)
-name_pointer p;
+print_prefix_name(
+name_pointer p)
 {
   char *s = first_chunk(p);
 @y
 void
-print_prefix_name(p)
-name_pointer p;
+print_prefix_name(
+name_pointer p)
 {
   char huge* s = first_chunk(p);
 @z
 
 
 @x Section 47.
-name_pointer
-add_section_name(par,c,first,last,ispref) /* install a new node in the tree */
-name_pointer par; /* parent of new node */
-int c; /* right or left? */
-char *first; /* first character of section name */
-char *last; /* last character of section name, plus one */
-int ispref; /* are we adding a prefix or a full name? */
+static name_pointer
+add_section_name(@t\1\1@> /* install a new node in the tree */
+name_pointer par, /* parent of new node */
+int c, /* right or left? */
+char *first, /* first character of section name */
+char *last, /* last character of section name, plus one */
+int ispref@t\2\2@>) /* are we adding a prefix or a full name? */
 {
   name_pointer p=name_ptr; /* new node */
   char *s=first_chunk(p);
 @y
-name_pointer
-add_section_name(par,c,first,last,ispref) /* install a new node in the tree */
-name_pointer par; /* parent of new node */
-int c; /* right or left? */
-char *first; /* first character of section name */
-char *last; /* last character of section name, plus one */
-int ispref; /* are we adding a prefix or a full name? */
+static name_pointer
+add_section_name(@t\1\1@> /* install a new node in the tree */
+name_pointer par, /* parent of new node */
+int c, /* right or left? */
+char *first, /* first character of section name */
+char *last, /* last character of section name, plus one */
+int ispref@t\2\2@>) /* are we adding a prefix or a full name? */
 {
   name_pointer p=name_ptr; /* new node */
   char huge* s=first_chunk(p);
@@ -147,40 +147,40 @@ int ispref; /* are we adding a prefix or a full name? */
 
 
 @x Section 48.
-void
-extend_section_name(p,first,last,ispref)
-name_pointer p; /* name to be extended */
-char *first; /* beginning of extension text */
-char *last; /* one beyond end of extension text */
-int ispref; /* are we adding a prefix or a full name? */
+static void
+extend_section_name(@t\1\1@>
+name_pointer p, /* name to be extended */
+char *first, /* beginning of extension text */
+char *last, /* one beyond end of extension text */
+int ispref@t\2\2@>) /* are we adding a prefix or a full name? */
 {
   char *s;
 @y
-void
-extend_section_name(p,first,last,ispref)
-name_pointer p; /* name to be extended */
-char *first; /* beginning of extension text */
-char *last; /* one beyond end of extension text */
-int ispref; /* are we adding a prefix or a full name? */
+static void
+extend_section_name(@t\1\1@>
+name_pointer p, /* name to be extended */
+char *first, /* beginning of extension text */
+char *last, /* one beyond end of extension text */
+int ispref@t\2\2@>) /* are we adding a prefix or a full name? */
 {
   char huge* s;
 @z
 
 
 @x Section 54.
-int section_name_cmp(pfirst,len,r)
-char **pfirst; /* pointer to beginning of comparison string */
-int len; /* length of string */
-name_pointer r; /* section name being compared */
+static int section_name_cmp(@t\1\1@>
+char **pfirst, /* pointer to beginning of comparison string */
+int len, /* length of string */
+name_pointer r@t\2\2@>) /* section name being compared */
 {
   char *first=*pfirst; /* beginning of comparison string */
   name_pointer q=r+1; /* access to subsequent chunks */
   char *ss, *s=first_chunk(r);
 @y
-int section_name_cmp(pfirst,len,r)
-char **pfirst; /* pointer to beginning of comparison string */
-int len; /* length of string */
-name_pointer r; /* section name being compared */
+static int section_name_cmp(@t\1\1@>
+char **pfirst, /* pointer to beginning of comparison string */
+int len, /* length of string */
+name_pointer r@t\2\2@>) /* section name being compared */
 {
   char *first=*pfirst; /* beginning of comparison string */
   name_pointer q=r+1; /* access to subsequent chunks */
@@ -190,19 +190,19 @@ name_pointer r; /* section name being compared */
 
 @x Section 55.
 source files, respectively; here we just declare a common field
-|equiv_or_xref| as a pointer to a |char|.
+|equiv_or_xref| as a pointer to |void|.
 
 @<More elements of |name...@>=
-char *equiv_or_xref; /* info corresponding to names */
+void *equiv_or_xref; /* info corresponding to names */
 @y
 source files, respectively.  Here we just declare a common field
-|ptr_union| as a union of pointers to |char|, which happen to have
+|ptr_union| as a union of pointers to |void|, which happen to have
 different addressing attributes.
 
 @<More elements of |name...@>=
 union {
-  char *equiv_member;
-  char huge* xref_member;
+  void *equiv_member;
+  void huge* xref_member;
 } ptr_union;  /* info corresponding to names */
 @z
 
@@ -215,15 +215,15 @@ An omitted change file argument means that |"NUL"| should be used,
 
 
 @x Section 70.
-        else if (*s=='/') dot_pos=NULL,name_pos=++s;
+  strcpy(change_file_name,"/dev/null");
 @y
-        else if (*s == ':' || *s == '\\' || *s == '/')
-	  dot_pos=NULL,name_pos=++s;
+  strcpy(change_file_name,"NUL");
 @z
 
 
 @x Section 70.
-  if (found_change<=0) strcpy(change_file_name,"/dev/null");
+        else if (*s=='/') dot_pos=NULL,name_pos=++s;
 @y
-  if (found_change<=0) strcpy(change_file_name,"NUL");
+        else if (*s == ':' || *s == '\\' || *s == '/')
+	  dot_pos=NULL,name_pos=++s;
 @z

@@ -10,24 +10,24 @@ ex <dev_>cc;'-v -h -c -=500000 -DCWEBINPUTS=flp2_ common_c'
 @x
 \def\v{\char'174} % vertical (|) in typewriter font
 
-\def\title{Common code for CTANGLE and CWEAVE (Version 3.64)}
+\def\title{Common code for CTANGLE and CWEAVE (Version 3.65)}
 \def\topofcontents{\null\vfill
   \centerline{\titlefont Common code for {\ttitlefont CTANGLE} and
     {\ttitlefont CWEAVE}}
   \vskip 15pt
-  \centerline{(Version 3.64)}
+  \centerline{(Version 3.65)}
   \vfill}
 \def\botofcontents{\vfill
 \noindent
 @y
 \def\v{\char'174} % vertical (|) in typewriter font
 
-\def\title{Common code for CTANGLE and CWEAVE (QL Version 3.64)}
+\def\title{Common code for CTANGLE and CWEAVE (QL Version 3.65)}
 \def\topofcontents{\null\vfill
   \centerline{\titlefont Common code for {\ttitlefont CTANGLE} and
     {\ttitlefont CWEAVE}}
   \vskip 15pt
-  \centerline{(Version 3.64)}
+  \centerline{(Version 3.65)}
   \vfill}
 \def\botofcontents{\vfill
 \noindent
@@ -40,7 +40,7 @@ for the benefit of \.{CTANGLE}.
 @f line x /* make |line| an unreserved word */
 @d max_include_depth 10 /* maximum number of source files open
   simultaneously, not counting the change file */
-@d max_file_name_length 60
+@d max_file_name_length 1024
 @d cur_file file[include_depth] /* current file */
 @d cur_file_name file_name[include_depth] /* current file name */
 @d cur_line line[include_depth] /* number of current line in current file */
@@ -92,19 +92,20 @@ when no changes are desired.
 If there's a third file name, it will be the output file.
 
 @<Pred...@>=
-void scan_args();
+static void scan_args(void);@/
 
 @ @c
-void
-scan_args()
+static void
+scan_args(void)
 {
   char *dot_pos; /* position of |'.'| in the argument */
   char *name_pos; /* file name beginning, sans directory */
   register char *s; /* register for scanning strings */
   boolean found_web=0,found_change=0,found_out=0;
-             /* have these names have been seen? */
+             /* have these names been seen? */
   boolean flag_change;
 
+  strcpy(change_file_name,"/dev/null");
   while (--argc > 0) {
     if ((**(++argv)=='-'||**argv=='+')&&*(*argv+1)) @<Handle flag argument@>@;
     else {
@@ -115,14 +116,13 @@ scan_args()
         else s++;
       }
       if (!found_web) @<Make
-       |web_file_name|, |tex_file_name| and |C_file_name|@>@;
+       |web_file_name|, |tex_file_name|, and |C_file_name|@>@;
       else if (!found_change) @<Make |change_file_name| from |fname|@>@;
       else if (!found_out) @<Override |tex_file_name| and |C_file_name|@>@;
-        else @<Print usage error message and quit@>;
+        else @<Print usage error message and quit@>@;
     }
   }
-  if (!found_web) @<Print usage error message and quit@>;
-  if (found_change<=0) strcpy(change_file_name,"/dev/null");
+  if (!found_web) @<Print usage error message and quit@>@;
 }
 
 @ We use all of |*argv| for the |web_file_name| if there is a |'.'| in it,
@@ -135,7 +135,7 @@ after the dot.  We must check that there is enough room in
 @<Make |web_file_name|...@>=
 {
   if (s-*argv > max_file_name_length-5)
-    @<Complain about argument length@>;
+    @<Complain about argument length@>@;
   if (dot_pos==NULL)
     sprintf(web_file_name,"%s.w",*argv);
   else {
@@ -152,21 +152,20 @@ after the dot.  We must check that there is enough room in
 
 @ @<Make |change_file_name|...@>=
 {
-  if (strcmp(*argv,"-")==0) found_change=-1;
-  else {
+  if (strcmp(*argv,"-")!=0) {
     if (s-*argv > max_file_name_length-4)
-      @<Complain about argument length@>;
+      @<Complain about argument length@>@;
     if (dot_pos==NULL)
       sprintf(change_file_name,"%s.ch",*argv);
     else strcpy(change_file_name,*argv);
-    found_change=1;
   }
+  found_change=1;
 }
 
 @ @<Override...@>=
 {
   if (s-*argv > max_file_name_length-5)
-    @<Complain about argument length@>;
+    @<Complain about argument length@>@;
   if (dot_pos==NULL) {
     sprintf(tex_file_name,"%s.tex",*argv);
     sprintf(idx_file_name,"%s.idx",*argv);

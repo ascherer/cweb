@@ -4,9 +4,9 @@ No changes to CTANGLE or CWEAVE are needed.
 (Contributed 13 Oct 2000 by AndPio@aol.com; slightly edited by Don Knuth)
 
 @x in limbo, change the title page document to specify Mac version
-  \centerline{(Version 3.64)}
+  \centerline{(Version 3.65)}
 @y
-  \centerline{(Version 3.64 for MacOS)}
+  \centerline{(Version 3.65 for MacOS)}
 @z
 
 @x section 9: Make input_ln accept \n, \r, \n\r, or \r\n as line endings
@@ -15,8 +15,8 @@ support |feof|, |getc|, and |ungetc| you may have to change things here.
 @^system dependencies@>
 
 @c
-int input_ln(fp) /* copies a line into |buffer| or returns 0 */
-FILE *fp; /* what file to read from */
+static boolean input_ln(@t\1\1@> /* copies a line into |buffer| or returns 0 */
+FILE *fp@t\2\2@>) /* what file to read from */
 {
   register int  c=EOF; /* character read; initialized so some compilers won't complain */
   register char *k;  /* where next character goes */
@@ -43,8 +43,8 @@ line endings, so that \.{CWEB} will works with ASCII files stored in
 @^system dependencies@>
 
 @c
-int input_ln(fp) /* copies a line into |buffer| or returns 0 */
-FILE *fp; /* what file to read from */
+static boolean input_ln(@t\1\1@> /* copies a line into |buffer| or returns 0 */
+FILE *fp@t\2\2@>) /* what file to read from */
 {
   register int  c=EOF; /* character read; initialized so some compilers won't complain */
   register char *k;  /* where next character goes */
@@ -73,12 +73,12 @@ FILE *fp; /* what file to read from */
 
 @x section 12, simply return if no change file was specified
   change_limit=change_buffer; /* this value is used if the change file ends */
-  @<Skip over comment lines in the change file; |return| if end of file@>;
+  @<Skip over comment lines in the change file; |return| if end of file@>@;
 @y
   change_limit=change_buffer; /* this value is used if the change file ends */
   if (change_file_name[0] == '\0') /* no change file specified */
     return; /* so we have reached the end of that file */
-  @<Skip over comment lines in the change file; |return| if end of file@>;
+  @<Skip over comment lines in the change file; |return| if end of file@>@;
 @z
 
 @x section 19, don't try to open a change file if none was specified
@@ -117,6 +117,11 @@ An omitted change file argument means that |"/dev/null"| should be used,
 An omitted change file argument means that no change file should be used,
 @z
 
+@x section 70, make change file name empty when it is unspecified
+  strcpy(change_file_name,"/dev/null");
+@y
+  change_file_name[0]='\0';   /* empty string */
+@z
 @x section 70, use the Metrowerks |ccommand| to access command lines
   while (--argc > 0) {
 @y
@@ -128,11 +133,6 @@ An omitted change file argument means that no change file should be used,
         else if (*s=='/') dot_pos=NULL,name_pos=++s;
 @y
         else if (*s==PATH_SEP) dot_pos=NULL,name_pos=++s;
-@z
-@x section 70, make change file name empty when it is unspecified
-  if (found_change<=0) strcpy(change_file_name,"/dev/null");
-@y
-  if (found_change<=0) change_file_name[0]='\0';   /* empty string */
 @z
 
 @x section 82, insert an extra module before the index

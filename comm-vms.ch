@@ -20,7 +20,7 @@ modified:
 @z
 
 @x section 8  (01-FEB-1992 ST)
-#include <stdio.h>
+#include <stdio.h> /* declaration of |printf| et al. */
 @y
 #include stdio /* VMS searches Textlibraries faster */
 @z
@@ -61,9 +61,9 @@ null device |"NL:"| should be used, when no changes are desired.
 @z
 
 @x section 70 (1987 BL) (01-FEB-1992 ST) (05-APR-1992 DEK)
-  if (found_change<=0) strcpy(change_file_name,"/dev/null");
+  strcpy(change_file_name,"/dev/null");
 @y
-  if (found_change<=) strcpy(change_file_name,"NL:");
+  strcpy(change_file_name,"NL:");
 	/* {\tt NL:} is the VAX/VMS notation for {\tt /dev/null} */
 @z
 

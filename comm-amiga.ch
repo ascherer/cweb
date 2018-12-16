@@ -11,7 +11,7 @@ An omitted change file argument means that |"nil:"| should be used,
 @z
 
 @x section 70
-  if (found_change<=0) strcpy(change_file_name,"/dev/null");
+  strcpy(change_file_name,"/dev/null");
 @y
-  if (found_change<=0) strcpy(change_file_name,"nil:");
+  strcpy(change_file_name,"nil:");
 @z

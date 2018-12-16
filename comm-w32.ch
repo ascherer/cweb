@@ -45,18 +45,18 @@ set of programs using the __fastcall convention.
 
 @x
 @ @<Predec...@>=
-extern int names_match();
+extern boolean names_match(name_pointer,const char *,size_t,eight_bits);@/
 @y
 @ @<Predec...@>=
-extern int __cdecl names_match();
+extern boolean __cdecl names_match(name_pointer,const char *,size_t,eight_bits);@/
 @z
 
 @x
 @<Pred...@>=
-void init_p();
+extern void init_p(name_pointer,eight_bits);@/
 @y
 @<Pred...@>=
-void __cdecl init_p();
+extern void __cdecl init_p(name_pointer,eight_bits);@/
 @z
 
 @x section 69
@@ -65,30 +65,15 @@ An omitted change file argument means that |"/dev/null"| should be used,
 An omitted change file argument means that |"NUL"| should be used,
 @z
 
+@x section 70
+  strcpy(change_file_name,"/dev/null");
+@y
+  strcpy(change_file_name,"NUL");
+@z
+
 @x section 70 (this change copied from comm-bs.ch, July 94)
         else if (*s=='/') dot_pos=NULL,name_pos=++s;
 @y
         else if (*s == ':' || *s == '\\' || *s == '/')
 	  dot_pos=NULL,name_pos=++s;
-@z
-
-@x section 70
-  if (found_change<=0) strcpy(change_file_name,"/dev/null");
-@y
-  if (found_change<=0) strcpy(change_file_name,"NUL");
-@z
-
-@x
-@ We predeclare several standard system functions here instead of including
-their system header files, because the names of the header files are not as
-standard as the names of the functions. (For example, some \CEE/ environments
-have \.{<string.h>} where others have \.{<strings.h>}.)
-
-@<Predecl...@>=
-extern int strlen(); /* length of string */
-extern int strcmp(); /* compare strings lexicographically */
-extern char* strcpy(); /* copy one string to another */
-extern int strncmp(); /* compare up to $n$ string characters */
-extern char* strncpy(); /* copy up to $n$ string characters */
-@y
 @z
