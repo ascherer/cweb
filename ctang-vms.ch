@@ -10,9 +10,9 @@ created:
 (these changes not necessary for initial bootstrapping)
 
 @x section 1 (01-FEB-1992 ST)
-@d banner "This is CTANGLE (Version 3.64)\n"
+@d banner "This is CTANGLE (Version 3.65)"
 @y
-@d banner "This is CTANGLE (VAX/VMS Version 3.64)\n"
+@d banner "This is CTANGLE (VAX/VMS Version 3.65)"
 @z
 
 @x section 6 (from common.h) (01-FEB-1992 ST)
@@ -26,10 +26,4 @@ created:
 @y
 #include ctype /* definition of |isalpha|, |isdigit| and so on */
                /* VMS searches text libraries faster */
-@z
-
-@x section 63 (01-FEB-1992 ST)
-@d isxalpha(c) ((c)=='_') /* non-alpha character allowed in identifier */
-@y
-@d isxalpha(c) ((c)=='_' || (c)=='$') /* non-alpha characters allowed in id */
 @z
