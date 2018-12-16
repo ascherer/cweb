@@ -13,9 +13,9 @@ modified:
 (also modified by Don Knuth to keep version numbers uptodate)
 
 @x section 1 (01-FEB-1992 ST)
-@d banner "This is CWEAVE (Version 3.64)\n"
+@d banner "This is CWEAVE (Version 3.65)"
 @y
-@d banner "This is CWEAVE (VAX/VMS Version 3.64)\n"
+@d banner "This is CWEAVE (VAX/VMS Version 3.65)"
 @z
 
 @x section 6 (from common.h) (01-FEB-1992 ST)
@@ -28,10 +28,4 @@ modified:
 #include <ctype.h> /* definition of |isalpha|, |isdigit| and so on */
 @y
 #include ctype /* VMS searches Textlibraries faster */
-@z
-
-@x section 39 (01-FEB-1992 ST)
-@d isxalpha(c) ((c)=='_') /* non-alpha character allowed in identifier */
-@y
-@d isxalpha(c) ((c)=='_' || (c)=='$') /* non-alpha characters allowed in id */
 @z

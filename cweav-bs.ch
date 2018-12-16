@@ -20,12 +20,12 @@ This file contributed by Barry Schwartz, trashman@crud.mn.org, 28 Jun 94.
 The ``banner line'' defined here should be changed whenever \.{CWEAVE}
 is modified.
 
-@d banner "This is CWEAVE (Version 3.64)\n"
+@d banner "This is CWEAVE (Version 3.65)"
 @y
 The ``banner line'' defined here should be changed whenever \.{CWEAVE}
 is modified.
 
-@d banner "This is CWEAVE (Version 3.64pc/big)\n"
+@d banner "This is CWEAVE (Version 3.65pc/big)"
 @z
 
 
@@ -41,7 +41,7 @@ typedef struct name_info {
       names */
     char Ilk; /* used by identifiers in \.{CWEAVE} only */
   } dummy;
-  char *equiv_or_xref; /* info corresponding to names */
+  void *equiv_or_xref; /* info corresponding to names */
 } name_info; /* contains information about an identifier or section name */
 typedef name_info *name_pointer; /* pointer into array of \&{name\_info}s */
 typedef name_pointer *hash_pointer;
@@ -54,9 +54,16 @@ extern char *byte_ptr; /* first unused position in |byte_mem| */
 extern name_pointer hash[]; /* heads of hash lists */
 extern hash_pointer hash_end; /* end of |hash| */
 extern hash_pointer h; /* index into hash-head array */
-extern name_pointer id_lookup(); /* looks up a string in the identifier table */
-extern name_pointer section_lookup(); /* finds section name */
-extern void print_section_name(), sprint_section_name();
+extern boolean names_match(name_pointer,const char *,size_t,eight_bits);@/
+extern name_pointer id_lookup(const char *,const char *,char);
+   /* looks up a string in the identifier table */
+extern name_pointer prefix_lookup(char *,char *); /* finds section name given a prefix */
+extern name_pointer section_lookup(char *,char *,int); /* finds section name */
+extern void init_node(name_pointer);@/
+extern void init_p(name_pointer,eight_bits);@/
+extern void print_prefix_name(name_pointer);@/
+extern void print_section_name(name_pointer);@/
+extern void sprint_section_name(char *,name_pointer);@/
 @y
 @d chunk_marker 0
 
@@ -125,42 +132,14 @@ xref_pointer xmem_end;
 
 
 @x Section 20.
-xref_ptr=xmem; name_dir->xref=(char*)xmem; xref_switch=0; section_xref_switch=0;
+xref_ptr=xmem; init_node(name_dir); xref_switch=0; section_xref_switch=0;
 xmem->num=0; /* sentinel value */
 @y
 xmem_end = xmem + max_refs - 1;
-xref_ptr=xmem; name_dir->xref=(char*)xmem; xref_switch=0; section_xref_switch=0;
+xref_ptr=xmem; init_node(name_dir); xref_switch=0; section_xref_switch=0;
 xmem->num=0; /* sentinel value */
 @z
 
-
-@x Section 21.
-  append_xref(m); xref_ptr->xlink=q; p->xref=(char*)xref_ptr;
-@y
-  append_xref(m); xref_ptr->xlink=q; p->xref=(char huge*)xref_ptr;
-@z
-
-
-@x Section 22.
-  if (r==xmem) p->xref=(char*)xref_ptr;
-@y
-  if (r==xmem) p->xref=(char huge*)xref_ptr;
-@z
-
-
-@x Section 23.
-  q=(xref_pointer)p->xref;
-  if (q->num==file_flag) return;
-  append_xref(file_flag);
-  xref_ptr->xlink = q;
-  p->xref = (char *)xref_ptr;
-@y
-  q=(xref_pointer)p->xref;
-  if (q->num==file_flag) return;
-  append_xref(file_flag);
-  xref_ptr->xlink = q;
-  p->xref = (char huge*)xref_ptr;
-@z
 
 @x Section 25. (to please Borland's C++, version 4.02)
 token tok_mem[max_toks]; /* tokens */
@@ -192,16 +171,9 @@ max_tok_ptr=tok_mem+1; max_text_ptr=tok_start+1;
 
 
 @x Section 27.
-  p->ilk=t; p->xref=(char*)xmem;
+  p->xref=(void *)xmem;
 @y
-  p->ilk=t; p->xref=(char huge*)xmem;
-@z
-
-
-@x Section 27.
-  p->xref=(char*)xmem;
-@y
-  p->xref=(char huge*)xmem;
+  p->xref=(void huge*)xmem;
 @z
 
 
@@ -211,7 +183,7 @@ max_tok_ptr=tok_mem+1; max_text_ptr=tok_start+1;
         for (q=(xref_pointer)lhs->xref;q>xmem;q=q->xlink)
           if (q->num<def_flag)
             if (r) r->xlink=q->xlink;
-            else lhs->xref=(char*)q->xlink;
+            else lhs->xref=(void *)q->xlink;
           else r=q;
       }
 @y
@@ -220,7 +192,7 @@ max_tok_ptr=tok_mem+1; max_text_ptr=tok_start+1;
         for (q=(xref_pointer)lhs->xref;q>xmem;q=q->xlink)
           if (q->num<def_flag)
             if (r) r->xlink=q->xlink;
-            else lhs->xref=(char huge*)q->xlink;
+            else lhs->xref=(void huge*)q->xlink;
           else r=q;
       }
 @z
@@ -237,32 +209,6 @@ max_tok_ptr=tok_mem+1; max_text_ptr=tok_start+1;
 @z
 
 
-@x Section 116.
-  append_xref(0); /* this number doesn't matter */
-  xref_ptr->xlink=(xref_pointer)p->xref; r=xref_ptr;
-  p->xref=(char*)xref_ptr;
-  while (r->xlink!=q) {r->num=r->xlink->num; r=r->xlink;}
-  r->num=m; /* everything from |q| on is left undisturbed */
-@y
-  append_xref(0); /* this number doesn't matter */
-  xref_ptr->xlink=(xref_pointer)p->xref; r=xref_ptr;
-  p->xref=(char huge*)xref_ptr;
-  while (r->xlink!=q) {r->num=r->xlink->num; r=r->xlink;}
-  r->num=m; /* everything from |q| on is left undisturbed */
-@z
-
-
-@x Section 163.
-@ @<Change |pp| to $\max...@>=
-@y
-@ @<Change |pp| to $\max...@>=
-#ifdef __MSDOS__
-if (d<0 && pp+d>pp) pp=scrap_base; /* segmented architecture caused wrap */
-else
-#endif
-@z
-
-
 @x Section 194.
   char *p; /* index into |byte_mem| */
 @y
@@ -271,9 +217,9 @@ else
 
 
 @x Section 229.
-    if (cur_name->xref!=(char*)xmem) {
+    if (cur_name->xref!=(void *)xmem) {
 @y
-    if (cur_name->xref!=(char huge*)xmem) {
+    if (cur_name->xref!=(void huge*)xmem) {
 @z
 
 
@@ -286,17 +232,17 @@ char huge* cur_byte; /* index into |byte_mem| */
 
 @x Section 241.
 switch (cur_name->ilk) {
-  case normal: if (is_tiny(cur_name)) out_str("\\|");
+  case normal: case func_template: if (is_tiny(cur_name)) out_str("\\|");
     else {char *j;
 @y
 switch (cur_name->ilk) {
-  case normal: if (is_tiny(cur_name)) out_str("\\|");
+  case normal: case func_template: if (is_tiny(cur_name)) out_str("\\|");
     else {char huge* j;
 @z
 
 
 @x Section 241.
-  case custom: case quoted: {char *j; out_str("$\\");
+  case custom: {char *j; out_str("$\\");
 @y
-  case custom: case quoted: {char huge* j; out_str("$\\");
+  case custom: {char huge* j; out_str("$\\");
 @z
