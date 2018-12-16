@@ -1246,7 +1246,8 @@ scanning the arguments; if additional flags are 1 by default they
 should be set before calling |common_init|.
 
 @<Set the default options common to \.{CTANGLE} and \.{CWEAVE}@>=
-show_banner=show_happiness=show_progress=1;
+show_banner=show_happiness=show_progress=true;@/
+show_stats=false;@/
 
 @ We now must look at the command line arguments and set the file names
 accordingly.  At least one file name must be present: the \.{CWEB}
@@ -1390,12 +1391,12 @@ FILE *active_file; /* currently active file for \.{CWEAVE} output */
 @ @<Scan arguments and open output files@>=
 scan_args();
 if (program==ctangle) {
-  if ((C_file=fopen(C_file_name,"w"))==NULL)
+  if ((C_file=fopen(C_file_name,"wb"))==NULL)
     fatal("! Cannot open output file ", C_file_name);
 @.Cannot open output file@>
 }
 else {
-  if ((tex_file=fopen(tex_file_name,"w"))==NULL)
+  if ((tex_file=fopen(tex_file_name,"wb"))==NULL)
     fatal("! Cannot open output file ", tex_file_name);
 }
 
