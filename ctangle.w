@@ -142,10 +142,6 @@ replacement text is called |tok_ptr|, and the first unused location of
 |text_info| is called |text_ptr|.  Thus we usually have the identity
 |text_ptr->tok_start==tok_ptr|.
 
-If your machine does not support |unsigned char| you should change
-the definition of \&{eight\_bits} to |unsigned short|.
-@^system dependencies@>
-
 @<Typed...@>=
 typedef struct {
   eight_bits *tok_start; /* pointer into |tok_mem| */
