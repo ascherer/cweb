@@ -106,7 +106,6 @@ char **av@t\2\2@>) /* argument values */
   phase_one(); /* read all the user's text and store the cross-references */
   phase_two(); /* read all the text again and translate it to \TEX/ form */
   phase_three(); /* output the cross-reference index */
-  if (0) print_text(text_ptr);
   return wrap_up(); /* and exit gracefully */
 }
 
@@ -2148,6 +2147,7 @@ translated without line-break controls.
 @d inner_tok_flag 5*id_flag /* signifies a token list in `\pb' */
 
 @c
+#if DEAD_CODE
 static void
 print_text(@t\1\1@> /* prints a token list for debugging; not used in |main| */
 text_pointer p@t\2\2@>)
@@ -2171,6 +2171,7 @@ text_pointer p@t\2\2@>)
   }
   update_terminal;
 }
+#endif /* |DEAD_CODE| */
 
 @ @<Print token |r|...@>=
 switch (r) {
@@ -4699,7 +4700,9 @@ static void out_section(sixteen_bits);@/
 static void out_str(const char *);@/
 static void pop_level(void);@/
 static void print_cat(eight_bits);@/
+#if DEAD_CODE
 static void print_text(text_pointer p);@/
+#endif /* |DEAD_CODE| */
 static void push_level(text_pointer);@/
 static void reduce(scrap_pointer,short,eight_bits,short,short);@/
 static void set_file_flag(name_pointer);@/
