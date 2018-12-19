@@ -359,9 +359,9 @@ token_pointer max_tok_ptr; /* largest value of |tok_ptr| */
 text_pointer max_text_ptr; /* largest value of |text_ptr| */
 
 @ @<Set init...@>=
-tok_ptr=tok_mem+1; text_ptr=tok_start+1; tok_start[0]=tok_mem+1;
-tok_start[1]=tok_mem+1;
-max_tok_ptr=tok_mem+1; max_text_ptr=tok_start+1;
+tok_ptr=max_tok_ptr=tok_mem+1;@/
+tok_start[0]=tok_start[1]=tok_mem+1;@/
+text_ptr=max_text_ptr=tok_start+1;
 
 @ Here are the three procedures needed to complete |id_lookup|:
 @c
