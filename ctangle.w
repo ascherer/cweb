@@ -919,7 +919,9 @@ get_next(void) /* produces the next input token */
     }
     loc++;
     if (xisdigit(c) || c=='.') @<Get a constant@>@;
-    else if (c=='\'' || c=='"' || (c=='L'&&(*loc=='\'' || *loc=='"')))
+    else if (c=='\'' || c=='"'@|
+           || ((c=='L' || c=='u' || c=='U')&&(*loc=='\'' || *loc=='"'))@|
+           || ((c=='u' && *loc=='8')&&(*(loc+1)=='\'' || *(loc+1)=='"')))
         @<Get a string@>@;
     else if (isalpha(c) || isxalpha(c) || ishigh(c))
       @<Get an identifier@>@;
@@ -1005,7 +1007,8 @@ convention, but do not allow the string to be longer than |longest_name|.
   char delim = c; /* what started the string */
   id_first = section_text+1;
   id_loc = section_text; *++id_loc=delim;
-  if (delim=='L') { /* wide character constant */
+  if (delim=='L' || delim=='u' || delim=='U') { /* wide character constant */
+    if (delim=='u' && *loc=='8') { *++id_loc=*loc++; }
     delim=*loc++; *++id_loc=delim;
   }
   while (1) {
