@@ -135,7 +135,7 @@
 
 #define isxalpha(c) ((c) =='_'||(c) =='$')  \
 
-#define ishigh(c) ((unsigned char) (c) > 0177)  \
+#define ishigh(c) ((eight_bits) (c) > 0177)  \
  \
 
 #define compress(c) if(loc++<=limit) return(c)  \
@@ -457,7 +457,7 @@ cur_out_file= end_output_files= output_files+max_files;
 
 {
 int i;
-for(i= 0;i<128;i++)sprintf(translit[i],"X%02X",(unsigned)(128+i));
+for(i= 0;i<128;i++)sprintf(translit[i],"X%02X",(unsigned int)(128+i));
 }
 
 /*:52*//*57:*/
@@ -763,9 +763,9 @@ if(out_state==num_or_id)C_putc(' ');
 j= (cur_val+name_dir)->byte_start;
 k= (cur_val+name_dir+1)->byte_start;
 while(j<k){
-if((unsigned char)(*j)<0200)C_putc(*j);
+if((eight_bits)(*j)<0200)C_putc(*j);
 
-else C_printf("%s",translit[(unsigned char)(*j)-0200]);
+else C_printf("%s",translit[(eight_bits)(*j)-0200]);
 j++;
 }
 out_state= num_or_id;break;
@@ -1552,7 +1552,7 @@ if(loc> limit||!xisxdigit(*(loc-3))||!xisxdigit(*(loc-2))
 err_print("! Improper hex number following @l");
 
 else{
-unsigned i;
+unsigned int i;
 char*beg;
 sscanf(loc-3,"%x",&i);
 while(xisspace(*loc)&&loc<limit)loc++;

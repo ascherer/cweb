@@ -693,8 +693,8 @@ character codes is $c_1c_2\ldots c_n$, its hash value will be
 $$(2^{n-1}c_1+2^{n-2}c_2+\cdots+c_n)\,\bmod\,|hash_size|.$$
 
 @<Compute the hash...@>=
-h=(unsigned char)*i;
-while (++i<last) h=(h+h+(int)((unsigned char)*i)) % hash_size;
+h=(eight_bits)*i;
+while (++i<last) h=(h+h+(int)((eight_bits)*i)) % hash_size;
 @^high-bit character handling@>
 
 @ If the identifier is new, it will be placed in position |p=name_ptr|,
@@ -768,8 +768,8 @@ to additional chunks in the same way. Null links are represented by
 |name_dir|.
 
 @d first_chunk(p)  ((p)->byte_start+2)
-@d prefix_length(p) (int)((unsigned char)*((p)->byte_start)*256 +
-                (unsigned char)*((p)->byte_start+1))
+@d prefix_length(p) (int)((eight_bits)*((p)->byte_start)*256 +
+                (eight_bits)*((p)->byte_start+1))
 @d set_prefix_length(p,m) (*((p)->byte_start)=(m)/256,
                  *((p)->byte_start+1)=(m)%256)
 

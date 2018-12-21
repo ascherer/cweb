@@ -710,7 +710,7 @@ char translit[128][translit_length];
 @ @<Set init...@>=
 {
   int i;
-  for (i=0;i<128;i++) sprintf(translit[i],"X%02X",(unsigned)(128+i));
+  for (i=0;i<128;i++) sprintf(translit[i],"X%02X",(unsigned int)(128+i));
 }
 
 @ @<Case of an identifier@>=
@@ -719,9 +719,9 @@ case identifier:
   j=(cur_val+name_dir)->byte_start;
   k=(cur_val+name_dir+1)->byte_start;
   while (j<k) {
-    if ((unsigned char)(*j)<0200) C_putc(*j);
+    if ((eight_bits)(*j)<0200) C_putc(*j);
 @^high-bit character handling@>
-    else C_printf("%s",translit[(unsigned char)(*j)-0200]);
+    else C_printf("%s",translit[(eight_bits)(*j)-0200]);
     j++;
   }
   out_state=num_or_id; break;
@@ -891,7 +891,7 @@ that branches to the various special cases that can arise.
 
 @d isxalpha(c) ((c)=='_' || (c)=='$') 
   /* non-alpha characters allowed in identifier */
-@d ishigh(c) ((unsigned char)(c)>0177)
+@d ishigh(c) ((eight_bits)(c)>0177)
 @^high-bit character handling@>
 
 @c
@@ -1513,7 +1513,7 @@ skip_limbo(void)
     err_print("! Improper hex number following @@l");
 @.Improper hex number...@>
   else {
-    unsigned i;
+    unsigned int i;
     char *beg;
     sscanf(loc-3,"%x",&i);
     while(xisspace(*loc)&&loc<limit) loc++;

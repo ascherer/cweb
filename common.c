@@ -92,8 +92,8 @@ err_print("! Include file name too long") ;goto restart;} \
  \
 
 #define first_chunk(p) ((p) ->byte_start+2) 
-#define prefix_length(p) (int) ((unsigned char) *((p) ->byte_start) *256+ \
-(unsigned char) *((p) ->byte_start+1) ) 
+#define prefix_length(p) (int) ((eight_bits) *((p) ->byte_start) *256+ \
+(eight_bits) *((p) ->byte_start+1) ) 
 #define set_prefix_length(p,m) (*((p) ->byte_start) = (m) /256, \
 *((p) ->byte_start+1) = (m) %256)  \
 
@@ -731,8 +731,8 @@ l= (int)(last-first);
 /*36:*/
 #line 695 "common.w"
 
-h= (unsigned char)*i;
-while(++i<last)h= (h+h+(int)((unsigned char)*i))%hash_size;
+h= (eight_bits)*i;
+while(++i<last)h= (h+h+(int)((eight_bits)*i))%hash_size;
 
 
 /*:36*/

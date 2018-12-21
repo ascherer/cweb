@@ -2186,7 +2186,7 @@ switch (r) {
   case force: printf("[force]"); break;
   case big_force: printf("[fforce]"); break;
   case preproc_line: printf("[preproc]"); break;
-  case quoted_char: j++; printf("[%o]",(unsigned)*j); break;
+  case quoted_char: j++; printf("[%o]",(unsigned int)*j); break;
   case end_translation: printf("[quit]"); break;
   case inserted: printf("[inserted]"); break;
   default: putxchar(r);
