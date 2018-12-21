@@ -134,7 +134,7 @@ A \&{text} variable is a structure containing a pointer into
 |tok_mem|, which tells where the corresponding text starts, and an
 integer |text_link|, which, as we shall see later, is used to connect
 pieces of text that have the same name.  All the \&{text}s are stored in
-the array |text_info|, and we use a |text_pointer| variable to refer
+the array |text_info|, and we use a \&{text\_pointer} variable to refer
 to them.
 
 The first position of |tok_mem| that is unoccupied by
@@ -676,22 +676,22 @@ restart:
 }
 
 @ @<Cases like \.{!=}@>=
-case plus_plus: C_putc('+'); C_putc('+'); out_state=normal; break;
-case minus_minus: C_putc('-'); C_putc('-'); out_state=normal; break;
-case minus_gt: C_putc('-'); C_putc('>'); out_state=normal; break;
-case gt_gt: C_putc('>'); C_putc('>'); out_state=normal; break;
-case eq_eq: C_putc('='); C_putc('='); out_state=normal; break;
-case lt_lt: C_putc('<'); C_putc('<'); out_state=normal; break;
-case gt_eq: C_putc('>'); C_putc('='); out_state=normal; break;
-case lt_eq: C_putc('<'); C_putc('='); out_state=normal; break;
-case non_eq: C_putc('!'); C_putc('='); out_state=normal; break;
-case and_and: C_putc('&'); C_putc('&'); out_state=normal; break;
-case or_or: C_putc('|'); C_putc('|'); out_state=normal; break;
-case dot_dot_dot: C_putc('.'); C_putc('.'); C_putc('.'); out_state=normal;
+case plus_plus: C_putc('+');@+C_putc('+'); out_state=normal; break;
+case minus_minus: C_putc('-');@+C_putc('-'); out_state=normal; break;
+case minus_gt: C_putc('-');@+C_putc('>'); out_state=normal; break;
+case gt_gt: C_putc('>');@+C_putc('>'); out_state=normal; break;
+case eq_eq: C_putc('=');@+C_putc('='); out_state=normal; break;
+case lt_lt: C_putc('<');@+C_putc('<'); out_state=normal; break;
+case gt_eq: C_putc('>');@+C_putc('='); out_state=normal; break;
+case lt_eq: C_putc('<');@+C_putc('='); out_state=normal; break;
+case non_eq: C_putc('!');@+C_putc('='); out_state=normal; break;
+case and_and: C_putc('&');@+C_putc('&'); out_state=normal; break;
+case or_or: C_putc('|');@+C_putc('|'); out_state=normal; break;
+case dot_dot_dot: C_putc('.');@+C_putc('.');@+C_putc('.'); out_state=normal;
     break;
-case colon_colon: C_putc(':'); C_putc(':'); out_state=normal; break;
-case period_ast: C_putc('.'); C_putc('*'); out_state=normal; break;
-case minus_gt_ast: C_putc('-'); C_putc('>'); C_putc('*'); out_state=normal;
+case colon_colon: C_putc(':');@+C_putc(':'); out_state=normal; break;
+case period_ast: C_putc('.');@+C_putc('*'); out_state=normal; break;
+case minus_gt_ast: C_putc('-');@+C_putc('>');@+C_putc('*'); out_state=normal;
     break;
 
 @ When an identifier is output to the \CEE/ file, characters in the
