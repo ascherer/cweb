@@ -15,7 +15,9 @@ int main(void)
     char s2[] = u8"a猫🍌";
     char16_t s3[] = u"a猫🍌";
     char32_t s4[] = U"a猫🍌";
-    wchar_t s5[] = L"a猫🍌";
+    wchar_t s5[] = L"a\
+猫\
+🍌";
      
     setlocale(LC_ALL, "en_US.utf8");
     printf("  \"%s\" is a char[%zu] holding { ", s1, sizeof s1 / sizeof *s1);
