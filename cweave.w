@@ -335,8 +335,8 @@ name_pointer p)
 @ A third large area of memory is used for sixteen-bit `tokens', which appear
 in short lists similar to the strings of characters in |byte_mem|. Token lists
 are used to contain the result of \CEE/ code translated into \TEX/ form;
-further details about them will be explained later. A |text_pointer| variable
-is an index into |tok_start|.
+further details about them will be explained later. A \&{text\_pointer}
+variable is an index into |tok_start|.
 
 @<Typed...@>=
 typedef sixteen_bits token;
