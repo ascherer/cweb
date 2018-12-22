@@ -1315,7 +1315,7 @@ int out_line; /* number of next line to be output */
 
 @ The |flush_buffer| routine empties the buffer up to a given breakpoint,
 and moves any remaining characters to the beginning of the next line.
-If the |per_cent| parameter is 1 a |'%'| is appended to the line
+If the |per_cent| parameter is 1, a |'%'| is appended to the line
 that is being output; in this case the breakpoint |b| should be strictly
 less than |out_buf_end|. If the |per_cent| parameter is |0|,
 trailing blanks are suppressed.
