@@ -2329,11 +2329,11 @@ code needs to be provided with a proper environment.
 @d lhs_not_simple (pp->cat!=public_like
         && pp->cat!=semi 
         && pp->cat!=prelangle
-        && pp->cat!=prerangle
+        && pp->cat!=prerangle @|
         && pp->cat!=template_like
         && pp->cat!=new_like
         && pp->cat!=new_exp
-        && pp->cat!=ftemplate
+        && pp->cat!=ftemplate @|
         && pp->cat!=raw_ubin
         && pp->cat!=const_like
         && pp->cat!=raw_int
