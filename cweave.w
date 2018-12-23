@@ -3230,70 +3230,71 @@ switch (next_control) {
     app(section_flag+(int)(cur_section-name_dir));
     app_scrap(section_scrap,maybe_math);
     app_scrap(exp,yes_math);@+break;
-  case string: case constant: case verbatim: @<Append a string or constant@>@;
-   @+break;
+  case string: case constant: case verbatim:
+    @<Append a string or constant@>@;@+break;
   case identifier: app_cur_id(1);@+break;
-  case TeX_string: @<Append a \TEX/ string, without forming a scrap@>@;@+break;
+  case TeX_string:
+    @<Append a \TEX/ string, without forming a scrap@>@;@+break;
   case '/': case '.':
-    app(next_control); app_scrap(binop,yes_math);@+break;
+    app(next_control);@+app_scrap(binop,yes_math);@+break;
   case '<': app_str("\\langle");@+app_scrap(prelangle,yes_math);@+break;
 @.\\langle@>
   case '>': app_str("\\rangle");@+app_scrap(prerangle,yes_math);@+break;
 @.\\rangle@>
-  case '=': app_str("\\K"); app_scrap(binop,yes_math);@+break;
+  case '=': app_str("\\K");@+app_scrap(binop,yes_math);@+break;
 @.\\K@>
-  case '|': app_str("\\OR"); app_scrap(binop,yes_math);@+break;
+  case '|': app_str("\\OR");@+app_scrap(binop,yes_math);@+break;
 @.\\OR@>
-  case '^': app_str("\\XOR"); app_scrap(binop,yes_math);@+break;
+  case '^': app_str("\\XOR");@+app_scrap(binop,yes_math);@+break;
 @.\\XOR@>
-  case '%': app_str("\\MOD"); app_scrap(binop,yes_math);@+break;
+  case '%': app_str("\\MOD");@+app_scrap(binop,yes_math);@+break;
 @.\\MOD@>
-  case '!': app_str("\\R"); app_scrap(unop,yes_math);@+break;
+  case '!': app_str("\\R");@+app_scrap(unop,yes_math);@+break;
 @.\\R@>
-  case '~': app_str("\\CM"); app_scrap(unop,yes_math);@+break;
+  case '~': app_str("\\CM");@+app_scrap(unop,yes_math);@+break;
 @.\\CM@>
-  case '+': case '-': app(next_control); app_scrap(ubinop,yes_math);@+break;
-  case '*': app(next_control); app_scrap(raw_ubin,yes_math);@+break;
-  case '&': app_str("\\AND"); app_scrap(raw_ubin,yes_math);@+break;
+  case '+': case '-': app(next_control);@+app_scrap(ubinop,yes_math);@+break;
+  case '*': app(next_control);@+app_scrap(raw_ubin,yes_math);@+break;
+  case '&': app_str("\\AND");@+app_scrap(raw_ubin,yes_math);@+break;
 @.\\AND@>
-  case '?': app_str("\\?"); app_scrap(question,yes_math);@+break;
+  case '?': app_str("\\?");@+app_scrap(question,yes_math);@+break;
 @.\\?@>
-  case '#': app_str("\\#"); app_scrap(ubinop,yes_math);@+break;
+  case '#': app_str("\\#");@+app_scrap(ubinop,yes_math);@+break;
 @.\\\#@>
   case ignore: case xref_roman: case xref_wildcard:
   case xref_typewriter: case noop:@+break;
-  case '(': case '[': app(next_control); app_scrap(lpar,maybe_math);@+break;
-  case ')': case ']': app(next_control); app_scrap(rpar,maybe_math);@+break;
-  case '{': app_str("\\{"@q}@>); app_scrap(lbrace,yes_math);@+break;
+  case '(': case '[': app(next_control);@+app_scrap(lpar,maybe_math);@+break;
+  case ')': case ']': app(next_control);@+app_scrap(rpar,maybe_math);@+break;
+  case '{': app_str("\\{"@q}@>);@+app_scrap(lbrace,yes_math);@+break;
 @.\\\{@>@q}@>
-  case '}': app_str(@q{@>"\\}"); app_scrap(rbrace,yes_math);@+break;
+  case '}': app_str(@q{@>"\\}");@+app_scrap(rbrace,yes_math);@+break;
 @q{@>@.\\\}@>
-  case ',': app(','); app_scrap(comma,yes_math);@+break;
-  case ';': app(';'); app_scrap(semi,maybe_math);@+break;
-  case ':': app(':'); app_scrap(colon,no_math);@+break;@/
+  case ',': app(',');@+app_scrap(comma,yes_math);@+break;
+  case ';': app(';');@+app_scrap(semi,maybe_math);@+break;
+  case ':': app(':');@+app_scrap(colon,no_math);@+break;@/
   @t\4@>  @<Cases involving nonstandard characters@>@;
-  case thin_space: app_str("\\,"); app_scrap(insert,maybe_math);@+break;
+  case thin_space: app_str("\\,");@+app_scrap(insert,maybe_math);@+break;
 @.\\,@>
-  case math_break: app(opt); app_str("0");
+  case math_break: app(opt);@+app_str("0");@+
     app_scrap(insert,maybe_math);@+break;
-  case line_break: app(force); app_scrap(insert,no_math);@+break;
-  case left_preproc: app(force); app(preproc_line);
-    app_str("\\#"); app_scrap(lproc,no_math);@+break;
+  case line_break: app(force);@+app_scrap(insert,no_math);@+break;
+  case left_preproc: app(force);@+app(preproc_line);@+app_str("\\#");
+    app_scrap(lproc,no_math);@+break;
 @.\\\#@>
-  case right_preproc: app(force); app_scrap(rproc,no_math);@+break;
-  case big_line_break: app(big_force); app_scrap(insert,no_math);@+break;
-  case no_line_break: app(big_cancel); app(noop); app(break_space);
-    app(noop); app(big_cancel);
+  case right_preproc: app(force);@+app_scrap(rproc,no_math);@+break;
+  case big_line_break: app(big_force);@+app_scrap(insert,no_math);@+break;
+  case no_line_break: app(big_cancel);@+app(noop);@+app(break_space);@+
+    app(noop);@+app(big_cancel);
     app_scrap(insert,no_math);@+break;
   case pseudo_semi: app_scrap(semi,maybe_math);@+break;
   case macro_arg_open: app_scrap(begin_arg,maybe_math);@+break;
   case macro_arg_close: app_scrap(end_arg,maybe_math);@+break;
-  case join: app_str("\\J"); app_scrap(insert,no_math);@+break;
+  case join: app_str("\\J");@+app_scrap(insert,no_math);@+break;
 @.\\J@>
-  case output_defs_code: app(force); app_str("\\ATH"); app(force);
+  case output_defs_code: app(force);@+app_str("\\ATH");@+app(force);
     app_scrap(insert,no_math);@+break;
 @.\\ATH@>
-  default: app(inserted); app(next_control);
+  default: app(inserted);@+app(next_control);
     app_scrap(insert,maybe_math);@+break;
 }
 
