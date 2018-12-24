@@ -1724,11 +1724,9 @@ same initial letter; these subscripts are assigned from left to right.
 
 @<Glo...@>=
 char cat_name[256][12];
-eight_bits cat_index;
 
 @ @<Set in...@>=
-    for (cat_index=0;cat_index<255;cat_index++)
-      strcpy(cat_name[cat_index],"UNKNOWN");
+{int c; for (c=0;c<256;c++) strcpy(cat_name[c],"UNKNOWN");}
 @.UNKNOWN@>
     strcpy(cat_name[exp],"exp");
     strcpy(cat_name[unop],"unop");
