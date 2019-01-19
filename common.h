@@ -33,7 +33,7 @@ First comes general stuff:
 @d ctangle 0
 @d cweave 1
 
-@<Common code for \.{CWEAVE} and \.{CTANGLE}@>=
+@<Definitions that should agree...@>=
 typedef bool boolean;
 typedef uint8_t eight_bits;
 typedef uint16_t sixteen_bits;
@@ -44,6 +44,7 @@ extern int phase; /* which phase are we in? */
 #include <stdio.h>
 #include <stdbool.h>
 #include <stdint.h>
+#include <string.h>
 
 @ Code related to the character set:
 @^ASCII code dependencies@>
@@ -64,14 +65,13 @@ extern int phase; /* which phase are we in? */
 @d period_ast 026 /* `\.{.*}'\,;  corresponds to MIT's {\tentex\char'26} */
 @d minus_gt_ast 027 /* `\.{->*}'\,;  corresponds to MIT's {\tentex\char'27} */
 
-@<Common code...@>=
-char section_text[longest_name+1]; /* name being sought for */
-char *section_text_end = section_text+longest_name; /* end of |section_text| */
-char *id_first; /* where the current identifier begins in the buffer */
-char *id_loc; /* just after the current identifier in the buffer */
+@<Definitions that should agree...@>=
+extern char section_text[]; /* name being sought for */
+extern char *section_text_end; /* end of |section_text| */
+extern char *id_first; /* where the current identifier begins in the buffer */
+extern char *id_loc; /* just after the current identifier in the buffer */
 
 @ Code related to input routines:
-
 @d xisalpha(c) (isalpha((eight_bits)c)&&((eight_bits)c<0200))
 @d xisdigit(c) (isdigit((eight_bits)c)&&((eight_bits)c<0200))
 @d xisspace(c) (isspace((eight_bits)c)&&((eight_bits)c<0200))
@@ -79,7 +79,7 @@ char *id_loc; /* just after the current identifier in the buffer */
 @d xisupper(c) (isupper((eight_bits)c)&&((eight_bits)c<0200))
 @d xisxdigit(c) (isxdigit((eight_bits)c)&&((eight_bits)c<0200))
 
-@<Common code...@>=
+@<Definitions that should agree...@>=
 extern char buffer[]; /* where each line of input goes */
 extern char *buffer_end; /* end of |buffer| */
 extern char *loc; /* points to the next character to be read from the buffer*/
@@ -94,7 +94,7 @@ extern char *limit; /* points to the last character in the buffer */
   for section names */
 @d chunk_marker 0
 
-@<Common code...@>=
+@<Definitions that should agree...@>=
 typedef struct name_info {
   char *byte_start; /* beginning of the name in |byte_mem| */
   struct name_info *link;
@@ -116,6 +116,8 @@ extern char *byte_ptr; /* first unused position in |byte_mem| */
 extern name_pointer hash[]; /* heads of hash lists */
 extern hash_pointer hash_end; /* end of |hash| */
 extern hash_pointer h; /* index into hash-head array */
+
+@ @<Predecl...@>=
 extern boolean names_match(name_pointer,const char *,size_t,eight_bits);@/
 extern name_pointer id_lookup(const char *,const char *,char);
    /* looks up a string in the identifier table */
@@ -135,9 +137,12 @@ extern void sprint_section_name(char *,name_pointer);@/
 @d mark_harmless {if (history==spotless) history=harmless_message;}
 @d mark_error history=error_message
 @d confusion(s) fatal("! This can't happen: ",s)
+@.This can't happen@>
 
-@<Common...@>=
+@<Definitions that should agree...@>=
 extern int history; /* indicates how bad this run was */
+
+@ @<Predecl...@>=
 extern int wrap_up(void); /* indicate |history| and exit */
 extern void err_print(const char *); /* print error message and context */
 extern void fatal(const char *,const char *); /* issue error message and die */
@@ -151,7 +156,7 @@ extern void overflow(const char *); /* succumb because a table has overflowed */
 @d web_file_name file_name[0] /* main source file name */
 @d cur_line line[include_depth] /* number of current line in current file */
 
-@<Common code...@>=
+@<Definitions that should agree...@>=
 extern int include_depth; /* current level of nesting */
 extern FILE *file[]; /* stack of non-change files */
 extern FILE *change_file; /* change file */
@@ -168,12 +173,14 @@ extern int change_depth; /* where \.{@@y} originated during a change */
 extern boolean input_has_ended; /* if there is no more input */
 extern boolean changing; /* if the current line is from |change_file| */
 extern boolean web_file_open; /* if the web file is being read */
+
+@ @<Predecl...@>=
 extern boolean get_line(void); /* inputs the next line */
 extern void check_complete(void); /* checks that all changes were picked up */
 extern void reset_input(void); /* initialize to read the web file and change file */
 
 @ Code related to section numbers:
-@<Common code...@>=
+@<Definitions that should agree...@>=
 extern sixteen_bits section_count; /* the current section number */
 extern boolean changed_section[]; /* is the section changed? */
 extern boolean change_pending; /* is a decision about change still unclear? */
@@ -182,9 +189,10 @@ extern boolean print_where; /* tells \.{CTANGLE} to print line and file info */
 @ Code related to command line arguments:
 @d show_banner flags['b'] /* should the banner line be printed? */
 @d show_progress flags['p'] /* should progress reports be printed? */
+@d show_stats flags['s'] /* should statistics be printed at end of run? */
 @d show_happiness flags['h'] /* should lack of errors be announced? */
 
-@<Common code...@>=
+@<Definitions that should agree...@>=
 extern int argc; /* copy of |ac| parameter to |main| */
 extern char **argv; /* copy of |av| parameter to |main| */
 extern boolean flags[]; /* an option for each 7-bit code */
@@ -196,7 +204,7 @@ extern boolean flags[]; /* an option for each 7-bit code */
 @d C_printf(c,a) fprintf(C_file,c,a)
 @d C_putc(c) putc(c,C_file)
 
-@<Common code...@>=
+@<Definitions that should agree...@>=
 extern FILE *C_file; /* where output of \.{CTANGLE} goes */
 extern FILE *tex_file; /* where output of \.{CWEAVE} goes */
 extern FILE *idx_file; /* where index from \.{CWEAVE} goes */
@@ -204,7 +212,23 @@ extern FILE *scn_file; /* where list of sections from \.{CWEAVE} goes */
 extern FILE *active_file; /* currently active file for \.{CWEAVE} output */
 
 @ The procedure that gets everything rolling:
-
-@<Common code...@>=
+@<Predecl...@>=
 extern void common_init(void);@/
 extern void print_stats(void);@/
+
+@ The following parameters were sufficient in the original \.{WEB} to
+handle \TEX/, so they should be sufficient for most applications of
+\.{CWEB}.
+
+@d max_bytes 1000000 /* the number of bytes in identifiers,
+  index entries, and section names; used in |"common.w"| */
+@d max_toks 1000000 /* number of bytes in compressed \CEE/ code */
+@d max_names 10239 /* number of identifiers, strings, section names;
+  must be less than 10240; used in |"common.w"| */
+@d max_texts 10239 /* number of replacement texts, must be less than 10240 */
+@d hash_size 8501 /* should be prime; used in |"common.w"| */
+@d longest_name 10000 /* section names and strings shouldn't be longer than this */
+@d stack_size 50 /* number of simultaneous levels of macro expansion */
+@d buf_size 1000 /* for \.{CWEAVE} and \.{CTANGLE} */
+
+@ End of interface.

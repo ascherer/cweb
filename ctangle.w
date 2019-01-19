@@ -66,17 +66,10 @@ is modified.
 @c
 @<Include files@>@/
 @h
-@<Common code for \.{CWEAVE} and \.{CTANGLE}@>@/
+@<Definitions that should agree with \.{CTANGLE} and \.{CWEAVE}@>@/
 @<Typedef declarations@>@/
 @<Global variables@>@/
 @<Predeclaration of procedures@>@/
-
-@ For string handling we include the system header file instead of
-predeclaring the standard system functions |strlen|, |strcmp|, |strcpy|,
-|strncmp|, and |strncpy|.
-
-@<Include files@>=
-#include <string.h>
 
 @ \.{CTANGLE} has a fairly straightforward outline.  It operates in
 two phases: First it reads the source file, saving the \CEE/ code in
@@ -99,23 +92,6 @@ char **av)
   phase_two(); /* output the contents of the compressed tables */
   return wrap_up(); /* and exit gracefully */
 }
-
-@ The following parameters were sufficient in the original \.{TANGLE} to
-handle \TEX/,
-so they should be sufficient for most applications of \.{CTANGLE}.
-If you change |max_bytes|, |max_names|, or |hash_size| you should also
-change them in the file |"common.w"|.
-
-@d max_bytes 1000000 /* the number of bytes in identifiers,
-  index entries, and section names; used in |"common.w"| */
-@d max_toks 1000000 /* number of bytes in compressed \CEE/ code */
-@d max_names 10239 /* number of identifiers, strings, section names;
-  must be less than 10240; used in |"common.w"| */
-@d max_texts 10239 /* number of replacement texts, must be less than 10240 */
-@d hash_size 8501 /* should be prime; used in |"common.w"| */
-@d longest_name 10000 /* section names and strings shouldn't be longer than this */
-@d stack_size 50 /* number of simultaneous levels of macro expansion */
-@d buf_size 1000 /* for \.{CWEAVE} and \.{CTANGLE} */
 
 @ The next few sections contain stuff from the file |"common.w"| that must
 be included in both |"ctangle.w"| and |"cweave.w"|. It appears in

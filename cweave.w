@@ -76,13 +76,6 @@ is modified.
 @<Global variables@>@/
 @<Predeclaration of procedures@>
 
-@ For string handling we include the system header file instead of
-predeclaring the standard system functions |strlen|, |strcmp|, |strcpy|,
-|strncmp|, and |strncpy|.
-
-@<Include files@>=
-#include <string.h>
-
 @ \.{CWEAVE} has a fairly straightforward outline.  It operates in
 three phases: First it inputs the source file and stores cross-reference
 data, then it inputs the source once again and produces the \TEX/ output
