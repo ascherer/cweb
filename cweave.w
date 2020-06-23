@@ -1515,7 +1515,7 @@ way. It returns the next control code or `\.{\v}' found in the input.
 We don't copy spaces or tab marks into the beginning of a line. This
 makes the test for empty lines in |finish_line| work.
 
-@ @f copy_TeX TeX
+@f copy_TeX TeX
 @c
 eight_bits
 copy_TeX()
@@ -4401,7 +4401,7 @@ present; the lists are output in reverse order (first |sort_ptr|, then
 |k| characters of all entries on this list are known to be equal we have
 |depth[j]==k|.
 
-@ @<Rest of |trans_plus| union@>=
+@<Rest of |trans_plus| union@>=
 name_pointer Head;
 
 @ @d depth cat /* reclaims memory that is no longer needed for parsing */

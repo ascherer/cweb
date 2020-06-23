@@ -174,7 +174,7 @@ replacement text, an element of the array |text_info|.
 
 @d equiv equiv_or_xref /* info corresponding to names */
 
-@ @<Set init...@>=
+@<Set init...@>=
 name_dir->equiv=(char *)text_info; /* the undefined section has no replacement text */
 
 @ Here's the procedure that decides whether a name of length |l|
