@@ -71,7 +71,7 @@ is modified.
 
 @c @<Include files@>@/
 @h
-@<Definitions that should agree...@>@/
+@<Definitions that should agree with \.{CTANGLE} and \.{CWEAVE}@>@/
 @<Typedef declarations@>@/
 @<Global variables@>@/
 @<Predeclaration of procedures@>
