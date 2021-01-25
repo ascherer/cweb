@@ -2,7 +2,7 @@
 #line 66 "./common.w"
 
 /*3:*/
-#line 43 "./common.h"
+#line 43 "common.h"
 
 #include <stdio.h> 
 #include <stdbool.h> 
@@ -96,7 +96,7 @@
 #define max_texts 10239
 #define hash_size 8501
 #define longest_name 10000
-#define stack_size 50
+#define stack_size 500
 #define buf_size 1000 \
 
 #define long_buf_size (buf_size+longest_name)  \
@@ -139,7 +139,7 @@ err_print("! Include file name too long") ;goto restart;} \
 #line 68 "./common.w"
 
 /*2:*/
-#line 36 "./common.h"
+#line 36 "common.h"
 
 typedef bool boolean;
 typedef uint8_t eight_bits;
@@ -148,7 +148,7 @@ extern boolean program;
 extern int phase;
 
 /*:2*//*4:*/
-#line 68 "./common.h"
+#line 68 "common.h"
 
 extern char section_text[];
 extern char*section_text_end;
@@ -156,7 +156,7 @@ extern char*id_first;
 extern char*id_loc;
 
 /*:4*//*5:*/
-#line 82 "./common.h"
+#line 82 "common.h"
 
 extern char buffer[];
 extern char*buffer_end;
@@ -164,7 +164,7 @@ extern char*loc;
 extern char*limit;
 
 /*:5*//*6:*/
-#line 97 "./common.h"
+#line 97 "common.h"
 
 typedef struct name_info{
 char*byte_start;
@@ -189,12 +189,12 @@ extern hash_pointer hash_end;
 extern hash_pointer h;
 
 /*:6*//*8:*/
-#line 142 "./common.h"
+#line 142 "common.h"
 
 extern int history;
 
 /*:8*//*10:*/
-#line 159 "./common.h"
+#line 159 "common.h"
 
 extern int include_depth;
 extern FILE*file[];
@@ -214,7 +214,7 @@ extern boolean changing;
 extern boolean web_file_open;
 
 /*:10*//*12:*/
-#line 183 "./common.h"
+#line 183 "common.h"
 
 extern sixteen_bits section_count;
 extern boolean changed_section[];
@@ -222,14 +222,14 @@ extern boolean change_pending;
 extern boolean print_where;
 
 /*:12*//*13:*/
-#line 195 "./common.h"
+#line 195 "common.h"
 
 extern int argc;
 extern char**argv;
 extern boolean flags[];
 
 /*:13*//*14:*/
-#line 207 "./common.h"
+#line 207 "common.h"
 
 extern FILE*C_file;
 extern FILE*tex_file;
@@ -347,7 +347,7 @@ char*change_limit;
 #line 70 "./common.w"
 
 /*7:*/
-#line 120 "./common.h"
+#line 120 "common.h"
 
 extern boolean names_match(name_pointer,const char*,size_t,eight_bits);
 extern name_pointer id_lookup(const char*,const char*,char);
@@ -361,7 +361,7 @@ extern void print_section_name(name_pointer);
 extern void sprint_section_name(char*,name_pointer);
 
 /*:7*//*9:*/
-#line 145 "./common.h"
+#line 145 "common.h"
 
 extern int wrap_up(void);
 extern void err_print(const char*);
@@ -369,14 +369,14 @@ extern void fatal(const char*,const char*);
 extern void overflow(const char*);
 
 /*:9*//*11:*/
-#line 177 "./common.h"
+#line 177 "common.h"
 
 extern boolean get_line(void);
 extern void check_complete(void);
 extern void reset_input(void);
 
 /*:11*//*15:*/
-#line 215 "./common.h"
+#line 215 "common.h"
 
 extern void common_init(void);
 extern void print_stats(void);
