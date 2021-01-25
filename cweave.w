@@ -71,7 +71,7 @@ is modified.
 
 @c @<Include files@>@/
 @h
-@<Common code for \.{CWEAVE} and \.{CTANGLE}@>@/
+@<Definitions that should agree...@>@/
 @<Typedef declarations@>@/
 @<Global variables@>@/
 @<Predeclaration of procedures@>
@@ -119,12 +119,9 @@ you have to change them also in the file |"common.w"|.
 @d line_length 80 /* lines of \TEX/ output have at most this many characters;
   should be less than 256 */
 @d max_refs 65535 /* number of cross-references; must be less than 65536 */
-@d max_toks 65535 /* number of symbols in \CEE/ texts being parsed;
-  must be less than 65536 */
 @d max_texts 10239 /* number of phrases in \CEE/ texts being parsed;
   must be less than 10240 */
 @d max_scraps 10000 /* number of tokens in \CEE/ texts being parsed */
-@d stack_size 400 /* number of simultaneous output levels */
 
 @ The next few sections contain stuff from the file |"common.w"| that must
 be included in both |"ctangle.w"| and |"cweave.w"|. It appears in
