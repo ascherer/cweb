@@ -553,7 +553,7 @@ for (an_output_file=end_output_files; an_output_file>cur_out_file;) {
     C_file=fopen(output_file_name,"wb");
     if (C_file ==0) fatal("! Cannot open output file ",output_file_name);
 @.Cannot open output file@>
-    printf("\n(%s)",output_file_name); update_terminal;
+    if (show_progress) { printf("\n(%s)",output_file_name); update_terminal; }
     cur_line=1;
     stack_ptr=stack+1;
     cur_name= (*an_output_file);
