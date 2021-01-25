@@ -228,7 +228,7 @@ handle \TEX/, so they should be sufficient for most applications of
 @d max_texts 10239 /* number of replacement texts, must be less than 10240 */
 @d hash_size 8501 /* should be prime; used in |"common.w"| */
 @d longest_name 10000 /* section names and strings shouldn't be longer than this */
-@d stack_size 50 /* number of simultaneous levels of macro expansion */
+@d stack_size 500 /* number of simultaneous levels of macro expansion */
 @d buf_size 1000 /* for \.{CWEAVE} and \.{CTANGLE} */
 
 @ End of interface.
