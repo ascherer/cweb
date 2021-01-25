@@ -1112,7 +1112,7 @@ concatenated to print the final error message.
 fatal(
   const char *s,const char *t)
 {
-  if (*s) fputs(s,stdout);
+  if (*s) err_print(s);
   err_print(t);
   history=fatal_message; exit(wrap_up());
 }
