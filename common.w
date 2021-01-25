@@ -669,7 +669,7 @@ if (p==NULL) {
   if (name_ptr>=name_dir_end) overflow("name");
   strncpy(byte_ptr,first,l);
   (++name_ptr)->byte_start=byte_ptr+=l;
-  if (program==cweave) init_p(p,t);
+  init_p(p,t);
 }
 
 @ The names of sections are stored in |byte_mem| together
