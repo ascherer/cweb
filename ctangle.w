@@ -2,7 +2,7 @@
 % This program by Silvio Levy and Donald E. Knuth
 % is based on a program by Knuth.
 % It is distributed WITHOUT ANY WARRANTY, express or implied.
-% Version 3.65 --- December 2018
+% Version 3.65 --- January 2021
 
 % Copyright (C) 1987,1990,1993,2000 Silvio Levy and Donald E. Knuth
 
@@ -95,7 +95,10 @@ char **av)
 
 @ The next few sections contain stuff from the file |"common.w"| that must
 be included in both |"ctangle.w"| and |"cweave.w"|. It appears in
-file |"common.h"|, which needs to be updated when |"common.w"| changes.
+file |"common.h"|, which is also included in |"common.w"| to propagate
+possible changes from this \.{COMMON} interface consistently.
+
+First comes general stuff:
 
 @i common.h
 
@@ -1524,9 +1527,8 @@ print_stats(void) {
           (long)(tok_ptr-tok_mem),(long)max_toks);
 }
 
-@* Function declarations.  Here are declarations of all functions in
-this code, as far as they are not already in |"common.h"|.  These are
-private to \.{CTANGLE}.
+@** Addendum.  Here are declarations of all functions in this code, as far as
+they are not already in |"common.h"|.  These are private to \.{CTANGLE}.
 
 @<Predecl...@>=
 static eight_bits get_next(void);@/

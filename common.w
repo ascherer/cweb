@@ -2,7 +2,7 @@
 % This program by Silvio Levy and Donald E. Knuth
 % is based on a program by Knuth.
 % It is distributed WITHOUT ANY WARRANTY, express or implied.
-% Version 3.65 --- December 2018
+% Version 3.65 --- January 2021
 
 % Copyright (C) 1987,1990,1993,2000 Silvio Levy and Donald E. Knuth
 
@@ -72,6 +72,8 @@ The file begins with a few basic definitions.
 
 @ The details will be filled in due course.  The interface of this module
 is included first.  It is also used by the main programs.
+
+First comes general stuff:
 
 @i common.h
 
@@ -1306,7 +1308,7 @@ else {
     fatal("! Cannot open output file ", tex_file_name);
 }
 
-@ The following functions are private to |"common.w"|.
+@** Addendum.  The following functions are private to |"common.w"|.
 
 @<Predecl...@>=
 static boolean input_ln(FILE *);@/

@@ -2,7 +2,7 @@
 % This program by Silvio Levy and Donald E. Knuth
 % is based on a program by Knuth.
 % It is distributed WITHOUT ANY WARRANTY, express or implied.
-% Version 3.65 --- December 2018 (works also with later versions)
+% Version 3.65 --- January 2021 (works also with later versions)
 
 % Copyright (C) 1987,1990,1993 Silvio Levy and Donald E. Knuth
 
@@ -22,13 +22,14 @@
 
 % The next few sections contain stuff from the file |"common.w"| that has
 % to be included in both |"ctangle.w"| and |"cweave.w"|. It appears in this
-% file |"common.h"|, which needs to be updated when |"common.w"| changes.
+% file |"common.h"|, which is also included in |"common.w"| to propagate
+% possible changes from this single source consistently.
+
+% First comes general stuff:
 
 @s boolean int
 @s uint8_t int
 @s uint16_t int
-
-First comes general stuff:
 
 @d ctangle 0
 @d cweave 1
@@ -231,4 +232,4 @@ handle \TEX/, so they should be sufficient for most applications of
 @d stack_size 500 /* number of simultaneous levels of macro expansion */
 @d buf_size 1000 /* for \.{CWEAVE} and \.{CTANGLE} */
 
-@ End of interface.
+@ End of \.{COMMON} interface.

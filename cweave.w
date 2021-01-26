@@ -2,7 +2,7 @@
 % This program by Silvio Levy and Donald E. Knuth
 % is based on a program by Knuth.
 % It is distributed WITHOUT ANY WARRANTY, express or implied.
-% Version 3.65 --- December 2018
+% Version 3.65 --- January 2021
 
 % Copyright (C) 1987,1990,1993,2000 Silvio Levy and Donald E. Knuth
 
@@ -102,6 +102,15 @@ char **av@t\2\2@>) /* argument values */
   return wrap_up(); /* and exit gracefully */
 }
 
+@ The next few sections contain stuff from the file |"common.w"| that must
+be included in both |"ctangle.w"| and |"cweave.w"|. It appears in
+file |"common.h"|, which is also included in |"common.w"| to propagate
+possible changes from this \.{COMMON} interface consistently.
+
+First comes general stuff:
+
+@i common.h
+
 @ The following parameters were sufficient in the original \.{WEAVE} to
 handle \TEX/, so they should be sufficient for most applications of \.{CWEAVE}.
 
@@ -113,12 +122,6 @@ handle \TEX/, so they should be sufficient for most applications of \.{CWEAVE}.
   must be less than 10240 */
 @d max_scraps 10000 /* number of tokens in \CEE/ texts being parsed */
 @d long_buf_size (buf_size+longest_name)
-
-@ The next few sections contain stuff from the file |"common.w"| that must
-be included in both |"ctangle.w"| and |"cweave.w"|. It appears in
-file |"common.h"|, which needs to be updated when |"common.w"| changes.
-
-@i common.h
 
 @* Data structures exclusive to {\tt CWEAVE}.
 As explained in \.{common.w}, the field of a |name_info| structure
@@ -4651,9 +4654,8 @@ print_stats(void) {
             (long)(max_sort_ptr-scrap_info),(long)max_scraps);
 }
 
-@* Function declarations.  Here are declarations of all functions in
-this code, as far as they are not already in |"common.h"|.  These are
-private to \.{CWEAVE}.
+@** Addendum.  Here are declarations of all functions in this code, as far as
+they are not already in |"common.h"|.  These are private to \.{CWEAVE}.
 
 @<Predecl...@>=
 static eight_bits copy_TeX(void);@/
