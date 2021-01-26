@@ -104,24 +104,15 @@ char **av@t\2\2@>) /* argument values */
 
 @ The following parameters were sufficient in the original \.{WEAVE} to
 handle \TEX/, so they should be sufficient for most applications of \.{CWEAVE}.
-If you change |max_bytes|, |max_names|, |hash_size|, or |buf_size|
-you have to change them also in the file |"common.w"|.
 
-@d max_bytes 1000000 /* the number of bytes in identifiers,
-  index entries, and section names */
-@d max_names 10239 /* number of identifiers, strings, section names;
-  must be less than 10240; used in |"common.w"| */
 @d max_sections 10239 /* greater than the total number of sections */
-@d hash_size 8501 /* should be prime */
-@d buf_size 1000 /* maximum length of input line, plus one */
-@d longest_name 10000 /* section names and strings shouldn't be longer than this */
-@d long_buf_size (buf_size+longest_name)
 @d line_length 80 /* lines of \TEX/ output have at most this many characters;
   should be less than 256 */
 @d max_refs 65535 /* number of cross-references; must be less than 65536 */
 @d max_texts 10239 /* number of phrases in \CEE/ texts being parsed;
   must be less than 10240 */
 @d max_scraps 10000 /* number of tokens in \CEE/ texts being parsed */
+@d long_buf_size (buf_size+longest_name)
 
 @ The next few sections contain stuff from the file |"common.w"| that must
 be included in both |"ctangle.w"| and |"cweave.w"|. It appears in
