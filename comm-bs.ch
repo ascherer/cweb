@@ -24,7 +24,7 @@ by using "huge" pointers.
 @d max_names 10239 /* number of identifiers, strings, section names;
   must be less than 10240 */
 
-@<Definitions that...@>=
+@<Common code...@>=
 typedef struct name_info {
   char *byte_start; /* beginning of the name in |byte_mem| */
   @<More elements of |name_info| structure@>@;
@@ -40,7 +40,7 @@ name_pointer name_dir_end = name_dir+max_names-1; /* end of |name_dir| */
 
 @f huge extern
 
-@<Definitions that...@>=
+@<Common code...@>=
 typedef struct name_info {
   char huge* byte_start; /* beginning of the name in |byte_mem| */
   @<More elements of |name_info| structure@>@;

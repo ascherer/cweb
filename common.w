@@ -66,7 +66,7 @@ The file begins with a few basic definitions.
 @c
 @<Include files@>@/
 @h
-@<Definitions that should agree with \.{CTANGLE} and \.{CWEAVE}@>@/
+@<Common code for \.{CWEAVE} and \.{CTANGLE}@>@/
 @<Other definitions@>@/
 @<Predeclaration of procedures@>@/
 
@@ -82,7 +82,7 @@ quite, the same thing.  In these cases we've written common code for
 both, differentiating between the two by means of the global variable
 |program|.
 
-@<Definitions...@>=
+@<Common code...@>=
 boolean program; /* \.{CWEAVE} or \.{CTANGLE}? */
 
 @ \.{CWEAVE} operates in three phases: First it inputs the source
@@ -131,7 +131,7 @@ in those indexes.
 @^ASCII code dependencies@>
 @^system dependencies@>
 
-@<Definitions that should agree...@>=
+@<Common code...@>=
 char section_text[longest_name+1]; /* name being sought for */
 char *section_text_end = section_text+longest_name; /* end of |section_text| */
 char *id_first; /* where the current identifier begins in the buffer */
@@ -153,7 +153,7 @@ some of \.{CWEB}'s routines use the fact that it is safe to refer to
 
 @d long_buf_size (buf_size+longest_name) /* for \.{CWEAVE} */
 
-@<Definitions...@>=
+@<Common code...@>=
 char buffer[long_buf_size]; /* where each line of input goes */
 char *buffer_end=buffer+buf_size-2; /* end of |buffer| */
 char *limit=buffer; /* points to the last character in the buffer */
@@ -203,7 +203,7 @@ for the benefit of \.{CTANGLE}.
   simultaneously, not counting the change file */
 @d web_file file[0] /* main source file */
 
-@<Definitions...@>=
+@<Common code...@>=
 int include_depth; /* current level of nesting */
 FILE *file[max_include_depth]; /* stack of non-change files */
 FILE *change_file; /* change file */
@@ -407,7 +407,7 @@ information in the \CEE/ file by means of the |print_where| flag.
 @d max_sections 10239 /* number of identifiers, strings, section names;
   must be less than 10240 */
 
-@<Defin...@>=
+@<Common code...@>=
 sixteen_bits section_count; /* the current section number */
 boolean changed_section[max_sections]; /* is the section changed? */
 boolean change_pending; /* if the current change is not yet recorded in
@@ -577,7 +577,7 @@ elements are structures of type |name_info|, containing a pointer into
 the |byte_mem| array (the address where the name begins) and other data.
 A |name_pointer| variable is a pointer into |name_dir|.
 
-@<Definitions that...@>=
+@<Common code...@>=
 char byte_mem[max_bytes]; /* characters of names */
 char *byte_mem_end = byte_mem+max_bytes-1; /* end of |byte_mem| */
 name_info name_dir[max_names]; /* information about names */
@@ -591,7 +591,7 @@ kept in |byte_ptr| and |name_ptr|, respectively.  Thus we
 usually have |name_ptr->byte_start==byte_ptr|, and certainly
 we want to keep |name_ptr<=name_dir_end| and |byte_ptr<=byte_mem_end|.
 
-@<Defini...@>=
+@<Common code...@>=
 name_pointer name_ptr; /* first unused position in |name_dir| */
 char *byte_ptr; /* first unused position in |byte_mem| */
 
@@ -613,7 +613,7 @@ function |names_match|, which is slightly different in
 \.{CWEAVE} and \.{CTANGLE}.  If there is no match for the identifier,
 it is inserted into the table.
 
-@<Defini...@>=
+@<Common code...@>=
 name_pointer hash[hash_size]; /* heads of hash lists */
 hash_pointer hash_end = hash+hash_size-1; /* end of |hash| */
 hash_pointer h; /* index into hash-head array */
@@ -1017,7 +1017,7 @@ terminated abnormally. The value of |history| does not influence the
 behavior of the program; it is simply computed for the convenience
 of systems that might want to use such information.
 
-@<Definit...@>=
+@<Common code...@>=
 int history=spotless; /* indicates how bad this run was */
 
 @ The command `|err_print("! Error message")|' will report a syntax error to
@@ -1141,7 +1141,7 @@ of the program. The various file name variables contain strings with
 the names of those files. Most of the 128 flags are undefined but available
 for future extensions.
 
-@<Defin...@>=
+@<Common code...@>=
 int argc; /* copy of |ac| parameter to |main| */
 char **argv; /* copy of |av| parameter to |main| */
 char C_file_name[max_file_name_length]; /* name of |C_file| */
@@ -1289,7 +1289,7 @@ else fatal(
 @** Output. Here is the code that opens the output file:
 @^system dependencies@>
 
-@<Defin...@>=
+@<Common code...@>=
 FILE *C_file; /* where output of \.{CTANGLE} goes */
 FILE *tex_file; /* where output of \.{CWEAVE} goes */
 FILE *idx_file; /* where index from \.{CWEAVE} goes */

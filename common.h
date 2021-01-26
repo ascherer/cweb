@@ -34,7 +34,7 @@
 @d ctangle 0
 @d cweave 1
 
-@<Definitions that should agree...@>=
+@<Common code...@>=
 typedef bool boolean;
 typedef uint8_t eight_bits;
 typedef uint16_t sixteen_bits;
@@ -66,7 +66,7 @@ extern int phase; /* which phase are we in? */
 @d period_ast 026 /* `\.{.*}'\,;  corresponds to MIT's {\tentex\char'26} */
 @d minus_gt_ast 027 /* `\.{->*}'\,;  corresponds to MIT's {\tentex\char'27} */
 
-@<Definitions that should agree...@>=
+@<Common code...@>=
 extern char section_text[]; /* name being sought for */
 extern char *section_text_end; /* end of |section_text| */
 extern char *id_first; /* where the current identifier begins in the buffer */
@@ -80,7 +80,7 @@ extern char *id_loc; /* just after the current identifier in the buffer */
 @d xisupper(c) (isupper((eight_bits)c)&&((eight_bits)c<0200))
 @d xisxdigit(c) (isxdigit((eight_bits)c)&&((eight_bits)c<0200))
 
-@<Definitions that should agree...@>=
+@<Common code...@>=
 extern char buffer[]; /* where each line of input goes */
 extern char *buffer_end; /* end of |buffer| */
 extern char *loc; /* points to the next character to be read from the buffer*/
@@ -95,7 +95,7 @@ extern char *limit; /* points to the last character in the buffer */
   for section names */
 @d chunk_marker 0
 
-@<Definitions that should agree...@>=
+@<Common code...@>=
 typedef struct name_info {
   char *byte_start; /* beginning of the name in |byte_mem| */
   struct name_info *link;
@@ -140,7 +140,7 @@ extern void sprint_section_name(char *,name_pointer);@/
 @d confusion(s) fatal("! This can't happen: ",s)
 @.This can't happen@>
 
-@<Definitions that should agree...@>=
+@<Common code...@>=
 extern int history; /* indicates how bad this run was */
 
 @ @<Predecl...@>=
@@ -157,7 +157,7 @@ extern void overflow(const char *); /* succumb because a table has overflowed */
 @d web_file_name file_name[0] /* main source file name */
 @d cur_line line[include_depth] /* number of current line in current file */
 
-@<Definitions that should agree...@>=
+@<Common code...@>=
 extern int include_depth; /* current level of nesting */
 extern FILE *file[]; /* stack of non-change files */
 extern FILE *change_file; /* change file */
@@ -181,7 +181,7 @@ extern void check_complete(void); /* checks that all changes were picked up */
 extern void reset_input(void); /* initialize to read the web file and change file */
 
 @ Code related to section numbers:
-@<Definitions that should agree...@>=
+@<Common code...@>=
 extern sixteen_bits section_count; /* the current section number */
 extern boolean changed_section[]; /* is the section changed? */
 extern boolean change_pending; /* is a decision about change still unclear? */
@@ -193,7 +193,7 @@ extern boolean print_where; /* tells \.{CTANGLE} to print line and file info */
 @d show_stats flags['s'] /* should statistics be printed at end of run? */
 @d show_happiness flags['h'] /* should lack of errors be announced? */
 
-@<Definitions that should agree...@>=
+@<Common code...@>=
 extern int argc; /* copy of |ac| parameter to |main| */
 extern char **argv; /* copy of |av| parameter to |main| */
 extern boolean flags[]; /* an option for each 7-bit code */
@@ -205,7 +205,7 @@ extern boolean flags[]; /* an option for each 7-bit code */
 @d C_printf(c,a) fprintf(C_file,c,a)
 @d C_putc(c) putc(c,C_file)
 
-@<Definitions that should agree...@>=
+@<Common code...@>=
 extern FILE *C_file; /* where output of \.{CTANGLE} goes */
 extern FILE *tex_file; /* where output of \.{CWEAVE} goes */
 extern FILE *idx_file; /* where index from \.{CWEAVE} goes */
