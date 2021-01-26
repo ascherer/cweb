@@ -837,7 +837,7 @@ if(byte_ptr+l> byte_mem_end)overflow("byte memory");
 if(name_ptr>=name_dir_end)overflow("name");
 strncpy(byte_ptr,first,l);
 (++name_ptr)->byte_start= byte_ptr+= l;
-if(program==cweave)init_p(p,t);
+init_p(p,t);
 }
 
 /*:53*/
@@ -1170,7 +1170,7 @@ void
 fatal(
 const char*s,const char*t)
 {
-if(*s)fputs(s,stdout);
+if(*s)err_print(s);
 err_print(t);
 history= fatal_message;exit(wrap_up());
 }
