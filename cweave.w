@@ -91,7 +91,7 @@ char **av@t\2\2@>) /* argument values */
 {
   argc=ac; argv=av;
   program=cweave;
-  make_xrefs=force_lines=make_pb=1; /* controlled by command-line options */
+  force_lines=make_pb=true; /* controlled by command-line options */
   common_init();
   @<Set initial values@>@;
   if (show_banner) puts(banner); /* print a ``banner line'' */
@@ -246,8 +246,7 @@ If one were careful, one could probably make more changes around section
 
 @d append_xref(c) if (xref_ptr==xmem_end) overflow("cross-reference");
   else (++xref_ptr)->num=c;
-@d no_xref (flags['x']==0)
-@d make_xrefs flags['x'] /* should cross references be output? */
+@d no_xref (!make_xrefs)
 @d is_tiny(p) ((p+1)->byte_start==(p)->byte_start+1)
 @d unindexed(a) (a<res_wd_end && a->ilk>=custom)
       /* tells if uses of a name are to be indexed */

@@ -1155,7 +1155,7 @@ scanning the arguments; if additional flags are 1 by default they
 should be set before calling |common_init|.
 
 @<Set the default options common to \.{CTANGLE} and \.{CWEAVE}@>=
-show_banner=show_happiness=show_progress=true;@/
+show_banner=show_happiness=show_progress=make_xrefs=true;@/
 show_stats=false;@/
 
 @ We now must look at the command line arguments and set the file names
@@ -1255,7 +1255,7 @@ after the dot.  We must check that there is enough room in
   } else {
     strcpy(tex_file_name,*argv);
     strcpy(C_file_name,*argv);
-    if (flags['x']) { /* indexes will be generated */
+    if (make_xrefs) { /* indexes will be generated */
       *dot_pos=0;
       sprintf(idx_file_name,"%s.idx",*argv);
       sprintf(scn_file_name,"%s.scn",*argv);

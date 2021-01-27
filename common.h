@@ -192,6 +192,7 @@ extern boolean print_where; /* tells \.{CTANGLE} to print line and file info */
 @d show_progress flags['p'] /* should progress reports be printed? */
 @d show_stats flags['s'] /* should statistics be printed at end of run? */
 @d show_happiness flags['h'] /* should lack of errors be announced? */
+@d make_xrefs flags['x'] /* should cross references be output? */
 
 @<Common code...@>=
 extern int argc; /* copy of |ac| parameter to |main| */
