@@ -87,6 +87,17 @@ extern char *loc; /* points to the next character to be read from the buffer*/
 extern char *limit; /* points to the last character in the buffer */
 
 @ Code related to identifier and section name storage:
+
+The last component of |name_info| is different for \.{CTANGLE} and
+\.{CWEAVE}.  In \.{CTANGLE}, if |p| is a pointer to a section name,
+|p->equiv| is a pointer to its replacement text, an element of the
+array |text_info|.  In \.{CWEAVE}, on the other hand, if
+|p| points to an identifier, |p->xref| is a pointer to its
+list of cross-references, an element of the array |xmem|.  The make-up
+of |text_info| and |xmem| is discussed in the \.{CTANGLE} and \.{CWEAVE}
+source files, respectively; here we just declare a common field
+|equiv_or_xref| as a pointer to |void|.
+
 @d length(c) (size_t)((c+1)->byte_start-(c)->byte_start) /* the length of a name */
 @d print_id(c) term_write((c)->byte_start,length((c))) /* print identifier */
 @d llink link /* left link in binary search tree for section names */

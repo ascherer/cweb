@@ -995,16 +995,6 @@ name_pointer r@t\2\2@>) /* section name being compared */
   }
 }
 
-@ The last component of |name_info| is different for \.{CTANGLE} and
-\.{CWEAVE}.  In \.{CTANGLE}, if |p| is a pointer to a section name,
-|p->equiv| is a pointer to its replacement text, an element of the
-array |text_info|.  In \.{CWEAVE}, on the other hand, if
-|p| points to an identifier, |p->xref| is a pointer to its
-list of cross-references, an element of the array |xmem|.  The make-up
-of |text_info| and |xmem| is discussed in the \.{CTANGLE} and \.{CWEAVE}
-source files, respectively; here we just declare a common field
-|equiv_or_xref| as a pointer to |void|.
-
 @** Reporting errors to the user.
 A global variable called |history| will contain one of four values
 at the end of every run: |spotless| means that no unusual messages were
