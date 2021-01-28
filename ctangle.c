@@ -91,7 +91,9 @@
 #define hash_size 8501
 #define longest_name 10000
 #define stack_size 500
-#define buf_size 1000 \
+#define buf_size 1000
+#define long_buf_size (buf_size+longest_name)  \
+ \
 
 #define equiv equiv_or_xref \
 

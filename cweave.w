@@ -121,7 +121,6 @@ handle \TEX/, so they should be sufficient for most applications of \.{CWEAVE}.
 @d max_texts 10239 /* number of phrases in \CEE/ texts being parsed;
   must be less than 10240 */
 @d max_scraps 10000 /* number of tokens in \CEE/ texts being parsed */
-@d long_buf_size (buf_size+longest_name)
 
 @* Data structures exclusive to {\tt CWEAVE}.
 As explained in \.{common.w}, the field of a |name_info| structure
