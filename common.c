@@ -238,12 +238,19 @@ extern FILE*idx_file;
 extern FILE*scn_file;
 extern FILE*active_file;
 
-/*:14*//*18:*/
+/*:14*/
+#line 69 "common.w"
+
+/*18:*/
 #line 85 "common.w"
 
 boolean program;
 
-/*:18*//*22:*/
+/*:18*//*19:*/
+#line 94 "common.w"
+int phase;
+
+/*:19*//*22:*/
 #line 134 "common.w"
 
 char section_text[longest_name+1];
@@ -276,7 +283,13 @@ boolean input_has_ended;
 boolean changing;
 boolean web_file_open= 0;
 
-/*:26*//*36:*/
+/*:26*//*27:*/
+#line 232 "common.w"
+
+char change_buffer[buf_size];
+char*change_limit;
+
+/*:27*//*36:*/
 #line 410 "common.w"
 
 sixteen_bits section_count;
@@ -332,19 +345,6 @@ FILE*scn_file;
 FILE*active_file;
 
 /*:91*/
-#line 69 "common.w"
-
-/*19:*/
-#line 94 "common.w"
-int phase;
-
-/*:19*//*27:*/
-#line 232 "common.w"
-
-char change_buffer[buf_size];
-char*change_limit;
-
-/*:27*/
 #line 70 "common.w"
 
 /*7:*/
