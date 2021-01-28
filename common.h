@@ -245,5 +245,4 @@ handle \TEX/, so they should be sufficient for most applications of
 @d buf_size 1000 /* for \.{CWEAVE} and \.{CTANGLE} */
 @d long_buf_size (buf_size+longest_name) /* for \.{CWEAVE} */
 
-
 @ End of \.{COMMON} interface.

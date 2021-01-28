@@ -100,7 +100,6 @@
 #define stack_size 500
 #define buf_size 1000
 #define long_buf_size (buf_size+longest_name)  \
- \
 
 #define max_include_depth 10 \
 
