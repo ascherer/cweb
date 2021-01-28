@@ -72,7 +72,8 @@
 #define show_banner flags['b']
 #define show_progress flags['p']
 #define show_stats flags['s']
-#define show_happiness flags['h'] \
+#define show_happiness flags['h']
+#define make_xrefs flags['x'] \
 
 #define update_terminal fflush(stdout) 
 #define new_line putchar('\n') 
@@ -228,14 +229,14 @@ extern boolean change_pending;
 extern boolean print_where;
 
 /*:13*//*14:*/
-#line 196 "common.h"
+#line 197 "common.h"
 
 extern int argc;
 extern char**argv;
 extern boolean flags[];
 
 /*:14*//*15:*/
-#line 208 "common.h"
+#line 209 "common.h"
 
 extern FILE*C_file;
 extern FILE*tex_file;
@@ -383,7 +384,7 @@ extern void check_complete(void);
 extern void reset_input(void);
 
 /*:12*//*16:*/
-#line 216 "common.h"
+#line 217 "common.h"
 
 extern void common_init(void);
 extern void print_stats(void);

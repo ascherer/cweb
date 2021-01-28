@@ -79,7 +79,8 @@
 #define show_banner flags['b']
 #define show_progress flags['p']
 #define show_stats flags['s']
-#define show_happiness flags['h'] \
+#define show_happiness flags['h']
+#define make_xrefs flags['x'] \
 
 #define update_terminal fflush(stdout) 
 #define new_line putchar('\n') 
@@ -222,14 +223,14 @@ extern boolean change_pending;
 extern boolean print_where;
 
 /*:12*//*13:*/
-#line 196 "common.h"
+#line 197 "common.h"
 
 extern int argc;
 extern char**argv;
 extern boolean flags[];
 
 /*:13*//*14:*/
-#line 208 "common.h"
+#line 209 "common.h"
 
 extern FILE*C_file;
 extern FILE*tex_file;
@@ -376,7 +377,7 @@ extern void check_complete(void);
 extern void reset_input(void);
 
 /*:11*//*15:*/
-#line 216 "common.h"
+#line 217 "common.h"
 
 extern void common_init(void);
 extern void print_stats(void);
@@ -440,7 +441,7 @@ root= NULL;
 /*82:*/
 #line 1157 "common.w"
 
-show_banner= show_happiness= show_progress= true;
+show_banner= show_happiness= show_progress= make_xrefs= true;
 show_stats= false;
 
 /*:82*/
@@ -1292,7 +1293,7 @@ sprintf(C_file_name,"%s.c",*argv);
 }else{
 strcpy(tex_file_name,*argv);
 strcpy(C_file_name,*argv);
-if(flags['x']){
+if(make_xrefs){
 *dot_pos= 0;
 sprintf(idx_file_name,"%s.idx",*argv);
 sprintf(scn_file_name,"%s.scn",*argv);
