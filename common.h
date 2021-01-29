@@ -237,7 +237,6 @@ handle \TEX/, so they should be sufficient for most applications of
   must be less than 10240; used in |"common.w"| */
 @d max_sections 10239 /* number of identifiers, strings, section names;
   must be less than 10240 */
-
 @d max_texts 10239 /* number of replacement texts, must be less than 10240 */
 @d hash_size 8501 /* should be prime; used in |"common.w"| */
 @d longest_name 10000 /* section names and strings shouldn't be longer than this */

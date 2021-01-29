@@ -86,7 +86,6 @@
 #define max_names 10239 \
 
 #define max_sections 10239 \
- \
 
 #define max_texts 10239
 #define hash_size 8501
