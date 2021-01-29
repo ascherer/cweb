@@ -87,17 +87,6 @@ extern char *loc; /* points to the next character to be read from the buffer*/
 extern char *limit; /* points to the last character in the buffer */
 
 @ Code related to identifier and section name storage:
-
-The last component of |name_info| is different for \.{CTANGLE} and
-\.{CWEAVE}.  In \.{CTANGLE}, if |p| is a pointer to a section name,
-|p->equiv| is a pointer to its replacement text, an element of the
-array |text_info|.  In \.{CWEAVE}, on the other hand, if
-|p| points to an identifier, |p->xref| is a pointer to its
-list of cross-references, an element of the array |xmem|.  The make-up
-of |text_info| and |xmem| is discussed in the \.{CTANGLE} and \.{CWEAVE}
-source files, respectively; here we just declare a common field
-|equiv_or_xref| as a pointer to |void|.
-
 @d length(c) (size_t)((c+1)->byte_start-(c)->byte_start) /* the length of a name */
 @d print_id(c) term_write((c)->byte_start,length((c))) /* print identifier */
 @d llink link /* left link in binary search tree for section names */
@@ -162,11 +151,14 @@ extern void overflow(const char *); /* succumb because a table has overflowed */
 
 @ Code related to file handling:
 @f line x /* make |line| an unreserved word */
+@d max_include_depth 10 /* maximum number of source files open
+  simultaneously, not counting the change file */
 @d max_file_name_length 1024
 @d cur_file file[include_depth] /* current file */
 @d cur_file_name file_name[include_depth] /* current file name */
-@d web_file_name file_name[0] /* main source file name */
 @d cur_line line[include_depth] /* number of current line in current file */
+@d web_file file[0] /* main source file */
+@d web_file_name file_name[0] /* main source file name */
 
 @<Common code...@>=
 extern int include_depth; /* current level of nesting */
@@ -215,7 +207,7 @@ extern boolean flags[]; /* an option for each 7-bit code */
 @d new_line putchar('\n') @d putxchar putchar
 @d term_write(a,b) fflush(stdout),fwrite(a,sizeof(char),b,stdout)
 @d C_printf(c,a) fprintf(C_file,c,a)
-@d C_putc(c) putc(c,C_file)
+@d C_putc(c) putc(c,C_file) /* isn't \CEE/ wonderfully consistent? */
 
 @<Common code...@>=
 extern FILE *C_file; /* where output of \.{CTANGLE} goes */
@@ -238,6 +230,9 @@ handle \TEX/, so they should be sufficient for most applications of
 @d max_toks 1000000 /* number of bytes in compressed \CEE/ code */
 @d max_names 10239 /* number of identifiers, strings, section names;
   must be less than 10240; used in |"common.w"| */
+@d max_sections 10239 /* number of identifiers, strings, section names;
+  must be less than 10240 */
+
 @d max_texts 10239 /* number of replacement texts, must be less than 10240 */
 @d hash_size 8501 /* should be prime; used in |"common.w"| */
 @d longest_name 10000 /* section names and strings shouldn't be longer than this */

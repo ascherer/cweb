@@ -196,11 +196,6 @@ from the |change_file|.
 The line number of each open file is also kept for error reporting and
 for the benefit of \.{CTANGLE}.
 
-@f line x /* make |line| an unreserved word */
-@d max_include_depth 10 /* maximum number of source files open
-  simultaneously, not counting the change file */
-@d web_file file[0] /* main source file */
-
 @<Global var...@>=
 int include_depth; /* current level of nesting */
 FILE *file[max_include_depth]; /* stack of non-change files */
@@ -402,9 +397,6 @@ If we've just changed from the |cur_file| to the |change_file|, or if
 the |cur_file| has changed, we tell \.{CTANGLE} to print this
 information in the \CEE/ file by means of the |print_where| flag.
 
-@d max_sections 10239 /* number of identifiers, strings, section names;
-  must be less than 10240 */
-
 @<Global var...@>=
 sixteen_bits section_count; /* the current section number */
 boolean changed_section[max_sections]; /* is the section changed? */
@@ -573,16 +565,43 @@ other strings in a large array of |char|s, called |byte_mem|.
 Information about the names is kept in the array |name_dir|, whose
 elements are structures of type |name_info|, containing a pointer into
 the |byte_mem| array (the address where the name begins) and other data.
-A |name_pointer| variable is a pointer into |name_dir|.
+A |name_pointer| variable is a pointer into |name_dir|.  You find the
+complete layout of |name_info| in the interface sections above.
+
+The actual sequence of characters in the name pointed to by a |name_pointer
+p| appears in positions |p->byte_start| to |(p+1)->byte_start-1|, inclusive.
+
+The names of identifiers are found by computing a hash address |h| and
+then looking at strings of bytes signified by the |name_pointer|s
+|hash[h]|, |hash[h]->link|, |hash[h]->link->link|, \dots,
+until either finding the desired name or encountering the null pointer.
+
+The names of sections are stored in |byte_mem| together
+with the identifier names, but a hash table is not used for them because
+\.{CTANGLE} needs to be able to recognize a section name when given a prefix of
+that name. A conventional binary search tree is used to retrieve section names,
+with fields called |llink| and |rlink| (where |llink| takes the place
+of |link|).  The root of this tree is stored in |name_dir->rlink|;
+this will be the only information in |name_dir[0]|.
+
+Since the space used by |rlink| has a different function for
+identifiers than for section names, we declare it as a |union|.
+
+The last component of |name_info| is different for \.{CTANGLE} and
+\.{CWEAVE}.  In \.{CTANGLE}, if |p| is a pointer to a section name,
+|p->equiv| is a pointer to its replacement text, an element of the
+array |text_info|.  In \.{CWEAVE}, on the other hand, if
+|p| points to an identifier, |p->xref| is a pointer to its
+list of cross-references, an element of the array |xmem|.  The make-up
+of |text_info| and |xmem| is discussed in the \.{CTANGLE} and \.{CWEAVE}
+source files, respectively; here we just declare a common field
+|equiv_or_xref| as a pointer to |void|.
 
 @<Global var...@>=
 char byte_mem[max_bytes]; /* characters of names */
 char *byte_mem_end = byte_mem+max_bytes-1; /* end of |byte_mem| */
 name_info name_dir[max_names]; /* information about names */
 name_pointer name_dir_end = name_dir+max_names-1; /* end of |name_dir| */
-
-@ The actual sequence of characters in the name pointed to by a |name_pointer
-p| appears in positions |p->byte_start| to |(p+1)->byte_start-1|, inclusive.
 
 @ The first unused position in |byte_mem| and |name_dir| is
 kept in |byte_ptr| and |name_ptr|, respectively.  Thus we
@@ -597,11 +616,8 @@ char *byte_ptr; /* first unused position in |byte_mem| */
 name_dir->byte_start=byte_ptr=byte_mem; /* position zero in both arrays */
 name_ptr=name_dir+1; /* |name_dir[0]| will be used only for error recovery */
 name_ptr->byte_start=byte_mem; /* this makes name 0 of length zero */
+root=NULL; /* the binary search tree starts out with nothing in it */
 
-@ The names of identifiers are found by computing a hash address |h| and
-then looking at strings of bytes signified by the |name_pointer|s
-|hash[h]|, |hash[h]->link|, |hash[h]->link->link|, \dots,
-until either finding the desired name or encountering the null pointer.
 
 @ The hash table itself
 consists of |hash_size| entries of type |name_pointer|, and is
@@ -662,27 +678,16 @@ if (p==NULL) {
   p->link=hash[h]; hash[h]=p; /* insert |p| at beginning of hash list */
 }
 
-@ @<Enter a new name...@>= {
+@ The information associated with a new identifier must be initialized
+in a slightly different way in \.{CWEAVE} than in \.{CTANGLE}; hence the
+|init_p| procedure.
+@<Enter a new name...@>= {
   if (byte_ptr+l>byte_mem_end) overflow("byte memory");
   if (name_ptr>=name_dir_end) overflow("name");
   strncpy(byte_ptr,first,l);
   (++name_ptr)->byte_start=byte_ptr+=l;
   init_p(p,t);
 }
-
-@ The names of sections are stored in |byte_mem| together
-with the identifier names, but a hash table is not used for them because
-\.{CTANGLE} needs to be able to recognize a section name when given a prefix of
-that name. A conventional binary search tree is used to retrieve section names,
-with fields called |llink| and |rlink| (where |llink| takes the place
-of |link|).  The root of this tree is stored in |name_dir->rlink|;
-this will be the only information in |name_dir[0]|.
-
-Since the space used by |rlink| has a different function for
-identifiers than for section names, we declare it as a |union|.
-
-@ @<Init...@>=
-root=NULL; /* the binary search tree starts out with nothing in it */
 
 @ If |p| is a |name_pointer| variable, as we have seen,
 |p->byte_start| is the beginning of the area where the name
@@ -798,7 +803,7 @@ differently in \.{CWEAVE} and \.{CTANGLE}; hence the
 |init_node| procedure, which is defined differently in \.{cweave.w}
 and \.{ctangle.w}.
 
-@ @c
+@c
 static name_pointer
 add_section_name(@t\1\1@> /* install a new node in the tree */
 name_pointer par, /* parent of new node */
@@ -1015,7 +1020,7 @@ Note that no period follows the error message, since the error routine
 will automatically supply a period. A newline is automatically supplied
 if the string begins with |"!"|.
 
-@ @c
+@c
 void
 err_print(@t\1\1@> /* prints `\..' and location of error message */
 const char *s@t\2\2@>)
@@ -1058,9 +1063,10 @@ up and quit as graciously as possible.  This is done by calling the
 function |wrap_up| at the end of the code.
 
 \.{CTANGLE} and \.{CWEAVE} have their own notions about how to
-print the job statistics.
+print the job statistics.  See the function(s) |print_stats| in the
+interface above and in the index.
 
-@ Some implementations may wish to pass the |history| value to the
+Some implementations may wish to pass the |history| value to the
 operating system so that it can be used to govern whether or not other
 programs are started. Here, for instance, we pass the operating system
 a status of 0 if and only if only harmless messages were printed.
@@ -1089,11 +1095,7 @@ case fatal_message: puts("(That was a fatal error, my friend.)");
 @ When there is no way to recover from an error, the |fatal| subroutine is
 invoked. This happens most often when |overflow| occurs.
 
-@<Predec...@>=
-extern void fatal(const char *,const char *);@/
-extern void overflow(const char *);@/
-
-@ The two parameters to |fatal| are strings that are essentially
+The two parameters to |fatal| are strings that are essentially
 concatenated to print the final error message.
 
 @c void

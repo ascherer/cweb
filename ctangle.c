@@ -63,11 +63,14 @@
 #define confusion(s) fatal("! This can't happen: ",s)  \
  \
 
+#define max_include_depth 10 \
+
 #define max_file_name_length 1024
 #define cur_file file[include_depth]
 #define cur_file_name file_name[include_depth]
-#define web_file_name file_name[0]
-#define cur_line line[include_depth] \
+#define cur_line line[include_depth]
+#define web_file file[0]
+#define web_file_name file_name[0] \
 
 #define show_banner flags['b']
 #define show_progress flags['p']
@@ -86,6 +89,9 @@
 
 #define max_toks 1000000
 #define max_names 10239 \
+
+#define max_sections 10239 \
+ \
 
 #define max_texts 10239
 #define hash_size 8501
@@ -172,7 +178,7 @@ extern char*loc;
 extern char*limit;
 
 /*:6*//*7:*/
-#line 109 "common.h"
+#line 98 "common.h"
 
 typedef struct name_info{
 char*byte_start;
@@ -197,12 +203,12 @@ extern hash_pointer hash_end;
 extern hash_pointer h;
 
 /*:7*//*9:*/
-#line 154 "common.h"
+#line 143 "common.h"
 
 extern int history;
 
 /*:9*//*11:*/
-#line 171 "common.h"
+#line 163 "common.h"
 
 extern int include_depth;
 extern FILE*file[];
@@ -222,7 +228,7 @@ extern boolean changing;
 extern boolean web_file_open;
 
 /*:11*//*13:*/
-#line 195 "common.h"
+#line 187 "common.h"
 
 extern sixteen_bits section_count;
 extern boolean changed_section[];
@@ -230,14 +236,14 @@ extern boolean change_pending;
 extern boolean print_where;
 
 /*:13*//*14:*/
-#line 208 "common.h"
+#line 200 "common.h"
 
 extern int argc;
 extern char**argv;
 extern boolean flags[];
 
 /*:14*//*15:*/
-#line 220 "common.h"
+#line 212 "common.h"
 
 extern FILE*C_file;
 extern FILE*tex_file;
@@ -356,7 +362,7 @@ extern sixteen_bits section_count;
 #line 71 "ctangle.w"
 
 /*8:*/
-#line 132 "common.h"
+#line 121 "common.h"
 
 extern boolean names_match(name_pointer,const char*,size_t,eight_bits);
 extern name_pointer id_lookup(const char*,const char*,char);
@@ -370,7 +376,7 @@ extern void print_section_name(name_pointer);
 extern void sprint_section_name(char*,name_pointer);
 
 /*:8*//*10:*/
-#line 157 "common.h"
+#line 146 "common.h"
 
 extern int wrap_up(void);
 extern void err_print(const char*);
@@ -378,14 +384,14 @@ extern void fatal(const char*,const char*);
 extern void overflow(const char*);
 
 /*:10*//*12:*/
-#line 189 "common.h"
+#line 181 "common.h"
 
 extern boolean get_line(void);
 extern void check_complete(void);
 extern void reset_input(void);
 
 /*:12*//*16:*/
-#line 228 "common.h"
+#line 220 "common.h"
 
 extern void common_init(void);
 extern void print_stats(void);

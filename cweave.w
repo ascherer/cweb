@@ -114,7 +114,6 @@ First comes general stuff:
 @ The following parameters were sufficient in the original \.{WEAVE} to
 handle \TEX/, so they should be sufficient for most applications of \.{CWEAVE}.
 
-@d max_sections 10239 /* greater than the total number of sections */
 @d line_length 80 /* lines of \TEX/ output have at most this many characters;
   should be less than 256 */
 @d max_refs 65535 /* number of cross-references; must be less than 65536 */
