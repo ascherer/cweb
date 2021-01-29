@@ -110,10 +110,7 @@ common_init(void)
 \.{CWEB} uses the conventions of \CEE/ programs found in the standard
 \.{ctype.h} header file.
 
-@<Include files@>=
-#include <ctype.h>
-
-@ A few character pairs are encoded internally as single characters,
+A few character pairs are encoded internally as single characters,
 using the definitions in the interface sections above. These definitions
 are consistent with an extension of ASCII code originally developed at
 MIT and explained in Appendix~C of {\sl The \TEX/book\/}; thus, users
@@ -156,9 +153,6 @@ char buffer[long_buf_size]; /* where each line of input goes */
 char *buffer_end=buffer+buf_size-2; /* end of |buffer| */
 char *limit=buffer; /* points to the last character in the buffer */
 char *loc=buffer; /* points to the next character to be read from the buffer */
-
-@ @<Include files@>=
-#include <stddef.h> /* type definition of |ptrdiff_t| */
 
 @ In the unlikely event that your standard I/O library does not
 support |feof|, |getc|, and |ungetc| you may have to change things here.
@@ -449,10 +443,7 @@ The remainder of the \.{@@i} line after the file name is ignored.
 @d too_long() {include_depth--;
         err_print("! Include file name too long"); goto restart;}
 
-@<Include...@>=
-#include <stdlib.h> /* declaration of |getenv| and |exit| */
-
-@ @.CWEBINPUTS@>@<Try to open...@>= {
+@.CWEBINPUTS@>@<Try to open...@>= {
   char temp_file_name[max_file_name_length];
   char *cur_file_name_end=cur_file_name+max_file_name_length-1;
   char *k=cur_file_name, *kk;

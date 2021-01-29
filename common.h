@@ -41,11 +41,16 @@ typedef uint16_t sixteen_bits;
 extern boolean program; /* \.{CWEAVE} or \.{CTANGLE}? */
 extern int phase; /* which phase are we in? */
 
-@ @<Include files@>=
-#include <stdio.h>
-#include <stdbool.h>
-#include <stdint.h>
-#include <string.h>
+@ Interface to the standard \CEE/ library:
+
+@<Include files@>=
+#include <ctype.h> /* definition of |@!isalpha|, |@!isdigit| and so on */
+#include <stdbool.h> /* definition of |@!bool|, |@!true| and |@!false| */
+#include <stddef.h> /* definition of |@!ptrdiff_t| */
+#include <stdint.h> /* definition of |@!uint8_t| and |@!uint16_t| */
+#include <stdlib.h> /* definition of |@!getenv| and |@!exit| */
+#include <stdio.h> /* definition of |@!printf| and friends */
+#include <string.h> /* definition of |@!strlen|, |@!strcmp| and so on */
 
 @ Code related to the character set:
 @^ASCII code dependencies@>

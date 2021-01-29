@@ -861,10 +861,6 @@ boolean is_long_comment@t\2\2@>)
 name_pointer cur_section_name; /* name of section just scanned */
 int no_where; /* suppress |print_where|? */
 
-@ @<Include...@>=
-#include <ctype.h> /* definition of |isalpha|, |isdigit| and so on */
-#include <stdlib.h> /* definition of |exit| */
-
 @ As one might expect, |get_next| consists mostly of a big switch
 that branches to the various special cases that can arise.
 
@@ -1510,7 +1506,7 @@ skip_limbo(void)
     }
   }
 
-@ Because on some systems the difference between two pointers is a |long|
+@ Because on some systems the difference between two pointers is a |ptrdiff_t|
 but not an |int|, we use \.{\%ld} to print these quantities.
 
 @c
@@ -1518,13 +1514,13 @@ void
 print_stats(void) {
   puts("\nMemory usage statistics:");
   printf("%ld names (out of %ld)\n",
-          (long)(name_ptr-name_dir),(long)max_names);
+          (ptrdiff_t)(name_ptr-name_dir),(long)max_names);
   printf("%ld replacement texts (out of %ld)\n",
-          (long)(text_ptr-text_info),(long)max_texts);
+          (ptrdiff_t)(text_ptr-text_info),(long)max_texts);
   printf("%ld bytes (out of %ld)\n",
-          (long)(byte_ptr-byte_mem),(long)max_bytes);
+          (ptrdiff_t)(byte_ptr-byte_mem),(long)max_bytes);
   printf("%ld tokens (out of %ld)\n",
-          (long)(tok_ptr-tok_mem),(long)max_toks);
+          (ptrdiff_t)(tok_ptr-tok_mem),(long)max_toks);
 }
 
 @** Addendum.  Here are declarations of all functions in this code, as far as

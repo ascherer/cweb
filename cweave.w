@@ -663,10 +663,6 @@ it sets |xref_switch| to |def_flag| and goes on to the next token.
 name_pointer cur_section; /* name of section just scanned */
 char cur_section_char; /* the character just before that name */
 
-@ @<Include...@>=
-#include <ctype.h> /* definition of |isalpha|, |isdigit| and so on */
-#include <stdlib.h> /* definition of |exit| */
-
 @ As one might expect, |get_next| consists mostly of a big switch
 that branches to the various special cases that can arise.
 \CEE/ allows underscores to appear in identifiers, and some \CEE/
@@ -4623,7 +4619,7 @@ name_pointer p@t\2\2@>)
 
 @ @<Output all the section names@>=section_print(root);
 
-@ Because on some systems the difference between two pointers is a |long|
+@ Because on some systems the difference between two pointers is a |ptrdiff_t|
 rather than an |int|, we use \.{\%ld} to print these quantities.
 
 @c
@@ -4632,23 +4628,23 @@ print_stats(void) {
   puts("\nMemory usage statistics:");
 @.Memory usage statistics:@>
   printf("%ld names (out of %ld)\n",
-            (long)(name_ptr-name_dir),(long)max_names);
+            (ptrdiff_t)(name_ptr-name_dir),(long)max_names);
   printf("%ld cross-references (out of %ld)\n",
-            (long)(xref_ptr-xmem),(long)max_refs);
+            (ptrdiff_t)(xref_ptr-xmem),(long)max_refs);
   printf("%ld bytes (out of %ld)\n",
-            (long)(byte_ptr-byte_mem),(long)max_bytes);
+            (ptrdiff_t)(byte_ptr-byte_mem),(long)max_bytes);
   puts("Parsing:");
   printf("%ld scraps (out of %ld)\n",
-            (long)(max_scr_ptr-scrap_info),(long)max_scraps);
+            (ptrdiff_t)(max_scr_ptr-scrap_info),(long)max_scraps);
   printf("%ld texts (out of %ld)\n",
-            (long)(max_text_ptr-tok_start),(long)max_texts);
+            (ptrdiff_t)(max_text_ptr-tok_start),(long)max_texts);
   printf("%ld tokens (out of %ld)\n",
-            (long)(max_tok_ptr-tok_mem),(long)max_toks);
+            (ptrdiff_t)(max_tok_ptr-tok_mem),(long)max_toks);
   printf("%ld levels (out of %ld)\n",
-            (long)(max_stack_ptr-stack),(long)stack_size);
+            (ptrdiff_t)(max_stack_ptr-stack),(long)stack_size);
   puts("Sorting:");
   printf("%ld levels (out of %ld)\n",
-            (long)(max_sort_ptr-scrap_info),(long)max_scraps);
+            (ptrdiff_t)(max_sort_ptr-scrap_info),(long)max_scraps);
 }
 
 @** Addendum.  Here are declarations of all functions in this code, as far as
