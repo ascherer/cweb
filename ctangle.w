@@ -230,7 +230,10 @@ construction or numerical constant.
 @ The following procedure is used to enter a two-byte value into
 |tok_mem| when a replacement text is being generated.
 
-@c
+@<Predecl...@>=
+static void store_two_bytes(sixteen_bits);@/
+
+@ @c
 void
 store_two_bytes(
 sixteen_bits x)
@@ -306,7 +309,11 @@ the new one going.
 We assume that the \CEE/ compiler can copy structures.
 @^system dependencies@>
 
-@c
+@<Predecl...@>=
+static void push_level(name_pointer);@/
+static void pop_level(int);@/
+
+@ @c
 static void
 push_level(@t\1\1@> /* suspends the current level */
 name_pointer p@t\2\2@>)
@@ -361,7 +368,10 @@ int cur_val; /* additional information corresponding to output token */
 |stack_ptr==stack|.
 @^high-bit character handling@>
 
-@c
+@<Predecl...@>=
+static void get_output(void);@/
+
+@ @c
 static void
 get_output(void) /* sends next token to |out_char| */
 {
@@ -451,7 +461,10 @@ boolean protect; /* should newline characters be quoted? */
 During the output process, |cur_line| equals the number of the next line
 to be output.
 
-@c
+@<Predecl...@>=
+static void flush_buffer(void);@/
+
+@ @c
 static void
 flush_buffer(void) /* writes one line to output file */
 {
@@ -577,6 +590,7 @@ boolean output_defs_seen=0;
 
 @ @<Predecl...@>=
 static void output_defs(void);@/
+static void out_char(eight_bits);@/
 
 @ @c
 static void
@@ -621,10 +635,7 @@ is not called if |out_state==verbatim|, except perhaps with arguments
 |'\n'| (protect the newline), |string| (end the string), or |constant|
 (end the constant).
 
-@<Predecl...@>=
-static void out_char(eight_bits);@/
-
-@ @c
+@c
 static void
 out_char(
 eight_bits cur_char)
@@ -786,7 +797,11 @@ eight_bits ccode[256]; /* meaning of a char following \.{@@} */
 @ The |skip_ahead| procedure reads through the input at fairly high speed
 until finding the next non-ignorable control code, which it returns.
 
-@c
+@<Predecl...@>=
+static eight_bits skip_ahead(void);@/
+static boolean skip_comment(boolean);@/
+
+@ @c
 static eight_bits
 skip_ahead(void) /* skip to next control code */
 {
@@ -869,7 +884,10 @@ that branches to the various special cases that can arise.
 @d ishigh(c) ((eight_bits)(c)>0177)
 @^high-bit character handling@>
 
-@c
+@<Predecl...@>=
+static eight_bits get_next(void);@/
+
+@ @c
 static eight_bits
 get_next(void) /* produces the next input token */
 {
@@ -1172,6 +1190,9 @@ acted, |cur_text| will point to the replacement text just generated, and
 text_pointer cur_text; /* replacement text formed by |scan_repl| */
 eight_bits next_control;
 
+@ @<Predecl...@>=
+static void scan_repl(eight_bits);@/
+
 @ @c
 static void
 scan_repl(@t\1\1@> /* creates a replacement text */
@@ -1333,7 +1354,10 @@ extern sixteen_bits section_count; /* the current section number */
 that are significant to \.{CTANGLE}: those
 that delimit a definition, the \CEE/ part of a module, or a new module.
 
-@c
+@<Predecl...@>=
+static void scan_section(void);@/
+
+@ @c
 static void
 scan_section(void)
 {
@@ -1522,21 +1546,6 @@ print_stats(void) {
   printf("%ld tokens (out of %ld)\n",
           (ptrdiff_t)(tok_ptr-tok_mem),(long)max_toks);
 }
-
-@** Addendum.  Here are declarations of all functions in this code, as far as
-they are not already in |"common.h"|.  These are private to \.{CTANGLE}.
-
-@<Predecl...@>=
-static eight_bits get_next(void);@/
-static eight_bits skip_ahead(void);@/
-static boolean skip_comment(boolean);@/
-static void flush_buffer(void);@/
-static void get_output(void);@/
-static void pop_level(int);@/
-static void push_level(name_pointer);@/
-static void scan_repl(eight_bits);@/
-static void scan_section(void);@/
-static void store_two_bytes(sixteen_bits);@/
 
 @** Index.
 Here is a cross-reference table for \.{CTANGLE}.

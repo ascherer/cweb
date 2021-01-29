@@ -158,7 +158,10 @@ char *loc=buffer; /* points to the next character to be read from the buffer */
 support |feof|, |getc|, and |ungetc| you may have to change things here.
 @^system dependencies@>
 
-@c
+@<Predecl...@>=
+static boolean input_ln(FILE *);@/
+
+@ @c
 static boolean input_ln(@t\1\1@> /* copies a line into |buffer| or returns 0 */
 FILE *fp@t\2\2@>) /* what file to read from */
 {
@@ -227,7 +230,10 @@ Since blank lines in the change file are not used for matching, we have
 the change file is exhausted. This procedure is called only when
 |changing| is 1; hence error messages will be reported correctly.
 
-@c
+@<Predecl...@>=
+static void prime_the_change_buffer(void);@/
+
+@ @c
 static void
 prime_the_change_buffer(void)
 {
@@ -296,7 +302,10 @@ current line is nonempty.
   if (*loc=='@@' && (xisspace(*(loc+1)) || *(loc+1)=='*')) change_pending=b;
 }
 
-@c
+@<Predecl...@>=
+static void check_change(void);@/
+
+@ @c
 static void
 check_change(void) /* switches to |change_file| if the buffers match */
 {
@@ -765,7 +774,12 @@ are null-terminated, and we keep an eye open for prefixes and extensions.
 @d prefix 3 /* the first name is a proper prefix of the second */
 @d extension 4 /* the first name is a proper extension of the second */
 
-@c
+@<Predecl...@>=
+static int web_strcmp(char *,int,char *,int);@/
+static name_pointer add_section_name(name_pointer,int,char *,char *,int);@/
+static void extend_section_name(name_pointer,char *,char *,int);@/
+
+@ @c
 static int web_strcmp(@t\1\1@> /* fuller comparison than |strcmp| */
   char *j, /* beginning of first string */
   int j_len, /* length of first string */
@@ -1288,15 +1302,5 @@ else {
   if ((tex_file=fopen(tex_file_name,"wb"))==NULL)
     fatal("! Cannot open output file ", tex_file_name);
 }
-
-@** Addendum.  The following functions are private to |"common.w"|.
-
-@<Predecl...@>=
-static boolean input_ln(FILE *);@/
-static int web_strcmp(char *,int,char *,int);@/
-static name_pointer add_section_name(name_pointer,int,char *,char *,int);@/
-static void extend_section_name(name_pointer,char *,char *,int);@/
-static void check_change(void);@/
-static void prime_the_change_buffer(void);@/
 
 @** Index.

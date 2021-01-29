@@ -249,7 +249,12 @@ If one were careful, one could probably make more changes around section
 @d unindexed(a) (a<res_wd_end && a->ilk>=custom)
       /* tells if uses of a name are to be indexed */
 
-@c
+@<Predecl...@>=
+static void new_xref(name_pointer);@/
+static void new_section_xref(name_pointer);@/
+static void set_file_flag(name_pointer);@/
+
+@ @c
 static void
 new_xref(
 name_pointer p)
@@ -378,6 +383,9 @@ name_pointer p)
 {
   p->xref=(void *)xref_ptr;
 }
+
+@ @<Predecl...@>=
+static void update_node(name_pointer p);@/
 
 @ We have to get \CEE/'s
 reserved words into the hash table, and the simplest way to do this is
@@ -583,6 +591,7 @@ interpretation of identifiers.
 
 @<Predec...@>=
 static void skip_limbo(void);@/
+static eight_bits skip_TeX(void);@/
 
 @ @c
 static void
@@ -954,10 +963,10 @@ if (c=='@@') {
 @ This function skips over a restricted context at relatively high speed.
 
 @<Predecl...@>=
-void skip_restricted(void);@/
+static void skip_restricted(void);@/
 
 @ @c
-void
+static void
 skip_restricted(void)
 {
   id_first=loc; *(limit+1)='@@';
@@ -1060,6 +1069,7 @@ as well as |normal==0|.
 
 @<Predecl...@>=
 static void C_xref(eight_bits);@/
+static void outer_xref(void);@/
 
 @ @c
 static void
@@ -1086,10 +1096,7 @@ C_xref(@t\1\1@> /* makes cross-references for \CEE/ identifiers */
 with |next_control!='|'| and ends with |next_control>=format_code|. Thus, it
 handles \CEE/ text with embedded comments.
 
-@<Predecl...@>=
-static void outer_xref(void);@/
-
-@ @c
+@c
 static void
 outer_xref(void) /* extension of |C_xref| */
 {
@@ -1307,7 +1314,11 @@ of commented-out text).
 @d tex_printf(c) fprintf(active_file,"%s",c)
 @d tex_puts(c) fputs(c,active_file)
 
-@c
+@<Predecl...@>=
+static void flush_buffer(char *,boolean,boolean);@/
+static void finish_line(void);@/
+
+@ @c
 static void
 flush_buffer(@t\1\1@>
 char *b, /* outputs from |out_buf+1| to |b|, where |b<=out_ptr| */
@@ -1368,7 +1379,11 @@ A line break will occur at a space or after a single-nonletter
 
 @d out(c) {if (out_ptr>=out_buf_end) break_out(); *(++out_ptr)=c;}
 
-@c
+@<Predecl...@>=
+static void out_str(const char *);@/
+static void break_out(void);@/
+
+@ @c
 static void
 out_str(@t\1\1@> /* output characters from |s| to end of string */
 const char*s@t\2\2@>)
@@ -1387,10 +1402,7 @@ out_buf[0]='\\';
 preceded by another backslash. In the latter case, a |'%'| is output at
 the break.
 
-@<Predecl...@>=
-static void break_out(void);@/
-
-@ @c
+@c
 static void
 break_out(void) /* finds a way to break the output line */
 {
@@ -1425,7 +1437,11 @@ The number to be converted by |out_section| is known to be less than
 |def_flag|, so it cannot have more than five decimal digits.  If
 the section is changed, we output `\.{\\*}' just after the number.
 
-@c
+@<Predecl...@>=
+static void out_section(sixteen_bits);@/
+static void out_name(name_pointer,boolean);@/
+
+@ @c
 static void
 out_section(
 sixteen_bits n)
@@ -1469,7 +1485,12 @@ The use of `\.{@@}' signs is severely restricted in such material:
 `\.{@@@@}' pairs are replaced by singletons; `\.{@@l}' and `\.{@@q}' and
 `\.{@@s}' are interpreted.
 
-@c
+@<Predecl...@>=
+static void copy_limbo(void);@/
+static eight_bits copy_TeX(void);@/
+static int copy_comment(boolean,int);@/
+
+@ @c
 static void
 copy_limbo(void)
 {
@@ -1533,10 +1554,7 @@ one further token without overflow.
 
 @d app_tok(c) {if (tok_ptr+2>tok_mem_end) overflow("token"); *(tok_ptr++)=c;}
 
-@<Predec...@>=
-static int copy_comment(boolean,int);@/
-
-@ @c
+@c
 static int copy_comment(@t\1\1@> /* copies \TeX\ code in comments */
 boolean is_long_comment, /* is this a traditional \CEE/ comment? */
 int bal@t\2\2@>) /* brace balance */
@@ -1766,7 +1784,10 @@ char cat_name[256][12];
 
 @ This code allows \.{CWEAVE} to display its parsing steps.
 
-@c
+@<Predecl...@>=
+static void print_cat(eight_bits);@/
+
+@ @c
 static void
 print_cat(@t\1\1@> /* symbolic printout of a category */
 eight_bits c@t\2\2@>)
@@ -2121,7 +2142,12 @@ translated without line-break controls.
 @d tok_flag 4*id_flag /* signifies a token list */
 @d inner_tok_flag 5*id_flag /* signifies a token list in `\pb' */
 
-@c
+@<Predecl...@>=
+#if DEAD_CODE
+static void print_text(text_pointer p);@/
+#endif /* |DEAD_CODE| */
+
+@ @c
 #if DEAD_CODE
 static void
 print_text(@t\1\1@> /* prints a token list for debugging; not used in |main| */
@@ -2247,6 +2273,11 @@ productions as they were listed earlier.
 
 @<Global...@>=
 int cur_mathness, init_mathness;
+
+@ @<Predecl...@>=
+static void app_str(const char *);@/
+static void big_app(token);@/
+static void big_app1(scrap_pointer);@/
 
 @ @c
 static void
@@ -2399,7 +2430,13 @@ more properly alphebetized,
 @d case_found (token_pointer)1 /* likewise */
 @d operator_found (token_pointer)2 /* likewise */
 
-@c
+@<Predecl...@>=
+static token_pointer find_first_ident(text_pointer);@/
+static void make_reserved(scrap_pointer);@/
+static void make_underlined(scrap_pointer);@/
+static void underline_xref(name_pointer);@/
+
+@ @c
 static token_pointer
 find_first_ident(
 text_pointer p)
@@ -2480,10 +2517,7 @@ because this would just make a new cross-reference at the end of the list.
 We actually have to search through the list for the existing
 cross-reference.
 
-@<Predecl...@>=
-static void underline_xref(name_pointer);@/
-
-@ @c
+@c
 static void
 underline_xref(
 name_pointer p)
@@ -2988,7 +3022,11 @@ too large, since it is assumed that this test was done beforehand.
 
 @d freeze_text *(++text_ptr)=tok_ptr
 
-@c
+@<Predecl...@>=
+static void reduce(scrap_pointer,short,eight_bits,short,short);@/
+static void squash(scrap_pointer,short,eight_bits,short,short);@/
+
+@ @c
 static void
 reduce(
 scrap_pointer j, short k,
@@ -3110,7 +3148,10 @@ lists with up to six tokens without checking for overflow. Before calling
 since |translate| might add a new text and a new scrap before it checks
 for overflow.
 
-@c
+@<Predecl...@>=
+static text_pointer translate(void);@/
+
+@ @c
 static text_pointer
 translate(void) /* converts a sequence of scraps */
 {
@@ -3175,7 +3216,10 @@ repeatedly to read \CEE/ text until encountering the next `\.{\v}' or
 what it reads are appended into the |cat| and |trans| arrays, and |scrap_ptr|
 is advanced.
 
-@c
+@<Predecl...@>=
+static void C_parse(eight_bits);@/
+
+@ @c
 static void
 C_parse(@t\1\1@> /* creates scraps from \CEE/ tokens */
   eight_bits spec_ctrl@t\2\2@>)
@@ -3408,10 +3452,12 @@ app(@q{@>'}');
 token list; it also builds a new scrap if |scrapping==1|.
 
 @<Predec...@>=
-void app_cur_id(boolean);@/
+static void app_cur_id(boolean);@/
+static text_pointer C_translate(void);@/
+static void outer_parse(void);@/
 
 @ @c
-void
+static void
 app_cur_id(@t\1\1@>
 boolean scrapping@t\2\2@>) /* are we making this into a scrap? */
 {
@@ -3571,7 +3617,11 @@ max_stack_ptr=stack;
 is called; it saves the old level of output and gets a new one going.
 The value of |cur_mode| is not changed.
 
-@c
+@<Predecl...@>=
+static void push_level(text_pointer);@/
+static void pop_level(void);@/
+
+@ @c
 static void
 push_level(@t\1\1@> /* suspends the current level */
 text_pointer p@t\2\2@>)
@@ -3613,7 +3663,12 @@ name_pointer cur_name;
 @ @d res_word 0201 /* returned by |get_output| for reserved words */
 @d section_code 0200 /* returned by |get_output| for section names */
 
-@c
+@<Predecl...@>=
+static eight_bits get_output(void);@/
+static void output_C(void);@/
+static void make_output(void);@/
+
+@ @c
 static eight_bits
 get_output(void) /* returns the next token of output */
 {
@@ -3673,10 +3728,7 @@ output_C(void) /* outputs the current token list */
 
 @ Here is \.{CWEAVE}'s major output handler.
 
-@<Predecl...@>=
-static void make_output(void);@/
-
-@ @c
+@c
 static void
 make_output(void) /* outputs the equivalents of tokens */
 {
@@ -4646,44 +4698,6 @@ print_stats(void) {
   printf("%ld levels (out of %ld)\n",
             (ptrdiff_t)(max_sort_ptr-scrap_info),(long)max_scraps);
 }
-
-@** Addendum.  Here are declarations of all functions in this code, as far as
-they are not already in |"common.h"|.  These are private to \.{CWEAVE}.
-
-@<Predecl...@>=
-static eight_bits copy_TeX(void);@/
-static eight_bits get_output(void);@/
-static eight_bits skip_TeX(void);@/
-static text_pointer C_translate(void);@/
-static text_pointer translate(void);@/
-static token_pointer find_first_ident(text_pointer);@/
-static void app_str(const char *);@/
-static void big_app(token);@/
-static void big_app1(scrap_pointer);@/
-static void copy_limbo(void);@/
-static void C_parse(eight_bits);@/
-static void finish_line(void);@/
-static void flush_buffer(char *,boolean,boolean);@/
-static void make_reserved(scrap_pointer);@/
-static void make_underlined(scrap_pointer);@/
-static void new_section_xref(name_pointer);@/
-static void new_xref(name_pointer);@/
-static void outer_parse(void);@/
-static void output_C(void);@/
-static void out_name(name_pointer,boolean);@/
-static void out_section(sixteen_bits);@/
-static void out_str(const char *);@/
-static void pop_level(void);@/
-static void print_cat(eight_bits);@/
-#if DEAD_CODE
-static void print_text(text_pointer p);@/
-#endif /* |DEAD_CODE| */
-static void push_level(text_pointer);@/
-static void reduce(scrap_pointer,short,eight_bits,short,short);@/
-static void set_file_flag(name_pointer);@/
-static void skip_limbo(void);@/
-static void squash(scrap_pointer,short,eight_bits,short,short);@/
-static void update_node(name_pointer p);@/
 
 @** Index.
 If you have read and understood the code for Phase III above, you know what
