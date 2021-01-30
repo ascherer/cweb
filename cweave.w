@@ -1473,11 +1473,9 @@ boolean quote_xalpha)
 }
 
 @* Routines that copy \TEX/ material.
-During phase two, we use subroutines |copy_limbo|, |copy_TeX|, and
-|copy_comment| in place of the analogous |skip_limbo|, |skip_TeX|, and
-|skip_comment| that were used in phase one. (Well, |copy_comment|
-was actually written in such a way that it functions as |skip_comment|
-in phase one.)
+During phase two, we use subroutines |copy_limbo| and |copy_TeX| (and
+|copy_comment|) in place of the analogous |skip_limbo| and |skip_TeX|
+that were used in phase one.
 
 The |copy_limbo| routine, for example, takes \TEX/ material that is not
 part of any section and transcribes it almost verbatim to the output file.
