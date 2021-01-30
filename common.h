@@ -127,7 +127,6 @@ extern hash_pointer h; /* index into hash-head array */
 extern boolean names_match(name_pointer,const char *,size_t,eight_bits);@/
 extern name_pointer id_lookup(const char *,const char *,char);
    /* looks up a string in the identifier table */
-extern name_pointer prefix_lookup(char *,char *); /* finds section name given a prefix */
 extern name_pointer section_lookup(char *,char *,int); /* finds section name */
 extern void init_node(name_pointer);@/
 extern void init_p(name_pointer,eight_bits);@/
