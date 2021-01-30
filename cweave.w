@@ -2141,12 +2141,9 @@ translated without line-break controls.
 @d inner_tok_flag 5*id_flag /* signifies a token list in `\pb' */
 
 @<Predecl...@>=
-#if DEAD_CODE
 static void print_text(text_pointer p);@/
-#endif /* |DEAD_CODE| */
 
 @ @c
-#if DEAD_CODE
 static void
 print_text(@t\1\1@> /* prints a token list for debugging; not used in |main| */
 text_pointer p@t\2\2@>)
@@ -2170,7 +2167,6 @@ text_pointer p@t\2\2@>)
   }
   update_terminal;
 }
-#endif /* |DEAD_CODE| */
 
 @ @<Print token |r|...@>=
 switch (r) {
