@@ -175,12 +175,12 @@ extern hash_pointer hash_end;
 extern hash_pointer h;
 
 /*:6*//*8:*/
-#line 148 "common.h"
+#line 147 "common.h"
 
 extern int history;
 
 /*:8*//*10:*/
-#line 168 "common.h"
+#line 167 "common.h"
 
 extern int include_depth;
 extern FILE*file[];
@@ -200,7 +200,7 @@ extern boolean changing;
 extern boolean web_file_open;
 
 /*:10*//*12:*/
-#line 192 "common.h"
+#line 191 "common.h"
 
 extern sixteen_bits section_count;
 extern boolean changed_section[];
@@ -208,14 +208,14 @@ extern boolean change_pending;
 extern boolean print_where;
 
 /*:12*//*13:*/
-#line 205 "common.h"
+#line 204 "common.h"
 
 extern int argc;
 extern char**argv;
 extern boolean flags[];
 
 /*:13*//*14:*/
-#line 217 "common.h"
+#line 216 "common.h"
 
 extern FILE*C_file;
 extern FILE*tex_file;
@@ -338,7 +338,6 @@ FILE*active_file;
 extern boolean names_match(name_pointer,const char*,size_t,eight_bits);
 extern name_pointer id_lookup(const char*,const char*,char);
 
-extern name_pointer prefix_lookup(char*,char*);
 extern name_pointer section_lookup(char*,char*,int);
 extern void init_node(name_pointer);
 extern void init_p(name_pointer,eight_bits);
@@ -347,7 +346,7 @@ extern void print_section_name(name_pointer);
 extern void sprint_section_name(char*,name_pointer);
 
 /*:7*//*9:*/
-#line 151 "common.h"
+#line 150 "common.h"
 
 extern int wrap_up(void);
 extern void err_print(const char*);
@@ -355,14 +354,14 @@ extern void fatal(const char*,const char*);
 extern void overflow(const char*);
 
 /*:9*//*11:*/
-#line 186 "common.h"
+#line 185 "common.h"
 
 extern boolean get_line(void);
 extern void check_complete(void);
 extern void reset_input(void);
 
 /*:11*//*15:*/
-#line 225 "common.h"
+#line 224 "common.h"
 
 extern void common_init(void);
 extern void print_stats(void);
