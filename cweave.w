@@ -91,9 +91,9 @@ char **av@t\2\2@>) /* argument values */
 {
   argc=ac; argv=av;
   program=cweave;
-  force_lines=make_pb=true; /* controlled by command-line options */
-  common_init();
   @<Set initial values@>@;
+  common_init();
+  @<Start \TEX/ output@>@;
   if (show_banner) puts(banner); /* print a ``banner line'' */
   @<Store all the reserved words@>@;
   phase_one(); /* read all the user's text and store the cross-references */
@@ -1365,7 +1365,7 @@ beginning of phase two. We initialize the output variables in a slightly
 tricky way so that the first line of the output file will be
 `\.{\\input cwebmac}'.
 
-@<Set init...@>=
+@<Start \TEX/...@>=
 out_ptr=out_buf+1; out_line=1; active_file=tex_file;
 *out_ptr='c'; tex_printf("\\input cwebma");
 
@@ -2834,7 +2834,11 @@ else if (cat1==stmt||cat1==decl||cat1==function) {
 grouped together on the same line.
 
 @d force_lines flags['f'] /* should each statement be on its own line? */
-@<Cases for |stmt|@>=
+
+@<Set init...@>=
+force_lines=true;
+
+@ @<Cases for |stmt|@>=
 if (cat1==stmt||cat1==decl||cat1==function) {
   big_app1(pp);
   if (cat1==function) big_app(big_force);
@@ -3505,7 +3509,10 @@ program text.
 
 @d make_pb flags['e']
 
-@c
+@<Set init...@>=
+make_pb=true;
+
+@ @c
 static void
 outer_parse(void) /* makes scraps from \CEE/ tokens and comments */
 {

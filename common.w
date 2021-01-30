@@ -618,7 +618,6 @@ name_ptr=name_dir+1; /* |name_dir[0]| will be used only for error recovery */
 name_ptr->byte_start=byte_mem; /* this makes name 0 of length zero */
 root=NULL; /* the binary search tree starts out with nothing in it */
 
-
 @ The hash table itself
 consists of |hash_size| entries of type |name_pointer|, and is
 updated by the |id_lookup| procedure, which finds a given identifier
