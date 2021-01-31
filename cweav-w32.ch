@@ -32,14 +32,3 @@ init_p(
 name_pointer p,
 eight_bits t)
 @z
-
-@x
-@ @<Include...@>=
-#include <ctype.h> /* definition of |isalpha|, |isdigit| and so on */
-#include <stdlib.h> /* definition of |exit| */
-@y
-@ @<Include...@>=
-#include <ctype.h> /* definition of |isalpha|, |isdigit| and so on */
-#include <stdlib.h> /* definition of |exit| */
-#include <string.h> /* definition of |strncmp| and |strncpy| */
-@z
