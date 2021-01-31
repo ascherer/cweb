@@ -12,55 +12,68 @@ by using "huge" pointers.
 (This file contributed by Barry Schwartz, trashman@crud.mn.org, 28 Jun 94;
  revised 24 Jul 94.)
 
-
-@x Section 23.
-    cur_file_name[l]='/'; /* \UNIX/ pathname separator */
-@y
-    cur_file_name[l]='/'; /* A valid {\mc MSDOS} pathname separator */
-@z
+(Update attempt by Andreas Scherer, 31 Jan 2021.  Good luck!)
 
 
-@x Section 27.
-@d max_names 10239 /* number of identifiers, strings, section names;
-  must be less than 10240 */
+@x Section 6.
+@d chunk_marker 0
 
 @<Common code...@>=
 typedef struct name_info {
   char *byte_start; /* beginning of the name in |byte_mem| */
-  @<More elements of |name_info| structure@>@;
+  struct name_info *link;
+  union {
+    struct name_info *Rlink; /* right link in binary search tree for section
+      names */
+    char Ilk; /* used by identifiers in \.{CWEAVE} only */
+  } dummy;
+  void *equiv_or_xref; /* info corresponding to names */
 } name_info; /* contains information about an identifier or section name */
-typedef name_info *name_pointer; /* pointer into array of |name_info|s */
-char byte_mem[max_bytes]; /* characters of names */
-char *byte_mem_end = byte_mem+max_bytes-1; /* end of |byte_mem| */
-name_info name_dir[max_names]; /* information about names */
-name_pointer name_dir_end = name_dir+max_names-1; /* end of |name_dir| */
+typedef name_info *name_pointer; /* pointer into array of \&{name\_info}s */
+typedef name_pointer *hash_pointer;
+extern char byte_mem[]; /* characters of names */
+extern char *byte_mem_end; /* end of |byte_mem| */
 @y
-@d max_names 10239 /* number of identifiers, strings, section names;
-  must be less than 10240 */
+@d chunk_marker 0
 
 @f huge extern
 
 @<Common code...@>=
 typedef struct name_info {
   char huge* byte_start; /* beginning of the name in |byte_mem| */
-  @<More elements of |name_info| structure@>@;
+  struct name_info *link;
+  union {
+    struct name_info *Rlink; /* right link in binary search tree for section
+      names */
+    char Ilk; /* used by identifiers in \.{CWEAVE} only */
+  } dummy;
+  union {
+    void huge* equiv_member;
+    void huge* xref_member;
+  } ptr_union;  /* info corresponding to names */
 } name_info; /* contains information about an identifier or section name */
-typedef name_info *name_pointer; /* pointer into array of |name_info|s */
-char huge byte_mem[max_bytes]; /* characters of names */
-char huge* byte_mem_end; /* end of |byte_mem| */
-name_info name_dir[max_names]; /* information about names */
-name_pointer name_dir_end = name_dir+max_names-1;
+typedef name_info *name_pointer; /* pointer into array of \&{name\_info}s */
+typedef name_pointer *hash_pointer;
+extern char huge byte_mem[]; /* characters of names */
+extern char huge* byte_mem_end; /* end of |byte_mem| */
 @z
 
 
-@x Section 29.
+@x Section 39.
+    cur_file_name[l]='/'; /* \UNIX/ pathname separator */
+@y
+    cur_file_name[l]='/'; /* A valid {\mc MSDOS} pathname separator */
+@z
+
+
+@x Section 44.
 char *byte_ptr; /* first unused position in |byte_mem| */
 @y
 char huge* byte_ptr; /* first unused position in |byte_mem| */
 @z
 
 
-@x Section 30.
+@x Section 45.
 @ @<Init...@>=
 name_dir->byte_start=byte_ptr=byte_mem; /* position zero in both arrays */
 name_ptr=name_dir+1; /* |name_dir[0]| will be used only for error recovery */
@@ -74,7 +87,7 @@ byte_mem_end = byte_mem+max_bytes-1;
 @z
 
 
-@x Section 42.
+@x Section 52.
 void
 print_section_name(
 name_pointer p)
@@ -89,7 +102,7 @@ name_pointer p)
 @z
 
 
-@x Section 43.
+@x Section 53.
 void
 sprint_section_name(
   char *dest,
@@ -99,14 +112,14 @@ sprint_section_name(
 @y
 void
 sprint_section_name(
-  char *dest,
+  char huge* dest,
   name_pointer p)
 {
   char huge* ss, huge* s = first_chunk(p);
 @z
 
 
-@x Section 44.
+@x Section 54.
 void
 print_prefix_name(
 name_pointer p)
@@ -121,7 +134,7 @@ name_pointer p)
 @z
 
 
-@x Section 47.
+@x Section 57.
 static name_pointer
 add_section_name(@t\1\1@> /* install a new node in the tree */
 name_pointer par, /* parent of new node */
@@ -137,8 +150,8 @@ static name_pointer
 add_section_name(@t\1\1@> /* install a new node in the tree */
 name_pointer par, /* parent of new node */
 int c, /* right or left? */
-char *first, /* first character of section name */
-char *last, /* last character of section name, plus one */
+char huge* first, /* first character of section name */
+char huge* last, /* last character of section name, plus one */
 int ispref@t\2\2@>) /* are we adding a prefix or a full name? */
 {
   name_pointer p=name_ptr; /* new node */
@@ -146,7 +159,7 @@ int ispref@t\2\2@>) /* are we adding a prefix or a full name? */
 @z
 
 
-@x Section 48.
+@x Section 58.
 static void
 extend_section_name(@t\1\1@>
 name_pointer p, /* name to be extended */
@@ -159,15 +172,15 @@ int ispref@t\2\2@>) /* are we adding a prefix or a full name? */
 static void
 extend_section_name(@t\1\1@>
 name_pointer p, /* name to be extended */
-char *first, /* beginning of extension text */
-char *last, /* one beyond end of extension text */
+char huge* first, /* beginning of extension text */
+char huge* last, /* one beyond end of extension text */
 int ispref@t\2\2@>) /* are we adding a prefix or a full name? */
 {
   char huge* s;
 @z
 
 
-@x Section 54.
+@x Section 64.
 static int section_name_cmp(@t\1\1@>
 char **pfirst, /* pointer to beginning of comparison string */
 int len, /* length of string */
@@ -178,50 +191,31 @@ name_pointer r@t\2\2@>) /* section name being compared */
   char *ss, *s=first_chunk(r);
 @y
 static int section_name_cmp(@t\1\1@>
-char **pfirst, /* pointer to beginning of comparison string */
+char huge** pfirst, /* pointer to beginning of comparison string */
 int len, /* length of string */
 name_pointer r@t\2\2@>) /* section name being compared */
 {
-  char *first=*pfirst; /* beginning of comparison string */
+  char huge* first=*pfirst; /* beginning of comparison string */
   name_pointer q=r+1; /* access to subsequent chunks */
   char huge* ss, huge* s=first_chunk(r);
 @z
 
 
-@x Section 55.
-source files, respectively; here we just declare a common field
-|equiv_or_xref| as a pointer to |void|.
-
-@<More elements of |name...@>=
-void *equiv_or_xref; /* info corresponding to names */
-@y
-source files, respectively.  Here we just declare a common field
-|ptr_union| as a union of pointers to |void|, which happen to have
-different addressing attributes.
-
-@<More elements of |name...@>=
-union {
-  void *equiv_member;
-  void huge* xref_member;
-} ptr_union;  /* info corresponding to names */
-@z
-
-
-@x Section 69.
+@x Section 75.
 An omitted change file argument means that |"/dev/null"| should be used,
 @y
 An omitted change file argument means that |"NUL"| should be used,
 @z
 
 
-@x Section 70.
+@x Section 76.
   strcpy(change_file_name,"/dev/null");
 @y
   strcpy(change_file_name,"NUL");
 @z
 
 
-@x Section 70.
+@x Section 76.
         else if (*s=='/') dot_pos=NULL,name_pos=++s;
 @y
         else if (*s == ':' || *s == '\\' || *s == '/')

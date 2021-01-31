@@ -35,43 +35,30 @@ Admittedly, this is not vital for cweb, except that I build the whole texlive
 set of programs using the __fastcall convention.
 
 @x
-@<Include files@>=
-#include <ctype.h>
-@y
-@<Include files@>=
-#include <ctype.h>
-#include <string.h>
-@z
-
-@x
-@ @<Predec...@>=
 extern boolean names_match(name_pointer,const char *,size_t,eight_bits);@/
 @y
-@ @<Predec...@>=
 extern boolean __cdecl names_match(name_pointer,const char *,size_t,eight_bits);@/
 @z
 
 @x
-@<Pred...@>=
 extern void init_p(name_pointer,eight_bits);@/
 @y
-@<Pred...@>=
 extern void __cdecl init_p(name_pointer,eight_bits);@/
 @z
 
-@x section 69
+@x section 75
 An omitted change file argument means that |"/dev/null"| should be used,
 @y
 An omitted change file argument means that |"NUL"| should be used,
 @z
 
-@x section 70
+@x section 76
   strcpy(change_file_name,"/dev/null");
 @y
   strcpy(change_file_name,"NUL");
 @z
 
-@x section 70 (this change copied from comm-bs.ch, July 94)
+@x section 76 (this change copied from comm-bs.ch, July 94)
         else if (*s=='/') dot_pos=NULL,name_pos=++s;
 @y
         else if (*s == ':' || *s == '\\' || *s == '/')
