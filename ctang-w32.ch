@@ -42,14 +42,3 @@ name_pointer node)
 void __cdecl
 init_p(name_pointer p,eight_bits t) {@+(void)p;@+(void)t;@+}
 @z
-
-@x
-@ @<Include...@>=
-#include <ctype.h> /* definition of |isalpha|, |isdigit| and so on */
-#include <stdlib.h> /* definition of |exit| */
-@y
-@ @<Include...@>=
-#include <ctype.h> /* definition of |isalpha|, |isdigit| and so on */
-#include <stdlib.h> /* definition of |exit| */
-#include <string.h>
-@z

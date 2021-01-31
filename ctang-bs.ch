@@ -26,53 +26,6 @@ is modified.
 @z
 
 
-@x Section 4.
-@ The following parameters were sufficient in the original \.{TANGLE} to
-handle \TEX/,
-so they should be sufficient for most applications of \.{CTANGLE}.
-If you change |max_bytes|, |max_names|, or |hash_size| you should also
-change them in the file |"common.w"|.
-
-@d max_bytes 1000000 /* the number of bytes in identifiers,
-  index entries, and section names; used in |"common.w"| */
-@d max_toks 1000000 /* number of bytes in compressed \CEE/ code */
-@d max_names 10239 /* number of identifiers, strings, section names;
-  must be less than 10240; used in |"common.w"| */
-@d max_texts 10239 /* number of replacement texts, must be less than 10240 */
-@d hash_size 8501 /* should be prime; used in |"common.w"| */
-@d longest_name 10000 /* section names and strings shouldn't be longer than this */
-@d stack_size 50 /* number of simultaneous levels of macro expansion */
-@d buf_size 1000 /* for \.{CWEAVE} and \.{CTANGLE} */
-@y
-@ The following parameters were sufficient in the original \.{TANGLE} to
-handle \TEX/,
-so they should be sufficient for most applications of \.{CTANGLE}.
-If you change |max_bytes|, |max_names| or |hash_size| you should also
-change them in the file |"common.w"|.
-
-(This is a modified version of \.{CTANGLE}, and in fact one of the parameters
-has been reduced in value.  The parameter |max_toks|
-has been reduced from 270000 [which
-was sufficient to handle \TEX/] to
-170000, so that \.{CTANGLE}
-may be run on {\mc MSDOS}
-systems that are tight on memory.  Consider, for
-instance, an 80286-based machine with several TSRs and drivers, trying
-to run \.{CTANGLE} from a makefile.)
-
-@d max_bytes 90000 /* the number of bytes in identifiers,
-  index entries, and section names; used in |"common.w"| */
-@d max_toks 170000 /* number of bytes in compressed \CEE/ code */
-@d max_names 4000 /* number of identifiers, strings, section names;
-  must be less than 10240; used in |"common.w"| */
-@d max_texts 2500 /* number of replacement texts, must be less than 10240 */
-@d hash_size 353 /* should be prime; used in |"common.w"| */
-@d longest_name 10000 /* section names shouldn't be longer than this */
-@d stack_size 50 /* number of simultaneous levels of macro expansion */
-@d buf_size 100 /* for \.{CWEAVE} and \.{CTANGLE} */
-@z
-
-
 @x Section 9.
 @d chunk_marker 0
 
@@ -98,15 +51,6 @@ extern char *byte_ptr; /* first unused position in |byte_mem| */
 extern name_pointer hash[]; /* heads of hash lists */
 extern hash_pointer hash_end; /* end of |hash| */
 extern hash_pointer h; /* index into hash-head array */
-extern boolean names_match(name_pointer,const char *,size_t,eight_bits);@/
-extern name_pointer id_lookup(const char *,const char *,char);
-   /* looks up a string in the identifier table */
-extern name_pointer section_lookup(char *,char *,int); /* finds section name */
-extern void init_node(name_pointer);@/
-extern void init_p(name_pointer,eight_bits);@/
-extern void print_prefix_name(name_pointer);@/
-extern void print_section_name(name_pointer);@/
-extern void sprint_section_name(char *,name_pointer);@/
 @y
 @d chunk_marker 0
 
@@ -137,9 +81,53 @@ extern char huge* byte_ptr; /* first unused position in |byte_mem| */
 extern name_pointer hash[]; /* heads of hash lists */
 extern hash_pointer hash_end; /* end of |hash| */
 extern hash_pointer h; /* index into hash-head array */
-extern name_pointer id_lookup(); /* looks up a string in the identifier table */
-extern name_pointer section_lookup(); /* finds section name */
-extern void print_section_name(), sprint_section_name();
+@z
+
+
+@x Section 17.
+@ The following parameters were sufficient in the original \.{WEB} to
+handle \TEX/, so they should be sufficient for most applications of
+\.{CWEB}.
+
+@d max_bytes 1000000 /* the number of bytes in identifiers,
+  index entries, and section names; used in |"common.w"| */
+@d max_toks 1000000 /* number of bytes in compressed \CEE/ code */
+@d max_names 10239 /* number of identifiers, strings, section names;
+  must be less than 10240; used in |"common.w"| */
+@d max_sections 10239 /* number of identifiers, strings, section names;
+  must be less than 10240 */
+@d max_texts 10239 /* number of replacement texts, must be less than 10240 */
+@d hash_size 8501 /* should be prime; used in |"common.w"| */
+@d longest_name 10000 /* section names and strings shouldn't be longer than this */
+@d stack_size 500 /* number of simultaneous levels of macro expansion */
+@d buf_size 1000 /* for \.{CWEAVE} and \.{CTANGLE} */
+@y
+@ The following parameters were sufficient in the original \.{WEB} to
+handle \TEX/, so they should be sufficient for most applications of
+\.{CWEB}.
+
+(This is a modified version of \.{CTANGLE}, and in fact one of the parameters
+has been reduced in value.  The parameter |max_toks|
+has been reduced from 270000 [which
+was sufficient to handle \TEX/] to
+170000, so that \.{CTANGLE}
+may be run on {\mc MSDOS}
+systems that are tight on memory.  Consider, for
+instance, an 80286-based machine with several TSRs and drivers, trying
+to run \.{CTANGLE} from a makefile.)
+
+@d max_bytes 90000 /* the number of bytes in identifiers,
+  index entries, and section names; used in |"common.w"| */
+@d max_toks 170000 /* number of bytes in compressed \CEE/ code */
+@d max_names 4000 /* number of identifiers, strings, section names;
+  must be less than 10240; used in |"common.w"| */
+@d max_sections 4000 /* number of identifiers, strings, section names;
+  must be less than 10240 */
+@d max_texts 2500 /* number of replacement texts, must be less than 10240 */
+@d hash_size 353 /* should be prime; used in |"common.w"| */
+@d longest_name 10000 /* section names shouldn't be longer than this */
+@d stack_size 50 /* number of simultaneous levels of macro expansion */
+@d buf_size 100 /* for \.{CWEAVE} and \.{CTANGLE} */
 @z
 
 

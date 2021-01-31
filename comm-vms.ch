@@ -15,14 +15,21 @@ modified:
 
 @x section 3 (01-FEB-1992 ST)
 #include <ctype.h> /* definition of |@!isalpha|, |@!isdigit| and so on */
-@y
-#include ctype /* VMS searches Textlibraries faster */
-@z
-
-@x section 3  (01-FEB-1992 ST)
+#include <stdbool.h> /* definition of |@!bool|, |@!true| and |@!false| */
+#include <stddef.h> /* definition of |@!ptrdiff_t| */
+#include <stdint.h> /* definition of |@!uint8_t| and |@!uint16_t| */
+#include <stdlib.h> /* definition of |@!getenv| and |@!exit| */
 #include <stdio.h> /* definition of |@!printf| and friends */
+#include <string.h> /* definition of |@!strlen|, |@!strcmp| and so on */
 @y
-#include stdio /* VMS searches Textlibraries faster */
+#include ctype /* definition of |@!isalpha|, |@!isdigit| and so on */
+               /* VMS searches text libraries faster */
+#include stdbool /* definition of |@!bool|, |@!true| and |@!false| */
+#include stddef /* definition of |@!ptrdiff_t| */
+#include stdint /* definition of |@!uint8_t| and |@!uint16_t| */
+#include stdlib /* definition of |@!getenv| and |@!exit| */
+#include stdio /* definition of |@!printf| and friends */
+#include string /* definition of |@!strlen|, |@!strcmp| and so on */
 @z
 
 @x section 68 (01-FEB-1992 ST)
