@@ -230,17 +230,16 @@ handle \TEX/, so they should be sufficient for most applications of
 \.{CWEB}.
 
 @d max_bytes 1000000 /* the number of bytes in identifiers,
-  index entries, and section names; used in |"common.w"| */
+  index entries, and section names */
 @d max_toks 1000000 /* number of bytes in compressed \CEE/ code */
 @d max_names 10239 /* number of identifiers, strings, section names;
-  must be less than 10240; used in |"common.w"| */
+  must be less than 10240 */
 @d max_sections 10239 /* number of identifiers, strings, section names;
   must be less than 10240 */
 @d max_texts 10239 /* number of replacement texts, must be less than 10240 */
-@d hash_size 8501 /* should be prime; used in |"common.w"| */
 @d longest_name 10000 /* section names and strings shouldn't be longer than this */
 @d stack_size 500 /* number of simultaneous levels of macro expansion */
-@d buf_size 1000 /* for \.{CWEAVE} and \.{CTANGLE} */
+@d buf_size 1000 /* for \.{CWEAVE} */
 @d long_buf_size (buf_size+longest_name) /* for \.{CWEAVE} */
 
 @ End of \.{COMMON} interface.

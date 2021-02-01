@@ -90,7 +90,6 @@
 #define max_sections 10239 \
 
 #define max_texts 10239
-#define hash_size 8501
 #define longest_name 10000
 #define stack_size 500
 #define buf_size 1000
