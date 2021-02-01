@@ -2467,7 +2467,7 @@ static void
 make_reserved(@t\1\1@> /* make the first identifier in |p->trans| like |int| */
 scrap_pointer p@t\2\2@>)
 {
-  sixteen_bits tok_value; /* the name of this identifier, plus its flag*/
+  sixteen_bits tok_value; /* the name of this identifier, plus its flag */
   token_pointer tok_loc; /* pointer to |tok_value| */
   if ((tok_loc=find_first_ident(p->trans))<=operator_found)
     return; /* this should not happen */
@@ -4240,8 +4240,8 @@ cur_xref=(xref_pointer)this_section->xref;
 if(cur_xref->num==file_flag) cur_xref=cur_xref->xlink;
 app_str("${}");
 if (cur_xref->num!=section_count+def_flag) {
-  app_str("\\mathrel+"); /*section name is multiply defined*/
-  this_section=name_dir; /*so we won't give cross-reference info here*/
+  app_str("\\mathrel+"); /* section name is multiply defined */
+  this_section=name_dir; /* so we won't give cross-reference info here */
 }
 app_str("\\E"); /* output an equivalence sign */
 @.\\E@>
@@ -4539,7 +4539,7 @@ unbucket(@t\1\1@> /* empties buckets having depth |d| */
 eight_bits d@t\2\2@>)
 {
   int c; /* index into |bucket|; cannot be a simple |char| because of sign
-    comparison below*/
+    comparison below */
   for (c=100+128; c>= 0; c--) if (bucket[collate[c]]) {
 @^high-bit character handling@>
     if (sort_ptr>=scrap_info_end) overflow("sorting");

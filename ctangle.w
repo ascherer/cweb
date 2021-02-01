@@ -1404,7 +1404,7 @@ while (next_control<definition)
   }
 
 @ @<Scan a definition@>= {
-  while ((next_control=get_next())=='\n'); /*allow newline before definition */
+  while ((next_control=get_next())=='\n'); /* allow newline before definition */
   if (next_control!=identifier) {
     err_print("! Definition flushed, must start with identifier");
 @.Definition flushed...@>

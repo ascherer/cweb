@@ -88,7 +88,7 @@ extern char *id_loc; /* just after the current identifier in the buffer */
 @<Common code...@>=
 extern char buffer[]; /* where each line of input goes */
 extern char *buffer_end; /* end of |buffer| */
-extern char *loc; /* points to the next character to be read from the buffer*/
+extern char *loc; /* points to the next character to be read from the buffer */
 extern char *limit; /* points to the last character in the buffer */
 
 @ Code related to identifier and section name storage:
