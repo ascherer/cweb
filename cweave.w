@@ -1664,9 +1664,12 @@ In the \TEX/ file, this will specify an optional line break after the
 comma, with penalty 90.
 
 At each opportunity the longest possible production is applied.  For
-example, if the current sequence of scraps is |int_like| |cast|
-|lbrace|, rule 31 is applied; but if the sequence is |int_like| |cast|
-followed by anything other than |lbrace|, rule 32 takes effect.
+example, if the current sequence of scraps is |if_clause| |stmt|
+|else_like| |if_like|, rule 63 is applied; but if the sequence is
+|if_clause| |stmt| |else_like| followed by anything other than
+|if_like|, rule 64 takes effect; and if the sequence is |if_clause|
+|stmt| followed by anything other than |else_like|, rule 65 takes
+effect.
 
 Translation rules such as `$E_1C\,\\{opt}9\,E_2$' above use subscripts
 to distinguish between translations of scraps whose categories have the
