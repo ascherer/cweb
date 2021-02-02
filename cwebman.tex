@@ -1331,7 +1331,6 @@ strncpy(change_buffer,buffer,(size_t)(limit-buffer+1));
 \def\runninghead{APPENDIX A --- TRANSLATION BY {\tentt CWEAVE}}
 
 Here is the corresponding excerpt from \.{common.tex}.
-\let\K=\leftarrow
 
 \vskip6pt
 \begingroup \def\tt{\eighttt} \baselineskip9pt
@@ -1413,6 +1412,7 @@ ${}\{{}$\1\6
 
 And here's what the same excerpt looks like when typeset.
 (Can you spot the typographical nicety used in the \.{CWEB} code?)
+\let\K=\leftarrow
 
 \M{27}Procedure \PB{\\{prime\_the\_change\_buffer}}
 sets \PB{\\{change\_buffer}} in preparation for the next matching operation.
