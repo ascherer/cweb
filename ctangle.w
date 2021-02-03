@@ -489,7 +489,7 @@ We write them out after we've done the unnamed section.
 name_pointer output_files[max_files];
 name_pointer *cur_out_file, *end_output_files, *an_output_file;
 char cur_section_name_char; /* is it |'<'| or |'('| */
-char output_file_name[longest_name]; /* name of the file */
+char output_file_name[longest_name+1]; /* name of the file */
 
 @ We make |end_output_files| point just beyond the end of
 |output_files|. The stack pointer

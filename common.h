@@ -72,7 +72,7 @@ extern int phase; /* which phase are we in? */
 @d minus_gt_ast 027 /* `\.{->*}'\,;  corresponds to MIT's {\tentex\char'27} */
 
 @<Common code...@>=
-extern char section_text[]; /* name being sought for */
+extern char section_text[]; /* text being sought for */
 extern char *section_text_end; /* end of |section_text| */
 extern char *id_first; /* where the current identifier begins in the buffer */
 extern char *id_loc; /* just after the current identifier in the buffer */
@@ -237,7 +237,7 @@ handle \TEX/, so they should be sufficient for most applications of
 @d max_sections 10239 /* number of identifiers, strings, section names;
   must be less than 10240 */
 @d max_texts 10239 /* number of replacement texts, must be less than 10240 */
-@d longest_name 10000 /* section names and strings shouldn't be longer than this */
+@d longest_name 10000 /* file and section names and section texts shouldn't be longer than this */
 @d stack_size 500 /* number of simultaneous levels of macro expansion */
 @d buf_size 1000 /* for \.{CWEAVE} */
 @d long_buf_size (buf_size+longest_name) /* for \.{CWEAVE} */

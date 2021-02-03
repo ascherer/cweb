@@ -129,7 +129,7 @@ in those indexes.
 @^system dependencies@>
 
 @<Global var...@>=
-char section_text[longest_name+1]; /* name being sought for */
+char section_text[longest_name+1]; /* text being sought for */
 char *section_text_end = section_text+longest_name; /* end of |section_text| */
 char *id_first; /* where the current identifier begins in the buffer */
 char *id_loc; /* just after the current identifier in the buffer */

@@ -3739,7 +3739,7 @@ make_output(void) /* outputs the equivalents of tokens */
   eight_bits a=0, /* current output byte */
   b; /* next output byte */
   int c; /* count of |indent| and |outdent| tokens */
-  char scratch[longest_name]; /* scratch area for section names */
+  char scratch[longest_name+1]; /* scratch area for section names */
   char *k, *k_limit; /* indices into |scratch| */
   char *j; /* index into |buffer| */
   char *p; /* index into |byte_mem| */
