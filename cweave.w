@@ -4412,7 +4412,7 @@ sixteen_bits k_section; /* runs through the sections */
 @ A left-to-right radix sorting method is used, since this makes it easy to
 adjust the collating sequence and since the running time will be at worst
 proportional to the total length of all entries in the index. We put the
-identifiers into 102 different lists based on their first characters.
+identifiers into different lists based on their first characters.
 (Uppercase letters are put into the same list as the corresponding lowercase
 letters, since we want to have `$t<\\{TeX}<\&{to}$'.) The
 list for character |c| begins at location |bucket[c]| and continues through
@@ -4474,7 +4474,7 @@ max_sort_ptr=scrap_info;
 $|collate|[0]<|collate|[1]<\cdots<|collate|[100]$.
 
 @<Global...@>=
-eight_bits collate[102+128]; /* collation order */
+eight_bits collate[101+128]; /* collation order */
 @^high-bit character handling@>
 
 @ We use the order $\hbox{null}<\.\ <\hbox{other characters}<{}$\.\_${}<
@@ -4488,41 +4488,41 @@ some \CEE/ compilers choke on long strings.
 
 @<Set init...@>=
 collate[0]=0;
-strcpy((char *)collate+1,
-  " \1\2\3\4\5\6\7\10\11\12\13\14\15\16\17");
+memcpy((char *)collate+1,
+  " \1\2\3\4\5\6\7\10\11\12\13\14\15\16\17",16);
 /* 16 characters + 1 = 17 */
-strcpy((char *)collate+17,
-  "\20\21\22\23\24\25\26\27\30\31\32\33\34\35\36\37");
+memcpy((char *)collate+17,
+  "\20\21\22\23\24\25\26\27\30\31\32\33\34\35\36\37",16);
 /* 16 characters + 17 = 33 */
-strcpy((char *)collate+33,
-  "!\42#$%&'()*+,-./:;<=>?@@[\\]^`{|}~_");
+memcpy((char *)collate+33,
+  "!\42#$%&'()*+,-./:;<=>?@@[\\]^`{|}~_",32);
 /* 32 characters + 33 = 65 */
-strcpy((char *)collate+65,
-  "abcdefghijklmnopqrstuvwxyz0123456789");
+memcpy((char *)collate+65,
+  "abcdefghijklmnopqrstuvwxyz0123456789",36);
 /* (26 + 10) characters + 65 = 101 */
-strcpy((char *)collate+101,
-  "\200\201\202\203\204\205\206\207\210\211\212\213\214\215\216\217");
+memcpy((char *)collate+101,
+  "\200\201\202\203\204\205\206\207\210\211\212\213\214\215\216\217",16);
 /* 16 characters + 101 = 117 */
-strcpy((char *)collate+117,
-  "\220\221\222\223\224\225\226\227\230\231\232\233\234\235\236\237");
+memcpy((char *)collate+117,
+  "\220\221\222\223\224\225\226\227\230\231\232\233\234\235\236\237",16);
 /* 16 characters + 117 = 133 */
-strcpy((char *)collate+133,
-  "\240\241\242\243\244\245\246\247\250\251\252\253\254\255\256\257");
+memcpy((char *)collate+133,
+  "\240\241\242\243\244\245\246\247\250\251\252\253\254\255\256\257",16);
 /* 16 characters + 133 = 149 */
-strcpy((char *)collate+149,
-  "\260\261\262\263\264\265\266\267\270\271\272\273\274\275\276\277");
+memcpy((char *)collate+149,
+  "\260\261\262\263\264\265\266\267\270\271\272\273\274\275\276\277",16);
 /* 16 characters + 149 = 165 */
-strcpy((char *)collate+165,
-  "\300\301\302\303\304\305\306\307\310\311\312\313\314\315\316\317");
+memcpy((char *)collate+165,
+  "\300\301\302\303\304\305\306\307\310\311\312\313\314\315\316\317",16);
 /* 16 characters + 165 = 181 */
-strcpy((char *)collate+181,
-  "\320\321\322\323\324\325\326\327\330\331\332\333\334\335\336\337");
+memcpy((char *)collate+181,
+  "\320\321\322\323\324\325\326\327\330\331\332\333\334\335\336\337",16);
 /* 16 characters + 181 = 197 */
-strcpy((char *)collate+197,
-  "\340\341\342\343\344\345\346\347\350\351\352\353\354\355\356\357");
+memcpy((char *)collate+197,
+  "\340\341\342\343\344\345\346\347\350\351\352\353\354\355\356\357",16);
 /* 16 characters + 197 = 213 */
-strcpy((char *)collate+213,
-  "\360\361\362\363\364\365\366\367\370\371\372\373\374\375\376\377");
+memcpy((char *)collate+213,
+  "\360\361\362\363\364\365\366\367\370\371\372\373\374\375\376\377",16);
 /* 16 characters + 213 = 229 */
 
 @ Procedure |unbucket| goes through the buckets and adds nonempty lists
