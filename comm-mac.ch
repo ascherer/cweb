@@ -31,7 +31,7 @@ FILE *fp@t\2\2@>) /* what file to read from */
     if ((c=getc(fp))!=EOF && c!='\n') {
       ungetc(c,fp); loc=buffer; err_print("! Input line too long");
 @.Input line too long@>
-  }
+    }
   if (c==EOF && limit==buffer) return(0);  /* there was nothing after
     the last newline */
   return(1);
