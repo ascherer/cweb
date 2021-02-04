@@ -85,8 +85,7 @@
 #define max_toks 1000000
 #define max_names 10239 \
 
-#define max_sections 10239 \
-
+#define max_sections 4000
 #define max_texts 10239
 #define longest_name 10000
 #define stack_size 500

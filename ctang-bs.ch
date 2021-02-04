@@ -94,8 +94,7 @@ handle \TEX/, so they should be sufficient for most applications of
 @d max_toks 1000000 /* number of bytes in compressed \CEE/ code */
 @d max_names 10239 /* number of identifiers, strings, section names;
   must be less than 10240 */
-@d max_sections 10239 /* number of identifiers, strings, section names;
-  must be less than 10240 */
+@d max_sections 4000 /* greater than the total number of sections */
 @d max_texts 10239 /* number of replacement texts, must be less than 10240 */
 @d longest_name 10000 /* file and section names and section texts shouldn't be longer than this */
 @d stack_size 500 /* number of simultaneous levels of macro expansion */
@@ -120,8 +119,7 @@ to run \.{CTANGLE} from a makefile.)
 @d max_toks 170000 /* number of bytes in compressed \CEE/ code */
 @d max_names 4000 /* number of identifiers, strings, section names;
   must be less than 10240 */
-@d max_sections 4000 /* number of identifiers, strings, section names;
-  must be less than 10240 */
+@d max_sections 4000 /* greater than the total number of sections */
 @d max_texts 2500 /* number of replacement texts, must be less than 10240 */
 @d longest_name 10000 /* file and section names and section texts shouldn't be longer than this */
 @d stack_size 50 /* number of simultaneous levels of macro expansion */
