@@ -1473,7 +1473,7 @@ boolean quote_xalpha)
 }
 
 @* Routines that copy \TEX/ material.
-During phase two, we use subroutines |copy_limbo| and |copy_TeX| (and
+During phase two, we use the subroutines |copy_limbo| and |copy_TeX| (and
 |copy_comment|) in place of the analogous |skip_limbo| and |skip_TeX|
 that were used in phase one.
 
