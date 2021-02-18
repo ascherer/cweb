@@ -335,11 +335,11 @@ Thus, we usually have |*text_ptr==tok_ptr|.
 @<Global...@>=
 token tok_mem[max_toks]; /* tokens */
 token_pointer tok_mem_end = tok_mem+max_toks-1; /* end of |tok_mem| */
-token_pointer tok_start[max_texts]; /* directory into |tok_mem| */
 token_pointer tok_ptr; /* first unused position in |tok_mem| */
-text_pointer text_ptr; /* first unused position in |tok_start| */
-text_pointer tok_start_end = tok_start+max_texts-1; /* end of |tok_start| */
 token_pointer max_tok_ptr; /* largest value of |tok_ptr| */
+token_pointer tok_start[max_texts]; /* directory into |tok_mem| */
+text_pointer tok_start_end = tok_start+max_texts-1; /* end of |tok_start| */
+text_pointer text_ptr; /* first unused position in |tok_start| */
 text_pointer max_text_ptr; /* largest value of |text_ptr| */
 
 @ @<Set init...@>=
@@ -1291,8 +1291,8 @@ be output.
 
 @<Global...@>=
 char out_buf[line_length+1]; /* assembled characters */
-char *out_ptr; /* last character in |out_buf| */
 char *out_buf_end = out_buf+line_length; /* end of |out_buf| */
+char *out_ptr; /* last character in |out_buf| */
 int out_line; /* number of next line to be output */
 
 @ The |flush_buffer| routine empties the buffer up to a given breakpoint,
@@ -2107,12 +2107,12 @@ typedef scrap *scrap_pointer;
 @<Global...@>=
 scrap scrap_info[max_scraps]; /* memory array for scraps */
 scrap_pointer scrap_info_end=scrap_info+max_scraps -1; /* end of |scrap_info| */
-scrap_pointer pp; /* current position for reducing productions */
 scrap_pointer scrap_base; /* beginning of the current scrap sequence */
 scrap_pointer scrap_ptr; /* ending of the current scrap sequence */
+scrap_pointer max_scr_ptr; /* largest value assumed by |scrap_ptr| */
+scrap_pointer pp; /* current position for reducing productions */
 scrap_pointer lo_ptr; /* last scrap that has been examined */
 scrap_pointer hi_ptr; /* first scrap that has not been examined */
-scrap_pointer max_scr_ptr; /* largest value assumed by |scrap_ptr| */
 
 @ @<Set init...@>=
 scrap_base=scrap_info+1;
@@ -2418,7 +2418,7 @@ of identifiers in case labels.
 If the first identifier is the keyword `\&{operator}', we give up;
 users who want to index definitions of overloaded \CPLUSPLUS/ operators
 should say, for example, `\.{@@!@@\^\\\&\{operator\} \$+\{=\}\$@@>}' (or,
-more properly alphabetized,
+more properly alpha\-betized,
 `\.{@@!@@:operator+=\}\{\\\&\{operator\} \$+\{=\}\$@@>}').
 
 @d no_ident_found (token_pointer)0 /* distinct from any identifier token */
@@ -3608,8 +3608,8 @@ typedef output_state *stack_pointer;
 @<Global...@>=
 output_state cur_state; /* |cur_end|, |cur_tok|, |cur_mode| */
 output_state stack[stack_size]; /* info for non-current levels */
-stack_pointer stack_ptr; /* first unused location in the output state stack */
 stack_pointer stack_end=stack+stack_size-1; /* end of |stack| */
+stack_pointer stack_ptr; /* first unused location in the output state stack */
 stack_pointer max_stack_ptr; /* largest value assumed by |stack_ptr| */
 
 @ @<Set init...@>=
