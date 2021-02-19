@@ -317,7 +317,7 @@ char output_file_name[longest_name+1];
 /*:45*//*52:*/
 #line 586 "ctangle.w"
 
-boolean output_defs_seen= 0;
+boolean output_defs_seen= false;
 
 /*:52*//*57:*/
 #line 695 "ctangle.w"
@@ -332,13 +332,13 @@ eight_bits ccode[256];
 /*:62*//*66:*/
 #line 834 "ctangle.w"
 
-boolean comment_continues= 0;
+boolean comment_continues= false;
 
 /*:66*//*68:*/
 #line 873 "ctangle.w"
 
 name_pointer cur_section_name;
-int no_where;
+boolean no_where;
 
 /*:68*//*82:*/
 #line 1187 "ctangle.w"
@@ -397,7 +397,7 @@ static void store_two_bytes(sixteen_bits);
 #line 310 "ctangle.w"
 
 static void push_level(name_pointer);
-static void pop_level(int);
+static void pop_level(boolean);
 
 /*:34*//*38:*/
 #line 369 "ctangle.w"
@@ -536,7 +536,7 @@ const char*first,
 size_t l,
 eight_bits t)
 {(void)t;
-if(length(p)!=l)return 0;
+if(length(p)!=l)return false;
 return!strncmp(first,p->byte_start,l);
 }
 
@@ -586,7 +586,7 @@ cur_section= 0;
 
 static void
 pop_level(
-int flag)
+boolean flag)
 {
 if(flag&&cur_repl->text_link<section_flag){
 cur_repl= cur_repl->text_link+text_info;
@@ -607,7 +607,7 @@ sixteen_bits a;
 restart:if(stack_ptr==stack)return;
 if(cur_byte==cur_end){
 cur_val= -((int)cur_section);
-pop_level(1);
+pop_level(true);
 if(cur_val==0)goto restart;
 out_char(section_number);return;
 }
@@ -664,7 +664,7 @@ cur_line++;
 
 static void
 phase_two(void){
-web_file_open= 0;
+web_file_open= false;
 cur_line= 1;
 /*33:*/
 #line 299 "ctangle.w"
@@ -749,7 +749,7 @@ cur_byte= cur_text->tok_start;
 cur_end= (cur_text+1)->tok_start;
 C_printf("%s","#define ");
 out_state= normal;
-protect= 1;
+protect= true;
 while(cur_byte<cur_end){
 a= *cur_byte++;
 if(cur_byte==cur_end&&a=='\n')break;
@@ -769,10 +769,10 @@ cur_val= a-050000;cur_section= cur_val;out_char(section_number);
 
 }
 }
-protect= 0;
+protect= false;
 flush_buffer();
 }
-pop_level(0);
+pop_level(false);
 }
 
 /*:54*//*55:*/
@@ -883,8 +883,8 @@ static eight_bits
 skip_ahead(void)
 {
 eight_bits c;
-while(1){
-if(loc> limit&&(get_line()==0))return(new_section);
+while(true){
+if(loc> limit&&(get_line()==false))return(new_section);
 *(limit+1)= '@';
 while(*loc!='@')loc++;
 if(loc<=limit){
@@ -901,27 +901,27 @@ static boolean skip_comment(
 boolean is_long_comment)
 {
 char c;
-while(1){
+while(true){
 if(loc> limit){
 if(is_long_comment){
-if(get_line())return(comment_continues= 1);
+if(get_line())return(comment_continues= true);
 else{
 err_print("! Input ended in mid-comment");
 
-return(comment_continues= 0);
+return(comment_continues= false);
 }
 }
-else return(comment_continues= 0);
+else return(comment_continues= false);
 }
 c= *(loc++);
 if(is_long_comment&&c=='*'&&*loc=='/'){
-loc++;return(comment_continues= 0);
+loc++;return(comment_continues= false);
 }
 if(c=='@'){
 if(ccode[(eight_bits)*loc]==new_section){
 err_print("! Section name ended in mid-comment");loc--;
 
-return(comment_continues= 0);
+return(comment_continues= false);
 }
 else loc++;
 }
@@ -936,12 +936,12 @@ get_next(void)
 {
 static int preprocessing= 0;
 eight_bits c;
-while(1){
+while(true){
 if(loc> limit){
 if(preprocessing&&*(limit-1)!='\\')preprocessing= 0;
-if(get_line()==0)return(new_section);
+if(get_line()==false)return(new_section);
 else if(print_where&&!no_where){
-print_where= 0;
+print_where= false;
 /*85:*/
 #line 1220 "ctangle.w"
 
@@ -1012,13 +1012,13 @@ if(delim=='L'||delim=='u'||delim=='U'){
 if(delim=='u'&&*loc=='8'){*++id_loc= *loc++;}
 delim= *loc++;*++id_loc= delim;
 }
-while(1){
+while(true){
 if(loc>=limit){
 if(*(limit-1)!='\\'){
 err_print("! String didn't end");loc= limit;break;
 
 }
-if(get_line()==0){
+if(get_line()==false){
 err_print("! Input ended in middle of string");loc= buffer;break;
 
 }
@@ -1086,8 +1086,8 @@ char*k;
 #line 1110 "ctangle.w"
 
 k= section_text;
-while(1){
-if(loc> limit&&get_line()==0){
+while(true){
+if(loc> limit&&get_line()==false){
 err_print("! Input ended in section name");
 
 loc= buffer+1;break;
@@ -1271,7 +1271,7 @@ app_repl(a_l%0400);}
 /*:85*/
 #line 1200 "ctangle.w"
 }
-while(1)switch(a= get_next()){
+while(true)switch(a= get_next()){
 /*86:*/
 #line 1233 "ctangle.w"
 
@@ -1321,7 +1321,7 @@ break;
 case output_defs_code:if(t!=section_name)err_print("! Misplaced @h");
 
 else{
-output_defs_seen= 1;
+output_defs_seen= true;
 a= output_defs_flag;
 app_repl((a/0400)+0200);
 app_repl(a%0400);
@@ -1447,12 +1447,12 @@ scan_section(void)
 name_pointer p;
 text_pointer q;
 sixteen_bits a;
-section_count++;no_where= 1;
+section_count++;no_where= true;
 if(*(loc-1)=='*'&&show_progress){
 printf("*%d",section_count);update_terminal;
 }
 next_control= 0;
-while(1){
+while(true){
 /*93:*/
 #line 1397 "ctangle.w"
 
@@ -1482,7 +1482,7 @@ if(*loc!='('){
 app_repl(string);app_repl(' ');app_repl(string);
 }
 scan_repl(macro);
-cur_text->text_link= 0;
+cur_text->text_link= macro;
 }
 
 /*:94*/
@@ -1509,7 +1509,7 @@ break;
 }
 return;
 }
-no_where= print_where= 0;
+no_where= print_where= false;
 /*96:*/
 #line 1434 "ctangle.w"
 
@@ -1570,8 +1570,8 @@ static void
 skip_limbo(void)
 {
 char c;
-while(1){
-if(loc> limit&&get_line()==0)return;
+while(true){
+if(loc> limit&&get_line()==false)return;
 *(limit+1)= '@';
 while(*loc!='@')loc++;
 if(loc++<=limit){
