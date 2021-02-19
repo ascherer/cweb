@@ -17,8 +17,8 @@
 
 #define banner "This is CTANGLE (Version 4.0)" \
 
-#define ctangle 0
-#define cweave 1 \
+#define ctangle false
+#define cweave true \
 
 #define and_and 04
 #define lt_lt 020
@@ -48,8 +48,7 @@
 #define llink link
 #define rlink dummy.Rlink
 #define root name_dir->rlink \
-
-#define chunk_marker 0 \
+ \
 
 #define spotless 0
 #define harmless_message 1
@@ -172,7 +171,7 @@ extern char*loc;
 extern char*limit;
 
 /*:6*//*7:*/
-#line 103 "common.h"
+#line 102 "common.h"
 
 typedef struct name_info{
 char*byte_start;
@@ -197,12 +196,12 @@ extern hash_pointer hash_end;
 extern hash_pointer h;
 
 /*:7*//*9:*/
-#line 147 "common.h"
+#line 146 "common.h"
 
 extern int history;
 
 /*:9*//*11:*/
-#line 167 "common.h"
+#line 166 "common.h"
 
 extern int include_depth;
 extern FILE*file[];
@@ -222,7 +221,7 @@ extern boolean changing;
 extern boolean web_file_open;
 
 /*:11*//*13:*/
-#line 191 "common.h"
+#line 190 "common.h"
 
 extern sixteen_bits section_count;
 extern boolean changed_section[];
@@ -230,14 +229,14 @@ extern boolean change_pending;
 extern boolean print_where;
 
 /*:13*//*14:*/
-#line 204 "common.h"
+#line 203 "common.h"
 
 extern int argc;
 extern char**argv;
 extern boolean flags[];
 
 /*:14*//*15:*/
-#line 216 "common.h"
+#line 215 "common.h"
 
 extern FILE*C_file;
 extern FILE*tex_file;
@@ -356,7 +355,7 @@ extern sixteen_bits section_count;
 #line 71 "ctangle.w"
 
 /*8:*/
-#line 126 "common.h"
+#line 125 "common.h"
 
 extern boolean names_match(name_pointer,const char*,size_t,eight_bits);
 extern name_pointer id_lookup(const char*,const char*,char);
@@ -369,7 +368,7 @@ extern void print_section_name(name_pointer);
 extern void sprint_section_name(char*,name_pointer);
 
 /*:8*//*10:*/
-#line 150 "common.h"
+#line 149 "common.h"
 
 extern int wrap_up(void);
 extern void err_print(const char*);
@@ -377,14 +376,14 @@ extern void fatal(const char*,const char*);
 extern void overflow(const char*);
 
 /*:10*//*12:*/
-#line 185 "common.h"
+#line 184 "common.h"
 
 extern boolean get_line(void);
 extern void check_complete(void);
 extern void reset_input(void);
 
 /*:12*//*16:*/
-#line 224 "common.h"
+#line 223 "common.h"
 
 extern void common_init(void);
 extern void print_stats(void);

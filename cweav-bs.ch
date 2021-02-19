@@ -30,7 +30,7 @@ is modified.
 
 
 @x Section 7.
-@d chunk_marker 0
+  for section names */
 
 @<Common code...@>=
 typedef struct name_info {
@@ -55,7 +55,7 @@ extern name_pointer hash[]; /* heads of hash lists */
 extern hash_pointer hash_end; /* end of |hash| */
 extern hash_pointer h; /* index into hash-head array */
 @y
-@d chunk_marker 0
+  for section names */
 
 @f huge extern
 
