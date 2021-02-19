@@ -265,7 +265,7 @@ int change_line;
 int change_depth;
 boolean input_has_ended;
 boolean changing;
-boolean web_file_open= 0;
+boolean web_file_open= false;
 
 /*:25*//*26:*/
 #line 220 "common.w"
@@ -280,7 +280,7 @@ sixteen_bits section_count;
 boolean changed_section[max_sections];
 boolean change_pending;
 
-boolean print_where= 0;
+boolean print_where= false;
 
 /*:37*//*43:*/
 #line 598 "common.w"
@@ -459,7 +459,7 @@ FILE*fp)
 {
 register int c= EOF;
 register char*k;
-if(feof(fp))return(0);
+if(feof(fp))return(false);
 limit= k= buffer;
 while(k<=buffer_end&&(c= getc(fp))!=EOF&&c!='\n')
 if((*(k++)= c)!=' ')limit= k;
@@ -468,9 +468,9 @@ if((c= getc(fp))!=EOF&&c!='\n'){
 ungetc(c,fp);loc= buffer;err_print("! Input line too long");
 
 }
-if(c==EOF&&limit==buffer)return(0);
+if(c==EOF&&limit==buffer)return(false);
 
-return(1);
+return(true);
 }
 
 /*:24*//*28:*/
@@ -483,7 +483,7 @@ change_limit= change_buffer;
 /*29:*/
 #line 248 "common.w"
 
-while(1){
+while(true){
 change_line++;
 if(!input_ln(change_file))return;
 if(limit<buffer+2)continue;
@@ -536,17 +536,17 @@ check_change(void)
 {
 int n= 0;
 if(lines_dont_match)return;
-change_pending= 0;
+change_pending= false;
 if(!changed_section[section_count]){
-if_section_start_make_pending(1);
-if(!change_pending)changed_section[section_count]= 1;
+if_section_start_make_pending(true);
+if(!change_pending)changed_section[section_count]= true;
 }
-while(1){
-changing= 1;print_where= 1;change_line++;
+while(true){
+changing= true;print_where= true;change_line++;
 if(!input_ln(change_file)){
 err_print("! Change file ended before @y");
 
-change_limit= change_buffer;changing= 0;
+change_limit= change_buffer;changing= false;
 return;
 }
 if(limit> buffer+1&&buffer[0]=='@'){
@@ -584,12 +584,12 @@ strncpy(change_buffer,buffer,(size_t)(limit-buffer+1));
 /*:31*/
 #line 330 "common.w"
 
-changing= 0;cur_line++;
+changing= false;cur_line++;
 while(!input_ln(cur_file)){
 if(include_depth==0){
 err_print("! CWEB file ended during a change");
 
-input_has_ended= 1;return;
+input_has_ended= true;return;
 }
 include_depth--;cur_line++;
 }
@@ -614,7 +614,7 @@ fatal("! Cannot open input file ",web_file_name);
 }
 
 
-web_file_open= 1;
+web_file_open= true;
 if((change_file= fopen(change_file_name,"r"))==NULL)
 fatal("! Cannot open change file ",change_file_name);
 
@@ -624,7 +624,7 @@ fatal("! Cannot open change file ",change_file_name);
 include_depth= 0;cur_line= 0;change_line= 0;
 change_depth= include_depth;
 changing= 1;prime_the_change_buffer();changing= !changing;
-limit= buffer;loc= buffer+1;buffer[0]= ' ';input_has_ended= 0;
+limit= buffer;loc= buffer+1;buffer[0]= ' ';input_has_ended= false;
 }
 
 /*:35*//*38:*/
@@ -645,9 +645,9 @@ buffer[0]= '@';buffer[1]= 'z';limit= buffer+2;
 }
 if(limit> buffer){
 if(change_pending){
-if_section_start_make_pending(0);
+if_section_start_make_pending(false);
 if(change_pending){
-changed_section[section_count]= 1;change_pending= 0;
+changed_section[section_count]= true;change_pending= false;
 }
 }
 *limit= ' ';
@@ -659,7 +659,7 @@ err_print("! Where is the matching @z?");
 
 }
 else if(buffer[1]=='z'){
-prime_the_change_buffer();changing= !changing;print_where= 1;
+prime_the_change_buffer();changing= !changing;print_where= true;
 }
 }
 }
@@ -674,8 +674,8 @@ if(!changing||include_depth> change_depth){
 {
 cur_line++;
 while(!input_ln(cur_file)){
-print_where= 1;
-if(include_depth==0){input_has_ended= 1;break;}
+print_where= true;
+if(include_depth==0){input_has_ended= true;break;}
 else{
 fclose(cur_file);include_depth--;
 if(changing&&include_depth==change_depth)break;
@@ -693,7 +693,7 @@ if(change_limit> change_buffer)check_change();
 
 if(changing&&include_depth==change_depth)goto restart;
 }
-if(input_has_ended)return 0;
+if(input_has_ended)return false;
 loc= buffer;*limit= ' ';
 if(buffer[0]=='@'&&(buffer[1]=='i'||buffer[1]=='I')){
 loc= buffer+2;*limit= '"';
@@ -727,7 +727,7 @@ if(k> cur_file_name_end)too_long();
 
 *k= '\0';
 if((cur_file= fopen(cur_file_name,"r"))!=NULL){
-cur_line= 0;print_where= 1;
+cur_line= 0;print_where= true;
 goto restart;
 }
 kk= getenv("CWEBINPUTS");
@@ -750,7 +750,7 @@ for(;k>=cur_file_name;k--)*(k+l+1)= *k;
 strcpy(cur_file_name,temp_file_name);
 cur_file_name[l]= '/';
 if((cur_file= fopen(cur_file_name,"r"))!=NULL){
-cur_line= 0;print_where= 1;
+cur_line= 0;print_where= true;
 goto restart;
 }
 }
@@ -761,7 +761,7 @@ include_depth--;err_print("! Cannot open include file");goto restart;
 #line 434 "common.w"
 
 }
-return 1;
+return true;
 }
 
 /*:38*//*42:*/
@@ -772,7 +772,7 @@ check_complete(void){
 if(change_limit!=change_buffer){
 strncpy(buffer,change_buffer,(size_t)(change_limit-change_buffer+1));
 limit= buffer+(ptrdiff_t)(change_limit-change_buffer);
-changing= 1;change_depth= include_depth;loc= buffer;
+changing= true;change_depth= include_depth;loc= buffer;
 err_print("! Change file entry did not match");
 
 }
@@ -1068,7 +1068,7 @@ name_pointer q= r+1;
 char*ss,*s= first_chunk(r);
 int c;
 int ispref;
-while(1){
+while(true){
 ss= (r+1)->byte_start-1;
 if(*ss==' '&&ss>=r->byte_start)ispref= 1,q= q->link;
 else ispref= 0,ss++,q= name_dir;
@@ -1180,7 +1180,7 @@ scan_args(void)
 char*dot_pos;
 char*name_pos;
 register char*s;
-boolean found_web= 0,found_change= 0,found_out= 0;
+boolean found_web= false,found_change= false,found_out= false;
 
 
 strcpy(change_file_name,"/dev/null");
@@ -1227,7 +1227,7 @@ sprintf(tex_file_name,"%s.tex",name_pos);
 sprintf(idx_file_name,"%s.idx",name_pos);
 sprintf(scn_file_name,"%s.scn",name_pos);
 sprintf(C_file_name,"%s.c",name_pos);
-found_web= 1;
+found_web= true;
 }
 
 /*:77*/
@@ -1251,7 +1251,7 @@ if(dot_pos==NULL)
 sprintf(change_file_name,"%s.ch",*argv);
 else strcpy(change_file_name,*argv);
 }
-found_change= 1;
+found_change= true;
 }
 
 /*:78*/
@@ -1284,7 +1284,7 @@ sprintf(idx_file_name,"%s.idx",*argv);
 sprintf(scn_file_name,"%s.scn",*argv);
 }
 }
-found_out= 1;
+found_out= true;
 }
 
 /*:79*/
