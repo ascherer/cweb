@@ -137,7 +137,7 @@
 #define ishigh(c) ((eight_bits) (c) > 0177)  \
  \
 
-#define compress(c) if(loc++<=limit) return(c)  \
+#define compress(c) if(loc++<=limit) return c \
 
 #define macro 0
 #define app_repl(c) {if(tok_ptr==tok_mem_end) overflow("token") ;*tok_ptr++= c;} \
@@ -884,12 +884,12 @@ skip_ahead(void)
 {
 eight_bits c;
 while(true){
-if(loc> limit&&(get_line()==false))return(new_section);
+if(loc> limit&&(get_line()==false))return new_section;
 *(limit+1)= '@';
 while(*loc!='@')loc++;
 if(loc<=limit){
 loc++;c= ccode[(eight_bits)*loc];loc++;
-if(c!=ignore||*(loc-1)=='>')return(c);
+if(c!=ignore||*(loc-1)=='>')return c;
 }
 }
 }
@@ -904,24 +904,24 @@ char c;
 while(true){
 if(loc> limit){
 if(is_long_comment){
-if(get_line())return(comment_continues= true);
+if(get_line())return comment_continues= true;
 else{
 err_print("! Input ended in mid-comment");
 
-return(comment_continues= false);
+return comment_continues= false;
 }
 }
-else return(comment_continues= false);
+else return comment_continues= false;
 }
 c= *(loc++);
 if(is_long_comment&&c=='*'&&*loc=='/'){
-loc++;return(comment_continues= false);
+loc++;return comment_continues= false;
 }
 if(c=='@'){
 if(ccode[(eight_bits)*loc]==new_section){
 err_print("! Section name ended in mid-comment");loc--;
 
-return(comment_continues= false);
+return comment_continues= false;
 }
 else loc++;
 }
@@ -939,7 +939,7 @@ eight_bits c;
 while(true){
 if(loc> limit){
 if(preprocessing&&*(limit-1)!='\\')preprocessing= 0;
-if(get_line()==false)return(new_section);
+if(get_line()==false)return new_section;
 else if(print_where&&!no_where){
 print_where= false;
 /*85:*/
@@ -961,13 +961,13 @@ app_repl(a_l%0400);}
 #line 900 "ctangle.w"
 
 }
-else return('\n');
+else return'\n';
 }
 c= *loc;
 if(comment_continues||(c=='/'&&(*(loc+1)=='*'||*(loc+1)=='/'))){
 skip_comment(comment_continues||*(loc+1)=='*');
 
-if(comment_continues)return('\n');
+if(comment_continues)return'\n';
 else continue;
 }
 loc++;
@@ -993,7 +993,7 @@ while(xisdigit(*loc))loc++;
 found:while(*loc=='u'||*loc=='U'||*loc=='l'||*loc=='L'
 ||*loc=='f'||*loc=='F')loc++;
 id_loc= loc;
-return(constant);
+return constant;
 }
 
 /*:73*/
@@ -1043,7 +1043,7 @@ term_write(section_text+1,25);
 err_print("...");
 }
 id_loc++;
-return(string);
+return string;
 }
 
 /*:74*/
@@ -1056,7 +1056,7 @@ else if(isalpha(c)||isxalpha(c)||ishigh(c))
 id_first= --loc;
 while(isalpha((eight_bits)*++loc)||isdigit((eight_bits)*loc)
 ||isxalpha((eight_bits)*loc)||ishigh((eight_bits)*loc));
-id_loc= loc;return(identifier);
+id_loc= loc;return identifier;
 }
 
 /*:72*/
@@ -1155,7 +1155,7 @@ overflow("output files");
 /*:47*/
 #line 1098 "ctangle.w"
 
-return(section_name);
+return section_name;
 }
 
 /*:77*/
@@ -1169,7 +1169,7 @@ while(*loc!='@'||*(loc+1)!='>')loc++;
 if(loc>=limit)err_print("! Verbatim string didn't end");
 
 id_loc= loc;loc+= 2;
-return(string);
+return string;
 }
 
 /*:81*/
@@ -1196,12 +1196,12 @@ err_print("! String didn't end");loc= limit-1;break;
 }
 }
 loc++;
-return(ord);
+return ord;
 
 /*:76*/
 #line 1058 "ctangle.w"
 
-default:return(c);
+default:return c;
 }
 }
 
@@ -1211,7 +1211,7 @@ default:return(c);
 else if(xisspace(c)){
 if(!preprocessing||loc> limit)continue;
 
-else return(' ');
+else return' ';
 }
 else if(c=='#'&&loc==buffer+1)preprocessing= 1;
 mistake:/*71:*/
@@ -1241,7 +1241,7 @@ case'!':if(*loc=='=')compress(non_eq);break;
 /*:71*/
 #line 926 "ctangle.w"
 
-return(c);
+return c;
 }
 }
 

@@ -165,7 +165,7 @@ FILE *fp@t\2\2@>) /* what file to read from */
 {
   register int  c=EOF; /* character read; initialized so some compilers won't complain */
   register char *k;  /* where next character goes */
-  if (feof(fp)) return(false);  /* we have hit end-of-file */
+  if (feof(fp)) return false;  /* we have hit end-of-file */
   limit = k = buffer;  /* beginning of buffer */
   while (k<=buffer_end && (c=getc(fp)) != EOF && c!='\n')
     if ((*(k++) = c) != ' ') limit = k;
@@ -174,9 +174,9 @@ FILE *fp@t\2\2@>) /* what file to read from */
       ungetc(c,fp); loc=buffer; err_print("! Input line too long");
 @.Input line too long@>
     }
-  if (c==EOF && limit==buffer) return(false);  /* there was nothing after
+  if (c==EOF && limit==buffer) return false;  /* there was nothing after
     the last newline */
-  return(true);
+  return true;
 }
 
 @ Now comes the problem of deciding which file to read from next.
@@ -654,7 +654,7 @@ char t@t\2\2@>) /* the |ilk|; used by \.{CWEAVE} only */
   @<Compute the hash code |h|@>@;
   @<Compute the name location |p|@>@;
   if (p==name_ptr) @<Enter a new name into the table at position |p|@>@;
-  return(p);
+  return p;
 }
 
 @ A simple hash code is used: If the sequence of
@@ -1082,8 +1082,8 @@ int wrap_up(void) {
   if (show_stats)
     print_stats(); /* print statistics about memory usage */
   @<Print the job |history|@>@;
-  if (history > harmless_message) return(1);
-  else return(0);
+  if (history > harmless_message) return EXIT_FAILURE;
+  else return EXIT_SUCCESS;
 }
 
 @ @<Print the job |history|@>=

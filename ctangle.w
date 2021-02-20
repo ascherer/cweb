@@ -805,12 +805,12 @@ skip_ahead(void) /* skip to next control code */
 {
   eight_bits c; /* control code found */
   while (true) {
-    if (loc>limit && (get_line()==false)) return(new_section);
+    if (loc>limit && (get_line()==false)) return new_section;
     *(limit+1)='@@';
     while (*loc!='@@') loc++;
     if (loc<=limit) {
       loc++; c=ccode[(eight_bits)*loc]; loc++;
-      if (c!=ignore || *(loc-1)=='>') return(c);
+      if (c!=ignore || *(loc-1)=='>') return c;
     }
   }
 }
@@ -842,24 +842,24 @@ boolean is_long_comment@t\2\2@>)
   while (true) {
     if (loc>limit) {
       if (is_long_comment) {
-        if(get_line()) return(comment_continues=true);
+        if(get_line()) return comment_continues=true;
         else{
           err_print("! Input ended in mid-comment");
 @.Input ended in mid-comment@>
-          return(comment_continues=false);
+          return comment_continues=false;
         }
       }
-      else return(comment_continues=false);
+      else return comment_continues=false;
     }
     c=*(loc++);
     if (is_long_comment && c=='*' && *loc=='/') {
-      loc++; return(comment_continues=false);
+      loc++; return comment_continues=false;
     }
     if (c=='@@') {
       if (ccode[(eight_bits)*loc]==new_section) {
         err_print("! Section name ended in mid-comment"); loc--;
 @.Section name ended in mid-comment@>
-        return(comment_continues=false);
+        return comment_continues=false;
       }
       else loc++;
     }
@@ -894,18 +894,18 @@ get_next(void) /* produces the next input token */
   while (true) {
     if (loc>limit) {
       if (preprocessing && *(limit-1)!='\\') preprocessing=0;
-      if (get_line()==false) return(new_section);
+      if (get_line()==false) return new_section;
       else if (print_where && !no_where) {
           print_where=false;
           @<Insert the line number into |tok_mem|@>@;
         }
-        else return ('\n');
+        else return '\n';
     }
     c=*loc;
     if (comment_continues || (c=='/' && (*(loc+1)=='*' || *(loc+1)=='/'))) {
       skip_comment(comment_continues||*(loc+1)=='*');
           /* scan to end of comment or newline */
-      if (comment_continues) return('\n');
+      if (comment_continues) return '\n';
       else continue;
     }
     loc++;
@@ -920,11 +920,11 @@ get_next(void) /* produces the next input token */
     else if (xisspace(c)) {
         if (!preprocessing || loc>limit) continue;
           /* we don't want a blank after a final backslash */
-        else return(' '); /* ignore spaces and tabs, unless preprocessing */
+        else return ' '; /* ignore spaces and tabs, unless preprocessing */
     }
     else if (c=='#' && loc==buffer+1) preprocessing=1;
     mistake: @<Compress two-symbol operator@>@;
-    return(c);
+    return c;
   }
 }
 
@@ -935,7 +935,7 @@ combinations \.{...}, \.{::}, \.{.*} and \.{->*}.
 The compound assignment operators (e.g., \.{+=}) are
 treated as separate tokens.
 
-@d compress(c) if (loc++<=limit) return(c)
+@d compress(c) if (loc++<=limit) return c
 
 @<Compress tw...@>=
 switch(c) {
@@ -963,7 +963,7 @@ switch(c) {
   id_first=--loc;
   while (isalpha((eight_bits)*++loc) || isdigit((eight_bits)*loc) @|
       || isxalpha((eight_bits)*loc) || ishigh((eight_bits)*loc));
-  id_loc=loc; return(identifier);
+  id_loc=loc; return identifier;
 }
 
 @ @<Get a constant@>= {
@@ -986,7 +986,7 @@ switch(c) {
  found: while (*loc=='u' || *loc=='U' || *loc=='l' || *loc=='L'
              || *loc=='f' || *loc=='F') loc++;
   id_loc=loc;
-  return(constant);
+  return constant;
 }
 
 @ \CEE/ strings and character constants, delimited by double and single
@@ -1033,7 +1033,7 @@ convention, but do not allow the string to be longer than |longest_name|.
     err_print("...");
   }
   id_loc++;
-  return(string);
+  return string;
 }
 
 @ After an \.{@@} sign has been scanned, the next character tells us
@@ -1056,7 +1056,7 @@ whether there is more work to do.
       @<Scan the section name and make |cur_section_name| point to it@>@;
     case string: @<Scan a verbatim string@>@;
     case ord: @<Scan an ASCII constant@>@;
-    default: return(c);
+    default: return c;
   }
 }
 
@@ -1085,7 +1085,7 @@ thus, \.{@@'\\nopq'} gives the same result as \.{@@'\\n'}.
     }
   }
   loc++;
-  return(ord);
+  return ord;
 
 @ @<Scan the section name...@>= {
   char *k; /* pointer into |section_text| */
@@ -1096,7 +1096,7 @@ thus, \.{@@'\\nopq'} gives the same result as \.{@@'\\n'}.
   if (cur_section_name_char=='(')
     @<If it's not there, add |cur_section_name| to the output file stack, or
           complain we're out of room@>@;
-  return(section_name);
+  return section_name;
 }
 
 @ Section names are placed into the |section_text| array with consecutive spaces,
@@ -1159,7 +1159,7 @@ buffer.  We also set |loc| to the position just after the ending delimiter.
   if (loc>=limit) err_print("! Verbatim string didn't end");
 @.Verbatim string didn't end@>
   id_loc=loc; loc+=2;
-  return(string);
+  return string;
 }
 
 @* Scanning a macro definition.
