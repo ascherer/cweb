@@ -1345,17 +1345,14 @@ sensed in the input, and it proceeds until the end of that section.  It
 uses |section_count| to keep track of the current section number; with luck,
 \.{CWEAVE} and \.{CTANGLE} will both assign the same numbers to sections.
 
-@<Global...@>=
-extern sixteen_bits section_count; /* the current section number */
+@<Predecl...@>=
+static void scan_section(void);@/
 
 @ The body of |scan_section| is a loop where we look for control codes
 that are significant to \.{CTANGLE}: those
 that delimit a definition, the \CEE/ part of a module, or a new module.
 
-@<Predecl...@>=
-static void scan_section(void);@/
-
-@ @c
+@c
 static void
 scan_section(void)
 {
