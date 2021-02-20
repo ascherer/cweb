@@ -2,7 +2,7 @@
 % This program by Silvio Levy and Donald E. Knuth
 % is based on a program by Knuth.
 % It is distributed WITHOUT ANY WARRANTY, express or implied.
-% Version 4.0 --- February 2021
+% Version 4.1 --- February 2021
 
 % Copyright (C) 1987,1990,1993,2000 Silvio Levy and Donald E. Knuth
 
@@ -22,12 +22,12 @@
 
 \def\v{\char'174} % vertical (|) in typewriter font
 
-\def\title{Common code for CTANGLE and CWEAVE (Version 4.0)}
+\def\title{Common code for CTANGLE and CWEAVE (Version 4.1)}
 \def\topofcontents{\null\vfill
   \centerline{\titlefont Common code for {\ttitlefont CTANGLE} and
     {\ttitlefont CWEAVE}}
   \vskip 15pt
-  \centerline{(Version 4.0)}
+  \centerline{(Version 4.1)}
   \vfill}
 \def\botofcontents{\vfill
 \noindent
@@ -72,8 +72,6 @@ The file begins with a few basic definitions.
 
 @ The details will be filled in due course.  The interface of this module
 is included first.  It is also used by the main programs.
-
-First comes general stuff:
 
 @i common.h
 
@@ -136,8 +134,8 @@ char *id_loc; /* just after the current identifier in the buffer */
 
 @** Input routines.  The lowest level of input to the \.{CWEB} programs
 is performed by |input_ln|, which must be told which file to read from.
-The return value of |input_ln| is 1 if the read is successful and 0 if
-not (generally this means the file has ended). The conventions
+The return value of |input_ln| is |true| if the read is successful and
+|false| if not (generally this means the file has ended). The conventions
 of \TEX/ are followed; i.e., the characters of the next line of the file
 are copied into the |buffer| array,
 and the global variable |limit| is set to the first unoccupied position.
@@ -162,12 +160,12 @@ support |feof|, |getc|, and |ungetc| you may have to change things here.
 static boolean input_ln(FILE *);@/
 
 @ @c
-static boolean input_ln(@t\1\1@> /* copies a line into |buffer| or returns 0 */
+static boolean input_ln(@t\1\1@> /* copies a line into |buffer| or returns |false| */
 FILE *fp@t\2\2@>) /* what file to read from */
 {
   register int  c=EOF; /* character read; initialized so some compilers won't complain */
   register char *k;  /* where next character goes */
-  if (feof(fp)) return(0);  /* we have hit end-of-file */
+  if (feof(fp)) return false;  /* we have hit end-of-file */
   limit = k = buffer;  /* beginning of buffer */
   while (k<=buffer_end && (c=getc(fp)) != EOF && c!='\n')
     if ((*(k++) = c) != ' ') limit = k;
@@ -176,9 +174,9 @@ FILE *fp@t\2\2@>) /* what file to read from */
       ungetc(c,fp); loc=buffer; err_print("! Input line too long");
 @.Input line too long@>
     }
-  if (c==EOF && limit==buffer) return(0);  /* there was nothing after
+  if (c==EOF && limit==buffer) return false;  /* there was nothing after
     the last newline */
-  return(1);
+  return true;
 }
 
 @ Now comes the problem of deciding which file to read from next.
@@ -206,9 +204,9 @@ int change_line; /* number of current line in change file */
 int change_depth; /* where \.{@@y} originated during a change */
 boolean input_has_ended; /* if there is no more input */
 boolean changing; /* if the current line is from |change_file| */
-boolean web_file_open=0; /* if the web file is being read */
+boolean web_file_open=false; /* if the web file is being read */
 
-@ When |changing==0|, the next line of |change_file| is kept in
+@ When |changing==false|, the next line of |change_file| is kept in
 |change_buffer|, for purposes of comparison with the next
 line of |cur_file|. After the change file has been completely input, we
 set |change_limit=change_buffer|,
@@ -228,7 +226,7 @@ sets |change_buffer| in preparation for the next matching operation.
 Since blank lines in the change file are not used for matching, we have
 |(change_limit==change_buffer && !changing)| if and only if
 the change file is exhausted. This procedure is called only when
-|changing| is 1; hence error messages will be reported correctly.
+|changing| is |true|; hence error messages will be reported correctly.
 
 @<Predecl...@>=
 static void prime_the_change_buffer(void);@/
@@ -248,7 +246,7 @@ allow lines that begin with \.{@@}, as long as they don't begin with \.{@@y},
 \.{@@z}, or \.{@@i} (which would probably mean that the change file is fouled up).
 
 @<Skip over comment lines in the change file...@>=
-while(1) {
+while(true) {
   change_line++;
   if (!input_ln(change_file)) return;
   if (limit<buffer+2) continue;
@@ -281,7 +279,7 @@ do {
 }
 
 @ The following procedure is used to see if the next change entry should
-go into effect; it is called only when |changing| is 0.
+go into effect; it is called only when |changing| is |false|.
 The idea is to test whether or not the current
 contents of |buffer| matches the current contents of |change_buffer|.
 If not, there's nothing more to do; but if so, a change is called for:
@@ -311,17 +309,17 @@ check_change(void) /* switches to |change_file| if the buffers match */
 {
   int n=0; /* the number of discrepancies found */
   if (lines_dont_match) return;
-  change_pending=0;
+  change_pending=false;
   if (!changed_section[section_count]) {
-    if_section_start_make_pending(1);
-    if (!change_pending) changed_section[section_count]=1;
+    if_section_start_make_pending(true);
+    if (!change_pending) changed_section[section_count]=true;
   }
-  while (1) {
-    changing=1; print_where=1; change_line++;
+  while (true) {
+    changing=true; print_where=true; change_line++;
     if (!input_ln(change_file)) {
       err_print("! Change file ended before @@y");
 @.Change file ended...@>
-      change_limit=change_buffer; changing=0;
+      change_limit=change_buffer; changing=false;
       return;
     }
     if (limit>buffer+1 && buffer[0]=='@@') {
@@ -330,12 +328,12 @@ check_change(void) /* switches to |change_file| if the buffers match */
         report any discrepancies and |return|@>@;
     }
     @<Move |buffer| and |limit|...@>@;
-    changing=0; cur_line++;
+    changing=false; cur_line++;
     while (!input_ln(cur_file)) { /* pop the stack or quit */
       if (include_depth==0) {
         err_print("! CWEB file ended during a change");
 @.CWEB file ended...@>
-        input_has_ended=1; return;
+        input_has_ended=true; return;
       }
       include_depth--; cur_line++;
     }
@@ -372,7 +370,7 @@ reset_input(void)
   include_depth=0; cur_line=0; change_line=0;
   change_depth=include_depth;
   changing=1; prime_the_change_buffer(); changing=!changing;
-  limit=buffer; loc=buffer+1; buffer[0]=' '; input_has_ended=0;
+  limit=buffer; loc=buffer+1; buffer[0]=' '; input_has_ended=false;
 }
 
 @ The following code opens the input files.
@@ -386,7 +384,7 @@ if ((web_file=fopen(web_file_name,"r"))==NULL) {
 }
 @.Cannot open input file@>
 @.Cannot open change file@>
-web_file_open=1;
+web_file_open=true;
 if ((change_file=fopen(change_file_name,"r"))==NULL)
        fatal("! Cannot open change file ", change_file_name);
 
@@ -405,7 +403,7 @@ sixteen_bits section_count; /* the current section number */
 boolean changed_section[max_sections]; /* is the section changed? */
 boolean change_pending; /* if the current change is not yet recorded in
   |changed_section[section_count]| */
-boolean print_where=0; /* should \.{CTANGLE} print line and file info? */
+boolean print_where=false; /* should \.{CTANGLE} print line and file info? */
 
 @ @c
 boolean get_line(void) /* inputs the next line */
@@ -417,7 +415,7 @@ boolean get_line(void) /* inputs the next line */
     @<Read from |cur_file| and maybe turn on |changing|@>@;
     if (changing && include_depth==change_depth) goto restart;
   }
-  if (input_has_ended) return 0;
+  if (input_has_ended) return false;
   loc=buffer; *limit=' ';
   if (buffer[0]=='@@' && (buffer[1]=='i' || buffer[1]=='I')) {
     loc=buffer+2; *limit='"';
@@ -435,7 +433,7 @@ boolean get_line(void) /* inputs the next line */
     include_depth++; /* push input stack */
     @<Try to open include file, abort push if unsuccessful, go to |restart|@>@;
   }
-  return 1;
+  return true;
 }
 
 @ When an \.{@@i} line is found in the |cur_file|, we must temporarily
@@ -468,7 +466,7 @@ The remainder of the \.{@@i} line after the file name is ignored.
 @.Include file name ...@>
   *k='\0';
   if ((cur_file=fopen(cur_file_name,"r"))!=NULL) {
-    cur_line=0; print_where=1;
+    cur_line=0; print_where=true;
     goto restart; /* success */
   }
   kk=getenv("CWEBINPUTS");
@@ -491,7 +489,7 @@ The remainder of the \.{@@i} line after the file name is ignored.
     strcpy(cur_file_name,temp_file_name);
     cur_file_name[l]='/'; /* \UNIX/ pathname separator */
     if ((cur_file=fopen(cur_file_name,"r"))!=NULL) {
-      cur_line=0; print_where=1;
+      cur_line=0; print_where=true;
       goto restart; /* success */
     }
   }
@@ -501,8 +499,8 @@ The remainder of the \.{@@i} line after the file name is ignored.
 @ @<Read from |cur_file|...@>= {
   cur_line++;
   while (!input_ln(cur_file)) { /* pop the stack or quit */
-    print_where=1;
-    if (include_depth==0) {input_has_ended=1; break;}
+    print_where=true;
+    if (include_depth==0) {input_has_ended=true; break;}
     else {
       fclose(cur_file); include_depth--;
       if (changing && include_depth==change_depth) break;
@@ -524,9 +522,9 @@ The remainder of the \.{@@i} line after the file name is ignored.
   }
   if (limit>buffer) { /* check if the change has ended */
     if (change_pending) {
-      if_section_start_make_pending(0);
+      if_section_start_make_pending(false);
       if (change_pending) {
-        changed_section[section_count]=1; change_pending=0;
+        changed_section[section_count]=true; change_pending=false;
       }
     }
     *limit=' ';
@@ -538,7 +536,7 @@ The remainder of the \.{@@i} line after the file name is ignored.
 @.Where is the match...@>
       }
       else if (buffer[1]=='z') {
-        prime_the_change_buffer(); changing=!changing; print_where=1;
+        prime_the_change_buffer(); changing=!changing; print_where=true;
       }
     }
   }
@@ -550,10 +548,10 @@ had a line that didn't match any relevant line in |web_file|.
 @c
 void
 check_complete(void) {
-  if (change_limit!=change_buffer) { /* |changing| is 0 */
+  if (change_limit!=change_buffer) { /* |changing| is |false| */
     strncpy(buffer,change_buffer,(size_t)(change_limit-change_buffer+1));
     limit=buffer+(ptrdiff_t)(change_limit-change_buffer);
-    changing=1; change_depth=include_depth; loc=buffer;
+    changing=true; change_depth=include_depth; loc=buffer;
     err_print("! Change file entry did not match");
 @.Change file entry did not match@>
   }
@@ -656,7 +654,7 @@ char t@t\2\2@>) /* the |ilk|; used by \.{CWEAVE} only */
   @<Compute the hash code |h|@>@;
   @<Compute the name location |p|@>@;
   if (p==name_ptr) @<Enter a new name into the table at position |p|@>@;
-  return(p);
+  return p;
 }
 
 @ A simple hash code is used: If the sequence of
@@ -985,7 +983,7 @@ name_pointer r@t\2\2@>) /* section name being compared */
   char *ss, *s=first_chunk(r);
   int c; /* comparison */
   int ispref; /* is chunk |r| a prefix? */
-  while (1) {
+  while (true) {
     ss=(r+1)->byte_start-1;
     if (*ss==' ' && ss>=r->byte_start) ispref=1,q=q->link;
     else ispref=0,ss++,q=name_dir;
@@ -1084,8 +1082,8 @@ int wrap_up(void) {
   if (show_stats)
     print_stats(); /* print statistics about memory usage */
   @<Print the job |history|@>@;
-  if (history > harmless_message) return(1);
-  else return(0);
+  if (history > harmless_message) return EXIT_FAILURE;
+  else return EXIT_SUCCESS;
 }
 
 @ @<Print the job |history|@>=
@@ -1146,8 +1144,8 @@ char idx_file_name[max_file_name_length]; /* name of |idx_file| */
 char scn_file_name[max_file_name_length]; /* name of |scn_file| */
 boolean flags[128]; /* an option for each 7-bit code */
 
-@ The |flags| will be initially zero. Some of them are set to~1 before
-scanning the arguments; if additional flags are 1 by default they
+@ The |flags| will be initially |false|. Some of them are set to~|true| before
+scanning the arguments; if additional flags are |true| by default they
 should be set before calling |common_init|.
 
 @<Set the default options common to \.{CTANGLE} and \.{CWEAVE}@>=
@@ -1179,7 +1177,7 @@ scan_args(void)
   char *dot_pos; /* position of |'.'| in the argument */
   char *name_pos; /* file name beginning, sans directory */
   register char *s; /* register for scanning strings */
-  boolean found_web=0,found_change=0,found_out=0;
+  boolean found_web=false,found_change=false,found_out=false;
              /* have these names been seen? */
 
   strcpy(change_file_name,"/dev/null");
@@ -1224,7 +1222,7 @@ after the dot.  We must check that there is enough room in
   sprintf(idx_file_name,"%s.idx",name_pos);
   sprintf(scn_file_name,"%s.scn",name_pos);
   sprintf(C_file_name,"%s.c",name_pos);
-  found_web=1;
+  found_web=true;
 }
 
 @ @<Make |change_file_name|...@>=
@@ -1236,7 +1234,7 @@ after the dot.  We must check that there is enough room in
       sprintf(change_file_name,"%s.ch",*argv);
     else strcpy(change_file_name,*argv);
   }
-  found_change=1;
+  found_change=true;
 }
 
 @ @<Override...@>=
@@ -1257,7 +1255,7 @@ after the dot.  We must check that there is enough room in
       sprintf(scn_file_name,"%s.scn",*argv);
     }
   }
-  found_out=1;
+  found_out=true;
 }
 
 @ @d flag_change (**argv!='-')

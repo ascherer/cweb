@@ -2,7 +2,7 @@
 % This program by Silvio Levy and Donald E. Knuth
 % is based on a program by Knuth.
 % It is distributed WITHOUT ANY WARRANTY, express or implied.
-% Version 4.0 --- February 2021
+% Version 4.1 --- February 2021
 
 % Copyright (C) 1987,1990,1993,2000 Silvio Levy and Donald E. Knuth
 
@@ -27,11 +27,11 @@
 \mathchardef\RA="3221 % right arrow
 \mathchardef\BA="3224 % double arrow
 
-\def\title{CTANGLE (Version 4.0)}
+\def\title{CTANGLE (Version 4.1)}
 \def\topofcontents{\null\vfill
   \centerline{\titlefont The {\ttitlefont CTANGLE} processor}
   \vskip 15pt
-  \centerline{(Version 4.0)}
+  \centerline{(Version 4.1)}
   \vfill}
 \def\botofcontents{\vfill
 \noindent
@@ -61,7 +61,7 @@ Joachim Schrod, Lee Wittenberg, and others who have contributed improvements.
 The ``banner line'' defined here should be changed whenever \.{CTANGLE}
 is modified.
 
-@d banner "This is CTANGLE (Version 4.0)"
+@d banner "This is CTANGLE (Version 4.1)"
 
 @c
 @<Include files@>@/
@@ -97,8 +97,6 @@ char **av)
 be included in both |"ctangle.w"| and |"cweave.w"|. It appears in
 file |"common.h"|, which is also included in |"common.w"| to propagate
 possible changes from this \.{COMMON} interface consistently.
-
-First comes general stuff:
 
 @i common.h
 
@@ -159,7 +157,7 @@ const char *first, /* position of first character of string */
 size_t l, /* length of identifier */
 eight_bits t@t\2\2@>) /* not used by \.{TANGLE} */
 {@+(void)t;
-  if (length(p)!=l) return 0;
+  if (length(p)!=l) return false;
   return !strncmp(first,p->byte_start,l);
 }
 
@@ -289,8 +287,8 @@ typedef output_state *stack_pointer;
 output_state cur_state; /* |cur_end|, |cur_byte|, |cur_name|, |cur_repl|,
   and |cur_section| */
 output_state stack[stack_size+1]; /* info for non-current levels */
-stack_pointer stack_ptr; /* first unused location in the output state stack */
 stack_pointer stack_end=stack+stack_size; /* end of |stack| */
+stack_pointer stack_ptr; /* first unused location in the output state stack */
 
 @ To get the output process started, we will perform the following
 initialization steps. We may assume that |text_info->text_link| is nonzero,
@@ -311,7 +309,7 @@ We assume that the \CEE/ compiler can copy structures.
 
 @<Predecl...@>=
 static void push_level(name_pointer);@/
-static void pop_level(int);@/
+static void pop_level(boolean);@/
 
 @ @c
 static void
@@ -335,7 +333,7 @@ text or returns the state to the most recently stacked level.
 @c
 static void
 pop_level(@t\1\1@> /* do this when |cur_byte| reaches |cur_end| */
-int flag@t\2\2@>) /* |flag==0| means we are in |output_defs| */
+boolean flag@t\2\2@>) /* |flag==false| means we are in |output_defs| */
 {
   if (flag && cur_repl->text_link<section_flag) { /* link to a continuation */
     cur_repl=cur_repl->text_link+text_info; /* stay on the same level */
@@ -379,7 +377,7 @@ get_output(void) /* sends next token to |out_char| */
   restart: if (stack_ptr==stack) return;
   if (cur_byte==cur_end) {
     cur_val=-((int)cur_section); /* cast needed because of sign extension */
-    pop_level(1);
+    pop_level(true);
     if (cur_val==0) goto restart;
     out_char(section_number); return;
   }
@@ -444,7 +442,7 @@ strings, verbatim constructions and numerical constants.
 
 \yskip\hang |normal| means none of the above.
 
-\yskip\noindent Furthermore, if the variable |protect| is positive, newlines
+\yskip\noindent Furthermore, if the variable |protect| is |true|, newlines
 are preceded by a `\.\\'.
 
 @d normal 0 /* non-unusual state */
@@ -522,7 +520,7 @@ static void phase_two(void);@/
 @ @c
 static void
 phase_two (void) {
-  web_file_open=0;
+  web_file_open=false;
   cur_line=1;
   @<Initialize the output stacks@>@;
   @<Output macro definitions if appropriate@>@;
@@ -586,7 +584,7 @@ that refer to macros, preceded by the \.{\#define} preprocessor command.
     output_defs();
 
 @ @<Glob...@>=
-boolean output_defs_seen=0;
+boolean output_defs_seen=false;
 
 @ @<Predecl...@>=
 static void output_defs(void);@/
@@ -604,7 +602,7 @@ output_defs(void)
       cur_end=(cur_text+1)->tok_start;
       C_printf("%s","#define ");
       out_state=normal;
-      protect=1; /* newlines should be preceded by |'\\'| */
+      protect=true; /* newlines should be preceded by |'\\'| */
       while (cur_byte<cur_end) {
         a=*cur_byte++;
         if (cur_byte==cur_end && a=='\n') break; /* disregard a final newline */
@@ -624,10 +622,10 @@ output_defs(void)
       /* no other cases */
         }
       }
-      protect=0;
+      protect=false;
       flush_buffer();
     }
-  pop_level(0);
+  pop_level(false);
 }
 
 @ A many-way switch is used to send the output.  Note that this function
@@ -806,13 +804,13 @@ static eight_bits
 skip_ahead(void) /* skip to next control code */
 {
   eight_bits c; /* control code found */
-  while (1) {
-    if (loc>limit && (get_line()==0)) return(new_section);
+  while (true) {
+    if (loc>limit && (get_line()==false)) return new_section;
     *(limit+1)='@@';
     while (*loc!='@@') loc++;
     if (loc<=limit) {
       loc++; c=ccode[(eight_bits)*loc]; loc++;
-      if (c!=ignore || *(loc-1)=='>') return(c);
+      if (c!=ignore || *(loc-1)=='>') return c;
     }
   }
 }
@@ -834,34 +832,34 @@ If |skip_comment| comes to the end of the section, it prints an error message.
 No comment, long or short, is allowed to contain `\.{@@\ }' or `\.{@@*}'.
 
 @<Global...@>=
-boolean comment_continues=0; /* are we scanning a comment? */
+boolean comment_continues=false; /* are we scanning a comment? */
 
 @ @c
 static boolean skip_comment(@t\1\1@> /* skips over comments */
 boolean is_long_comment@t\2\2@>)
 {
   char c; /* current character */
-  while (1) {
+  while (true) {
     if (loc>limit) {
       if (is_long_comment) {
-        if(get_line()) return(comment_continues=1);
+        if(get_line()) return comment_continues=true;
         else{
           err_print("! Input ended in mid-comment");
 @.Input ended in mid-comment@>
-          return(comment_continues=0);
+          return comment_continues=false;
         }
       }
-      else return(comment_continues=0);
+      else return comment_continues=false;
     }
     c=*(loc++);
     if (is_long_comment && c=='*' && *loc=='/') {
-      loc++; return(comment_continues=0);
+      loc++; return comment_continues=false;
     }
     if (c=='@@') {
       if (ccode[(eight_bits)*loc]==new_section) {
         err_print("! Section name ended in mid-comment"); loc--;
 @.Section name ended in mid-comment@>
-        return(comment_continues=0);
+        return comment_continues=false;
       }
       else loc++;
     }
@@ -874,7 +872,7 @@ boolean is_long_comment@t\2\2@>)
 
 @<Global...@>=
 name_pointer cur_section_name; /* name of section just scanned */
-int no_where; /* suppress |print_where|? */
+boolean no_where; /* suppress |print_where|? */
 
 @ As one might expect, |get_next| consists mostly of a big switch
 that branches to the various special cases that can arise.
@@ -893,21 +891,21 @@ get_next(void) /* produces the next input token */
 {
   static int preprocessing=0;
   eight_bits c; /* the current character */
-  while (1) {
+  while (true) {
     if (loc>limit) {
       if (preprocessing && *(limit-1)!='\\') preprocessing=0;
-      if (get_line()==0) return(new_section);
+      if (get_line()==false) return new_section;
       else if (print_where && !no_where) {
-          print_where=0;
+          print_where=false;
           @<Insert the line number into |tok_mem|@>@;
         }
-        else return ('\n');
+        else return '\n';
     }
     c=*loc;
     if (comment_continues || (c=='/' && (*(loc+1)=='*' || *(loc+1)=='/'))) {
       skip_comment(comment_continues||*(loc+1)=='*');
           /* scan to end of comment or newline */
-      if (comment_continues) return('\n');
+      if (comment_continues) return '\n';
       else continue;
     }
     loc++;
@@ -922,11 +920,11 @@ get_next(void) /* produces the next input token */
     else if (xisspace(c)) {
         if (!preprocessing || loc>limit) continue;
           /* we don't want a blank after a final backslash */
-        else return(' '); /* ignore spaces and tabs, unless preprocessing */
+        else return ' '; /* ignore spaces and tabs, unless preprocessing */
     }
     else if (c=='#' && loc==buffer+1) preprocessing=1;
     mistake: @<Compress two-symbol operator@>@;
-    return(c);
+    return c;
   }
 }
 
@@ -937,7 +935,7 @@ combinations \.{...}, \.{::}, \.{.*} and \.{->*}.
 The compound assignment operators (e.g., \.{+=}) are
 treated as separate tokens.
 
-@d compress(c) if (loc++<=limit) return(c)
+@d compress(c) if (loc++<=limit) return c
 
 @<Compress tw...@>=
 switch(c) {
@@ -965,7 +963,7 @@ switch(c) {
   id_first=--loc;
   while (isalpha((eight_bits)*++loc) || isdigit((eight_bits)*loc) @|
       || isxalpha((eight_bits)*loc) || ishigh((eight_bits)*loc));
-  id_loc=loc; return(identifier);
+  id_loc=loc; return identifier;
 }
 
 @ @<Get a constant@>= {
@@ -988,7 +986,7 @@ switch(c) {
  found: while (*loc=='u' || *loc=='U' || *loc=='l' || *loc=='L'
              || *loc=='f' || *loc=='F') loc++;
   id_loc=loc;
-  return(constant);
+  return constant;
 }
 
 @ \CEE/ strings and character constants, delimited by double and single
@@ -1004,13 +1002,13 @@ convention, but do not allow the string to be longer than |longest_name|.
     if (delim=='u' && *loc=='8') { *++id_loc=*loc++; }
     delim=*loc++; *++id_loc=delim;
   }
-  while (1) {
+  while (true) {
     if (loc>=limit) {
       if(*(limit-1)!='\\') {
         err_print("! String didn't end"); loc=limit; break;
 @.String didn't end@>
       }
-      if(get_line()==0) {
+      if(get_line()==false) {
         err_print("! Input ended in middle of string"); loc=buffer; break;
 @.Input ended in middle of string@>
       }
@@ -1035,7 +1033,7 @@ convention, but do not allow the string to be longer than |longest_name|.
     err_print("...");
   }
   id_loc++;
-  return(string);
+  return string;
 }
 
 @ After an \.{@@} sign has been scanned, the next character tells us
@@ -1058,7 +1056,7 @@ whether there is more work to do.
       @<Scan the section name and make |cur_section_name| point to it@>@;
     case string: @<Scan a verbatim string@>@;
     case ord: @<Scan an ASCII constant@>@;
-    default: return(c);
+    default: return c;
   }
 }
 
@@ -1087,7 +1085,7 @@ thus, \.{@@'\\nopq'} gives the same result as \.{@@'\\n'}.
     }
   }
   loc++;
-  return(ord);
+  return ord;
 
 @ @<Scan the section name...@>= {
   char *k; /* pointer into |section_text| */
@@ -1098,7 +1096,7 @@ thus, \.{@@'\\nopq'} gives the same result as \.{@@'\\n'}.
   if (cur_section_name_char=='(')
     @<If it's not there, add |cur_section_name| to the output file stack, or
           complain we're out of room@>@;
-  return(section_name);
+  return section_name;
 }
 
 @ Section names are placed into the |section_text| array with consecutive spaces,
@@ -1111,8 +1109,8 @@ character of the name.)
 
 @ @<Put section name...@>=
 k=section_text;
-while (1) {
-  if (loc>limit && get_line()==0) {
+while (true) {
+  if (loc>limit && get_line()==false) {
     err_print("! Input ended in section name");
 @.Input ended in section name@>
     loc=buffer+1; break;
@@ -1161,7 +1159,7 @@ buffer.  We also set |loc| to the position just after the ending delimiter.
   if (loc>=limit) err_print("! Verbatim string didn't end");
 @.Verbatim string didn't end@>
   id_loc=loc; loc+=2;
-  return(string);
+  return string;
 }
 
 @* Scanning a macro definition.
@@ -1200,7 +1198,7 @@ eight_bits t@t\2\2@>)
 {
   sixteen_bits a; /* the current token */
   if (t==section_name) {@<Insert the line number into |tok_mem|@>@;}
-  while (1) switch (a=get_next()) {
+  while (true) switch (a=get_next()) {
       @<In cases that |a| is a non-|char| token (|identifier|,
         |section_name|, etc.), either process it and change |a| to a byte
         that should be stored, or |continue| if |a| should be ignored,
@@ -1247,7 +1245,7 @@ case section_name: if (t!=section_name) goto done;
 case output_defs_code: if (t!=section_name) err_print("! Misplaced @@h");
 @.Misplaced @@h@>
   else {
-    output_defs_seen=1;
+    output_defs_seen=true;
     a=output_defs_flag;
     app_repl((a / 0400)+0200);
     app_repl(a % 0400);
@@ -1347,29 +1345,26 @@ sensed in the input, and it proceeds until the end of that section.  It
 uses |section_count| to keep track of the current section number; with luck,
 \.{CWEAVE} and \.{CTANGLE} will both assign the same numbers to sections.
 
-@<Global...@>=
-extern sixteen_bits section_count; /* the current section number */
+@<Predecl...@>=
+static void scan_section(void);@/
 
 @ The body of |scan_section| is a loop where we look for control codes
 that are significant to \.{CTANGLE}: those
 that delimit a definition, the \CEE/ part of a module, or a new module.
 
-@<Predecl...@>=
-static void scan_section(void);@/
-
-@ @c
+@c
 static void
 scan_section(void)
 {
   name_pointer p; /* section name for the current section */
   text_pointer q; /* text for the current section */
   sixteen_bits a; /* token for left-hand side of definition */
-  section_count++; @+ no_where=1;
+  section_count++; @+ no_where=true;
   if (*(loc-1)=='*' && show_progress) { /* starred section */
     printf("*%d",section_count); update_terminal;
   }
   next_control=0;
-  while (1) {
+  while (true) {
     @<Skip ahead until |next_control| corresponds to \.{@@d}, \.{@@<},
       \.{@@\ } or the like@>@;
     if (next_control == definition) {  /* \.{@@d} */
@@ -1386,7 +1381,7 @@ scan_section(void)
     }
     return; /* \.{@@\ } or \.{@@*} */
   }
-  no_where=print_where=0;
+  no_where=print_where=false;
   @<Scan the \CEE/ part of the current section@>@;
 }
 
@@ -1417,7 +1412,7 @@ while (next_control<definition)
     app_repl(string); app_repl(' '); app_repl(string);
   }
   scan_repl(macro);
-  cur_text->text_link=0; /* |text_link==0| characterizes a macro */
+  cur_text->text_link=macro;
 }
 
 @ If the section name is not followed by \.{=} or \.{+=}, no \CEE/
@@ -1483,8 +1478,8 @@ static void
 skip_limbo(void)
 {
   char c;
-  while (1) {
-    if (loc>limit && get_line()==0) return;
+  while (true) {
+    if (loc>limit && get_line()==false) return;
     *(limit+1)='@@';
     while (*loc!='@@') loc++;
     if (loc++<=limit) {

@@ -2,7 +2,7 @@
 % This program by Silvio Levy and Donald E. Knuth
 % is based on a program by Knuth.
 % It is distributed WITHOUT ANY WARRANTY, express or implied.
-% Version 4.0 --- February 2021 (works also with later versions)
+% Version 4.1 --- February 2021 (works also with later versions)
 
 % Copyright (C) 1987,1990,1993 Silvio Levy and Donald E. Knuth
 
@@ -25,14 +25,14 @@
 % file |"common.h"|, which is also included in |"common.w"| to propagate
 % possible changes from this single source consistently.
 
-% First comes general stuff:
+First comes general stuff:
 
 @s boolean int
 @s uint8_t int
 @s uint16_t int
 
-@d ctangle 0
-@d cweave 1
+@d ctangle false
+@d cweave true
 
 @<Common code...@>=
 typedef bool boolean;
@@ -98,7 +98,6 @@ extern char *limit; /* points to the last character in the buffer */
 @d rlink dummy.Rlink /* right link in binary search tree for section names */
 @d root name_dir->rlink /* the root of the binary search tree
   for section names */
-@d chunk_marker 0
 
 @<Common code...@>=
 typedef struct name_info {
@@ -115,10 +114,10 @@ typedef name_info *name_pointer; /* pointer into array of \&{name\_info}s */
 typedef name_pointer *hash_pointer;
 extern char byte_mem[]; /* characters of names */
 extern char *byte_mem_end; /* end of |byte_mem| */
+extern char *byte_ptr; /* first unused position in |byte_mem| */
 extern name_info name_dir[]; /* information about names */
 extern name_pointer name_dir_end; /* end of |name_dir| */
 extern name_pointer name_ptr; /* first unused position in |name_dir| */
-extern char *byte_ptr; /* first unused position in |byte_mem| */
 extern name_pointer hash[]; /* heads of hash lists */
 extern hash_pointer hash_end; /* end of |hash| */
 extern hash_pointer h; /* index into hash-head array */
@@ -238,7 +237,7 @@ handle \TEX/, so they should be sufficient for most applications of
 @d max_texts 10239 /* number of replacement texts, must be less than 10240 */
 @d longest_name 10000 /* file and section names and section texts shouldn't be longer than this */
 @d stack_size 500 /* number of simultaneous levels of macro expansion */
-@d buf_size 1000 /* for \.{CWEAVE} */
+@d buf_size 1000 /* maximum length of input line, plus one */
 @d long_buf_size (buf_size+longest_name) /* for \.{CWEAVE} */
 
 @ End of \.{COMMON} interface.
