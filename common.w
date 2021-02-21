@@ -149,8 +149,8 @@ some of \.{CWEB}'s routines use the fact that it is safe to refer to
 @<Global var...@>=
 char buffer[long_buf_size]; /* where each line of input goes */
 char *buffer_end=buffer+buf_size-2; /* end of |buffer| */
-char *limit=buffer; /* points to the last character in the buffer */
 char *loc=buffer; /* points to the next character to be read from the buffer */
+char *limit=buffer; /* points to the last character in the buffer */
 
 @ In the unlikely event that your standard I/O library does not
 support |feof|, |getc|, and |ungetc| you may have to change things here.
@@ -607,8 +607,8 @@ usually have |name_ptr->byte_start==byte_ptr|, and certainly
 we want to keep |name_ptr<=name_dir_end| and |byte_ptr<=byte_mem_end|.
 
 @<Global var...@>=
-name_pointer name_ptr; /* first unused position in |name_dir| */
 char *byte_ptr; /* first unused position in |byte_mem| */
+name_pointer name_ptr; /* first unused position in |name_dir| */
 
 @ @<Init...@>=
 name_dir->byte_start=byte_ptr=byte_mem; /* position zero in both arrays */

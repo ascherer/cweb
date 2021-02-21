@@ -274,77 +274,77 @@ typedef output_state*stack_pointer;
 /*20:*/
 #line 129 "ctangle.w"
 
-text text_info[max_texts];
-text_pointer text_info_end= text_info+max_texts-1;
-text_pointer text_ptr;
-eight_bits tok_mem[max_toks];
-eight_bits*tok_mem_end= tok_mem+max_toks-1;
-eight_bits*tok_ptr;
+static text text_info[max_texts];
+static text_pointer text_info_end= text_info+max_texts-1;
+static text_pointer text_ptr;
+static eight_bits tok_mem[max_toks];
+static eight_bits*tok_mem_end= tok_mem+max_toks-1;
+static eight_bits*tok_ptr;
 
 /*:20*//*26:*/
 #line 198 "ctangle.w"
 
-text_pointer last_unnamed;
+static text_pointer last_unnamed;
 
 /*:26*//*32:*/
 #line 286 "ctangle.w"
 
-output_state cur_state;
+static output_state cur_state;
 
-output_state stack[stack_size+1];
-stack_pointer stack_end= stack+stack_size;
-stack_pointer stack_ptr;
+static output_state stack[stack_size+1];
+static stack_pointer stack_end= stack+stack_size;
+static stack_pointer stack_ptr;
 
 /*:32*//*37:*/
 #line 362 "ctangle.w"
 
-int cur_val;
+static int cur_val;
 
 /*:37*//*42:*/
 #line 454 "ctangle.w"
 
-eight_bits out_state;
-boolean protect;
+static eight_bits out_state;
+static boolean protect;
 
 /*:42*//*45:*/
 #line 486 "ctangle.w"
 
-name_pointer output_files[max_files];
-name_pointer*cur_out_file,*end_output_files,*an_output_file;
-char cur_section_name_char;
-char output_file_name[longest_name+1];
+static name_pointer output_files[max_files];
+static name_pointer*cur_out_file,*end_output_files,*an_output_file;
+static char cur_section_name_char;
+static char output_file_name[longest_name+1];
 
 /*:45*//*52:*/
 #line 586 "ctangle.w"
 
-boolean output_defs_seen= false;
+static boolean output_defs_seen= false;
 
 /*:52*//*57:*/
 #line 695 "ctangle.w"
 
-char translit[128][translit_length];
+static char translit[128][translit_length];
 
 /*:57*//*62:*/
 #line 774 "ctangle.w"
 
-eight_bits ccode[256];
+static eight_bits ccode[256];
 
 /*:62*//*66:*/
 #line 834 "ctangle.w"
 
-boolean comment_continues= false;
+static boolean comment_continues= false;
 
 /*:66*//*68:*/
 #line 873 "ctangle.w"
 
-name_pointer cur_section_name;
-boolean no_where;
+static name_pointer cur_section_name;
+static boolean no_where;
 
 /*:68*//*82:*/
 #line 1187 "ctangle.w"
 
-text_pointer cur_text;
-eight_bits next_control;
+static text_pointer cur_text;
+static eight_bits next_control;
 
 /*:82*/
 #line 71 "ctangle.w"

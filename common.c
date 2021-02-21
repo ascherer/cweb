@@ -247,8 +247,8 @@ char*id_loc;
 
 char buffer[long_buf_size];
 char*buffer_end= buffer+buf_size-2;
-char*limit= buffer;
 char*loc= buffer;
+char*limit= buffer;
 
 /*:22*//*25:*/
 #line 194 "common.w"
@@ -293,8 +293,8 @@ name_pointer name_dir_end= name_dir+max_names-1;
 /*:43*//*44:*/
 #line 609 "common.w"
 
-name_pointer name_ptr;
 char*byte_ptr;
+name_pointer name_ptr;
 
 /*:44*//*46:*/
 #line 629 "common.w"
