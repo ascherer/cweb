@@ -198,7 +198,7 @@ FILE *change_file; /* change file */
 char file_name[max_include_depth][max_file_name_length];
   /* stack of non-change file names */
 char change_file_name[max_file_name_length]; /* name of change file */
-char alt_web_file_name[max_file_name_length]; /* alternate name to try */
+static char alt_web_file_name[max_file_name_length]; /* alternate name to try */
 int line[max_include_depth]; /* number of current line in the stacked files */
 int change_line; /* number of current line in change file */
 int change_depth; /* where \.{@@y} originated during a change */
@@ -218,8 +218,8 @@ Here's a shorthand expression for inequality between the two lines:
   strncmp(buffer, change_buffer, (size_t)(limit-buffer)))
 
 @<Global var...@>=
-char change_buffer[buf_size]; /* next line of |change_file| */
-char *change_limit; /* points to the last character in |change_buffer| */
+static char change_buffer[buf_size]; /* next line of |change_file| */
+static char *change_limit; /* points to the last character in |change_buffer| */
 
 @ Procedure |prime_the_change_buffer|
 sets |change_buffer| in preparation for the next matching operation.
