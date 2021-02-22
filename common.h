@@ -205,7 +205,7 @@ extern char idx_file_name[]; /* name of |idx_file| */
 extern char scn_file_name[]; /* name of |scn_file| */
 extern boolean flags[]; /* an option for each 7-bit code */
 
-@ Code relating to output:
+@ Code related to output:
 @d update_terminal fflush(stdout) /* empty the terminal output buffer */
 @d new_line putchar('\n') @d putxchar putchar
 @d term_write(a,b) fflush(stdout),fwrite(a,sizeof(char),b,stdout)
