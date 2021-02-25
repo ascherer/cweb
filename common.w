@@ -2,7 +2,7 @@
 % This program by Silvio Levy and Donald E. Knuth
 % is based on a program by Knuth.
 % It is distributed WITHOUT ANY WARRANTY, express or implied.
-% Version 4.1 --- February 2021
+% Version 4.2 --- February 2021
 
 % Copyright (C) 1987,1990,1993,2000 Silvio Levy and Donald E. Knuth
 
@@ -22,12 +22,12 @@
 
 \def\v{\char'174} % vertical (|) in typewriter font
 
-\def\title{Common code for CTANGLE and CWEAVE (Version 4.1)}
+\def\title{Common code for CTANGLE and CWEAVE (Version 4.2)}
 \def\topofcontents{\null\vfill
   \centerline{\titlefont Common code for {\ttitlefont CTANGLE} and
     {\ttitlefont CWEAVE}}
   \vskip 15pt
-  \centerline{(Version 4.1)}
+  \centerline{(Version 4.2)}
   \vfill}
 \def\botofcontents{\vfill
 \noindent
@@ -68,7 +68,7 @@ The file begins with a few basic definitions.
 @h
 @<Common code for \.{CWEAVE} and \.{CTANGLE}@>@/
 @<Global variables@>@/
-@<Predeclaration of procedures@>@/
+@<Predeclaration of procedures@>
 
 @ The details will be filled in due course.  The interface of this module
 is included first.  It is also used by the main programs.
@@ -89,7 +89,8 @@ produces the \TEX/ output file, and finally it sorts and outputs the index.
 Similarly, \.{CTANGLE} operates in two phases.
 The global variable |phase| tells which phase we are in.
 
-@<Global var...@>= int phase; /* which phase are we in? */
+@<Global var...@>=
+int phase; /* which phase are we in? */
 
 @ There's an initialization procedure that gets both \.{CTANGLE} and
 \.{CWEAVE} off to a good start. We will fill in the details of this
@@ -149,17 +150,14 @@ some of \.{CWEB}'s routines use the fact that it is safe to refer to
 @<Global var...@>=
 char buffer[long_buf_size]; /* where each line of input goes */
 char *buffer_end=buffer+buf_size-2; /* end of |buffer| */
-char *limit=buffer; /* points to the last character in the buffer */
 char *loc=buffer; /* points to the next character to be read from the buffer */
+char *limit=buffer; /* points to the last character in the buffer */
 
 @ In the unlikely event that your standard I/O library does not
 support |feof|, |getc|, and |ungetc| you may have to change things here.
 @^system dependencies@>
 
-@<Predecl...@>=
-static boolean input_ln(FILE *);@/
-
-@ @c
+@c
 static boolean input_ln(@t\1\1@> /* copies a line into |buffer| or returns |false| */
 FILE *fp@t\2\2@>) /* what file to read from */
 {
@@ -178,6 +176,8 @@ FILE *fp@t\2\2@>) /* what file to read from */
     the last newline */
   return true;
 }
+
+@ @<Predecl...@>=@+static boolean input_ln(FILE *);
 
 @ Now comes the problem of deciding which file to read from next.
 Recall that the actual text that \.{CWEB} should process comes from two
@@ -198,7 +198,7 @@ FILE *change_file; /* change file */
 char file_name[max_include_depth][max_file_name_length];
   /* stack of non-change file names */
 char change_file_name[max_file_name_length]; /* name of change file */
-char alt_web_file_name[max_file_name_length]; /* alternate name to try */
+static char alt_web_file_name[max_file_name_length]; /* alternate name to try */
 int line[max_include_depth]; /* number of current line in the stacked files */
 int change_line; /* number of current line in change file */
 int change_depth; /* where \.{@@y} originated during a change */
@@ -218,8 +218,8 @@ Here's a shorthand expression for inequality between the two lines:
   strncmp(buffer, change_buffer, (size_t)(limit-buffer)))
 
 @<Global var...@>=
-char change_buffer[buf_size]; /* next line of |change_file| */
-char *change_limit; /* points to the last character in |change_buffer| */
+static char change_buffer[buf_size]; /* next line of |change_file| */
+static char *change_limit; /* points to the last character in |change_buffer| */
 
 @ Procedure |prime_the_change_buffer|
 sets |change_buffer| in preparation for the next matching operation.
@@ -228,10 +228,7 @@ Since blank lines in the change file are not used for matching, we have
 the change file is exhausted. This procedure is called only when
 |changing| is |true|; hence error messages will be reported correctly.
 
-@<Predecl...@>=
-static void prime_the_change_buffer(void);@/
-
-@ @c
+@c
 static void
 prime_the_change_buffer(void)
 {
@@ -240,6 +237,8 @@ prime_the_change_buffer(void)
   @<Skip to the next nonblank line; |return| if end of file@>@;
   @<Move |buffer| and |limit| to |change_buffer| and |change_limit|@>@;
 }
+
+@ @<Predecl...@>=@+static void prime_the_change_buffer(void);
 
 @ While looking for a line that begins with \.{@@x} in the change file, we
 allow lines that begin with \.{@@}, as long as they don't begin with \.{@@y},
@@ -289,7 +288,7 @@ prepares to read the next line from |change_file|.
 
 When a match is found, the current section is marked as changed unless
 the first line after the \.{@@x} and after the \.{@@y} both start with
-either |'@@*'| or |'@@ '| (possibly preceded by whitespace).
+either `\.{@@*}' or `\.{@@\ }' (possibly preceded by whitespace).
 
 This procedure is called only when |buffer<limit|, i.e., when the
 current line is nonempty.
@@ -300,10 +299,7 @@ current line is nonempty.
   if (*loc=='@@' && (xisspace(*(loc+1)) || *(loc+1)=='*')) change_pending=b;
 }
 
-@<Predecl...@>=
-static void check_change(void);@/
-
-@ @c
+@c
 static void
 check_change(void) /* switches to |change_file| if the buffers match */
 {
@@ -340,6 +336,8 @@ check_change(void) /* switches to |change_file| if the buffers match */
     if (lines_dont_match) n++;
   }
 }
+
+@ @<Predecl...@>=@+static void check_change(void);
 
 @ @<If the current line starts with \.{@@y}...@>=
 if (xyz_code=='x' || xyz_code=='z') {
@@ -607,8 +605,8 @@ usually have |name_ptr->byte_start==byte_ptr|, and certainly
 we want to keep |name_ptr<=name_dir_end| and |byte_ptr<=byte_mem_end|.
 
 @<Global var...@>=
-name_pointer name_ptr; /* first unused position in |name_dir| */
 char *byte_ptr; /* first unused position in |byte_mem| */
+name_pointer name_ptr; /* first unused position in |name_dir| */
 
 @ @<Init...@>=
 name_dir->byte_start=byte_ptr=byte_mem; /* position zero in both arrays */
@@ -776,7 +774,7 @@ are null-terminated, and we keep an eye open for prefixes and extensions.
 @<Predecl...@>=
 static int web_strcmp(char *,int,char *,int);@/
 static name_pointer add_section_name(name_pointer,int,char *,char *,int);@/
-static void extend_section_name(name_pointer,char *,char *,int);@/
+static void extend_section_name(name_pointer,char *,char *,int);
 
 @ @c
 static int web_strcmp(@t\1\1@> /* fuller comparison than |strcmp| */
@@ -969,10 +967,7 @@ us to regard \.{@@<foo...@@>} as an ``extension'' of itself.
 
 @d bad_extension 5
 
-@<Predec...@>=
-static int section_name_cmp(char **,int,name_pointer);@/
-
-@ @c
+@c
 static int section_name_cmp(@t\1\1@>
 char **pfirst, /* pointer to beginning of comparison string */
 int len, /* length of string */
@@ -1003,6 +998,8 @@ name_pointer r@t\2\2@>) /* section name being compared */
     }
   }
 }
+
+@ @<Predec...@>=@+static int section_name_cmp(char **,int,name_pointer);
 
 @** Reporting errors to the user.
 A global variable called |history| will contain one of four values
@@ -1150,7 +1147,7 @@ should be set before calling |common_init|.
 
 @<Set the default options common to \.{CTANGLE} and \.{CWEAVE}@>=
 show_banner=show_happiness=show_progress=make_xrefs=true;@/
-show_stats=false;@/
+show_stats=false;
 
 @ We now must look at the command line arguments and set the file names
 accordingly.  At least one file name must be present: the \.{CWEB}
@@ -1167,10 +1164,7 @@ when no changes are desired.
 
 If there's a third file name, it will be the output file.
 
-@<Pred...@>=
-static void scan_args(void);@/
-
-@ @c
+@c
 static void
 scan_args(void)
 {
@@ -1199,6 +1193,8 @@ scan_args(void)
   }
   if (!found_web) @<Print usage error message and quit@>@;
 }
+
+@ @<Pred...@>=@+static void scan_args(void);
 
 @ We use all of |*argv| for the |web_file_name| if there is a |'.'| in it,
 otherwise we add |".w"|. If this file can't be opened, we prepare an
