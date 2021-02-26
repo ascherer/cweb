@@ -1297,7 +1297,7 @@ that is being output; in this case the breakpoint |b| should be strictly
 less than |out_buf_end|. If the |per_cent| parameter is |false|,
 trailing blanks are suppressed.
 The characters emptied from the buffer form a new line of output;
-if the |carryover| parameter is true, a |"%"| in that line will be
+if the |carryover| parameter is |true|, a |"%"| in that line will be
 carried over to the next line (so that \TEX/ will ignore the completion
 of commented-out text).
 
