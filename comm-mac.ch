@@ -14,14 +14,11 @@ No changes to CTANGLE or CWEAVE are needed.
 support |feof|, |getc|, and |ungetc| you may have to change things here.
 @^system dependencies@>
 
-@<Predecl...@>=
-static boolean input_ln(FILE *);@/
-
-@ @c
+@c
 static boolean input_ln(@t\1\1@> /* copies a line into |buffer| or returns |false| */
 FILE *fp@t\2\2@>) /* what file to read from */
 {
-  register int  c=EOF; /* character read; initialized so some compilers won't complain */
+  register int c=EOF; /* character read; initialized so some compilers won't complain */
   register char *k;  /* where next character goes */
   if (feof(fp)) return false;  /* we have hit end-of-file */
   limit = k = buffer;  /* beginning of buffer */

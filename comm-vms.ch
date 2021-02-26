@@ -34,7 +34,7 @@ modified:
 
 @x section 68 (01-FEB-1992 ST)
 programs are started. Here, for instance, we pass the operating system
-a status of 0 if and only if only harmless messages were printed.
+a status of |EXIT_SUCCESS| if and only if only harmless messages were printed.
 @y
 programs are started. Here, for instance, we pass VAX/VMS
 a status of |SS$_NORMAL| if and only if only harmless

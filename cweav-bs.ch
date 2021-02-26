@@ -119,11 +119,11 @@ static xref_pointer xmem_end;
 
 
 @x Section 24.
-xref_ptr=xmem; init_node(name_dir); xref_switch=0; section_xref_switch=0;
+xref_ptr=xmem; init_node(name_dir); xref_switch=section_xref_switch=0;
 xmem->num=0; /* sentinel value */
 @y
 xmem_end = xmem + max_refs - 1;
-xref_ptr=xmem; init_node(name_dir); xref_switch=0; section_xref_switch=0;
+xref_ptr=xmem; init_node(name_dir); xref_switch=section_xref_switch=0;
 xmem->num=0; /* sentinel value */
 @z
 
