@@ -161,7 +161,7 @@ support |feof|, |getc|, and |ungetc| you may have to change things here.
 static boolean input_ln(@t\1\1@> /* copies a line into |buffer| or returns |false| */
 FILE *fp@t\2\2@>) /* what file to read from */
 {
-  register int  c=EOF; /* character read; initialized so some compilers won't complain */
+  register int c=EOF; /* character read; initialized so some compilers won't complain */
   register char *k;  /* where next character goes */
   if (feof(fp)) return false;  /* we have hit end-of-file */
   limit = k = buffer;  /* beginning of buffer */
@@ -311,7 +311,7 @@ check_change(void) /* switches to |change_file| if the buffers match */
     if (!change_pending) changed_section[section_count]=true;
   }
   while (true) {
-    changing=true; print_where=true; change_line++;
+    changing=print_where=true; change_line++;
     if (!input_ln(change_file)) {
       err_print("! Change file ended before @@y");
 @.Change file ended...@>
@@ -365,9 +365,9 @@ reset_input(void)
 {
   limit=buffer; loc=buffer+1; buffer[0]=' ';
   @<Open input files@>@;
-  include_depth=0; cur_line=0; change_line=0;
+  include_depth=cur_line=change_line=0;
   change_depth=include_depth;
-  changing=1; prime_the_change_buffer(); changing=!changing;
+  changing=true; prime_the_change_buffer(); changing=!changing;
   limit=buffer; loc=buffer+1; buffer[0]=' '; input_has_ended=false;
 }
 
@@ -483,7 +483,7 @@ The remainder of the \.{@@i} line after the file name is ignored.
   if (l>0) {
     if (k+l+2>=cur_file_name_end)  too_long();
 @.Include file name ...@>
-    for (; k>= cur_file_name; k--) *(k+l+1)=*k;
+    for (; k>=cur_file_name; k--) *(k+l+1)=*k;
     strcpy(cur_file_name,temp_file_name);
     cur_file_name[l]='/'; /* \UNIX/ pathname separator */
     if ((cur_file=fopen(cur_file_name,"r"))!=NULL) {
@@ -828,8 +828,7 @@ int ispref@t\2\2@>) /* are we adding a prefix or a full name? */
   }
   set_prefix_length(p,name_len);
   strncpy(s,first,name_len);
-  p->llink=NULL;
-  p->rlink=NULL;
+  p->llink=p->rlink=NULL;
   init_node(p);
   return par==NULL ? (root=p) : c==less ? (par->llink=p) : (par->rlink=p);
 }
@@ -1070,7 +1069,7 @@ interface above and in the index.
 Some implementations may wish to pass the |history| value to the
 operating system so that it can be used to govern whether or not other
 programs are started. Here, for instance, we pass the operating system
-a status of 0 if and only if only harmless messages were printed.
+a status of |EXIT_SUCCESS| if and only if only harmless messages were printed.
 @^system dependencies@>
 
 @c

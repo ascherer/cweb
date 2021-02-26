@@ -198,7 +198,7 @@ The replacement text pointer for the first unnamed section appears in
 @<Private...@>=
 static text_pointer last_unnamed; /* most recent replacement text of unnamed section */
 
-@ @<Set init...@>= last_unnamed=text_info; text_info->text_link=0;
+@ @<Set init...@>= last_unnamed=text_info; text_info->text_link=macro;
 
 @ If the first byte of a token is less than |0200|, the token occupies a
 single byte. Otherwise we make a sixteen-bit token by combining two consecutive
@@ -518,7 +518,7 @@ phase_two (void) {
   cur_line=1;
   @<Initialize the output stacks@>@;
   @<Output macro definitions if appropriate@>@;
-  if (text_info->text_link==0 && cur_out_file==end_output_files) {
+  if (text_info->text_link==macro && cur_out_file==end_output_files) {
     fputs("\n! No program text was specified.",stdout); mark_harmless;
 @.No program text...@>
   }
@@ -534,7 +534,7 @@ phase_two (void) {
         printf(" (%s)",C_file_name);
         update_terminal;
       }
-      if (text_info->text_link==0) goto writeloop;
+      if (text_info->text_link==macro) goto writeloop;
     }
     while (stack_ptr>stack) get_output();
     flush_buffer();
@@ -557,14 +557,14 @@ for (an_output_file=end_output_files; an_output_file>cur_out_file;) {
     an_output_file--;
     sprint_section_name(output_file_name,*an_output_file);
     fclose(C_file);
-    C_file=fopen(output_file_name,"wb");
-    if (C_file ==0) fatal("! Cannot open output file ",output_file_name);
+    if ((C_file=fopen(output_file_name,"wb"))==NULL)
+      fatal("! Cannot open output file ",output_file_name);
 @.Cannot open output file@>
     if (show_progress) { printf("\n(%s)",output_file_name); update_terminal; }
     cur_line=1;
     stack_ptr=stack+1;
-    cur_name= (*an_output_file);
-    cur_repl= (text_pointer)cur_name->equiv;
+    cur_name=(*an_output_file);
+    cur_repl=(text_pointer)cur_name->equiv;
     cur_byte=cur_repl->tok_start;
     cur_end=(cur_repl+1)->tok_start;
     while (stack_ptr > stack) get_output();
@@ -593,7 +593,7 @@ output_defs(void)
   sixteen_bits a;
   push_level(NULL);
   for (cur_text=text_info+1; cur_text<text_ptr; cur_text++)
-    if (cur_text->text_link==0) { /* |cur_text| is the text for a macro */
+    if (cur_text->text_link==macro) { /* |cur_text| is the text for a |macro| */
       cur_byte=cur_text->tok_start;
       cur_end=(cur_text+1)->tok_start;
       C_printf("%s","#define ");
@@ -882,11 +882,11 @@ that branches to the various special cases that can arise.
 static eight_bits
 get_next(void) /* produces the next input token */
 {
-  static int preprocessing=0;
+  static boolean preprocessing=false;
   eight_bits c; /* the current character */
   while (true) {
     if (loc>limit) {
-      if (preprocessing && *(limit-1)!='\\') preprocessing=0;
+      if (preprocessing && *(limit-1)!='\\') preprocessing=false;
       if (get_line()==false) return new_section;
       else if (print_where && !no_where) {
           print_where=false;
@@ -913,9 +913,9 @@ get_next(void) /* produces the next input token */
     else if (xisspace(c)) {
         if (!preprocessing || loc>limit) continue;
           /* we don't want a blank after a final backslash */
-        else return ' '; /* ignore spaces and tabs, unless preprocessing */
+        else return ' '; /* ignore spaces and tabs, unless |preprocessing| */
     }
-    else if (c=='#' && loc==buffer+1) preprocessing=1;
+    else if (c=='#' && loc==buffer+1) preprocessing=true;
     mistake: @<Compress two-symbol operator@>@;
     return c;
   }
@@ -1176,7 +1176,7 @@ ANSI \CEE/ preprocessor sometimes requires it.
 acted, |cur_text| will point to the replacement text just generated, and
 |next_control| will contain the control code that terminated the activity.
 
-@d macro  0
+@d macro 0
 @d app_repl(c)  {if (tok_ptr==tok_mem_end) overflow("token"); *tok_ptr++=c;}
 
 @<Private...@>=
@@ -1431,7 +1431,7 @@ store_two_bytes((sixteen_bits)(0150000+section_count));
   /* |0150000==0320*0400| */
 
 @ @<Update the data...@>=
-if (p==name_dir||p==0) { /* unnamed section, or bad section name */
+if (p==name_dir||p==NULL) { /* unnamed section, or bad section name */
   (last_unnamed)->text_link=cur_text-text_info; last_unnamed=cur_text;
 }
 else if (p->equiv==(void *)text_info) p->equiv=(void *)cur_text;

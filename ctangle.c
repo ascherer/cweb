@@ -464,7 +464,7 @@ init_node(name_dir);
 
 /*:23*//*27:*/
 #line 201 "ctangle.w"
-last_unnamed= text_info;text_info->text_link= 0;
+last_unnamed= text_info;text_info->text_link= macro;
 
 /*:27*//*46:*/
 #line 493 "ctangle.w"
@@ -670,7 +670,7 @@ output_defs();
 /*:51*/
 #line 520 "ctangle.w"
 
-if(text_info->text_link==0&&cur_out_file==end_output_files){
+if(text_info->text_link==macro&&cur_out_file==end_output_files){
 fputs("\n! No program text was specified.",stdout);mark_harmless;
 
 }
@@ -686,7 +686,7 @@ fputs("\nWriting the output files:",stdout);
 printf(" (%s)",C_file_name);
 update_terminal;
 }
-if(text_info->text_link==0)goto writeloop;
+if(text_info->text_link==macro)goto writeloop;
 }
 while(stack_ptr> stack)get_output();
 flush_buffer();
@@ -697,8 +697,8 @@ for(an_output_file= end_output_files;an_output_file> cur_out_file;){
 an_output_file--;
 sprint_section_name(output_file_name,*an_output_file);
 fclose(C_file);
-C_file= fopen(output_file_name,"wb");
-if(C_file==0)fatal("! Cannot open output file ",output_file_name);
+if((C_file= fopen(output_file_name,"wb"))==NULL)
+fatal("! Cannot open output file ",output_file_name);
 
 if(show_progress){printf("\n(%s)",output_file_name);update_terminal;}
 cur_line= 1;
@@ -730,7 +730,7 @@ output_defs(void)
 sixteen_bits a;
 push_level(NULL);
 for(cur_text= text_info+1;cur_text<text_ptr;cur_text++)
-if(cur_text->text_link==0){
+if(cur_text->text_link==macro){
 cur_byte= cur_text->tok_start;
 cur_end= (cur_text+1)->tok_start;
 C_printf("%s","#define ");
@@ -920,11 +920,11 @@ else loc++;
 static eight_bits
 get_next(void)
 {
-static int preprocessing= 0;
+static boolean preprocessing= false;
 eight_bits c;
 while(true){
 if(loc> limit){
-if(preprocessing&&*(limit-1)!='\\')preprocessing= 0;
+if(preprocessing&&*(limit-1)!='\\')preprocessing= false;
 if(get_line()==false)return new_section;
 else if(print_where&&!no_where){
 print_where= false;
@@ -1199,7 +1199,7 @@ if(!preprocessing||loc> limit)continue;
 
 else return' ';
 }
-else if(c=='#'&&loc==buffer+1)preprocessing= 1;
+else if(c=='#'&&loc==buffer+1)preprocessing= true;
 mistake:/*71:*/
 #line 935 "ctangle.w"
 
@@ -1512,7 +1512,7 @@ scan_repl(section_name);
 /*97:*/
 #line 1433 "ctangle.w"
 
-if(p==name_dir||p==0){
+if(p==name_dir||p==NULL){
 (last_unnamed)->text_link= cur_text-text_info;last_unnamed= cur_text;
 }
 else if(p->equiv==(void*)text_info)p->equiv= (void*)cur_text;

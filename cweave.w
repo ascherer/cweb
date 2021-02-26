@@ -229,7 +229,7 @@ has a special first cross-reference whose |num| field is |file_flag|.
 @d xref equiv_or_xref
 
 @<Set init...@>=
-xref_ptr=xmem; init_node(name_dir); xref_switch=0; section_xref_switch=0;
+xref_ptr=xmem; init_node(name_dir); xref_switch=section_xref_switch=0;
 xmem->num=0; /* sentinel value */
 
 @ A new cross-reference for an identifier is formed by calling |new_xref|,
@@ -4106,7 +4106,7 @@ takes place, so that the translation will normally end with \.{\\6} or
 @c
 static void
 finish_C(@t\1\1@> /* finishes a definition or a \CEE/ part */
-  boolean visible@t\2\2@>) /* nonzero if we should produce \TeX\ output */
+  boolean visible@t\2\2@>) /* |true| if we should produce \TeX\ output */
 {
   text_pointer p; /* translation of the scraps */
   if (visible) {
