@@ -902,8 +902,9 @@ because the section name might (for example) follow \&{int}.
   cur_section_char=*(loc-1);
   @<Put section name into |section_text|@>@;
   if (k-section_text>3 && strncmp(k-2,"...",3)==0)
-        cur_section=section_lookup(section_text+1,k-3,1); /* 1 indicates a prefix */
-  else cur_section=section_lookup(section_text+1,k,0);
+        cur_section=section_lookup(section_text+1,k-3,true);
+          /* |true| indicates a prefix */
+  else cur_section=section_lookup(section_text+1,k,false);
   xref_switch=0; return section_name;
 }
 

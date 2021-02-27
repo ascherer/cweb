@@ -773,8 +773,8 @@ are null-terminated, and we keep an eye open for prefixes and extensions.
 
 @<Predecl...@>=
 static int web_strcmp(char *,int,char *,int);@/
-static name_pointer add_section_name(name_pointer,int,char *,char *,int);@/
-static void extend_section_name(name_pointer,char *,char *,int);
+static name_pointer add_section_name(name_pointer,int,char *,char *,boolean);@/
+static void extend_section_name(name_pointer,char *,char *,boolean);
 
 @ @c
 static int web_strcmp(@t\1\1@> /* fuller comparison than |strcmp| */
@@ -812,7 +812,7 @@ name_pointer par, /* parent of new node */
 int c, /* right or left? */
 char *first, /* first character of section name */
 char *last, /* last character of section name, plus one */
-int ispref@t\2\2@>) /* are we adding a prefix or a full name? */
+boolean ispref@t\2\2@>) /* are we adding a prefix or a full name? */
 {
   name_pointer p=name_ptr; /* new node */
   char *s=first_chunk(p);
@@ -839,7 +839,7 @@ extend_section_name(@t\1\1@>
 name_pointer p, /* name to be extended */
 char *first, /* beginning of extension text */
 char *last, /* one beyond end of extension text */
-int ispref@t\2\2@>) /* are we adding a prefix or a full name? */
+boolean ispref@t\2\2@>) /* are we adding a prefix or a full name? */
 {
   char *s;
   name_pointer q=p+1;
@@ -865,7 +865,7 @@ exactly equals or is a prefix or extension of a name in the tree.
 name_pointer
 section_lookup(@t\1\1@> /* find or install section name in tree */
 char *first,char *last, /* first and last characters of new name */
-int ispref@t\2\2@>) /* is the new name a prefix or a full name? */
+boolean ispref@t\2\2@>) /* is the new name a prefix or a full name? */
 {
   int c=0; /* comparison between two names; initialized so some compilers won't complain */
   name_pointer p=root; /* current node of the search tree */
@@ -976,11 +976,11 @@ name_pointer r@t\2\2@>) /* section name being compared */
   name_pointer q=r+1; /* access to subsequent chunks */
   char *ss, *s=first_chunk(r);
   int c; /* comparison */
-  int ispref; /* is chunk |r| a prefix? */
+  boolean ispref; /* is chunk |r| a prefix? */
   while (true) {
     ss=(r+1)->byte_start-1;
-    if (*ss==' ' && ss>=r->byte_start) ispref=1,q=q->link;
-    else ispref=0,ss++,q=name_dir;
+    if (*ss==' ' && ss>=r->byte_start) ispref=true,q=q->link;
+    else ispref=false,ss++,q=name_dir;
     switch(c=web_strcmp(first,len,s,ss-s)) {
     case equal: if (q==name_dir)
         if (ispref) {

@@ -345,7 +345,7 @@ extern void reset_input(void);
 extern boolean names_match(name_pointer,const char*,size_t,eight_bits);
 extern name_pointer id_lookup(const char*,const char*,char);
 
-extern name_pointer section_lookup(char*,char*,int);
+extern name_pointer section_lookup(char*,char*,boolean);
 extern void init_node(name_pointer);
 extern void init_p(name_pointer,eight_bits);
 extern void print_prefix_name(name_pointer);
@@ -382,8 +382,8 @@ static void check_change(void);
 #line 774 "common.w"
 
 static int web_strcmp(char*,int,char*,int);
-static name_pointer add_section_name(name_pointer,int,char*,char*,int);
-static void extend_section_name(name_pointer,char*,char*,int);
+static name_pointer add_section_name(name_pointer,int,char*,char*,boolean);
+static void extend_section_name(name_pointer,char*,char*,boolean);
 
 /*:55*//*64:*/
 #line 1001 "common.w"
@@ -912,7 +912,7 @@ name_pointer par,
 int c,
 char*first,
 char*last,
-int ispref)
+boolean ispref)
 {
 name_pointer p= name_ptr;
 char*s= first_chunk(p);
@@ -941,7 +941,7 @@ extend_section_name(
 name_pointer p,
 char*first,
 char*last,
-int ispref)
+boolean ispref)
 {
 char*s;
 name_pointer q= p+1;
@@ -963,7 +963,7 @@ if(ispref)*(byte_ptr-1)= ' ';
 name_pointer
 section_lookup(
 char*first,char*last,
-int ispref)
+boolean ispref)
 {
 int c= 0;
 name_pointer p= root;
@@ -1062,11 +1062,11 @@ char*first= *pfirst;
 name_pointer q= r+1;
 char*ss,*s= first_chunk(r);
 int c;
-int ispref;
+boolean ispref;
 while(true){
 ss= (r+1)->byte_start-1;
-if(*ss==' '&&ss>=r->byte_start)ispref= 1,q= q->link;
-else ispref= 0,ss++,q= name_dir;
+if(*ss==' '&&ss>=r->byte_start)ispref= true,q= q->link;
+else ispref= false,ss++,q= name_dir;
 switch(c= web_strcmp(first,len,s,ss-s)){
 case equal:if(q==name_dir)
 if(ispref){

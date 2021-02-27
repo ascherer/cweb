@@ -1086,8 +1086,10 @@ thus, \.{@@'\\nopq'} gives the same result as \.{@@'\\n'}.
   char *k; /* pointer into |section_text| */
   @<Put section name into |section_text|@>@;
   if (k-section_text>3 && strncmp(k-2,"...",3)==0)
-    cur_section_name=section_lookup(section_text+1,k-3,1); /* 1 means is a prefix */
-  else cur_section_name=section_lookup(section_text+1,k,0);
+    cur_section_name=section_lookup(section_text+1,k-3,true);
+      /* |true| means it's a prefix */
+  else cur_section_name=section_lookup(section_text+1,k,false);
+      /* |false| means it's not */
   if (cur_section_name_char=='(')
     @<If it's not there, add |cur_section_name| to the output file stack, or
           complain we're out of room@>@;
