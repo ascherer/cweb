@@ -482,14 +482,13 @@
     \def\X##1:##2\X{\Xpdf##1:##2\X \firstsecno##1.%
       {\toksF={}\makeoutlinetoks##2\outlinedone\outlinedone}%
       \pdfoutline goto num \the\toksA \expandafter{\the\toksE}}
-  \else\ifpdf
-    \special{pdf: outline -1 << /Title (\outsecname)
+  \else \special{pdf: outline -1 << /Title (\outsecname)
       /Dest [ @thispage /FitH @ypos ] >>}
     \def\X##1:##2\X{\Xpdf##1:##2\X \firstsecno##1.%
       {\toksF={}\makeoutlinetoks##2\outlinedone\outlinedone}%
       \special{pdf: outline 0 << /Title (\the\toksE)
         /A << /S /GoTo /D (\romannumeral\the\toksA) >> >>}}
-  \fi\fi\fi
+  \fi\fi
   \readsections}
 \def\makebookmarks{\let\ZZ=\writebookmarkline \readcontents\relax}
 \def\expnumber#1{\expandafter\ifx\csname#1\endcsname\relax 0%
