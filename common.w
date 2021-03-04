@@ -1185,7 +1185,7 @@ scan_args(void)
       }
       if (!found_web) @<Make
        |web_file_name|, |tex_file_name|, and |C_file_name|@>@;
-      else if (!found_change) @<Make |change_file_name| from |fname|@>@;
+      else if (!found_change) @<Make |change_file_name|@>@;
       else if (!found_out) @<Override |tex_file_name| and |C_file_name|@>@;
         else @<Print usage error message and quit@>@;
     }
