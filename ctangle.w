@@ -756,7 +756,7 @@ of these internal code numbers has been chosen to simplify the program logic;
 larger numbers are given to the control codes that denote more significant
 milestones.
 
-@d ignore 0 /* control code of no interest to \.{CTANGLE} */
+@d ignore 00 /* control code of no interest to \.{CTANGLE} */
 @d ord 0302 /* control code for `\.{@@'}' */
 @d control_text 0303 /* control code for `\.{@@t}', `\.{@@\^}', etc. */
 @d translit_code 0304 /* control code for `\.{@@l}' */
