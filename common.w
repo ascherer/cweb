@@ -1050,7 +1050,7 @@ if (l>buffer) {
   for (k=buffer; k<l; k++)
     if (*k=='\t') putchar(' ');
     else putchar(*k); /* print the characters already read */
-  putchar('\n');
+  new_line;
   for (k=buffer; k<l; k++) putchar(' '); /* space out the next line */
 }
 for (k=l; k<limit; k++) putchar(*k); /* print the part not yet read */

@@ -1111,7 +1111,7 @@ if(l> buffer){
 for(k= buffer;k<l;k++)
 if(*k=='\t')putchar(' ');
 else putchar(*k);
-putchar('\n');
+new_line;
 for(k= buffer;k<l;k++)putchar(' ');
 }
 for(k= l;k<limit;k++)putchar(*k);

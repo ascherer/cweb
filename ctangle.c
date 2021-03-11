@@ -637,7 +637,7 @@ flush_buffer(void)
 {
 C_putc('\n');
 if(cur_line%100==0&&show_progress){
-printf(".");
+putchar('.');
 if(cur_line%500==0)printf("%d",cur_line);
 update_terminal;
 }
