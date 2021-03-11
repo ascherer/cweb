@@ -70,6 +70,8 @@ extern int phase; /* which phase are we in? */
 @d colon_colon 06 /* `\.{::}'\,;  corresponds to MIT's {\tentex\char'6} */
 @d period_ast 026 /* `\.{.*}'\,;  corresponds to MIT's {\tentex\char'26} */
 @d minus_gt_ast 027 /* `\.{->*}'\,;  corresponds to MIT's {\tentex\char'27} */
+@#
+@d compress(c) if (loc++<=limit) return c
 
 @<Common code...@>=
 extern char section_text[]; /* text being sought for */

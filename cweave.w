@@ -751,8 +751,6 @@ combinations \.{...}, \.{::}, \.{.*} and \.{->*}.
 The compound assignment operators (e.g., \.{+=}) are
 treated as separate tokens.
 
-@d compress(c) if (loc++<=limit) return c
-
 @<Compress tw...@>=
 switch(c) {
   case '/': if (*loc=='*') {compress(begin_comment);}
