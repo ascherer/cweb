@@ -671,13 +671,6 @@ static char cur_section_char; /* the character just before that name */
 
 @ As one might expect, |get_next| consists mostly of a big switch
 that branches to the various special cases that can arise.
-\CEE/ allows underscores to appear in identifiers, and some \CEE/
-compilers even allow the dollar sign.
-
-@d isxalpha(c) ((c)=='_' || (c)=='$')
-   /* non-alpha characters allowed in identifier */
-@d ishigh(c) ((eight_bits)(c)>0177)
-@^high-bit character handling@>
 
 @c
 static eight_bits
@@ -694,7 +687,7 @@ get_next(void) /* produces the next input token */
            || ((c=='u' && *loc=='8')&&(*(loc+1)=='\'' || *(loc+1)=='"'))@|
            || (c=='<' && sharp_include_line==true))
         @<Get a string@>@;
-    else if (xisalpha(c) || isxalpha(c) || ishigh(c))
+    else if (isalpha(c) || isxalpha(c) || ishigh(c))
       @<Get an identifier@>@;
     else if (c=='@@') @<Get control code and possible section name@>@;
     else if (xisspace(c)) continue; /* ignore spaces and tabs */
@@ -3309,7 +3302,7 @@ switch (next_control) {
 
 @ @<Make sure that there is room for the new...@>=
 if (scrap_ptr+safe_scrap_incr>scrap_info_end ||
-  tok_ptr+safe_tok_incr>tok_mem_end @| ||
+  tok_ptr+safe_tok_incr>tok_mem_end || @|
   text_ptr+safe_text_incr>tok_start_end) {
   if (scrap_ptr>max_scr_ptr) max_scr_ptr=scrap_ptr;
   if (tok_ptr>max_tok_ptr) max_tok_ptr=tok_ptr;

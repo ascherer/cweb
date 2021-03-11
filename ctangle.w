@@ -873,11 +873,6 @@ static boolean no_where; /* suppress |print_where|? */
 @ As one might expect, |get_next| consists mostly of a big switch
 that branches to the various special cases that can arise.
 
-@d isxalpha(c) ((c)=='_' || (c)=='$') 
-  /* non-alpha characters allowed in identifier */
-@d ishigh(c) ((eight_bits)(c)>0177)
-@^high-bit character handling@>
-
 @c
 static eight_bits
 get_next(void) /* produces the next input token */
