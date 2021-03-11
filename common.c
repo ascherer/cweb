@@ -34,12 +34,18 @@
 #define period_ast 026
 #define minus_gt_ast 027 \
 
-#define xisalpha(c) (isalpha((eight_bits) c) &&((eight_bits) c<0200) ) 
-#define xisdigit(c) (isdigit((eight_bits) c) &&((eight_bits) c<0200) ) 
-#define xisspace(c) (isspace((eight_bits) c) &&((eight_bits) c<0200) ) 
-#define xislower(c) (islower((eight_bits) c) &&((eight_bits) c<0200) ) 
-#define xisupper(c) (isupper((eight_bits) c) &&((eight_bits) c<0200) ) 
-#define xisxdigit(c) (isxdigit((eight_bits) c) &&((eight_bits) c<0200) )  \
+#define compress(c) if(loc++<=limit) return c \
+
+#define xisalpha(c) (isalpha((eight_bits) (c) ) &&((eight_bits) (c) <0200) ) 
+#define xisdigit(c) (isdigit((eight_bits) (c) ) &&((eight_bits) (c) <0200) ) 
+#define xisspace(c) (isspace((eight_bits) (c) ) &&((eight_bits) (c) <0200) ) 
+#define xislower(c) (islower((eight_bits) (c) ) &&((eight_bits) (c) <0200) ) 
+#define xisupper(c) (isupper((eight_bits) (c) ) &&((eight_bits) (c) <0200) ) 
+#define xisxdigit(c) (isxdigit((eight_bits) (c) ) &&((eight_bits) (c) <0200) ) 
+#define isxalpha(c) ((c) =='_'||(c) =='$')  \
+
+#define ishigh(c) ((eight_bits) (c) > 0177)  \
+ \
 
 #define max_include_depth 10 \
 
@@ -133,7 +139,7 @@ extern boolean program;
 extern int phase;
 
 /*:2*//*4:*/
-#line 74 "common.h"
+#line 76 "common.h"
 
 extern char section_text[];
 extern char*section_text_end;
@@ -141,7 +147,7 @@ extern char*id_first;
 extern char*id_loc;
 
 /*:4*//*5:*/
-#line 88 "common.h"
+#line 94 "common.h"
 
 extern char buffer[];
 extern char*buffer_end;
@@ -149,7 +155,7 @@ extern char*loc;
 extern char*limit;
 
 /*:5*//*6:*/
-#line 105 "common.h"
+#line 111 "common.h"
 
 extern int include_depth;
 extern FILE*file[];
@@ -165,7 +171,7 @@ extern boolean changing;
 extern boolean web_file_open;
 
 /*:6*//*8:*/
-#line 125 "common.h"
+#line 131 "common.h"
 
 extern sixteen_bits section_count;
 extern boolean changed_section[];
@@ -173,7 +179,7 @@ extern boolean change_pending;
 extern boolean print_where;
 
 /*:8*//*9:*/
-#line 139 "common.h"
+#line 145 "common.h"
 
 typedef struct name_info{
 char*byte_start;
@@ -198,12 +204,12 @@ extern hash_pointer hash_end;
 extern hash_pointer h;
 
 /*:9*//*11:*/
-#line 183 "common.h"
+#line 189 "common.h"
 
 extern int history;
 
 /*:11*//*13:*/
-#line 199 "common.h"
+#line 205 "common.h"
 
 extern int argc;
 extern char**argv;
@@ -214,7 +220,7 @@ extern char scn_file_name[];
 extern boolean flags[];
 
 /*:13*//*14:*/
-#line 215 "common.h"
+#line 221 "common.h"
 
 extern FILE*C_file;
 extern FILE*tex_file;
@@ -333,14 +339,14 @@ FILE*active_file;
 #line 70 "common.w"
 
 /*7:*/
-#line 119 "common.h"
+#line 125 "common.h"
 
 extern boolean get_line(void);
 extern void check_complete(void);
 extern void reset_input(void);
 
 /*:7*//*10:*/
-#line 162 "common.h"
+#line 168 "common.h"
 
 extern boolean names_match(name_pointer,const char*,size_t,eight_bits);
 extern name_pointer id_lookup(const char*,const char*,char);
@@ -353,7 +359,7 @@ extern void print_section_name(name_pointer);
 extern void sprint_section_name(char*,name_pointer);
 
 /*:10*//*12:*/
-#line 186 "common.h"
+#line 192 "common.h"
 
 extern int wrap_up(void);
 extern void err_print(const char*);
@@ -361,7 +367,7 @@ extern void fatal(const char*,const char*);
 extern void overflow(const char*);
 
 /*:12*//*15:*/
-#line 223 "common.h"
+#line 229 "common.h"
 
 extern void common_init(void);
 extern void print_stats(void);
