@@ -215,15 +215,18 @@ Codes less than |0200| are 7-bit |char| codes that represent themselves.
 Some of the 7-bit codes will not be present, however, so we can
 use them for special purposes. The following symbolic names are used:
 
-\yskip \hang |join| denotes the concatenation of adjacent items with no
-space or line breaks allowed between them (the \.{@@\&} operation of \.{CWEB}).
+\yskip \hang |string| denotes the beginning or end of a string
+or a verbatim construction.
 
-\hang |string| denotes the beginning or end of a string, verbatim
-construction or numerical constant.
+\hang |constant| denotes a numerical constant.
+
+\hang |join| denotes the concatenation of adjacent items with no space
+or line breaks allowed between them (the \.{@@\&} operation of \.{CWEB}).
 @^ASCII code dependencies@>
 
-@d string 02 /* takes the place of extended ASCII \.{\char2} */
-@d join 0177 /* takes the place of ASCII delete */
+@d string 02 /* takes the place of ASCII \.{STX} */
+@d constant 03 /* takes the place of ASCII \.{ETX} */
+@d join 0177 /* takes the place of ASCII \.{DEL} */
 @d output_defs_flag (2*024000-1)
 
 @ The following procedure is used to enter a two-byte value into
@@ -864,8 +867,6 @@ boolean is_long_comment@t\2\2@>)
 }
 
 @* Inputting the next token.
-
-@d constant 03
 
 @<Private...@>=
 static name_pointer cur_section_name; /* name of section just scanned */

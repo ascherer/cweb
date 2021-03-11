@@ -513,11 +513,11 @@ scanning routines.
 @^ASCII code dependencies@>
 
 @d ignore 00 /* control code of no interest to \.{CWEAVE} */
-@d verbatim 02 /* takes the place of extended ASCII \.{\char2} */
+@d verbatim 02 /* takes the place of ASCII \.{STX} */
 @d begin_short_comment 03 /* \CPLUSPLUS/ short comment */
 @d begin_comment '\t' /* tab marks will not appear */
 @d underline '\n' /* this code will be intercepted without confusion */
-@d noop 0177 /* takes the place of ASCII delete */
+@d noop 0177 /* takes the place of ASCII \.{DEL} */
 @d xref_roman 0203 /* control code for `\.{@@\^}' */
 @d xref_wildcard 0204 /* control code for `\.{@@:}' */
 @d xref_typewriter 0205 /* control code for `\.{@@.}' */
