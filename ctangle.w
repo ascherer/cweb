@@ -193,6 +193,7 @@ name, and they also tie together all the \CEE/ texts of unnamed sections.
 The replacement text pointer for the first unnamed section appears in
 |text_info->text_link|, and the most recent such pointer is |last_unnamed|.
 
+@d macro 0
 @d section_flag max_texts /* final |text_link| in section replacement texts */
 
 @<Private...@>=
@@ -1171,7 +1172,6 @@ ANSI \CEE/ preprocessor sometimes requires it.
 acted, |cur_text| will point to the replacement text just generated, and
 |next_control| will contain the control code that terminated the activity.
 
-@d macro 0
 @d app_repl(c)  {if (tok_ptr==tok_mem_end) overflow("token"); *tok_ptr++=c;}
 
 @<Private...@>=
