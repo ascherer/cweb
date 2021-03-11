@@ -101,9 +101,9 @@
 
 #define equiv equiv_or_xref \
 
+#define macro 0
 #define section_flag max_texts \
 
-#define macro 0
 #define string 02
 #define join 0177
 #define output_defs_flag (2*024000-1)  \
@@ -281,7 +281,7 @@ static eight_bits*tok_mem_end= tok_mem+max_toks-1;
 static eight_bits*tok_ptr;
 
 /*:20*//*26:*/
-#line 198 "ctangle.w"
+#line 199 "ctangle.w"
 
 static text_pointer last_unnamed;
 
