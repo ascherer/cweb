@@ -4143,16 +4143,19 @@ it starts after we scan the matching `\.)'.
     err_print("! Improper macro definition");
 @.Improper macro definition@>
   else {
-    app('$'); app_cur_id(false);
-    if (*loc=='(')
+    app_cur_id(false);
+    if (*loc=='(') {
+      app('$');
   reswitch: switch (next_control=get_next()) {
       case '(': case ',': app(next_control); goto reswitch;
       case identifier: app_cur_id(false); goto reswitch;
       case ')': app(next_control); next_control=get_next(); break;
       default: err_print("! Improper macro definition"); break;
+      }
+      app('$');
     }
     else next_control=get_next();
-    app_str("$ "); app(break_space);
+    app(' '); app(break_space);
     app_scrap(dead,no_math); /* scrap won't take part in the parsing */
   }
 }
