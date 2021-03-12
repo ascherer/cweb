@@ -3300,7 +3300,7 @@ switch (next_control) {
 
 @ @<Make sure that there is room for the new...@>=
 if (scrap_ptr+safe_scrap_incr>scrap_info_end ||
-  tok_ptr+safe_tok_incr>tok_mem_end || @|
+  tok_ptr+safe_tok_incr>tok_mem_end @| ||
   text_ptr+safe_text_incr>tok_start_end) {
   if (scrap_ptr>max_scr_ptr) max_scr_ptr=scrap_ptr;
   if (tok_ptr>max_tok_ptr) max_tok_ptr=tok_ptr;
