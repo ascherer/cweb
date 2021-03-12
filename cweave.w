@@ -4137,7 +4137,7 @@ it starts after we scan the matching `\.)'.
 @<Start a macro...@>= {
   if (save_line!=out_line || save_place!=out_ptr || space_checked) app(backup);
   if(!space_checked){emit_space_if_needed;save_position;}
-  app_str("\\D"); /* this will produce `\&{\#define }' */
+  app_str("\\D"); /* this will produce `\#\&{define }' */
 @.\\D@>
   if ((next_control=get_next())!=identifier)
     err_print("! Improper macro definition");
