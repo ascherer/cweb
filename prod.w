@@ -198,11 +198,11 @@ We use \\{in}, \\{out}, \\{back} and
       |x=1;y=2;|\cr
 \+& |semi| & |stmt| \hfill \.\ $S$& empty statement\cr
 \+\dagit& |lproc| \altt |if_like| |else_like| |define_like| & |lproc| &
-         \maltt {{\#\bf include}} {\#\bf else} {\#\bf define} \cr
-\+& |lproc| |rproc| & |insert| & {\#\bf endif} \cr
+         \maltt {\#{\bf include}} \#{\bf else} \#{\bf define} \cr
+\+& |lproc| |rproc| & |insert| & \#{\bf endif} \cr
 \+& |lproc| \alt {|exp| [|exp|]} |function| |rproc| & |insert| \hfill
     $I$\.\ \alt {$E{[\.{\ \\5}E]}$} {$F$} &
- \malt{{\#\bf define} $a$\enspace 1} {{\#\bf define} $a$\enspace$\{\,b;\,\}$} \cr
+ \malt{\#{\bf define} $a$\enspace 1} {\#{\bf define} $a$\enspace$\{\,b;\,\}$} \cr
 \+& |section_scrap| |semi| & |stmt|\hfill $MS$ |force|
    &$\langle\,$section name$\,\rangle$;\cr
 \+& |section_scrap| & |exp| &$\langle\,$section name$\,\rangle$\cr

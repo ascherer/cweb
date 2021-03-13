@@ -354,7 +354,7 @@ necessary stacking and unstacking. It sends the value |section_number|
 if the next output begins or ends the replacement text of some section,
 in which case |cur_val| is that section's number (if beginning) or the
 negative of that value (if ending). (A section number of 0 indicates
-not the beginning or ending of a section, but a \&{\#line} command.)
+not the beginning or ending of a section, but a \#\&{line} command.)
 And it sends the value |identifier|
 if the next output is an identifier, in which case
 |cur_val| points to that identifier name.
@@ -821,7 +821,7 @@ to the output. If the comment is introduced by \.{/*}, |skip_comment|
 proceeds until finding the end-comment token \.{*/} or a newline; in the
 latter case |skip_comment| will be called again by |get_next|, since the
 comment is not finished.  This is done so that each newline in the
-\CEE/ part of a section is copied to the output; otherwise the \&{\#line}
+\CEE/ part of a section is copied to the output; otherwise the \#\&{line}
 commands inserted into the \CEE/ file by the output routines become useless.
 On the other hand, if the comment is introduced by \.{//} (i.e., if it
 is a \CPLUSPLUS/ ``short comment''), it always is simply delimited by the next
