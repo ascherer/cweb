@@ -3485,8 +3485,7 @@ is to |C_xref|: It constructs a sequence of scraps for \CEE/ text
 until |next_control>=format_code|. Thus, it takes care of embedded comments.
 
 The token list created from within `\pb' brackets is output as an argument
-to \.{\\PB}, if the user has invoked \.{CWEAVE} with the \.{+e} flag.
-Although \.{cwebmac} ignores \.{\\PB}, other macro packages
+to \.{\\PB}.  Although \.{cwebmac} ignores \.{\\PB}, other macro packages
 might use it to localize the special meaning of the macros that mark up
 program text.
 
