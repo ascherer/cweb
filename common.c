@@ -81,9 +81,7 @@
 #define update_terminal fflush(stdout) 
 #define new_line putchar('\n') 
 #define putxchar putchar
-#define term_write(a,b) fflush(stdout) ,fwrite(a,sizeof(char) ,b,stdout) 
-#define C_printf(c,a) fprintf(C_file,c,a) 
-#define C_putc(c) putc(c,C_file)  \
+#define term_write(a,b) fflush(stdout) ,fwrite(a,sizeof(char) ,b,stdout)  \
 
 #define max_bytes 1000000 \
 
@@ -220,7 +218,7 @@ extern char scn_file_name[];
 extern boolean flags[];
 
 /*:13*//*14:*/
-#line 221 "common.h"
+#line 219 "common.h"
 
 extern FILE*C_file;
 extern FILE*tex_file;
@@ -367,7 +365,7 @@ extern void fatal(const char*,const char*);
 extern void overflow(const char*);
 
 /*:12*//*15:*/
-#line 229 "common.h"
+#line 227 "common.h"
 
 extern void common_init(void);
 extern void print_stats(void);

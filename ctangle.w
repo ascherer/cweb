@@ -590,7 +590,10 @@ static boolean output_defs_seen=false;
 static void output_defs(void);@/
 static void out_char(eight_bits);
 
-@ @c
+@ @d C_printf(c,a) fprintf(C_file,c,a)
+@d C_putc(c) putc(c,C_file) /* isn't \CEE/ wonderfully consistent? */
+
+@c
 static void
 output_defs(void)
 {
@@ -647,7 +650,7 @@ restart:
       @/@t\4@>@<Case of an identifier@>@;
       @/@t\4@>@<Case of a section number@>@;
       @/@t\4@>@<Cases like \.{!=}@>@;
-      case '=': case '>': C_putc(cur_char); C_putc(' ');
+      case '=': case '>': C_putc(cur_char);@+C_putc(' ');
         out_state=normal; break;
       case join: out_state=unbreakable; break;
       case constant: if (out_state==verbatim) {
@@ -735,7 +738,7 @@ case section_number:
       if (*j=='\\' || *j=='"') C_putc('\\');
       C_putc(*j);
     }
-    C_printf("%s","\"\n");
+    C_putc('"');@+C_putc('\n');
   }
   break;
 
