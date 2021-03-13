@@ -2170,7 +2170,7 @@ switch (r) {
   case quoted_char: j++; printf("[%o]",(unsigned int)*j); break;
   case end_translation: printf("[quit]"); break;
   case inserted: printf("[inserted]"); break;
-  default: putxchar(r);
+  default: putchar(r);
 }
 
 @ The production rules listed above are embedded directly into \.{CWEAVE},
@@ -3107,7 +3107,7 @@ static int tracing; /* can be used to show parsing details */
   if (tracing==2) {
     printf("\n%d:",n);
     for (k_l=scrap_base; k_l<=lo_ptr; k_l++) {
-      if (k_l==pp) putxchar('*'); else putxchar(' ');
+      if (k_l==pp) putchar('*'); else putchar(' ');
       if (k_l->mathness %4 ==  yes_math) putchar('+');
       else if (k_l->mathness %4 ==  no_math) putchar('-');
       print_cat(k_l->cat);

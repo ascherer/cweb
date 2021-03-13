@@ -213,7 +213,7 @@ extern boolean flags[]; /* an option for each 7-bit code */
 
 @ Code related to output:
 @d update_terminal fflush(stdout) /* empty the terminal output buffer */
-@d new_line putchar('\n') @d putxchar putchar
+@d new_line putchar('\n')
 @d term_write(a,b) fflush(stdout),fwrite(a,sizeof(char),b,stdout)
 
 @<Common code...@>=

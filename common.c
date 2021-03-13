@@ -80,7 +80,6 @@
 
 #define update_terminal fflush(stdout) 
 #define new_line putchar('\n') 
-#define putxchar putchar
 #define term_write(a,b) fflush(stdout) ,fwrite(a,sizeof(char) ,b,stdout)  \
 
 #define max_bytes 1000000 \
