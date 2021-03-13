@@ -2848,7 +2848,7 @@ else if (cat1==rproc) {
     reduce(pp,3,insert,-1,80);
   }
   else if (cat2==exp && cat3==rproc && cat1==exp) {
-    app(inserted); big_app1(pp); big_app(' '); big_app1(pp+1); app_str(" \\5");
+    app(inserted); big_app1(pp); big_app(' '); big_app1(pp+1); app_str("\\5");
 @.\\5@>
     big_app2(pp+2); reduce(pp,4,insert,-1,80);
   }
@@ -4155,7 +4155,7 @@ it starts after we scan the matching `\.)'.
       app('$');
     }
     else next_control=get_next();
-    app(' '); app(break_space);
+    app(break_space);
     app_scrap(dead,no_math); /* scrap won't take part in the parsing */
   }
 }
@@ -4169,7 +4169,6 @@ it starts after we scan the matching `\.)'.
   next_control=get_next();
   if (next_control==identifier) {
     app(id_flag+(int)(id_lookup(id_first, id_loc,normal)-name_dir));
-    app(' ');
     app(break_space); /* this is syntactically separate from what follows */
     next_control=get_next();
     if (next_control==identifier) {
