@@ -38,9 +38,9 @@ We use \\{in}, \\{out}, \\{back} and
 {$\displaystyle\Biggl\{\!\matrix{\strut\hbox{#1}\cr\hbox{#2}\cr
    \strut\hbox{#3}\cr}\!\Biggr\}$ }
 \def\malt #1 #2
-{$\displaystyle\matrix{\strut\hbox{#1}\hfill\cr\strut\hbox{#2}\hfill\cr}$}
+{$\displaystyle\!\matrix{\strut\hbox{#1}\hfill\cr\strut\hbox{#2}\hfill\cr}$}
 \def\maltt #1 #2 #3
-{$\displaystyle\matrix{\strut\hbox{#1}\hfill\cr\hbox{#2}\hfill\cr
+{$\displaystyle\!\matrix{\strut\hbox{#1}\hfill\cr\hbox{#2}\hfill\cr
    \strut\hbox{#3}\hfill\cr}$}
 \yskip
 \prodno=0 \midcol=2.5in
@@ -166,24 +166,24 @@ We use \\{in}, \\{out}, \\{back} and
 \+& |else_like| |colon| & |else_like| |base| & \&{try} :\cr
 \+& |else_like| |lbrace| & |else_head| |lbrace| & \&{else} $\{$\cr
 \+& |else_like| |stmt| & |stmt| \hfill
-       $|force|\,E\,\\{in}\,\\{bsp}\,S\,\\{out}\,|force|$ & |else x=0;|\cr
+       $|force|\,E\,\\{in}\,\\{bsp}\,S\,\\{out}\,|force|$ & $\!\!$|else x=0;|\cr
 \+& |else_head| \alt|stmt| |exp|  & |stmt| \hfill
-      $|force|\,E\,\\{bsp}\,|noop|\,|cancel|\,S\,\\{bsp}$ & |else{x=0;}|\cr
+      $|force|\,E\,\\{bsp}\,|noop|\,|cancel|\,S\,\\{bsp}$ & $\!\!$|else{x=0;}|\cr
 \+& |if_clause| |lbrace| & |if_head| |lbrace| & |if (x) {|\cr
 \+& |if_clause| |stmt| |else_like| |if_like| & |if_like| \hfill
     $|force|\,I\,\\{in}\,\\{bsp}\,S\,\\{out}\,|force|\,E\,\.\ I$ &
-     |if (x) y; else if|\cr
+     $\!\!$|if (x) y; else if|\cr
 \+& |if_clause| |stmt| |else_like| & |else_like| \hfill
     $|force|\,I\,\\{in}\,\\{bsp}\,S\,\\{out}\,|force|\,E$ &
-   |if (x) y; else|\cr
+   $\!\!$|if (x) y; else|\cr
 \+& |if_clause| |stmt| & |else_like| |stmt| & |if (x)|\cr
 \+& |if_head| \alt|stmt| |exp| |else_like| |if_like| & |if_like| \hfill
     $|force|\,I\,\\{bsp}\,|noop|\,|cancel|\,S\,|force|\,E\,\.\ I$ &
-     |if (x){y;}else if|\cr
+     $\!\!$|if (x){y;}else if|\cr
 \+& |if_head| \alt|stmt| |exp| |else_like| & |else_like| \hfill
     $|force|\,I\,\\{bsp}\,|noop|\,|cancel|\,S\,|force|\,E$ &
-   |if (x){y;}else|\cr
-\+& |if_head| \alt|stmt| |exp| & |else_head| \alt|stmt| |exp| & |if (x){y;}|\cr
+   $\!\!$|if (x){y;}else|\cr
+\+& |if_head| \alt|stmt| |exp| & |else_head| \alt|stmt| |exp| & $\!\!$|if (x){y;}|\cr
 \advance\midcol20pt
 \+& |do_like| |stmt| |else_like| |semi| & |stmt| \hfill
       $D\,\\{bsp}\,|noop|\,|cancel|\,S\,|cancel|\,|noop|\,\\{bsp}\,ES$%
@@ -196,18 +196,18 @@ We use \\{in}, \\{out}, \\{back} and
     $C$\alt $C$ $E$ \\{in}\,\\{in} & |catch (...)|\cr
 \+& |tag| |tag| & |tag| \hfill $T_1\,\\{bsp}\,T_2$ & |case 0: case 1:|\cr
 \+& |tag| \altt|stmt| |decl| |function| & \altt|stmt| |decl| |function|
-       \hfill $|force|\,\\{back}\,T\,\\{bsp}\,S$ & |case 0: z=0;|\cr
+       \hfill $|force|\,\\{back}\,T\,\\{bsp}\,S$ & $\!\!$|case 0: z=0;|\cr
 \+\dagit& |stmt| \altt|stmt| |decl| |function| &
    \altt|stmt| |decl| |function|
       \hfill $S\,$\altt$|force|\,S$ $|big_force|\,D$ $|big_force|\,F$ &
       |x=1;y=2;|\cr
 \+& |semi| & |stmt| \hfill \.\ $S$& empty statement\cr
 \+\dagit& |lproc| \altt |if_like| |else_like| |define_like| & |lproc| &
-         \maltt {{\bf \#include}} {\bf\#else} {\bf\#define} \cr
-\+& |lproc| |rproc| & |insert| & {\bf\#endif} \cr
+         \maltt {\#\&{include}} \#\&{else} \#\&{define} \cr
+\+& |lproc| |rproc| & |insert| & \#\&{endif} \cr
 \+& |lproc| \alt {|exp| [|exp|]} |function| |rproc| & |insert| \hfill
     $I$\.\ \alt {$E{[\.{\ \\5}E]}$} {$F$} &
- \malt{{\bf\#define} $a$\enspace 1} {{\bf\#define} $a$\enspace$\{\,b;\,\}$} \cr
+ \malt{\#\&{define} $a$\enspace 1} {\#\&{define} $a$\enspace$\{\,b;\,\}$} \cr
 \+& |section_scrap| |semi| & |stmt|\hfill $MS$ |force|
    &$\langle\,$section name$\,\rangle$;\cr
 \+& |section_scrap| & |exp| &$\langle\,$section name$\,\rangle$\cr
@@ -281,8 +281,8 @@ We use \\{in}, \\{out}, \\{back} and
 \+& |lbrack| & |lpar| & |[| elsewhere \cr
 \+& |rbrack| & |rpar| & |]| elsewhere \cr
 \+& |attr_head| |rbrack| |rbrack| & |attr| & $[[\ldots]]$ \cr
-\+& |attr_head| |exp| & |attr_head| & |[[deprecated| \cr
-\+& |attr_head| |using_like| |exp| |colon| & |attr_head| & |[[using NS:| \cr
+\+& |attr_head| |exp| & |attr_head| & $[[$|deprecated| \cr
+\+& |attr_head| |using_like| |exp| |colon| & |attr_head| & $[[$|using NS:| \cr
 \+& |attr| \alt|lbrace| |stmt| & \alt|lbrace| |stmt| \hfill $A\.\ $ \alt $S$ $L$ &
   |[[likely]] {|\cr
 \+& |attr| |tag| & |tag| \hfill $A\.\ T$ & |[[likely]] case 0:| \cr
@@ -297,7 +297,7 @@ We use \\{in}, \\{out}, \\{back} and
 \+& |attr| |typedef_like| & |typedef_like| \hfill $A\.\ T$ &
   |[[deprecated]] typedef| \cr
 \+& |raw_int| |lbrack| & |exp| & |int[3]| \cr
-\+& |attr_head| |comma| & |attr_head| & |[[x, y| \cr
+\+& |attr_head| |comma| & |attr_head| & $[[$|x, y| \cr
 \+& |if_head| |attr| & |if_head| \hfill $I\.\ A$ & |if (x) [[unlikely]] {| \cr
 \+& |lbrack| |lbrack| |rbrack| |rbrack| & |exp| & |[[]]| \cr
 \+& |attr| |function| & |function| \hfill $A\.\ F$ &
