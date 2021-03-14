@@ -178,7 +178,7 @@ formatted.
 @d template_like 58 /* \&{template} */
 @d alignas_like 59 /* \&{alignas} */
 @d using_like 60 /* \&{using} */
-@d default_like 61 /* \&{using} */
+@d default_like 61 /* \&{default} */
 @d attr 62 /* \&{noexcept} and attributes */
 
 @ We keep track of the current section number in |section_count|, which
