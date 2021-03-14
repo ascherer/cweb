@@ -4435,18 +4435,12 @@ it starts after we scan the matching `\.)'.
   reswitch: switch (next_control=get_next()) {
       case '(': case ',': app(next_control); goto reswitch;
       case identifier: app_cur_id(false); goto reswitch;
-      case @q(@>')': app(next_control); next_control=get_next(); break;
-      case dot_dot_dot: app_str("\\,\\ldots\\,");
-@.\\,@>
-@.\\ldots@>
+      case ')': app(next_control); next_control=get_next(); break;
+      case dot_dot_dot: app_str("\\,\\ldots\\,"); @.\\,@> @.\\ldots@>
         app_scrap(raw_int,no_math);
-        next_control=get_next();
-        if (next_control==')') {
-          app(next_control);
-          next_control=get_next();
-          break;
-        }
-        /* otherwise fall through */
+        if ((next_control=get_next())==')') {
+          app(next_control); next_control=get_next(); break;
+        } /* otherwise fall through */
       default: err_print("! Improper macro definition"); break;
       }
       app('$');
