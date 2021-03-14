@@ -178,7 +178,11 @@ formatted.
 @d template_like 58 /* \&{template} */
 @d alignas_like 59 /* \&{alignas} */
 @d using_like 60 /* \&{using} */
+<<<<<<< df2f4823d4229e96f39ffe5791b18e16b93b924f
 @d default_like 61 /* \&{default} */
+=======
+@d default_like 61 /* \&{using} */
+>>>>>>> Update CWEAVE
 @d attr 62 /* \&{noexcept} and attributes */
 
 @ We keep track of the current section number in |section_count|, which
@@ -854,8 +858,12 @@ are pointers into the array |section_text|, not into |buffer|.
       *id_loc++='/';
       goto digit_suffix;
     }
+<<<<<<< df2f4823d4229e96f39ffe5791b18e16b93b924f
     else if (xisdigit(*loc)) { /* octal constant */
       *id_loc++='~';
+=======
+    else if (xisdigit(*loc)) {*id_loc++='~'; /* octal constant */
+>>>>>>> Update CWEAVE
       gather_digits_while(xisdigit(*loc));
       *id_loc++='/';
       goto digit_suffix;
@@ -1765,8 +1773,13 @@ same initial letter; these subscripts are assigned from left to right.
 @d new_exp 64 /* \&{new} and a following type identifier */
 @d begin_arg 65 /* \.{@@[} */
 @d end_arg 66 /* \.{@@]} */
+<<<<<<< df2f4823d4229e96f39ffe5791b18e16b93b924f
 @d lbrack 67 /* denotes a left bracket */
 @d rbrack 68 /* denotes a right bracket */
+=======
+@d lbrack 67 /* \.{[} */
+@d rbrack 68 /* \.{]} */
+>>>>>>> Update CWEAVE
 @d attr_head 69 /* denotes beginning of attribute */
 
 @<Private...@>=
@@ -2676,7 +2689,11 @@ else if (cat1==cast && (cat2==const_like || cat2==case_like)) {
 }
 else if (cat1==exp || cat1==cast) squash(pp,2,exp,-2,10);
 else if (cat1==attr) {
+<<<<<<< df2f4823d4229e96f39ffe5791b18e16b93b924f
   big_app1_insert(pp,' ');
+=======
+  big_app1(pp); big_app(' '); big_app1(pp+1);
+>>>>>>> Update CWEAVE
   reduce(pp,2,exp,-2,142);
 }
 else if (cat1==colcol && cat2==int_like) squash(pp,3,int_like,-2,152);
@@ -2772,7 +2789,11 @@ else if (cat1==lbrace || cat1==int_like || cat1==decl) {
 }
 else if (cat1==semi) squash(pp,2,decl,-1,39);
 else if (cat1==attr) {
+<<<<<<< df2f4823d4229e96f39ffe5791b18e16b93b924f
   big_app1_insert(pp,' ');
+=======
+  big_app1(pp); big_app(' '); big_app1(pp+1);
+>>>>>>> Update CWEAVE
   reduce(pp,2,decl_head,-1,139);
 }
 
@@ -2815,11 +2836,19 @@ else if (cat1==exp||cat1==int_like) {
   }
 }
 else if (cat1==attr) {
+<<<<<<< df2f4823d4229e96f39ffe5791b18e16b93b924f
   big_app1_insert(pp,' ');
   reduce(pp,2,struct_like,-3,141);
 }
 else if (cat1==struct_like) {
   big_app1_insert(pp,' ');
+=======
+  big_app1(pp); big_app(' '); big_app1(pp+1);
+  reduce(pp,2,struct_like,-3,141);
+}
+else if (cat1==struct_like) {
+  big_app1(pp); big_app(' '); big_app1(pp+1);
+>>>>>>> Update CWEAVE
   reduce(pp,2,struct_like,-3,151);
 }
 
@@ -2844,7 +2873,11 @@ else if (cat1==stmt) {
   big_app1(pp+1); reduce(pp,2,function,-1,52);
 }
 else if (cat1==attr) {
+<<<<<<< df2f4823d4229e96f39ffe5791b18e16b93b924f
   big_app1_insert(pp,' ');
+=======
+  big_app1(pp); big_app(' '); big_app1(pp+1);
+>>>>>>> Update CWEAVE
   reduce(pp,2,fn_decl,0,157);
 }
 
@@ -2903,7 +2936,11 @@ else if (cat1==stmt) {
   else squash(pp,1,else_like,0,65);
 }
 else if (cat1==attr) {
+<<<<<<< df2f4823d4229e96f39ffe5791b18e16b93b924f
   big_app1_insert(pp,' ');
+=======
+  big_app1(pp); big_app(' '); big_app1(pp+1);
+>>>>>>> Update CWEAVE
   reduce(pp,2,if_head,0,146);
 }
 
@@ -3023,9 +3060,14 @@ else if (cat1==decl_head || cat1==int_like || cat1==exp) {
 }
 else if (cat1==struct_like) {
   if ((cat2==exp || cat2==int_like) && (cat3==comma || cat3==prerangle)) {
+<<<<<<< df2f4823d4229e96f39ffe5791b18e16b93b924f
     make_underlined(pp+2);
     if (reserve_typenames) {
       make_reserved(pp+2);
+=======
+    if (flags['t']) {
+      make_underlined(pp+2); make_reserved(pp+2);
+>>>>>>> Update CWEAVE
     }
     big_app2(pp); big_app(' '); big_app2(pp+2);
     if (cat3==comma) reduce(pp,4,langle,0,153);
@@ -3039,8 +3081,14 @@ else if (cat1==exp || cat1==raw_int) {
   big_app1_insert(pp,' '); reduce(pp,2,cat1,-2,90);
 }
 else if (cat1==cast && cat2==struct_like) {
+<<<<<<< df2f4823d4229e96f39ffe5791b18e16b93b924f
   big_app1_insert(pp,' '); reduce(pp,2,struct_like,0,155);
 }@+ else squash(pp,1,raw_int,0,91);
+=======
+  big_app1(pp); big_app(' '); big_app2(pp+1); reduce(pp,2,struct_like,0,155);
+}
+else squash(pp,1,raw_int,0,91);
+>>>>>>> Update CWEAVE
 
 @ @<Cases for |new_like|@>=
 if (cat1==lpar && cat2==exp && cat3==rpar) squash(pp,4,new_like,0,92);
@@ -3089,9 +3137,14 @@ squash(pp,1,int_like,-2,105);
 if (cat1==prelangle) squash(pp+1,1,langle,1,106);
 else if (cat1==colcol) squash(pp,2,colcol,-1,107);
 else if (cat1==cast) squash(pp,2,raw_int,0,108);
+<<<<<<< df2f4823d4229e96f39ffe5791b18e16b93b924f
 else if (cat1==lpar) squash(pp,1,exp,-2,109);
 else if (cat1==lbrack) squash(pp,1,exp,-2,144);
+=======
+else if (cat1==lpar||cat1==lbrack) squash(pp,1,exp,-2,109);
+>>>>>>> Update CWEAVE
 else if (cat1!=langle) squash(pp,1,int_like,-3,110);
+else if (cat1==lbrack) squash(pp,1,exp,-2,144);
 
 @ @<Cases for |operator_like|@>=
 if (cat1==binop || cat1==unop || cat1==ubinop) {
@@ -3167,16 +3220,25 @@ else if (cat1==comma)
 
 @ @<Cases for |attr|@>=
 if (cat1==lbrace || cat1==stmt) {
+<<<<<<< df2f4823d4229e96f39ffe5791b18e16b93b924f
   big_app1_insert(pp,' ');
   reduce(pp,2,cat1,-2,134);
 }
 else if (cat1==tag) {
   big_app1_insert(pp,' ');
+=======
+  big_app1(pp); big_app(' '); big_app1(pp+1);
+  reduce(pp,2,cat1,-2,134);
+}
+else if (cat1==tag) {
+  big_app1(pp); big_app(' '); big_app1(pp+1);
+>>>>>>> Update CWEAVE
   reduce(pp,2,tag,-1,135);
 }
 else if (cat1==semi)
   squash(pp,2,stmt,-2,136);
 else if (cat1==attr) {
+<<<<<<< df2f4823d4229e96f39ffe5791b18e16b93b924f
   big_app1_insert(pp,' ');
   reduce(pp,2,attr,-1,137);
 }
@@ -3190,6 +3252,21 @@ else if (cat1==typedef_like) {
 }
 else if (cat1==function) {
   big_app1_insert(pp,' ');
+=======
+  big_app1(pp); big_app(' '); big_app1(pp+1);
+  reduce(pp,2,attr,-1,137);
+}
+else if (cat1==decl_head) {
+  big_app1(pp); big_app(' '); big_app1(pp+1);
+  reduce(pp,2,decl_head,-1,138);
+}
+else if (cat1==typedef_like) {
+  big_app1(pp); big_app(' '); big_app1(pp+1);
+  reduce(pp,2,typedef_like,0,143);
+}
+else if (cat1==function) {
+  big_app1(pp); big_app(' '); big_app1(pp+1);
+>>>>>>> Update CWEAVE
   reduce(pp,2,function,-1,148);
 }
 
@@ -3471,11 +3548,9 @@ switch (next_control) {
 @.\\\#@>
   case ignore: case xref_roman: case xref_wildcard:
   case xref_typewriter: case noop:@+break;
-  case '(': app_str("\\1\\1");@+app(next_control);@+app_scrap(lpar,maybe_math);@+break;
-@.\\1@>
+  case '(': app(next_control);@+app_scrap(lpar,maybe_math);@+break;
+  case ')': app(next_control);@+app_scrap(rpar,maybe_math);@+break;
   case '[': app(next_control);@+app_scrap(lbrack,maybe_math);@+break;
-  case ')': app_str("\\2\\2");@+app(next_control);@+app_scrap(rpar,maybe_math);@+break;
-@.\\2@>
   case ']': app(next_control);@+app_scrap(rbrack,maybe_math);@+break;
   case '{': app_str("\\{"@q}@>);@+app_scrap(lbrace,yes_math);@+break;
 @.\\\{@>@q}@>
@@ -4360,12 +4435,18 @@ it starts after we scan the matching `\.)'.
   reswitch: switch (next_control=get_next()) {
       case '(': case ',': app(next_control); goto reswitch;
       case identifier: app_cur_id(false); goto reswitch;
-      case ')': app(next_control); next_control=get_next(); break;
-      case dot_dot_dot: app_str("\\,\\ldots\\,"); @.\\,@> @.\\ldots@>
+      case @q(@>')': app(next_control); next_control=get_next(); break;
+      case dot_dot_dot: app_str("\\,\\ldots\\,");
+@.\\,@>
+@.\\ldots@>
         app_scrap(raw_int,no_math);
-        if ((next_control=get_next())==')') {
-          app(next_control); next_control=get_next(); break;
-        } /* otherwise fall through */
+        next_control=get_next();
+        if (next_control==')') {
+          app(next_control);
+          next_control=get_next();
+          break;
+        }
+        /* otherwise fall through */
       default: err_print("! Improper macro definition"); break;
       }
       app('$');
