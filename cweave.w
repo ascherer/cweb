@@ -3079,8 +3079,8 @@ if (cat1==prelangle) squash(pp+1,1,langle,1,106);
 else if (cat1==colcol) squash(pp,2,colcol,-1,107);
 else if (cat1==cast) squash(pp,2,raw_int,0,108);
 else if (cat1==lpar) squash(pp,1,exp,-2,109);
-else if (cat1!=langle) squash(pp,1,int_like,-3,110);
 else if (cat1==lbrack) squash(pp,1,exp,-2,144);
+else if (cat1!=langle) squash(pp,1,int_like,-3,110);
 
 @ @<Cases for |operator_like|@>=
 if (cat1==binop || cat1==unop || cat1==ubinop) {
@@ -3462,10 +3462,10 @@ switch (next_control) {
   case xref_typewriter: case noop:@+break;
   case '(': app_str("\\1\\1");@+app(next_control);@+app_scrap(lpar,maybe_math);@+break;
 @.\\1@>
-    case '[': app(next_control);@+app_scrap(lbrack,maybe_math);@+break;
+  case '[': app(next_control);@+app_scrap(lbrack,maybe_math);@+break;
   case ')': app_str("\\2\\2");@+app(next_control);@+app_scrap(rpar,maybe_math);@+break;
 @.\\2@>
-    case ']': app(next_control);@+app_scrap(rbrack,maybe_math);@+break;
+  case ']': app(next_control);@+app_scrap(rbrack,maybe_math);@+break;
   case '{': app_str("\\{"@q}@>);@+app_scrap(lbrace,yes_math);@+break;
 @.\\\{@>@q}@>
   case '}': app_str(@q{@>"\\}");@+app_scrap(rbrace,yes_math);@+break;
