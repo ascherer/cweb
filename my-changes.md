@@ -31,11 +31,6 @@ will be made a reserved word so that it acts like a type name.
 
 Quite a few new productions have been added to `prod.w`; they are all at the
 end, even though many of them would belong more logically earlier in the file.
-<<<<<<< 76a4f0af90fd9687d35e3edcf06ad1dc4067cf53
 There are new kinds of scrap as well, mostly for handling attributes.
 
 To test the major additions, run `CWEAVE` on `testthings.w`.
-=======
-There are new kinds of scrap as well, mostly for handling attributes. To test
-the major additions, run `CWEAVE` on `testthings.w`.
->>>>>>> Added new literals to CTANGLE
