@@ -2669,7 +2669,7 @@ else if (cat1==cast && (cat2==const_like || cat2==case_like)) {
 }
 else if (cat1==exp || cat1==cast) squash(pp,2,exp,-2,10);
 else if (cat1==attr) {
-  big_app1_insert(pp+1,' ');
+  big_app1_insert(pp,' ');
   reduce(pp,2,exp,-2,142);
 }
 else if (cat1==colcol && cat2==int_like) squash(pp,3,int_like,-2,152);
@@ -2765,7 +2765,7 @@ else if (cat1==lbrace || cat1==int_like || cat1==decl) {
 }
 else if (cat1==semi) squash(pp,2,decl,-1,39);
 else if (cat1==attr) {
-  big_app1_insert(pp+1,' ');
+  big_app1_insert(pp,' ');
   reduce(pp,2,decl_head,-1,139);
 }
 
@@ -2780,11 +2780,11 @@ else if (cat1==stmt || cat1==function) {
 @ @<Cases for |base|@>=
 if (cat1==int_like || cat1==exp) {
   if (cat2==comma) {
-    big_app1_insert(pp+1,' ');
+    big_app1(pp); big_app(' '); big_app2(pp+1);
     app(opt); app('9'); reduce(pp,3,base,0,42);
   }
   else if (cat2==lbrace) {
-    big_app1_insert(pp+1,' '); big_app(' '); big_app1(pp+2);
+    big_app1_insert(pp,' '); big_app(' '); big_app1(pp+2);
     reduce(pp,3,lbrace,-2,43);
   }
 }
@@ -2808,11 +2808,11 @@ else if (cat1==exp||cat1==int_like) {
   }
 }
 else if (cat1==attr) {
-  big_app1_insert(pp+1,' ');
+  big_app1_insert(pp,' ');
   reduce(pp,2,struct_like,-3,141);
 }
 else if (cat1==struct_like) {
-  big_app1_insert(pp+1,' ');
+  big_app1_insert(pp,' ');
   reduce(pp,2,struct_like,-3,151);
 }
 
@@ -2837,7 +2837,7 @@ else if (cat1==stmt) {
   big_app1(pp+1); reduce(pp,2,function,-1,52);
 }
 else if (cat1==attr) {
-  big_app1_insert(pp+1,' ');
+  big_app1_insert(pp,' ');
   reduce(pp,2,fn_decl,0,157);
 }
 
@@ -2896,7 +2896,7 @@ else if (cat1==stmt) {
   else squash(pp,1,else_like,0,65);
 }
 else if (cat1==attr) {
-  big_app1_insert(pp+1,' ');
+  big_app1_insert(pp,' ');
   reduce(pp,2,if_head,0,146);
 }
 
@@ -2971,7 +2971,7 @@ else if (cat1==rproc) {
   app(inserted); big_app2(pp); reduce(pp,2,insert,-1,79);
 } else if (cat1==exp || cat1==function) {
   if (cat2==rproc) {
-    app(inserted); big_app1_insert(pp+1,' ');
+    app(inserted); big_app1(pp); big_app(' '); big_app2(pp+1);
     reduce(pp,3,insert,-1,80);
   }
   else if (cat2==exp && cat3==rproc && cat1==exp) {
@@ -3043,7 +3043,7 @@ if (cat1==int_like || cat1==const_like) {
   big_app1_insert(pp,' '); reduce(pp,2,new_exp,0,95);
 }
 else if (cat1==struct_like && (cat2==exp || cat2==int_like)) {
-  big_app1_insert(pp+1,' '); big_app(' ');
+  big_app1_insert(pp,' '); big_app(' ');
   big_app1(pp+2); reduce(pp,3,new_exp,0,96);
 }
 else if (cat1==raw_ubin) {
@@ -3156,29 +3156,29 @@ else if (cat1==comma)
 
 @ @<Cases for |attr|@>=
 if (cat1==lbrace || cat1==stmt) {
-  big_app1_insert(pp+1,' ');
+  big_app1_insert(pp,' ');
   reduce(pp,2,cat1,-2,134);
 }
 else if (cat1==tag) {
-  big_app1_insert(pp+1,' ');
+  big_app1_insert(pp,' ');
   reduce(pp,2,tag,-1,135);
 }
 else if (cat1==semi)
   squash(pp,2,stmt,-2,136);
 else if (cat1==attr) {
-  big_app1_insert(pp+1,' ');
+  big_app1_insert(pp,' ');
   reduce(pp,2,attr,-1,137);
 }
 else if (cat1==decl_head) {
-  big_app1_insert(pp+1,' ');
+  big_app1_insert(pp,' ');
   reduce(pp,2,decl_head,-1,138);
 }
 else if (cat1==typedef_like) {
-  big_app1_insert(pp+1,' ');
+  big_app1_insert(pp,' ');
   reduce(pp,2,typedef_like,0,143);
 }
 else if (cat1==function) {
-  big_app1_insert(pp+1,' ');
+  big_app1_insert(pp,' ');
   reduce(pp,2,function,-1,148);
 }
 
@@ -3460,10 +3460,12 @@ switch (next_control) {
 @.\\\#@>
   case ignore: case xref_roman: case xref_wildcard:
   case xref_typewriter: case noop:@+break;
-  case '(': app(next_control);@+app_scrap(lpar,maybe_math);@+break;
-  case ')': app(next_control);@+app_scrap(rpar,maybe_math);@+break;
-  case '[': app(next_control);@+app_scrap(lbrack,maybe_math);@+break;
-  case ']': app(next_control);@+app_scrap(rbrack,maybe_math);@+break;
+  case '(': app_str("\\1\\1");@+app(next_control);@+app_scrap(lpar,maybe_math);@+break;
+@.\\1@>
+    case '[': app(next_control);@+app_scrap(lbrack,maybe_math);@+break;
+  case ')': app_str("\\2\\2");@+app(next_control);@+app_scrap(rpar,maybe_math);@+break;
+@.\\2@>
+    case ']': app(next_control);@+app_scrap(rbrack,maybe_math);@+break;
   case '{': app_str("\\{"@q}@>);@+app_scrap(lbrace,yes_math);@+break;
 @.\\\{@>@q}@>
   case '}': app_str(@q{@>"\\}");@+app_scrap(rbrace,yes_math);@+break;
