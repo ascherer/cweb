@@ -3029,8 +3029,7 @@ else if (cat1==exp || cat1==raw_int) {
 }
 else if (cat1==cast && cat2==struct_like) {
   big_app1_insert(pp,' '); reduce(pp,2,struct_like,0,155);
-}@+
-else squash(pp,1,raw_int,0,91);
+}@+ else squash(pp,1,raw_int,0,91);
 
 @ @<Cases for |new_like|@>=
 if (cat1==lpar && cat2==exp && cat3==rpar) squash(pp,4,new_like,0,92);
