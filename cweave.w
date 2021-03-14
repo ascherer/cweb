@@ -3079,7 +3079,7 @@ squash(pp,1,int_like,-2,105);
 if (cat1==prelangle) squash(pp+1,1,langle,1,106);
 else if (cat1==colcol) squash(pp,2,colcol,-1,107);
 else if (cat1==cast) squash(pp,2,raw_int,0,108);
-else if (cat1==lpar||cat1==lbrack) squash(pp,1,exp,-2,109);
+else if (cat1==lpar) squash(pp,1,exp,-2,109);
 else if (cat1!=langle) squash(pp,1,int_like,-3,110);
 else if (cat1==lbrack) squash(pp,1,exp,-2,144);
 
