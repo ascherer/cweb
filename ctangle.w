@@ -151,11 +151,11 @@ init_node(name_dir); /* the undefined section has no replacement text */
 starting at position |first| equals the identifier pointed to by |p|:
 
 @c
-boolean names_match(@t\1\1@>
+boolean names_match(
 name_pointer p, /* points to the proposed match */
 const char *first, /* position of first character of string */
 size_t l, /* length of identifier */
-eight_bits t@t\2\2@>) /* not used by \.{TANGLE} */
+eight_bits t) /* not used by \.{TANGLE} */
 {@+(void)t;
   if (length(p)!=l) return false;
   return !strncmp(first,p->byte_start,l);
@@ -312,8 +312,8 @@ We assume that the \CEE/ compiler can copy structures.
 
 @c
 static void
-push_level(@t\1\1@> /* suspends the current level */
-name_pointer p@t\2\2@>)
+push_level(/* suspends the current level */
+name_pointer p)
 {
   if (stack_ptr==stack_end) overflow("stack");
   *stack_ptr=cur_state;
@@ -335,8 +335,8 @@ text or returns the state to the most recently stacked level.
 
 @c
 static void
-pop_level(@t\1\1@> /* do this when |cur_byte| reaches |cur_end| */
-boolean flag@t\2\2@>) /* |flag==false| means we are in |output_defs| */
+pop_level(/* do this when |cur_byte| reaches |cur_end| */
+boolean flag) /* |flag==false| means we are in |output_defs| */
 {
   if (flag && cur_repl->text_link<section_flag) { /* link to a continuation */
     cur_repl=cur_repl->text_link+text_info; /* stay on the same level */
@@ -838,8 +838,8 @@ No comment, long or short, is allowed to contain `\.{@@\ }' or `\.{@@*}'.
 static boolean comment_continues=false; /* are we scanning a comment? */
 
 @ @c
-static boolean skip_comment(@t\1\1@> /* skips over comments */
-boolean is_long_comment@t\2\2@>)
+static boolean skip_comment(/* skips over comments */
+boolean is_long_comment)
 {
   char c; /* current character */
   while (true) {
@@ -1193,8 +1193,8 @@ static eight_bits next_control;
 
 @ @c
 static void
-scan_repl(@t\1\1@> /* creates a replacement text */
-eight_bits t@t\2\2@>)
+scan_repl(/* creates a replacement text */
+eight_bits t)
 {
   sixteen_bits a; /* the current token */
   if (t==section_name) {@<Insert the line number into |tok_mem|@>@;}
