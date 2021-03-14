@@ -960,24 +960,33 @@ switch(c) {
 }
 
 @ @<Get a constant@>= {
+  boolean hex_flag = false; /* are we reading a hexadecimal literal? */
   id_first=loc-1;
   if (*id_first=='.' && !xisdigit(*loc)) goto mistake; /* not a constant */
   if (*id_first=='0') {
     if (*loc=='x' || *loc=='X') { /* hex constant */
-      loc++; while (xisxdigit(*loc)) loc++; goto found;
+      hex_flag = true;
+      loc++; while (xisxdigit(*loc) || *loc=='\'') loc++;
+    }
+    else if (*loc=='b' || *loc=='B') { /* binary constant */
+      loc++; while (*loc=='0' || *loc=='1' || *loc=='\'') loc++; goto found;
     }
   }
-  while (xisdigit(*loc)) loc++;
+  while (xisdigit(*loc) || *loc=='\'') loc++;
   if (*loc=='.') {
   loc++;
-  while (xisdigit(*loc)) loc++;
+  while ((hex_flag && xisxdigit(*loc)) || xisdigit(*loc) || *loc=='\'') loc++;
   }
   if (*loc=='e' || *loc=='E') { /* float constant */
     if (*++loc=='+' || *loc=='-') loc++;
-    while (xisdigit(*loc)) loc++;
+    while (xisdigit(*loc) || *loc=='\'') loc++;
   }
- found: while (*loc=='u' || *loc=='U' || *loc=='l' || *loc=='L'
-             || *loc=='f' || *loc=='F') loc++;
+  else if (hex_flag && (*loc=='p' || *loc=='P')) { /* hex float constant */
+    if (*++loc=='+' || *loc=='-') loc++;
+    while (xisxdigit(*loc) || *loc=='\'') loc++;
+  }
+found: while (*loc=='u' || *loc=='U' || *loc=='l' || *loc=='L'
+            || *loc=='f' || *loc=='F') loc++;
   id_loc=loc;
   return constant;
 }
@@ -1275,6 +1284,8 @@ case new_section: goto done;
       else err_print("! Double @@ should be used in string");
 @.Double @@ should be used...@>
     }
+    else if (a==constant && *id_first=='\'' && flags['q'])
+      id_first++;
     app_repl(*id_first++);
   }
   app_repl(a); break;
