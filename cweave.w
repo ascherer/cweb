@@ -3091,7 +3091,6 @@ else if (cat1==colcol) squash(pp,2,colcol,-1,107);
 else if (cat1==cast) squash(pp,2,raw_int,0,108);
 else if (cat1==lpar) squash(pp,1,exp,-2,109);
 else if (cat1==lbrack) squash(pp,1,exp,-2,144);
-else if (cat1==lpar) squash(pp,1,exp,-2,109);
 else if (cat1!=langle) squash(pp,1,int_like,-3,110);
 
 @ @<Cases for |operator_like|@>=
@@ -3472,9 +3471,9 @@ switch (next_control) {
 @.\\\#@>
   case ignore: case xref_roman: case xref_wildcard:
   case xref_typewriter: case noop:@+break;
-<<<<<<< HEAD
   case '(': app(next_control);@+app_scrap(lpar,maybe_math);@+break;
   case ')': app(next_control);@+app_scrap(rpar,maybe_math);@+break;
+  case '[': app(next_control);@+app_scrap(lbrack,maybe_math);@+break;
   case '[': app(next_control);@+app_scrap(lbrack,maybe_math);@+break;
   case ']': app(next_control);@+app_scrap(rbrack,maybe_math);@+break;
   case '{': app_str("\\{"@q}@>);@+app_scrap(lbrace,yes_math);@+break;
