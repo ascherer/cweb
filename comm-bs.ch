@@ -136,23 +136,23 @@ name_pointer p)
 
 @x Section 57.
 static name_pointer
-add_section_name(@t\1\1@> /* install a new node in the tree */
+add_section_name( /* install a new node in the tree */
 name_pointer par, /* parent of new node */
 int c, /* right or left? */
 char *first, /* first character of section name */
 char *last, /* last character of section name, plus one */
-boolean ispref@t\2\2@>) /* are we adding a prefix or a full name? */
+boolean ispref) /* are we adding a prefix or a full name? */
 {
   name_pointer p=name_ptr; /* new node */
   char *s=first_chunk(p);
 @y
 static name_pointer
-add_section_name(@t\1\1@> /* install a new node in the tree */
+add_section_name( /* install a new node in the tree */
 name_pointer par, /* parent of new node */
 int c, /* right or left? */
 char huge* first, /* first character of section name */
 char huge* last, /* last character of section name, plus one */
-boolean ispref@t\2\2@>) /* are we adding a prefix or a full name? */
+boolean ispref) /* are we adding a prefix or a full name? */
 {
   name_pointer p=name_ptr; /* new node */
   char huge* s=first_chunk(p);
@@ -161,39 +161,39 @@ boolean ispref@t\2\2@>) /* are we adding a prefix or a full name? */
 
 @x Section 58.
 static void
-extend_section_name(@t\1\1@>
+extend_section_name(
 name_pointer p, /* name to be extended */
 char *first, /* beginning of extension text */
 char *last, /* one beyond end of extension text */
-boolean ispref@t\2\2@>) /* are we adding a prefix or a full name? */
+boolean ispref) /* are we adding a prefix or a full name? */
 {
   char *s;
 @y
 static void
-extend_section_name(@t\1\1@>
+extend_section_name(
 name_pointer p, /* name to be extended */
 char huge* first, /* beginning of extension text */
 char huge* last, /* one beyond end of extension text */
-boolean ispref@t\2\2@>) /* are we adding a prefix or a full name? */
+boolean ispref) /* are we adding a prefix or a full name? */
 {
   char huge* s;
 @z
 
 
 @x Section 64.
-static int section_name_cmp(@t\1\1@>
+static int section_name_cmp(
 char **pfirst, /* pointer to beginning of comparison string */
 int len, /* length of string */
-name_pointer r@t\2\2@>) /* section name being compared */
+name_pointer r) /* section name being compared */
 {
   char *first=*pfirst; /* beginning of comparison string */
   name_pointer q=r+1; /* access to subsequent chunks */
   char *ss, *s=first_chunk(r);
 @y
-static int section_name_cmp(@t\1\1@>
+static int section_name_cmp(
 char huge** pfirst, /* pointer to beginning of comparison string */
 int len, /* length of string */
-name_pointer r@t\2\2@>) /* section name being compared */
+name_pointer r) /* section name being compared */
 {
   char huge* first=*pfirst; /* beginning of comparison string */
   name_pointer q=r+1; /* access to subsequent chunks */
