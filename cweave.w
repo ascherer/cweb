@@ -2787,7 +2787,7 @@ else if (cat1==stmt || cat1==function) {
 @ @<Cases for |base|@>=
 if (cat1==int_like || cat1==exp) {
   if (cat2==comma) {
-    big_app1(pp); big_app(' '); big_app2(pp+1);
+    big_app1_insert(pp+1,' ');
     app(opt); app('9'); reduce(pp,3,base,0,42);
   }
   else if (cat2==lbrace) {
@@ -2978,7 +2978,7 @@ else if (cat1==rproc) {
   app(inserted); big_app2(pp); reduce(pp,2,insert,-1,79);
 } else if (cat1==exp || cat1==function) {
   if (cat2==rproc) {
-    app(inserted); big_app1(pp); big_app(' '); big_app2(pp+1);
+    app(inserted); big_app1_insert(pp+1,' ');
     reduce(pp,3,insert,-1,80);
   }
   else if (cat2==exp && cat3==rproc && cat1==exp) {
