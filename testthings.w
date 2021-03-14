@@ -2,8 +2,7 @@
 
 @* Attributes. This is just all of the examples from the sections about
 attributes in the \CEE/ and \CPLUSPLUS/ standards collected together, with most
-comments removed. If you watch parsing with \.{@@2} this whole section
-eventually gets reduced to a \.{function} scrap.
+comments removed.
 
 @c
 [[using CC: opt(1), debug]]
