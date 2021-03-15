@@ -239,7 +239,7 @@ to one-letter identifiers or \CEE/'s reserved words.
 If the user has sent the |no_xref| flag (the \.{-x} option of the command line),
 it is unnecessary to keep track of cross-references for identifiers.
 If one were careful, one could probably make more changes around section
-100 to avoid a lot of identifier looking up.
+115 to avoid a lot of identifier looking up.
 
 @d append_xref(c) if (xref_ptr==xmem_end) overflow("cross-reference");
   else (++xref_ptr)->num=c;
