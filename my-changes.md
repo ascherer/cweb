@@ -1,7 +1,7 @@
 Added support for new C++ numeric literals. Note: The TeX side of this is rather
 jank. Currently, binary literals are formatted just like hexadecimal literals
 except with a superscript “b” instead of “#”, and the `'` digit separator
-becomes a thin space (`\,` in TeX). If you run `CTANGLE` with the option `+q`,
+becomes a thin space (`\,` in TeX). If you run `CTANGLE` with the option `+k`,
 it will omit the separator in output, so that you can use it in C code as well
 as in C++ code.
 

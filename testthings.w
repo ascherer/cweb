@@ -102,11 +102,11 @@ int f(int n) {
 struct [[nodiscard]] my_scopeguard { int x; };
 struct my_unique {
   my_unique() = default;
-  [[nodiscard]] my_unique(int fd) { /* ... */ }
-  ~my_unique() noexcept { /* ... */ }
-  /* ... */
+  [[nodiscard]] my_unique(int fd) { /* \dots */ }
+  ~my_unique() noexcept { /* \dots */ }
+  /* \dots */
 };
-struct [[nodiscard]] error_info { /* ... */ };
+struct [[nodiscard]] error_info { /* \dots */ };
 error_info enable_missile_safety_mode();
 void launch_missiles();
 void test_missiles() {
@@ -156,7 +156,7 @@ public:
 [[hal::daisy]] [[hal::rosie]] double nine999(double);
 [[hal::rosie]] [[hal::daisy]] double nine999(double);
 
-struct [[nodiscard]] error_info { /*...*/ };
+struct [[nodiscard]] error_info { /*\dots*/ };
 struct error_info enable_missile_safety_mode(void);
 void launch_missiles(void);
 void test_missiles(void) {

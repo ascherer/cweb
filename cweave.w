@@ -823,6 +823,9 @@ introduced by \.0 and hexadecimals by \.{0x}, but \.{CWEAVE} will print
 with \TEX/ macros that the user can redefine to fit the context.
 In order to simplify such macros, we replace some of the characters.
 
+On output, the \.{\ } that replaces \.{'} in \CPLUSPLUS/ literals will become
+\.{\\\ }.
+
 Notice that in this section and the next, |id_first| and |id_loc|
 are pointers into the array |section_text|, not into |buffer|.
 
@@ -851,7 +854,8 @@ are pointers into the array |section_text|, not into |buffer|.
       *id_loc++='/';
       goto digit_suffix;
     }
-    else if (xisdigit(*loc)) {*id_loc++='~'; /* octal constant */
+    else if (xisdigit(*loc)) { /* octal constant */
+      *id_loc++='~';
       gather_digits_while(xisdigit(*loc));
       *id_loc++='/';
       goto digit_suffix;
@@ -1761,8 +1765,8 @@ same initial letter; these subscripts are assigned from left to right.
 @d new_exp 64 /* \&{new} and a following type identifier */
 @d begin_arg 65 /* \.{@@[} */
 @d end_arg 66 /* \.{@@]} */
-@d lbrack 67 /* \.{[} */
-@d rbrack 68 /* \.{]} */
+@d lbrack 67 /* denotes a left bracket */
+@d rbrack 68 /* denotes a right bracket */
 @d attr_head 69 /* denotes beginning of attribute */
 
 @<Private...@>=
@@ -2999,7 +3003,10 @@ app('<'); reduce(pp,1,binop,-2,84);
 init_mathness=cur_mathness=yes_math;
 app('>'); reduce(pp,1,binop,-2,85);
 
-@ @<Cases for |langle|@>=
+@ @d reserve_typenames flags['t']
+  /* should we treat \&{typename} in a template like \&{typedef}? */
+
+@<Cases for |langle|@>=
 if (cat1==prerangle) {
   big_app1(pp); app('\\'); app(','); big_app1(pp+1);
 @.\\,@>
@@ -3013,8 +3020,9 @@ else if (cat1==decl_head || cat1==int_like || cat1==exp) {
 }
 else if (cat1==struct_like) {
   if ((cat2==exp || cat2==int_like) && (cat3==comma || cat3==prerangle)) {
-    if (flags['t']) {
-      make_underlined(pp+2); make_reserved(pp+2);
+    make_underlined(pp+2);
+    if (reserve_typenames) {
+      make_reserved(pp+2);
     }
     big_app2(pp); big_app(' '); big_app2(pp+2);
     if (cat3==comma) reduce(pp,4,langle,0,153);

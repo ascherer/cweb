@@ -341,9 +341,10 @@
 \def\Qs{\note{This code is cited in sections}} % xref for mentions of a section
 \let\R=\lnot % logical not
 % \S is section sign
+\def\digitseparator{\,} % a bit of extra space
 \def\T#1{\leavevmode % octal, hex or decimal constant
   \hbox{$\def\?{\kern.2em}%
-    \def\ {\,}% extra space for digit separator
+    \let\ \digitseparator%
 %    \def\$##1{\egroup_{\,\rm##1}\bgroup}% suffix to constant % versions < 3.67
     \def\$##1{\egroup_{\rm##1}\bgroup}% suffix to constant % in version 3.67
     \def\_{\cdot 10^{\aftergroup}}% power of ten (via dirty trick)

@@ -1276,7 +1276,14 @@ case new_section: goto done;
      as explained in the manual */
 }
 
-@ @<Copy a string...@>=
+@ By default, \.{CTANGLE} copies \CPLUSPLUS/-style literals (e.g., |1'000'000|)
+verbatim. The \.{+k} switch will cause the single quotes to be skipped---for
+\CPLUSPLUS/ this has no effect, but it allows the use of such literals in \CEE/
+code.
+
+@d skip_digit_separators flags['k']
+
+@<Copy a string...@>=
   app_repl(a); /* |string| or |constant| */
   while (id_first < id_loc) { /* simplify \.{@@@@} pairs */
     if (*id_first=='@@') {
@@ -1284,7 +1291,7 @@ case new_section: goto done;
       else err_print("! Double @@ should be used in string");
 @.Double @@ should be used...@>
     }
-    else if (a==constant && *id_first=='\'' && flags['q'])
+    else if (a==constant && *id_first=='\'' && skip_digit_separators)
       id_first++;
     app_repl(*id_first++);
   }
