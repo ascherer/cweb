@@ -351,7 +351,7 @@ or |cast|.
 
 Rule 123: The mathness of the |colon| or |base| changes to `yes'.
 
-Rules 153, 154: |make_underlined| is called only if the \.{+t} option is given
+Rules 153, 154: |make_reserved| is called only if the \.{+t} option is given
 to \.{CWEAVE}.
 
 \endgroup
