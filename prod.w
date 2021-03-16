@@ -314,7 +314,7 @@ We use \\{in}, \\{out}, \\{back} and
   \hbox{$\langle$\&{typename} $t\rangle$} \hss \cr
 \+& |template_like| |cast| |struct_like| & |struct_like| \hfill $T\.\ CS$ &
   |template<@t\dots@>> class| \cr
-\+& |tag| |rbrace| & |decl| & @q{@>|public: }| \cr
+\+& |tag| |rbrace| & |decl| |rbrace| & @q{@>|public: }| \cr
 \+& |fn_decl| |attr| & |fn_decl| \hfill $F\.\ A$ & |void f() noexcept| \cr
 \+& |alignas_like| |cast| & |attr| & |alignas(int)| \cr
 \yskip
