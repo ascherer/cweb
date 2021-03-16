@@ -143,7 +143,7 @@ will be typeset in special ways.
 \yskip\hang |typewriter| identifiers are index entries that appear after
 \.{@@.} in the \.{CWEB} file.
 
-\yskip\hang |alfop|, \dots, |template_like|
+\yskip\hang |alfop|, \dots, |attr|
 identifiers are \CEE/ or \CPLUSPLUS/ reserved words whose |ilk|
 explains how they are to be treated when \CEE/ code is being
 formatted.
@@ -824,7 +824,7 @@ with \TEX/ macros that the user can redefine to fit the context.
 In order to simplify such macros, we replace some of the characters.
 
 On output, the \.{\ } that replaces \.{'} in \CPLUSPLUS/ literals will become
-\.{\\\ }.
+``\.{\\\ }''.
 
 Notice that in this section and the next, |id_first| and |id_loc|
 are pointers into the array |section_text|, not into |buffer|.
