@@ -65,7 +65,7 @@ We use \\{in}, \\{out}, \\{back} and
 \+& |exp| |comma| |exp| & |exp| \hfill $EC\,|opt|9\,E$& |f(x,y)|\cr
 \+& |exp| \alt {|lpar| |rpar|} |cast| |colon| &
     |exp| \alt {|lpar| |rpar|} |cast| |base| &
-     \malt \&C|()|: {\&C|int i)|:} \cr
+     \malt \&C|()|: {\&C|(int i)|:} \cr
 \+& |exp| |semi| & |stmt| & |x=0;|\cr
 \+& |exp| |colon| & |tag| \hfill $E^*C$ & |found:|\cr
 \+& |exp| |rbrace| & |stmt| |rbrace| & end of \&{enum} list\cr
