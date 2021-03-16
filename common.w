@@ -158,8 +158,8 @@ support |feof|, |getc|, and |ungetc| you may have to change things here.
 @^system dependencies@>
 
 @c
-static boolean input_ln( /* copies a line into |buffer| or returns |false| */
-FILE *fp) /* what file to read from */
+static boolean input_ln(@t\1\1@> /* copies a line into |buffer| or returns |false| */
+FILE *fp@t\2\2@>) /* what file to read from */
 {
   register int c=EOF; /* character read; initialized so some compilers won't complain */
   register char *k;  /* where next character goes */
@@ -638,10 +638,10 @@ for (h=hash; h<=hash_end; *h++=NULL) ;
 
 @c
 name_pointer
-id_lookup( /* looks up a string in the identifier table */
+id_lookup(@t\1\1@> /* looks up a string in the identifier table */
 const char *first, /* first character of string */
 const char *last, /* last character of string plus one */
-char t) /* the |ilk|; used by \.{CWEAVE} only */
+char t@t\2\2@>) /* the |ilk|; used by \.{CWEAVE} only */
 {
   const char *i=first; /* position in |buffer| */
   int h; /* hash code */
@@ -777,11 +777,11 @@ static name_pointer add_section_name(name_pointer,int,char *,char *,boolean);@/
 static void extend_section_name(name_pointer,char *,char *,boolean);
 
 @ @c
-static int web_strcmp( /* fuller comparison than |strcmp| */
+static int web_strcmp(@t\1\1@> /* fuller comparison than |strcmp| */
   char *j, /* beginning of first string */
   int j_len, /* length of first string */
   char *k, /* beginning of second string */
-  int k_len) /* length of second string */
+  int k_len@t\2\2@>) /* length of second string */
 {
   char *j1=j+j_len, *k1=k+k_len;
   while (k<k1 && j<j1 && *j==*k) k++, j++;
@@ -807,12 +807,12 @@ and \.{ctangle.w}.
 
 @c
 static name_pointer
-add_section_name( /* install a new node in the tree */
+add_section_name(@t\1\1@> /* install a new node in the tree */
 name_pointer par, /* parent of new node */
 int c, /* right or left? */
 char *first, /* first character of section name */
 char *last, /* last character of section name, plus one */
-boolean ispref) /* are we adding a prefix or a full name? */
+boolean ispref@t\2\2@>) /* are we adding a prefix or a full name? */
 {
   name_pointer p=name_ptr; /* new node */
   char *s=first_chunk(p);
@@ -835,11 +835,11 @@ boolean ispref) /* are we adding a prefix or a full name? */
 
 @ @c
 static void
-extend_section_name(
+extend_section_name(@t\1\1@>
 name_pointer p, /* name to be extended */
 char *first, /* beginning of extension text */
 char *last, /* one beyond end of extension text */
-boolean ispref) /* are we adding a prefix or a full name? */
+boolean ispref@t\2\2@>) /* are we adding a prefix or a full name? */
 {
   char *s;
   name_pointer q=p+1;
@@ -863,9 +863,9 @@ exactly equals or is a prefix or extension of a name in the tree.
 
 @c
 name_pointer
-section_lookup( /* find or install section name in tree */
+section_lookup(@t\1\1@> /* find or install section name in tree */
 char *first,char *last, /* first and last characters of new name */
-boolean ispref) /* is the new name a prefix or a full name? */
+boolean ispref@t\2\2@>) /* is the new name a prefix or a full name? */
 {
   int c=0; /* comparison between two names; initialized so some compilers won't complain */
   name_pointer p=root; /* current node of the search tree */
@@ -967,10 +967,10 @@ us to regard \.{@@<foo...@@>} as an ``extension'' of itself.
 @d bad_extension 5
 
 @c
-static int section_name_cmp(
+static int section_name_cmp(@t\1\1@>
 char **pfirst, /* pointer to beginning of comparison string */
 int len, /* length of string */
-name_pointer r) /* section name being compared */
+name_pointer r@t\2\2@>) /* section name being compared */
 {
   char *first=*pfirst; /* beginning of comparison string */
   name_pointer q=r+1; /* access to subsequent chunks */
@@ -1022,8 +1022,8 @@ if the string begins with |"!"|.
 
 @c
 void
-err_print( /* prints `\..' and location of error message */
-const char *s)
+err_print(@t\1\1@> /* prints `\..' and location of error message */
+const char *s@t\2\2@>)
 {
   char *k,*l; /* pointers into |buffer| */
   printf(*s=='!'? "\n%s" : "%s",s);

@@ -15,8 +15,8 @@ support |feof|, |getc|, and |ungetc| you may have to change things here.
 @^system dependencies@>
 
 @c
-static boolean input_ln( /* copies a line into |buffer| or returns |false| */
-FILE *fp) /* what file to read from */
+static boolean input_ln(@t\1\1@> /* copies a line into |buffer| or returns |false| */
+FILE *fp@t\2\2@>) /* what file to read from */
 {
   register int c=EOF; /* character read; initialized so some compilers won't complain */
   register char *k;  /* where next character goes */
@@ -46,8 +46,8 @@ line endings, so that \.{CWEB} will works with ASCII files stored in
 static boolean input_ln(FILE *);@/
 
 @ @c
-static boolean input_ln( /* copies a line into |buffer| or returns |false| */
-FILE *fp) /* what file to read from */
+static boolean input_ln(@t\1\1@> /* copies a line into |buffer| or returns |false| */
+FILE *fp@t\2\2@>) /* what file to read from */
 {
   register int  c=EOF; /* character read; initialized so some compilers won't complain */
   register char *k;  /* where next character goes */

@@ -8,17 +8,17 @@ This is the change file for CWEB's CWEAVE under Win32
 @z
 
 @x
-boolean names_match(
+boolean names_match(@t\1\1@>
 name_pointer p, /* points to the proposed match */
 const char *first, /* position of first character of string */
 size_t l, /* length of identifier */
-eight_bits t) /* desired |ilk| */
+eight_bits t@t\2\2@>) /* desired |ilk| */
 @y
-boolean __cdecl names_match(
+boolean __cdecl names_match(@t\1\1@>
 name_pointer p, /* points to the proposed match */
 const char *first, /* position of first character of string */
 size_t l, /* length of identifier */
-eight_bits t) /* desired |ilk| */
+eight_bits t@t\2\2@>) /* desired |ilk| */
 @z
 
 @x
