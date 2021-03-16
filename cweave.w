@@ -1957,11 +1957,14 @@ with discretionary breaks in between.
 \.{@@=}string\.{@@>}&|exp|: \.{\\vb\{}string with special characters
   quoted\.\}&maybe\cr
 \.{@@'7'}&|exp|: \.{\\.\{@@'7'\}}&maybe\cr
-\.{077} or \.{\\77}&|exp|: \.{\\T\{\\\~77\}}&maybe\cr
-\.{0x7f}&|exp|: \.{\\T\{\\\^7f\}}&maybe\cr
+\.{077} or \.{\\77}&|exp|: \.{\\T\{\\\~77/\}}&maybe\cr
+\.{0x7f}&|exp|: \.{\\T\{\\\^7f/\}}&maybe\cr
+\.{0b10111}&|exp|: \.{\\T\{\\\\10111/\}}&maybe\cr
 \.{77}&|exp|: \.{\\T\{77\}}&maybe\cr
 \.{77L}&|exp|: \.{\\T\{77\\\$L\}}&maybe\cr
 \.{0.1E5}&|exp|: \.{\\T\{0.1\\\_5\}}&maybe\cr
+\.{0x10p3}&|exp|: \.{\\T\{\\\^10/\\\%3\}}&maybe\cr
+\.{1'000'000}&|exp|: \.{\\T\{1\\\ 000\\\ 000\}}&maybe\cr
 \.+&|ubinop|: \.+&yes\cr
 \.-&|ubinop|: \.-&yes\cr
 \.*&|raw_ubin|: \.*&yes\cr
