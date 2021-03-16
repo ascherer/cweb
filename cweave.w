@@ -2947,7 +2947,7 @@ else if (cat1==stmt||cat1==decl||cat1==function) {
   big_app1_insert(pp,break_space);
   reduce(pp,2,cat1,-1,75);
 }
-else squash(pp,1,decl,-1,156);
+else if (cat1==rbrace) squash(pp,1,decl,-1,156);
 
 @ The user can decide at run-time whether short statements should be
 grouped together on the same line.
@@ -3194,7 +3194,7 @@ else if (cat1==function) {
 }
 
 @ @<Cases for |default_like|@>=
-if (cat1==colon) squash(pp,2,case_like,-3,149);
+if (cat1==colon) squash(pp,1,case_like,-3,149);
 else squash(pp,1,exp,-2,150);
 
 @ Now here's the |reduce| procedure used in our code for productions.

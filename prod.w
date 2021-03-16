@@ -302,7 +302,7 @@ We use \\{in}, \\{out}, \\{back} and
 \+& |lbrack| |lbrack| |rbrack| |rbrack| & |exp| & |[[]]| \cr
 \+& |attr| |function| & |function| \hfill $A\.\ F$ &
   attribute and function \cr
-\+& |default_like| |colon| & |case_like| & |default:| \cr
+\+& |default_like| |colon| & |case_like| |colon| & |default:| \cr
 \+& |default_like| & |exp| & |f()=default;| \cr
 \+& |struct_like| |struct_like| & |struct_like| \hfill $S\.\ S$ &
   |enum class| \cr
@@ -314,7 +314,7 @@ We use \\{in}, \\{out}, \\{back} and
   \hbox{$\langle$\&{typename} $t\rangle$} \hss \cr
 \+& |template_like| |cast| |struct_like| & |struct_like| \hfill $T\.\ CS$ &
   |template<@t\dots@>> class| \cr
-\+& |tag| & |decl| & @q{@>|public: }| \cr
+\+& |tag| |rbrace| & |decl| & @q{@>|public: }| \cr
 \+& |fn_decl| |attr| & |fn_decl| \hfill $F\.\ A$ & |void f() noexcept| \cr
 \+& |alignas_like| |cast| & |attr| & |alignas(int)| \cr
 \yskip
