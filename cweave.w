@@ -85,9 +85,9 @@ Please read the documentation for \.{common}, the set of routines common
 to \.{CTANGLE} and \.{CWEAVE}, before proceeding further.
 
 @c
-int main (
+int main (@t\1\1@>
 int ac, /* argument count */
-char **av) /* argument values */
+char **av@t\2\2@>) /* argument values */
 {
   argc=ac; argv=av;
   program=cweave;
@@ -354,11 +354,11 @@ text_ptr=max_text_ptr=tok_start+1;
 
 @ Here are the three procedures needed to complete |id_lookup|:
 @c
-boolean names_match(
+boolean names_match(@t\1\1@>
 name_pointer p, /* points to the proposed match */
 const char *first, /* position of first character of string */
 size_t l, /* length of identifier */
-eight_bits t) /* desired |ilk| */
+eight_bits t@t\2\2@>) /* desired |ilk| */
 {
   if (length(p)!=l) return false;
   if (p->ilk!=t && !(t==normal && abnormal(p))) return false;
@@ -1122,8 +1122,8 @@ static void outer_xref(void);
 
 @ @c
 static void
-C_xref(/* makes cross-references for \CEE/ identifiers */
-  eight_bits spec_ctrl)
+C_xref(@t\1\1@> /* makes cross-references for \CEE/ identifiers */
+  eight_bits spec_ctrl@t\2\2@>)
 {
   name_pointer p; /* a referenced name */
   while (next_control<format_code || next_control==spec_ctrl) {
@@ -1368,9 +1368,9 @@ static void finish_line(void);
 
 @ @c
 static void
-flush_buffer(
+flush_buffer(@t\1\1@>
 char *b, /* outputs from |out_buf+1| to |b|, where |b<=out_ptr| */
-boolean per_cent,boolean carryover)
+boolean per_cent,boolean carryover@t\2\2@>)
 {
   char *j; j=b; /* pointer into |out_buf| */
   if (! per_cent) /* remove trailing blanks */
@@ -1433,8 +1433,8 @@ static void break_out(void);
 
 @ @c
 static void
-out_str(/* output characters from |s| to end of string */
-const char*s)
+out_str(@t\1\1@> /* output characters from |s| to end of string */
+const char*s@t\2\2@>)
 {
   while (*s) out(*s++);
 }
@@ -1601,9 +1601,9 @@ one further token without overflow.
 @d app_tok(c) {if (tok_ptr+2>tok_mem_end) overflow("token"); *(tok_ptr++)=c;}
 
 @c
-static int copy_comment(/* copies \TeX\ code in comments */
+static int copy_comment(@t\1\1@> /* copies \TeX\ code in comments */
 boolean is_long_comment, /* is this a traditional \CEE/ comment? */
-int bal) /* brace balance */
+int bal@t\2\2@>) /* brace balance */
 {
   char c; /* current character being copied */
   while (true) {
@@ -1845,8 +1845,8 @@ static char cat_name[256][12];
 
 @c
 static void
-print_cat(/* symbolic printout of a category */
-eight_bits c)
+print_cat(@t\1\1@> /* symbolic printout of a category */
+eight_bits c@t\2\2@>)
 {
   fputs(cat_name[c],stdout);
 }
@@ -2232,8 +2232,8 @@ translated without line-break controls.
 
 @c
 static void
-print_text(/* prints a token list for debugging; not used in |main| */
-text_pointer p)
+print_text(@t\1\1@> /* prints a token list for debugging; not used in |main| */
+text_pointer p@t\2\2@>)
 {
   token_pointer j; /* index into |tok_mem| */
   sixteen_bits r; /* remainder of token after the flag has been stripped off */
@@ -2560,8 +2560,8 @@ the |for| loop below.
 
 @c
 static void
-make_reserved(/* make the first identifier in |p->trans| like |int| */
-scrap_pointer p)
+make_reserved(@t\1\1@> /* make the first identifier in |p->trans| like |int| */
+scrap_pointer p@t\2\2@>)
 {
   sixteen_bits tok_value; /* the name of this identifier, plus its flag */
   token_pointer tok_loc; /* pointer to |tok_value| */
@@ -2591,9 +2591,9 @@ it has been swallowed up by an |exp|.
 
 @c
 static void
-make_underlined(
+make_underlined(@t\1\1@>
 /* underline the entry for the first identifier in |p->trans| */
-scrap_pointer p)
+scrap_pointer p@t\2\2@>)
 {
   token_pointer tok_loc; /* where the first identifier appears */
   if ((tok_loc=find_first_ident(p->trans))<=operator_found)
@@ -3408,8 +3408,8 @@ is advanced.
 
 @c
 static void
-C_parse(/* creates scraps from \CEE/ tokens */
-  eight_bits spec_ctrl)
+C_parse(@t\1\1@> /* creates scraps from \CEE/ tokens */
+  eight_bits spec_ctrl@t\2\2@>)
 {
   int count; /* characters remaining before string break */
   while (next_control<format_code || next_control==spec_ctrl) {
@@ -3649,8 +3649,8 @@ static void outer_parse(void);
 
 @ @c
 static void
-app_cur_id(
-boolean scrapping) /* are we making this into a scrap? */
+app_cur_id(@t\1\1@>
+boolean scrapping@t\2\2@>) /* are we making this into a scrap? */
 {
   name_pointer p=id_lookup(id_first,id_loc,normal);
   if (p->ilk<=custom) { /* not a reserved word */
@@ -3816,8 +3816,8 @@ static void pop_level(void);
 
 @ @c
 static void
-push_level(/* suspends the current level */
-text_pointer p)
+push_level(@t\1\1@> /* suspends the current level */
+text_pointer p@t\2\2@>)
 {
   if (stack_ptr==stack_end) overflow("stack");
   if (stack_ptr>stack) { /* save current state */
@@ -4306,8 +4306,8 @@ takes place, so that the translation will normally end with \.{\\6} or
 
 @c
 static void
-finish_C(/* finishes a definition or a \CEE/ part */
-  boolean visible) /* |true| if we should produce \TeX\ output */
+finish_C(@t\1\1@> /* finishes a definition or a \CEE/ part */
+  boolean visible@t\2\2@>) /* |true| if we should produce \TeX\ output */
 {
   text_pointer p; /* translation of the scraps */
   if (visible) {
@@ -4485,8 +4485,8 @@ supply new definitions for the macros \.{\\A}, \.{\\As}, etc.
 
 @c
 static void
-footnote(/* outputs section cross-references */
-sixteen_bits flag)
+footnote(@t\1\1@> /* outputs section cross-references */
+sixteen_bits flag@t\2\2@>)
 {
   xref_pointer q; /* cross-reference pointer variable */
   if (cur_xref->num<=flag) return;
@@ -4727,8 +4727,8 @@ regarded as identical.
 
 @c
 static void
-unbucket(/* empties buckets having depth |d| */
-eight_bits d)
+unbucket(@t\1\1@> /* empties buckets having depth |d| */
+eight_bits d@t\2\2@>)
 {
   int c; /* index into |bucket|; cannot be a simple |char| because of sign
     comparison below */
@@ -4846,8 +4846,8 @@ prints them.
 
 @c
 static void
-section_print(/* print all section names in subtree |p| */
-name_pointer p)
+section_print(@t\1\1@> /* print all section names in subtree |p| */
+name_pointer p@t\2\2@>)
 {
   if (p) {
     section_print(p->llink); out_str("\\I");
