@@ -3474,7 +3474,6 @@ switch (next_control) {
   case '(': app(next_control);@+app_scrap(lpar,maybe_math);@+break;
   case ')': app(next_control);@+app_scrap(rpar,maybe_math);@+break;
   case '[': app(next_control);@+app_scrap(lbrack,maybe_math);@+break;
-  case '[': app(next_control);@+app_scrap(lbrack,maybe_math);@+break;
   case ']': app(next_control);@+app_scrap(rbrack,maybe_math);@+break;
   case '{': app_str("\\{"@q}@>);@+app_scrap(lbrace,yes_math);@+break;
 @.\\\{@>@q}@>
