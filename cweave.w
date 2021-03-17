@@ -876,7 +876,7 @@ whether there is more work to do.
     case underline: xref_switch=def_flag; continue;
     case trace: tracing=c-'0'; continue;
     case xref_roman: case xref_wildcard: case xref_typewriter: case noop:
-    case TeX_string: @/ c=ccode[(eight_bits)c]; skip_restricted(); return c;
+    case TeX_string: c=ccode[(eight_bits)c]; skip_restricted(); return c;
     case section_name:
       @<Scan the section name and make |cur_section| point to it@>@;
     case verbatim: @<Scan a verbatim string@>@;
