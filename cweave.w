@@ -787,22 +787,23 @@ treated as separate tokens.
 
 @<Compress tw...@>=
 switch(c) {
-  case '/': if (*loc=='*') {compress(begin_comment);}
+  case '/': if (*loc=='*') {@+compress(begin_comment);@+}
     else if (*loc=='/') compress(begin_short_comment); break;
   case '+': if (*loc=='+') compress(plus_plus); break;
-  case '-': if (*loc=='-') {compress(minus_minus);}
-    else { if (*loc=='>') { if (*(loc+1)=='*') {loc++; compress(minus_gt_ast);}
-                        else compress(minus_gt); } } break;
-  case '.': if (*loc=='*') {compress(period_ast);}
+  case '-': if (*loc=='-') {@+compress(minus_minus);@+}
+            else if (*loc=='>') {
+              if (*(loc+1)=='*') {loc++;@+compress(minus_gt_ast);}
+              else compress(minus_gt);
+            } break;
+  case '.': if (*loc=='*') {@+compress(period_ast);@+}
             else if (*loc=='.' && *(loc+1)=='.') {
-              loc++; compress(dot_dot_dot);
-            }
-            break;
+              loc++;@+compress(dot_dot_dot);
+            } break;
   case ':': if (*loc==':') compress(colon_colon); break;
   case '=': if (*loc=='=') compress(eq_eq); break;
-  case '>': if (*loc=='=') {compress(gt_eq);}
+  case '>': if (*loc=='=') {@+compress(gt_eq);@+}
     else if (*loc=='>') compress(gt_gt); break;
-  case '<': if (*loc=='=') {compress(lt_eq);}
+  case '<': if (*loc=='=') {@+compress(lt_eq);@+}
     else if (*loc=='<') compress(lt_lt); break;
   case '&': if (*loc=='&') compress(and_and); break;
   case '|': if (*loc=='|') compress(or_or); break;
@@ -3410,7 +3411,7 @@ been appended:
 switch (next_control) {
   case section_name:
     app(section_flag+(int)(cur_section-name_dir));
-    app_scrap(section_scrap,maybe_math);
+    app_scrap(section_scrap,maybe_math);@+
     app_scrap(exp,yes_math);@+break;
   case string: case constant: case verbatim:
     @<Append a string or constant@>@;@+break;

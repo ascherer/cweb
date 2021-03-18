@@ -140,7 +140,7 @@
 
 #define app_repl(c) {if(tok_ptr==tok_mem_end) overflow("token") ;*tok_ptr++= c;} \
 
-#define skip_digit_separators flags['k'] \
+#define keep_digit_separators flags['k'] \
 
 
 #line 68 "ctangle.w"
@@ -341,7 +341,7 @@ static name_pointer cur_section_name;
 static boolean no_where;
 
 /*:68*//*82:*/
-#line 1190 "ctangle.w"
+#line 1191 "ctangle.w"
 
 static text_pointer cur_text;
 static eight_bits next_control;
@@ -422,7 +422,7 @@ static boolean skip_comment(boolean);
 static eight_bits get_next(void);
 
 /*:70*//*84:*/
-#line 1216 "ctangle.w"
+#line 1217 "ctangle.w"
 static void scan_repl(eight_bits);
 
 /*:84*//*91:*/
@@ -500,7 +500,7 @@ ccode['\'']= ord;
 }
 
 /*:63*//*78:*/
-#line 1112 "ctangle.w"
+#line 1113 "ctangle.w"
 section_text[0]= ' ';
 
 /*:78*/
@@ -929,7 +929,7 @@ if(get_line()==false)return new_section;
 else if(print_where&&!no_where){
 print_where= false;
 /*85:*/
-#line 1222 "ctangle.w"
+#line 1223 "ctangle.w"
 
 store_two_bytes(0150000);
 if(changing&&include_depth==change_depth){
@@ -958,7 +958,7 @@ else continue;
 }
 loc++;
 if(xisdigit(c)||c=='.')/*73:*/
-#line 962 "ctangle.w"
+#line 963 "ctangle.w"
 {
 boolean hex_flag= false;
 id_first= loc-1;
@@ -998,7 +998,7 @@ else if(c=='\''||c=='"'
 ||((c=='L'||c=='u'||c=='U')&&(*loc=='\''||*loc=='"'))
 ||((c=='u'&&*loc=='8')&&(*(loc+1)=='\''||*(loc+1)=='"')))
 /*74:*/
-#line 999 "ctangle.w"
+#line 1000 "ctangle.w"
 {
 char delim= c;
 id_first= section_text+1;
@@ -1046,7 +1046,7 @@ return string;
 
 else if(isalpha(c)||isxalpha(c)||ishigh(c))
 /*72:*/
-#line 955 "ctangle.w"
+#line 956 "ctangle.w"
 {
 id_first= --loc;
 while(isalpha((eight_bits)*++loc)||isdigit((eight_bits)*loc)
@@ -1058,7 +1058,7 @@ id_loc= loc;return identifier;
 #line 911 "ctangle.w"
 
 else if(c=='@')/*75:*/
-#line 1044 "ctangle.w"
+#line 1045 "ctangle.w"
 {
 c= ccode[(eight_bits)*loc++];
 switch(c){
@@ -1074,11 +1074,11 @@ continue;
 case section_name:
 cur_section_name_char= *(loc-1);
 /*77:*/
-#line 1092 "ctangle.w"
+#line 1093 "ctangle.w"
 {
 char*k;
 /*79:*/
-#line 1114 "ctangle.w"
+#line 1115 "ctangle.w"
 
 k= section_text;
 while(true){
@@ -1089,7 +1089,7 @@ loc= buffer+1;break;
 }
 c= *loc;
 /*80:*/
-#line 1138 "ctangle.w"
+#line 1139 "ctangle.w"
 
 if(c=='@'){
 c= *(loc+1);
@@ -1108,7 +1108,7 @@ err_print("! Nesting of section names not allowed");break;
 }
 
 /*:80*/
-#line 1123 "ctangle.w"
+#line 1124 "ctangle.w"
 
 loc++;if(k<section_text_end)k++;
 if(xisspace(c)){
@@ -1125,7 +1125,7 @@ printf("...");mark_harmless;
 if(*k==' '&&k> section_text)k--;
 
 /*:79*/
-#line 1094 "ctangle.w"
+#line 1095 "ctangle.w"
 
 if(k-section_text> 3&&strncmp(k-2,"...",3)==0)
 cur_section_name= section_lookup(section_text+1,k-3,true);
@@ -1150,16 +1150,16 @@ overflow("output files");
 }
 
 /*:47*/
-#line 1102 "ctangle.w"
+#line 1103 "ctangle.w"
 
 return section_name;
 }
 
 /*:77*/
-#line 1058 "ctangle.w"
+#line 1059 "ctangle.w"
 
 case string:/*81:*/
-#line 1160 "ctangle.w"
+#line 1161 "ctangle.w"
 {
 id_first= loc++;*(limit+1)= '@';*(limit+2)= '>';
 while(*loc!='@'||*(loc+1)!='>')loc++;
@@ -1170,10 +1170,10 @@ return string;
 }
 
 /*:81*/
-#line 1059 "ctangle.w"
+#line 1060 "ctangle.w"
 
 case ord:/*76:*/
-#line 1071 "ctangle.w"
+#line 1072 "ctangle.w"
 
 id_first= loc;
 if(*loc=='\\'){
@@ -1196,7 +1196,7 @@ loc++;
 return ord;
 
 /*:76*/
-#line 1060 "ctangle.w"
+#line 1061 "ctangle.w"
 
 default:return c;
 }
@@ -1217,13 +1217,14 @@ mistake:/*71:*/
 switch(c){
 case'+':if(*loc=='+')compress(plus_plus);break;
 case'-':if(*loc=='-'){compress(minus_minus);}
-else{if(*loc=='>'){if(*(loc+1)=='*'){loc++;compress(minus_gt_ast);}
-else compress(minus_gt);}}break;
+else if(*loc=='>'){
+if(*(loc+1)=='*'){loc++;compress(minus_gt_ast);}
+else compress(minus_gt);
+}break;
 case'.':if(*loc=='*'){compress(period_ast);}
 else if(*loc=='.'&&*(loc+1)=='.'){
 loc++;compress(dot_dot_dot);
-}
-break;
+}break;
 case':':if(*loc==':')compress(colon_colon);break;
 case'=':if(*loc=='=')compress(eq_eq);break;
 case'>':if(*loc=='='){compress(gt_eq);}
@@ -1243,7 +1244,7 @@ return c;
 }
 
 /*:69*//*83:*/
-#line 1194 "ctangle.w"
+#line 1195 "ctangle.w"
 
 static void
 scan_repl(
@@ -1251,7 +1252,7 @@ eight_bits t)
 {
 sixteen_bits a;
 if(t==section_name){/*85:*/
-#line 1222 "ctangle.w"
+#line 1223 "ctangle.w"
 
 store_two_bytes(0150000);
 if(changing&&include_depth==change_depth){
@@ -1266,11 +1267,11 @@ id_loc= id_first+strlen(id_first);
 app_repl(a_l%0400);}
 
 /*:85*/
-#line 1200 "ctangle.w"
+#line 1201 "ctangle.w"
 }
 while(true)switch(a= get_next()){
 /*86:*/
-#line 1235 "ctangle.w"
+#line 1236 "ctangle.w"
 
 case identifier:a= id_lookup(id_first,id_loc,0)-name_dir;
 app_repl((a/0400)+0200);
@@ -1278,7 +1279,7 @@ app_repl(a%0400);break;
 case section_name:if(t!=section_name)goto done;
 else{
 /*87:*/
-#line 1268 "ctangle.w"
+#line 1269 "ctangle.w"
 {
 char*try_loc= loc;
 while(*try_loc==' '&&try_loc<limit)try_loc++;
@@ -1291,13 +1292,13 @@ if(*try_loc=='=')err_print("! Missing `@ ' before a named section");
 }
 
 /*:87*/
-#line 1241 "ctangle.w"
+#line 1242 "ctangle.w"
 
 a= cur_section_name-name_dir;
 app_repl((a/0400)+0250);
 app_repl(a%0400);
 /*85:*/
-#line 1222 "ctangle.w"
+#line 1223 "ctangle.w"
 
 store_two_bytes(0150000);
 if(changing&&include_depth==change_depth){
@@ -1312,7 +1313,7 @@ id_loc= id_first+strlen(id_first);
 app_repl(a_l%0400);}
 
 /*:85*/
-#line 1245 "ctangle.w"
+#line 1246 "ctangle.w"
 break;
 }
 case output_defs_code:if(t!=section_name)err_print("! Misplaced @h");
@@ -1323,7 +1324,7 @@ a= output_defs_flag;
 app_repl((a/0400)+0200);
 app_repl(a%0400);
 /*85:*/
-#line 1222 "ctangle.w"
+#line 1223 "ctangle.w"
 
 store_two_bytes(0150000);
 if(changing&&include_depth==change_depth){
@@ -1338,7 +1339,7 @@ id_loc= id_first+strlen(id_first);
 app_repl(a_l%0400);}
 
 /*:85*/
-#line 1254 "ctangle.w"
+#line 1255 "ctangle.w"
 
 }
 break;
@@ -1360,7 +1361,7 @@ app_repl(*id_first++);
 app_repl(a);break;
 
 /*:88*/
-#line 1258 "ctangle.w"
+#line 1259 "ctangle.w"
 
 case ord:
 /*89:*/
@@ -1415,7 +1416,7 @@ app_repl(constant);
 break;
 
 /*:89*/
-#line 1260 "ctangle.w"
+#line 1261 "ctangle.w"
 
 case definition:case format_code:case begin_C:if(t!=section_name)goto done;
 else{
@@ -1425,7 +1426,7 @@ err_print("! @d, @f and @c are ignored in C text");continue;
 case new_section:goto done;
 
 /*:86*/
-#line 1205 "ctangle.w"
+#line 1206 "ctangle.w"
 
 case')':app_repl(a);
 if(t==macro)app_repl(' ');

@@ -933,19 +933,20 @@ treated as separate tokens.
 @<Compress tw...@>=
 switch(c) {
   case '+': if (*loc=='+') compress(plus_plus); break;
-  case '-': if (*loc=='-') {compress(minus_minus);}
-    else { if (*loc=='>') { if (*(loc+1)=='*') {loc++; compress(minus_gt_ast);}
-                        else compress(minus_gt); } } break;
-  case '.': if (*loc=='*') {compress(period_ast);}
+  case '-': if (*loc=='-') {@+compress(minus_minus);@+}
+            else if (*loc=='>') {
+              if (*(loc+1)=='*') {loc++;@+compress(minus_gt_ast);}
+              else compress(minus_gt);
+            } break;
+  case '.': if (*loc=='*') {@+compress(period_ast);@+}
             else if (*loc=='.' && *(loc+1)=='.') {
-              loc++; compress(dot_dot_dot);
-            }
-            break;
+              loc++;@+compress(dot_dot_dot);
+            } break;
   case ':': if (*loc==':') compress(colon_colon); break;
   case '=': if (*loc=='=') compress(eq_eq); break;
-  case '>': if (*loc=='=') {compress(gt_eq);}
+  case '>': if (*loc=='=') {@+compress(gt_eq);@+}
     else if (*loc=='>') compress(gt_gt); break;
-  case '<': if (*loc=='=') {compress(lt_eq);}
+  case '<': if (*loc=='=') {@+compress(lt_eq);@+}
     else if (*loc=='<') compress(lt_lt); break;
   case '&': if (*loc=='&') compress(and_and); break;
   case '|': if (*loc=='|') compress(or_or); break;
