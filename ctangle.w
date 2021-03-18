@@ -974,8 +974,8 @@ switch(c) {
   }
   while (xisdigit(*loc) || *loc=='\'') loc++;
   if (*loc=='.') {
-  loc++;
-  while ((hex_flag && xisxdigit(*loc)) || xisdigit(*loc) || *loc=='\'') loc++;
+    loc++;
+    while ((hex_flag && xisxdigit(*loc)) || xisdigit(*loc) || *loc=='\'') loc++;
   }
   if (*loc=='e' || *loc=='E') { /* float constant */
     if (*++loc=='+' || *loc=='-') loc++;
@@ -1276,12 +1276,11 @@ case new_section: goto done;
      as explained in the manual */
 }
 
-@ By default, \.{CTANGLE} copies \CPLUSPLUS/-style literals (e.g., |1'000'000|)
-verbatim. The \.{+k} switch will cause the single quotes to be skipped---for
-\CPLUSPLUS/ this has no effect, but it allows the use of such literals in \CEE/
-code.
+@ By default, \.{CTANGLE} purges single-quote characters from \CPLUSPLUS/-style
+literals, e.g., |1'000'000|, so that you can use this notation also in \CEE/
+code. The \.{+k} switch will `keep' the single quotes in the output.
 
-@d skip_digit_separators flags['k']
+@d keep_digit_separators flags['k']
 
 @<Copy a string...@>=
   app_repl(a); /* |string| or |constant| */
@@ -1291,7 +1290,7 @@ code.
       else err_print("! Double @@ should be used in string");
 @.Double @@ should be used...@>
     }
-    else if (a==constant && *id_first=='\'' && skip_digit_separators)
+    else if (a==constant && *id_first=='\'' && !keep_digit_separators)
       id_first++;
     app_repl(*id_first++);
   }

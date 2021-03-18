@@ -1353,7 +1353,7 @@ if(*(id_first+1)=='@')id_first++;
 else err_print("! Double @ should be used in string");
 
 }
-else if(a==constant&&*id_first=='\''&&skip_digit_separators)
+else if(a==constant&&*id_first=='\''&&!keep_digit_separators)
 id_first++;
 app_repl(*id_first++);
 }
