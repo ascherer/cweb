@@ -506,9 +506,7 @@ complain we're out of room@>=
   if (an_output_file==end_output_files) {
     if (cur_out_file>output_files)
         *--cur_out_file=cur_section_name;
-    else {
-      overflow("output files");
-    }
+    else overflow("output files");
   }
 }
 
