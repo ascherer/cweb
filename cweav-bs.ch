@@ -220,12 +220,14 @@ static char huge* cur_byte; /* index into |byte_mem| */
 
 @x Section 255.
 switch (cur_name->ilk) {
-  case normal: case func_template: if (is_tiny(cur_name)) out_str("\\|");
-    else {char *j;
+  case normal: case func_template:
+    if (is_tiny(cur_name)) out_str("\\|");
+    else {@+char *j;
 @y
 switch (cur_name->ilk) {
-  case normal: case func_template: if (is_tiny(cur_name)) out_str("\\|");
-    else {char huge* j;
+  case normal: case func_template:
+    if (is_tiny(cur_name)) out_str("\\|");
+    else {@+char huge* j;
 @z
 
 

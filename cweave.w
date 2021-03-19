@@ -2664,7 +2664,7 @@ else if (cat1==lpar && cat2==rpar && cat3==colon) squash(pp+3,1,base,0,5);
 else if (cat1==cast && cat2==colon) squash(pp+2,1,base,0,5);
 else if (cat1==semi) squash(pp,2,stmt,-1,6);
 else if (cat1==colon) {
-  make_underlined (pp);  squash(pp,2,tag,-1,7);
+  make_underlined (pp); squash(pp,2,tag,-1,7);
 }
 else if (cat1==rbrace) squash(pp,1,stmt,-1,8);
 else if (cat1==lpar && cat2==rpar && (cat3==const_like || cat3==case_like)) {
@@ -2821,7 +2821,7 @@ else if (cat1==struct_like) {
 @ @<Cases for |struct_head|@>=
 if ((cat1==decl || cat1==stmt || cat1==function) && cat2==rbrace) {
   big_app1(pp); big_app(indent); big_app(force); big_app1(pp+1);
-  big_app(outdent); big_app(force);  big_app1(pp+2);
+  big_app(outdent); big_app(force); big_app1(pp+2);
   reduce(pp,3,int_like,-2,49);
 }
 else if (cat1==rbrace) {
@@ -2854,8 +2854,8 @@ if (cat1==rbrace) {
   reduce(pp,2,stmt,-1,54);
 }
 else if ((cat1==stmt||cat1==decl||cat1==function) && cat2==rbrace) {
-  big_app(force); big_app1(pp);  big_app(indent); big_app(force);
-  big_app1(pp+1); big_app(force); big_app(backup);  big_app1(pp+2);
+  big_app(force); big_app1(pp); big_app(indent); big_app(force);
+  big_app1(pp+1); big_app(force); big_app(backup); big_app1(pp+2);
   big_app(outdent); big_app(force); reduce(pp,3,stmt,-1,55);
 }
 else if (cat1==exp) {
@@ -2925,7 +2925,7 @@ if (cat1==stmt && cat2==else_like && cat3==semi) {
 if (cat1==semi) squash(pp,2,stmt,-1,70);
 else if (cat1==colon) squash(pp,2,tag,-1,71);
 else if (cat1==exp) {
-  big_app1_insert(pp,' ');  reduce(pp,2,exp,-2,72);
+  big_app1_insert(pp,' '); reduce(pp,2,exp,-2,72);
 }
 
 @ @<Cases for |catch_like|@>=
