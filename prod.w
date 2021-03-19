@@ -51,6 +51,11 @@ We use \\{in}, \\{out}, \\{back} and
   \ifx\next\empty\theprodno\else\next\fi}\strut
   \ignorespaces#2\hfil\hbox to\midcol{$\RA$
   \ignorespaces#3\hfil}\quad \hbox to1.45in{\ignorespaces#4\hfil}}}
+\def\specialline#1&#2&#3&#4\cr{\def\next{#1}%
+ \line{\hbox to 2em{\hss\ifx\next\empty\theprodno\else\next\fi}\strut
+  \ignorespaces#2\hfil}
+  \line{\hfil\hbox to\midcol{$\RA$\ignorespaces\hfil#3}\quad
+  \hbox to1.45in{\ignorespaces#4\hfil}}}
 \+\relax & LHS & RHS \hfill Translation & Example\cr
 \yskip
 \+& \altt\\{any} {\\{any} \\{any}} {\\{any} \\{any} \\{any}}
@@ -270,6 +275,48 @@ We use \\{in}, \\{out}, \\{back} and
     \malt |?x:| |?f():| \cr
 \+& |begin_arg| |end_arg| & |exp| & \.{@@[}\&{char}$*$\.{@@]}\cr
 \+& |any_other| |end_arg| & |end_arg| &    \&{char}$*$\.{@@]}\cr
+\+& |alignas_like| |decl_head| & |attr| & |alignas(struct s *)| \cr
+\+& |alignas_like| |exp| & |attr| & |alignas(8)| \cr
+\+& |lbrack| |lbrack| & |attr_head| & attribute begins \cr
+\+& |lbrack| & |lpar| & |[| elsewhere \cr
+\+& |rbrack| & |rpar| & |]| elsewhere \cr
+\+& |attr_head| |rbrack| |rbrack| & |attr| & $[[\ldots]]$ \cr
+\+& |attr_head| |exp| & |attr_head| & $[[$|deprecated| \cr
+\+& |attr_head| |using_like| |exp| |colon| & |attr_head| & $[[$|using NS:| \cr
+\+& |attr| \alt|lbrace| |stmt| & \alt|lbrace| |stmt| \hfill $A\.\ $ \alt $S$ $L$ &
+  |[[likely]] {|\cr
+\+& |attr| |tag| & |tag| \hfill $A\.\ T$ & |[[likely]] case 0:| \cr
+\+& |attr| |semi| & |stmt| & |[[fallthrough]];| \cr
+\+& |attr| |attr| & |attr| \hfill $A\.\ A$ & |alignas(x)| $[[\ldots]]$ \cr
+\+& |attr| |decl_head| & |decl_head| & |[[nodiscard]] f()| \cr
+\+& |decl_head| |attr| & |decl_head| & |(int x [[deprecated]])|\cr
+\+& |using_like| & |int_like| & \&{using} not in attributes \cr
+\+& |struct_like| |attr| & |struct_like| \hfill $S\.\ A$ &
+  |struct [[deprecated]]|\cr
+\+& |exp| |attr| & |attr| \hfill $E\.\ A$ & \&{enum} $\{x\ [[\ldots]]\}$ \cr
+\+& |attr| |typedef_like| & |typedef_like| \hfill $A\.\ T$ &
+  |[[deprecated]] typedef| \cr
+\+& |raw_int| |lbrack| & |exp| & |int[3]| \cr
+\+& |attr_head| |comma| & |attr_head| & $[[$|x, y| \cr
+\+& |if_head| |attr| & |if_head| \hfill $I\.\ A$ & |if (x) [[unlikely]] {| \cr
+\+& |lbrack| |lbrack| |rbrack| |rbrack| & |exp| & |[[]]| \cr
+\+& |attr| |function| & |function| \hfill $A\.\ F$ &
+  attribute and function \cr
+\+& |default_like| |colon| & |case_like| |colon| & |default:| \cr
+\+& |default_like| & |exp| & |f()=default;| \cr
+\+& |struct_like| |struct_like| & |struct_like| \hfill $S\.\ S$ &
+  |enum class| \cr
+\+& |exp| |colcol| |int_like| & |int_like| & $\\{std}\DC\&{atomic}$ \cr
+\specialline\dagit& |langle| |struct_like| \alt |exp| |int_like| |comma| &
+  |langle| \hfill $LS$\alt $E^{**}$ $I^{**}$ $C$ & $\langle$\&{typename} $t,$\cr
+\specialline\dagit& |langle| |struct_like| \alt |exp| |int_like| |prerangle| &
+  |cast| \hfill $LS$\alt $E^{**}$ $I^{**}$ $P$ &
+  \hbox{$\langle$\&{typename} $t\rangle$} \hss \cr
+\+& |template_like| |cast| |struct_like| & |struct_like| \hfill $T\.\ CS$ &
+  |template<@t\dots@>> class| \cr
+\+& |tag| |rbrace| & |decl| |rbrace| & @q{@>|public: }| \cr
+\+& |fn_decl| |attr| & |fn_decl| \hfill $F\.\ A$ & |void f() noexcept| \cr
+\+& |alignas_like| |cast| & |attr| & |alignas(int)| \cr
 \yskip
 \yskip
 \yskip
@@ -303,5 +350,8 @@ Rule 117: The |exp| must not be immediately followed by |lpar|, |exp|,
 or |cast|.
 
 Rule 123: The mathness of the |colon| or |base| changes to `yes'.
+
+Rules 153, 154: |make_reserved| is called only if the \.{+t} option is given
+to \.{CWEAVE}.
 
 \endgroup

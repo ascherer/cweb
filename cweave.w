@@ -143,7 +143,7 @@ will be typeset in special ways.
 \yskip\hang |typewriter| identifiers are index entries that appear after
 \.{@@.} in the \.{CWEB} file.
 
-\yskip\hang |alfop|, \dots, |template_like|
+\yskip\hang |alfop|, \dots, |attr|
 identifiers are \CEE/ or \CPLUSPLUS/ reserved words whose |ilk|
 explains how they are to be treated when \CEE/ code is being
 formatted.
@@ -176,6 +176,10 @@ formatted.
 @d typedef_like 56 /* \&{typedef} */
 @d define_like 57 /* \&{define} */
 @d template_like 58 /* \&{template} */
+@d alignas_like 59 /* \&{alignas} */
+@d using_like 60 /* \&{using} */
+@d default_like 61 /* \&{default} */
+@d attr 62 /* \&{noexcept} and attributes */
 
 @ We keep track of the current section number in |section_count|, which
 is the total number of sections that have started.  Sections which have
@@ -393,24 +397,44 @@ are defined in header files of the ISO Standard \CEE/ Library.)
 @^reserved words@>
 
 @<Store all the reserved words@>=
+id_lookup("alignas",NULL,alignas_like);
+id_lookup("_Alignas",NULL,alignas_like);
+id_lookup("alignof",NULL,sizeof_like);
+id_lookup("_Alignof",NULL,sizeof_like);
 id_lookup("and",NULL,alfop);
 id_lookup("and_eq",NULL,alfop);
 id_lookup("asm",NULL,sizeof_like);
+id_lookup("_Atomic",NULL,raw_int);
 id_lookup("auto",NULL,int_like);
 id_lookup("bitand",NULL,alfop);
 id_lookup("bitor",NULL,alfop);
 id_lookup("bool",NULL,raw_int);
+id_lookup("_Bool",NULL,raw_int);
 id_lookup("break",NULL,case_like);
 id_lookup("case",NULL,case_like);
 id_lookup("catch",NULL,catch_like);
 id_lookup("char",NULL,raw_int);
+id_lookup("char8_t",NULL,raw_int);
+id_lookup("char16_t",NULL,raw_int);
+id_lookup("char32_t",NULL,raw_int);
 id_lookup("class",NULL,struct_like);
 id_lookup("clock_t",NULL,raw_int);
+id_lookup("co_await",NULL,case_like);
 id_lookup("compl",NULL,alfop);
+id_lookup("_Complex",NULL,raw_int);
 id_lookup("const",NULL,const_like);
 id_lookup("const_cast",NULL,raw_int);
+id_lookup("consteval",NULL,const_like);
+id_lookup("constexpr",NULL,const_like);
+id_lookup("constinit",NULL,const_like);
 id_lookup("continue",NULL,case_like);
-id_lookup("default",NULL,case_like);
+id_lookup("co_return",NULL,case_like);
+id_lookup("co_yield",NULL,case_like);
+id_lookup("_Decimal128",NULL,raw_int);
+id_lookup("_Decimal32",NULL,raw_int);
+id_lookup("_Decimal64",NULL,raw_int);
+id_lookup("decltype",NULL,sizeof_like);
+id_lookup("default",NULL,default_like);
 id_lookup("define",NULL,define_like);
 id_lookup("defined",NULL,sizeof_like);
 id_lookup("delete",NULL,delete_like);
@@ -431,10 +455,12 @@ id_lookup("float",NULL,raw_int);
 id_lookup("for",NULL,for_like);
 id_lookup("fpos_t",NULL,raw_int);
 id_lookup("friend",NULL,int_like);
+id_lookup("_Generic",NULL,sizeof_like);
 id_lookup("goto",NULL,case_like);
 id_lookup("if",NULL,if_like);
 id_lookup("ifdef",NULL,if_like);
 id_lookup("ifndef",NULL,if_like);
+id_lookup("_Imaginary",NULL,raw_int);
 id_lookup("include",NULL,if_like);
 id_lookup("inline",NULL,int_like);
 id_lookup("int",NULL,raw_int);
@@ -445,9 +471,12 @@ id_lookup("long",NULL,raw_int);
 id_lookup("mutable",NULL,int_like);
 id_lookup("namespace",NULL,struct_like);
 id_lookup("new",NULL,new_like);
+id_lookup("noexcept",NULL,attr);
+id_lookup("_Noreturn",NULL,raw_int);
 id_lookup("not",NULL,alfop);
 id_lookup("not_eq",NULL,alfop);
 id_lookup("NULL",NULL,custom);
+id_lookup("nullptr",NULL,custom);
 id_lookup("offsetof",NULL,raw_int);
 id_lookup("operator",NULL,operator_like);
 id_lookup("or",NULL,alfop);
@@ -459,6 +488,7 @@ id_lookup("ptrdiff_t",NULL,raw_int);
 id_lookup("public",NULL,public_like);
 id_lookup("register",NULL,int_like);
 id_lookup("reinterpret_cast",NULL,raw_int);
+id_lookup("restrict",NULL,int_like);
 id_lookup("return",NULL,case_like);
 id_lookup("short",NULL,raw_int);
 id_lookup("sig_atomic_t",NULL,raw_int);
@@ -466,21 +496,25 @@ id_lookup("signed",NULL,raw_int);
 id_lookup("size_t",NULL,raw_int);
 id_lookup("sizeof",NULL,sizeof_like);
 id_lookup("static",NULL,int_like);
+id_lookup("static_assert",NULL,sizeof_like);
+id_lookup("_Static_assert",NULL,sizeof_like);
 id_lookup("static_cast",NULL,raw_int);
 id_lookup("struct",NULL,struct_like);
 id_lookup("switch",NULL,for_like);
 id_lookup("template",NULL,template_like);
 id_lookup("this",NULL,custom);
+id_lookup("thread_local",NULL,raw_int);
+id_lookup("_Thread_local",NULL,raw_int);
 id_lookup("throw",NULL,case_like);
 id_lookup("time_t",NULL,raw_int);
 id_lookup("try",NULL,else_like);
 id_lookup("typedef",NULL,typedef_like);
-id_lookup("typeid",NULL,raw_int);
+id_lookup("typeid",NULL,sizeof_like);
 id_lookup("typename",NULL,struct_like);
 id_lookup("undef",NULL,if_like);
 id_lookup("union",NULL,struct_like);
 id_lookup("unsigned",NULL,raw_int);
-id_lookup("using",NULL,int_like);
+id_lookup("using",NULL,using_like);
 id_lookup("va_dcl",NULL,decl); /* Berkeley's variable-arg-list convention */
 id_lookup("va_list",NULL,raw_int); /* ditto */
 id_lookup("virtual",NULL,int_like);
@@ -789,28 +823,57 @@ introduced by \.0 and hexadecimals by \.{0x}, but \.{CWEAVE} will print
 with \TEX/ macros that the user can redefine to fit the context.
 In order to simplify such macros, we replace some of the characters.
 
+On output, the \.{\ } that replaces \.{'} in \CPLUSPLUS/ literals will become
+``\.{\\\ }''.
+
 Notice that in this section and the next, |id_first| and |id_loc|
 are pointers into the array |section_text|, not into |buffer|.
 
+@d gather_digits_while(t) while (t || *loc=='\'') {
+  if (*loc=='\'') { /* \CPLUSPLUS/-style digit separator */
+    *id_loc++=' '; /* insert a little bit of space */
+    loc++;
+  } else
+    *id_loc++=*loc++;
+}
+
 @<Get a constant@>= {
   id_first=id_loc=section_text+1;
+  if (*(loc-1)=='.' && !xisdigit(*loc)) goto mistake; /* not a constant */
   if (*(loc-1)=='0') {
-    if (*loc=='x' || *loc=='X') {*id_loc++='^'; loc++;
-      while (xisxdigit(*loc)) *id_loc++=*loc++;} /* hex constant */
-    else if (xisdigit(*loc)) {*id_loc++='~';
-      while (xisdigit(*loc)) *id_loc++=*loc++;} /* octal constant */
-    else goto dec; /* decimal constant */
-  }
-  else { /* decimal constant */
-    if (*(loc-1)=='.' && !xisdigit(*loc)) goto mistake; /* not a constant */
-    dec: *id_loc++=*(loc-1);
-    while (xisdigit(*loc) || *loc=='.') *id_loc++=*loc++;
-    if (*loc=='e' || *loc=='E') { /* float constant */
-      *id_loc++='_'; loc++;
-      if (*loc=='+' || *loc=='-') *id_loc++=*loc++;
-      while (xisdigit(*loc)) *id_loc++=*loc++;
+    if (*loc=='x' || *loc=='X') { /* hexadecimal constant */
+      *id_loc++='^';
+      loc++;
+      gather_digits_while(xisxdigit(*loc) || *loc=='.');
+      *id_loc++='/';
+      goto get_exponent;
+    } else if (*loc=='b' || *loc=='B') { /* binary constant */
+      *id_loc++='\\';
+      loc++;
+      gather_digits_while(*loc=='0' || *loc=='1');
+      *id_loc++='/';
+      goto digit_suffix;
+    }
+    else if (xisdigit(*loc)) { /* octal constant */
+      *id_loc++='~';
+      gather_digits_while(xisdigit(*loc));
+      *id_loc++='/';
+      goto digit_suffix;
     }
   }
+  *id_loc++=*(loc-1); /* decimal constant */
+  gather_digits_while(xisdigit(*loc) || *loc=='.');
+get_exponent:
+  if (*loc=='e' || *loc=='E')
+    *id_loc++='_';
+  else if (*loc=='p' || *loc=='P')
+    *id_loc++='%';
+  else
+    goto digit_suffix;
+  loc++;
+  if (*loc=='+' || *loc=='-') *id_loc++=*loc++;
+  gather_digits_while(xisdigit(*loc));
+digit_suffix:
   while (*loc=='u' || *loc=='U' || *loc=='l' || *loc=='L'
          || *loc=='f' || *loc=='F') {
     *id_loc++='$'; *id_loc++=toupper((eight_bits)*loc); loc++;
@@ -1675,8 +1738,8 @@ same initial letter; these subscripts are assigned from left to right.
 @d rbrace 8 /* denotes a right brace */
 @d decl_head 9 /* denotes an incomplete declaration */
 @d comma 10 /* denotes a comma */
-@d lpar 11 /* denotes a left parenthesis or left bracket */
-@d rpar 12 /* denotes a right parenthesis or right bracket */
+@d lpar 11 /* denotes a left parenthesis */
+@d rpar 12 /* denotes a right parenthesis */
 @d prelangle 13 /* denotes `$<$' before we know what it is */
 @d prerangle 14 /* denotes `$>$' before we know what it is */
 @d langle 15 /* denotes `$<$' when it's used as angle bracket in a template */
@@ -1698,10 +1761,13 @@ same initial letter; these subscripts are assigned from left to right.
 @d insert 37 /* a scrap that gets combined with its neighbor */
 @d section_scrap 38 /* section name */
 @d dead 39 /* scrap that won't combine */
-@d ftemplate 59 /* \\{make\_pair} */
-@d new_exp 60 /* \&{new} and a following type identifier */
-@d begin_arg 61 /* \.{@@[} */
-@d end_arg 62 /* \.{@@]} */
+@d ftemplate 63 /* \\{make\_pair} */
+@d new_exp 64 /* \&{new} and a following type identifier */
+@d begin_arg 65 /* \.{@@[} */
+@d end_arg 66 /* \.{@@]} */
+@d lbrack 67 /* denotes a left bracket */
+@d rbrack 68 /* denotes a right bracket */
+@d attr_head 69 /* denotes beginning of attribute */
 
 @<Private...@>=
 static char cat_name[256][12];
@@ -1766,6 +1832,13 @@ static char cat_name[256][12];
     strcpy(cat_name[new_exp],"new_exp");
     strcpy(cat_name[begin_arg],"@@["@q]@>);
     strcpy(cat_name[end_arg],@q[@>"@@]");
+    strcpy(cat_name[lbrack],"[");
+    strcpy(cat_name[rbrack],"]");
+    strcpy(cat_name[attr_head],"attr_head");
+    strcpy(cat_name[attr],"attr");
+    strcpy(cat_name[alignas_like],"alignas");
+    strcpy(cat_name[using_like],"using");
+    strcpy(cat_name[default_like],"default");
     strcpy(cat_name[0],"zero");
 
 @ This code allows \.{CWEAVE} to display its parsing steps.
@@ -1884,11 +1957,14 @@ with discretionary breaks in between.
 \.{@@=}string\.{@@>}&|exp|: \.{\\vb\{}string with special characters
   quoted\.\}&maybe\cr
 \.{@@'7'}&|exp|: \.{\\.\{@@'7'\}}&maybe\cr
-\.{077} or \.{\\77}&|exp|: \.{\\T\{\\\~77\}}&maybe\cr
-\.{0x7f}&|exp|: \.{\\T\{\\\^7f\}}&maybe\cr
+\.{077} or \.{\\77}&|exp|: \.{\\T\{\\\~77/\}}&maybe\cr
+\.{0x7f}&|exp|: \.{\\T\{\\\^7f/\}}&maybe\cr
+\.{0b10111}&|exp|: \.{\\T\{\\\\10111/\}}&maybe\cr
 \.{77}&|exp|: \.{\\T\{77\}}&maybe\cr
 \.{77L}&|exp|: \.{\\T\{77\\\$L\}}&maybe\cr
 \.{0.1E5}&|exp|: \.{\\T\{0.1\\\_5\}}&maybe\cr
+\.{0x10p3}&|exp|: \.{\\T\{\\\^10/\\\%3\}}&maybe\cr
+\.{1'000'000}&|exp|: \.{\\T\{1\\\ 000\\\ 000\}}&maybe\cr
 \.+&|ubinop|: \.+&yes\cr
 \.-&|ubinop|: \.-&yes\cr
 \.*&|raw_ubin|: \.*&yes\cr
@@ -1905,9 +1981,9 @@ with discretionary breaks in between.
 \.\~&|unop|: \.{\\CM}&yes\cr
 \.\&&|raw_ubin|: \.{\\AND}&yes\cr
 \.(&|lpar|: \.(&maybe\cr
-\.[&|lpar|: \.[&maybe\cr
 \.)&|rpar|: \.)&maybe\cr
-\.]&|rpar|: \.]&maybe\cr
+\.[&|lbrack|: \.[&maybe\cr
+\.]&|rbrack|: \.]&maybe\cr
 \.\{&|lbrace|: \.\{&yes\cr
 \.\}&|lbrace|: \.\}&yes\cr
 \.,&|comma|: \.,&yes\cr
@@ -1919,23 +1995,40 @@ end of \.\# line&|rproc|:  |force|&no\cr
 identifier&|exp|: \.{\\\\\{}identifier with underlines and
              dollar signs quoted\.\}&maybe\cr
 \.{and}&|alfop|: \stars&yes\cr
+\.{alignas}&|alignas_like|: \stars&maybe\cr
+\.{\_Alignas}&|alignas_like|: \stars&maybe\cr
+\.{alignof}&|sizeof_like|: \stars&maybe\cr
+\.{\_Alignof}&|sizeof_like|: \stars&maybe\cr
 \.{and\_eq}&|alfop|: \stars&yes\cr
 \.{asm}&|sizeof_like|: \stars&maybe\cr
+\.{\_Atomic}&|raw_int|: \stars&maybe\cr
 \.{auto}&|int_like|: \stars&maybe\cr
 \.{bitand}&|alfop|: \stars&yes\cr
 \.{bitor}&|alfop|: \stars&yes\cr
 \.{bool}&|raw_int|: \stars&maybe\cr
+\.{\_Bool}&|raw_int|: \stars&maybe\cr
 \.{break}&|case_like|: \stars&maybe\cr
 \.{case}&|case_like|: \stars&maybe\cr
 \.{catch}&|catch_like|: \stars&maybe\cr
 \.{char}&|raw_int|: \stars&maybe\cr
+\.{char8\_t}&|raw_int|: \stars&maybe\cr
+\.{char16\_t}&|raw_int|: \stars&maybe\cr
+\.{char32\_t}&|raw_int|: \stars&maybe\cr
 \.{class}&|struct_like|: \stars&maybe\cr
 \.{clock\_t}&|raw_int|: \stars&maybe\cr
 \.{compl}&|alfop|: \stars&yes\cr
+\.{\_Complex}&|raw_int|: \stars&maybe\cr
 \.{const}&|const_like|: \stars&maybe\cr
 \.{const\_cast}&|raw_int|: \stars&maybe\cr
+\.{consteval}&|const_like|: \stars&maybe\cr
+\.{constexpr}&|const_like|: \stars&maybe\cr
+\.{constinit}&|const_like|: \stars&maybe\cr
 \.{continue}&|case_like|: \stars&maybe\cr
-\.{default}&|case_like|: \stars&maybe\cr
+\.{\_Decimal128}&|raw_int|: \stars&maybe\cr
+\.{\_Decimal32}&|raw_int|: \stars&maybe\cr
+\.{\_Decimal64}&|raw_int|: \stars&maybe\cr
+\.{decltype}&|sizeof_like|: \stars&maybe\cr
+\.{default}&|default_like|: \stars&maybe\cr
 \.{define}&|define_like|: \stars&maybe\cr
 \.{defined}&|sizeof_like|: \stars&maybe\cr
 \.{delete}&|delete_like|: \stars&maybe\cr
@@ -1956,10 +2049,12 @@ identifier&|exp|: \.{\\\\\{}identifier with underlines and
 \.{for}&|for_like|: \stars&maybe\cr
 \.{fpos\_t}&|raw_int|: \stars&maybe\cr
 \.{friend}&|int_like|: \stars&maybe\cr
+\.{\_Generic}&|sizeof_like|: \stars&maybe\cr
 \.{goto}&|case_like|: \stars&maybe\cr
 \.{if}&|if_like|: \stars&maybe\cr
 \.{ifdef}&|if_like|: \stars&maybe\cr
 \.{ifndef}&|if_like|: \stars&maybe\cr
+\.{\_Imaginary}&|raw_int|: \stars&maybe\cr
 \.{include}&|if_like|: \stars&maybe\cr
 \.{inline}&|int_like|: \stars&maybe\cr
 \.{int}&|raw_int|: \stars&maybe\cr
@@ -1971,9 +2066,12 @@ identifier&|exp|: \.{\\\\\{}identifier with underlines and
 \.{mutable}&|int_like|: \stars&maybe\cr
 \.{namespace}&|struct_like|: \stars&maybe\cr
 \.{new}&|new_like|: \stars&maybe\cr
+\.{noexcept}&|attr|: \stars&maybe\cr
+\.{\_Noreturn}&|raw_int|: \stars&maybe\cr
 \.{not}&|alfop|: \stars&yes\cr
 \.{not\_eq}&|alfop|: \stars&yes\cr
 \.{NULL}&|exp|: \.{\\NULL}&yes\cr
+\.{nullptr}&|exp|: \.{\\NULL}&yes\cr
 \.{offsetof}&|raw_int|: \stars&maybe\cr
 \.{operator}&|operator_like|: \stars&maybe\cr
 \.{or}&|alfop|: \stars&yes\cr
@@ -1985,6 +2083,7 @@ identifier&|exp|: \.{\\\\\{}identifier with underlines and
 \.{public}&|public_like|: \stars&maybe\cr
 \.{register}&|int_like|: \stars&maybe\cr
 \.{reinterpret\_cast}&|raw_int|: \stars&maybe\cr
+\.{restrict}&|int_link|: \stars&maybe\cr
 \.{return}&|case_like|: \stars&maybe\cr
 \.{short}&|raw_int|: \stars&maybe\cr
 \.{sig\_atomic\_t}&|raw_int|: \stars&maybe\cr
@@ -1992,22 +2091,26 @@ identifier&|exp|: \.{\\\\\{}identifier with underlines and
 \.{size\_t}&|raw_int|: \stars&maybe\cr
 \.{sizeof}&|sizeof_like|: \stars&maybe\cr
 \.{static}&|int_like|: \stars&maybe\cr
+\.{static\_assert}&|sizeof_like|: \stars&maybe\cr
+\.{\_Static\_assert}&|sizeof_like|: \stars&maybe\cr
 \.{static\_cast}&|raw_int|: \stars&maybe\cr
 \.{struct}&|struct_like|: \stars&maybe\cr
 \.{switch}&|for_like|: \stars&maybe\cr
 \.{template}&|template_like|: \stars&maybe\cr
 \.{TeX}&|exp|: \.{\\TeX}&yes\cr
 \.{this}&|exp|: \.{\\this}&yes\cr
+\.{\_Thread\_local}&|raw_int|: \stars&maybe\cr
+\.{thread\_local}&|raw_int|: \stars&maybe\cr
 \.{throw}&|case_like|: \stars&maybe\cr
 \.{time\_t}&|raw_int|: \stars&maybe\cr
 \.{try}&|else_like|: \stars&maybe\cr
 \.{typedef}&|typedef_like|: \stars&maybe\cr
-\.{typeid}&|raw_int|: \stars&maybe\cr
+\.{typeid}&|sizeof_like|: \stars&maybe\cr
 \.{typename}&|struct_like|: \stars&maybe\cr
 \.{undef}&|if_like|: \stars&maybe\cr
 \.{union}&|struct_like|: \stars&maybe\cr
 \.{unsigned}&|raw_int|: \stars&maybe\cr
-\.{using}&|int_like|: \stars&maybe\cr
+\.{using}&|using_like|: \stars&maybe\cr
 \.{va\_dcl}&|decl|: \stars&maybe\cr
 \.{va\_list}&|raw_int|: \stars&maybe\cr
 \.{virtual}&|int_like|: \stars&maybe\cr
@@ -2313,7 +2416,7 @@ code needs to be provided with a proper environment.
 @d cat2 (pp+2)->cat
 @d cat3 (pp+3)->cat
 @d lhs_not_simple (pp->cat!=public_like
-        && pp->cat!=semi 
+        && pp->cat!=semi
         && pp->cat!=prelangle
         && pp->cat!=prerangle @|
         && pp->cat!=template_like
@@ -2330,6 +2433,8 @@ code needs to be provided with a proper environment.
   if (cat1==end_arg && lhs_not_simple)
     if (pp->cat==begin_arg) squash(pp,2,exp,-2,124);
     else squash(pp,2,end_arg,-1,125);
+  else if (pp->cat==rbrack) squash(pp,1,rpar,-3,130);
+  else if (pp->cat==using_like) squash(pp,1,int_like,-3,140);
   else if (cat1==insert) squash(pp,2,pp->cat,-2,0);
   else if (cat2==insert) squash(pp+1,2,(pp+1)->cat,-1,0);
   else if (cat3==insert) squash(pp+2,2,(pp+2)->cat,0,0);
@@ -2382,6 +2487,11 @@ code needs to be provided with a proper environment.
     case typedef_like: @<Cases for |typedef_like|@>@; @+break;
     case delete_like: @<Cases for |delete_like|@>@; @+break;
     case question: @<Cases for |question|@>@; @+break;
+    case alignas_like: @<Cases for |alignas_like|@>@; @+break;
+    case lbrack: @<Cases for |lbrack|@>@; @+break;
+    case attr_head: @<Cases for |attr_head|@>@; @+break;
+    case attr: @<Cases for |attr|@>@; @+break;
+    case default_like: @<Cases for |default_like|@>@; @+break;
   }
   pp++; /* if no match was found, we move to the right */
 }
@@ -2565,6 +2675,11 @@ else if (cat1==cast && (cat2==const_like || cat2==case_like)) {
   big_app1_insert(pp+1,' '); reduce(pp+1,2,cast,0,9);
 }
 else if (cat1==exp || cat1==cast) squash(pp,2,exp,-2,10);
+else if (cat1==attr) {
+  big_app1_insert(pp,' ');
+  reduce(pp,2,exp,-2,142);
+}
+else if (cat1==colcol && cat2==int_like) squash(pp,3,int_like,-2,152);
 
 @ @<Cases for |lpar|@>=
 if ((cat1==exp||cat1==ubinop) && cat2==rpar) squash(pp,3,exp,-2,11);
@@ -2656,6 +2771,10 @@ else if (cat1==lbrace || cat1==int_like || cat1==decl) {
   big_app1(pp); big_app(indent); app(indent); reduce(pp,1,fn_decl,0,38);
 }
 else if (cat1==semi) squash(pp,2,decl,-1,39);
+else if (cat1==attr) {
+  big_app1_insert(pp,' ');
+  reduce(pp,2,decl_head,-1,139);
+}
 
 @ @<Cases for |decl|@>=
 if (cat1==decl) {
@@ -2672,7 +2791,7 @@ if (cat1==int_like || cat1==exp) {
     app(opt); app('9'); reduce(pp,3,base,0,42);
   }
   else if (cat2==lbrace) {
-    big_app1(pp); big_app(' '); big_app1(pp+1); big_app(' '); big_app1(pp+2);
+    big_app1_insert(pp,' '); big_app(' '); big_app1(pp+2);
     reduce(pp,3,lbrace,-2,43);
   }
 }
@@ -2695,6 +2814,14 @@ else if (cat1==exp||cat1==int_like) {
     big_app1_insert(pp,' '); reduce(pp,2,int_like,-2,48);
   }
 }
+else if (cat1==attr) {
+  big_app1_insert(pp,' ');
+  reduce(pp,2,struct_like,-3,141);
+}
+else if (cat1==struct_like) {
+  big_app1_insert(pp,' ');
+  reduce(pp,2,struct_like,-3,151);
+}
 
 @ @<Cases for |struct_head|@>=
 if ((cat1==decl || cat1==stmt || cat1==function) && cat2==rbrace) {
@@ -2715,6 +2842,10 @@ if (cat1==decl) {
 else if (cat1==stmt) {
   big_app1(pp); app(outdent); app(outdent); big_app(force);
   big_app1(pp+1); reduce(pp,2,function,-1,52);
+}
+else if (cat1==attr) {
+  big_app1_insert(pp,' ');
+  reduce(pp,2,fn_decl,0,157);
 }
 
 @ @<Cases for |function|@>=
@@ -2771,6 +2902,10 @@ else if (cat1==stmt) {
   }
   else squash(pp,1,else_like,0,65);
 }
+else if (cat1==attr) {
+  big_app1_insert(pp,' ');
+  reduce(pp,2,if_head,0,146);
+}
 
 @ @<Cases for |if_head|@>=
 if (cat1==stmt || cat1==exp) {
@@ -2812,6 +2947,7 @@ else if (cat1==stmt||cat1==decl||cat1==function) {
   big_app1_insert(pp,break_space);
   reduce(pp,2,cat1,-1,75);
 }
+else if (cat1==rbrace) squash(pp,1,decl,-1,156);
 
 @ The user can decide at run-time whether short statements should be
 grouped together on the same line.
@@ -2870,7 +3006,10 @@ app('<'); reduce(pp,1,binop,-2,84);
 init_mathness=cur_mathness=yes_math;
 app('>'); reduce(pp,1,binop,-2,85);
 
-@ @<Cases for |langle|@>=
+@ @d reserve_typenames flags['t']
+  /* should we treat \&{typename} in a template like \&{typedef}? */
+
+@<Cases for |langle|@>=
 if (cat1==prerangle) {
   big_app1(pp); app('\\'); app(','); big_app1(pp+1);
 @.\\,@>
@@ -2882,11 +3021,25 @@ else if (cat1==decl_head || cat1==int_like || cat1==exp) {
     big_app3(pp); app(opt); app('9'); reduce(pp,3,langle,0,88);
   }
 }
+else if (cat1==struct_like) {
+  if ((cat2==exp || cat2==int_like) && (cat3==comma || cat3==prerangle)) {
+    make_underlined(pp+2);
+    if (reserve_typenames) {
+      make_reserved(pp+2);
+    }
+    big_app2(pp); big_app(' '); big_app2(pp+2);
+    if (cat3==comma) reduce(pp,4,langle,0,153);
+    else reduce(pp,4,cast,-1,154);
+  }
+}
 
 @ @<Cases for |template_like|@>=
 if (cat1==exp && cat2==prelangle) squash(pp+2,1,langle,2,89);
 else if (cat1==exp || cat1==raw_int) {
   big_app1_insert(pp,' '); reduce(pp,2,cat1,-2,90);
+}
+else if (cat1==cast && cat2==struct_like) {
+  big_app1_insert(pp,' '); reduce(pp,2,struct_like,0,155);
 }@+ else squash(pp,1,raw_int,0,91);
 
 @ @<Cases for |new_like|@>=
@@ -2901,7 +3054,7 @@ if (cat1==int_like || cat1==const_like) {
   big_app1_insert(pp,' '); reduce(pp,2,new_exp,0,95);
 }
 else if (cat1==struct_like && (cat2==exp || cat2==int_like)) {
-  big_app1(pp); big_app(' '); big_app1(pp+1); big_app(' ');
+  big_app1_insert(pp,' '); big_app(' ');
   big_app1(pp+2); reduce(pp,3,new_exp,0,96);
 }
 else if (cat1==raw_ubin) {
@@ -2937,6 +3090,7 @@ if (cat1==prelangle) squash(pp+1,1,langle,1,106);
 else if (cat1==colcol) squash(pp,2,colcol,-1,107);
 else if (cat1==cast) squash(pp,2,raw_int,0,108);
 else if (cat1==lpar) squash(pp,1,exp,-2,109);
+else if (cat1==lbrack) squash(pp,1,exp,-2,144);
 else if (cat1!=langle) squash(pp,1,int_like,-3,110);
 
 @ @<Cases for |operator_like|@>=
@@ -2983,6 +3137,65 @@ if (cat1==exp && (cat2==colon || cat2==base)) {
   (pp+2)->mathness=5*yes_math; /* this colon should be in math mode */
   squash(pp,3,binop,-2,123);
 }
+
+@ @<Cases for |alignas_like|@>=
+if (cat1==decl_head)
+  squash(pp,2,attr,-1,126);
+else if (cat1==exp)
+  squash(pp,2,attr,-1,127);
+else if (cat1==cast)
+  squash(pp,2,attr,-1,158);
+
+@ @<Cases for |lbrack|@>=
+if (cat1==lbrack)
+  if (cat2==rbrack && cat3==rbrack)
+    squash(pp,4,exp,-2,147);
+  else squash(pp,2,attr_head,-1,128);
+else squash(pp,1,lpar,-1,129);
+
+@ @<Cases for |attr_head|@>=
+if (cat1==rbrack && cat2==rbrack)
+  squash(pp,3,attr,-1,131);
+else if (cat1==exp)
+  squash(pp,2,attr_head,0,132);
+else if (cat1==using_like && cat2==exp && cat3==colon) {
+  big_app2(pp); big_app(' '); big_app2(pp+2); big_app(' ');
+  reduce(pp,4,attr_head,0,133);
+}
+else if (cat1==comma)
+  squash(pp,2,attr_head,0,145);
+
+@ @<Cases for |attr|@>=
+if (cat1==lbrace || cat1==stmt) {
+  big_app1_insert(pp,' ');
+  reduce(pp,2,cat1,-2,134);
+}
+else if (cat1==tag) {
+  big_app1_insert(pp,' ');
+  reduce(pp,2,tag,-1,135);
+}
+else if (cat1==semi)
+  squash(pp,2,stmt,-2,136);
+else if (cat1==attr) {
+  big_app1_insert(pp,' ');
+  reduce(pp,2,attr,-1,137);
+}
+else if (cat1==decl_head) {
+  big_app1_insert(pp,' ');
+  reduce(pp,2,decl_head,-1,138);
+}
+else if (cat1==typedef_like) {
+  big_app1_insert(pp,' ');
+  reduce(pp,2,typedef_like,0,143);
+}
+else if (cat1==function) {
+  big_app1_insert(pp,' ');
+  reduce(pp,2,function,-1,148);
+}
+
+@ @<Cases for |default_like|@>=
+if (cat1==colon) squash(pp,1,case_like,-3,149);
+else squash(pp,1,exp,-2,150);
 
 @ Now here's the |reduce| procedure used in our code for productions.
 
@@ -3258,8 +3471,10 @@ switch (next_control) {
 @.\\\#@>
   case ignore: case xref_roman: case xref_wildcard:
   case xref_typewriter: case noop:@+break;
-  case '(': case '[': app(next_control);@+app_scrap(lpar,maybe_math);@+break;
-  case ')': case ']': app(next_control);@+app_scrap(rpar,maybe_math);@+break;
+  case '(': app(next_control);@+app_scrap(lpar,maybe_math);@+break;
+  case ')': app(next_control);@+app_scrap(rpar,maybe_math);@+break;
+  case '[': app(next_control);@+app_scrap(lbrack,maybe_math);@+break;
+  case ']': app(next_control);@+app_scrap(rbrack,maybe_math);@+break;
   case '{': app_str("\\{"@q}@>);@+app_scrap(lbrace,yes_math);@+break;
 @.\\\{@>@q}@>
   case '}': app_str(@q{@>"\\}");@+app_scrap(rbrace,yes_math);@+break;
