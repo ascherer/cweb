@@ -837,18 +837,9 @@ are pointers into the array |section_text|, not into |buffer|.
   id_first=id_loc=section_text+1;
   if (*(loc-1)=='.' && !xisdigit(*loc)) goto mistake; /* not a constant */
   if (*(loc-1)=='0') {
-    if (*loc=='x' || *loc=='X') { /* hexadecimal constant */
-      *id_loc++='^'; loc++;
-      gather_digits_while(xisxdigit(*loc) || *loc=='.');
-      *id_loc++='/'; goto get_exponent;
-    } else if (*loc=='b' || *loc=='B') { /* binary constant */
-      *id_loc++='\\'; loc++;
-      gather_digits_while(*loc=='0' || *loc=='1');
-      *id_loc++='/'; goto digit_suffix;
-    } else if (xisdigit(*loc)) { /* octal constant */
-      *id_loc++='~'; gather_digits_while(xisdigit(*loc));
-      *id_loc++='/'; goto digit_suffix;
-    }
+    if (*loc=='x' || *loc=='X') @<Get a hexadecimal constant@>@;
+    else if (*loc=='b' || *loc=='B') @<Get a binary constant@>@;
+    else if (xisdigit(*loc)) @<Get an octal constant@>@;
   }
   *id_loc++=*(loc-1); /* decimal constant */
   gather_digits_while(xisdigit(*loc) || *loc=='.');
@@ -868,6 +859,23 @@ digit_suffix:
     *id_loc++='$'; *id_loc++=toupper((eight_bits)*loc); loc++;
   }
   return constant;
+}
+
+@ @<Get a hex...@>={
+  *id_loc++='^'; loc++;
+  gather_digits_while(xisxdigit(*loc) || *loc=='.');
+  *id_loc++='/'; goto get_exponent;
+}
+
+@ @<Get a bin...@>={
+  *id_loc++='\\'; loc++;
+  gather_digits_while(*loc=='0' || *loc=='1');
+  *id_loc++='/'; goto digit_suffix;
+}
+
+@ @<Get an oct...@>={
+  *id_loc++='~'; gather_digits_while(xisdigit(*loc));
+  *id_loc++='/'; goto digit_suffix;
 }
 
 @ \CEE/ strings and character constants, delimited by double and single
