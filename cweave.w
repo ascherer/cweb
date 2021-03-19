@@ -883,16 +883,14 @@ quotes, respectively, can contain newlines or instances of their own
 delimiters if they are protected by a backslash.  We follow this
 convention, but do not allow the string to be longer than |longest_name|.
 
-@<Get a string@>= {
+@<Get a string@>= {@+
   char delim = c; /* what started the string */
   id_first = section_text+1;
   id_loc = section_text;
   if (delim=='\'' && *(loc-2)=='@@') {*++id_loc='@@'; *++id_loc='@@';}
   *++id_loc=delim;
-  if (delim=='L' || delim=='u' || delim=='U') { /* wide character constant */
-    if (delim=='u' && *loc=='8') { *++id_loc=*loc++; }
-    delim=*loc++; *++id_loc=delim;
-  }
+  if (delim=='L' || delim=='u' || delim=='U')
+    @<Get a wide character constant@>@;
   if (delim=='<') delim='>'; /* for file names in \#\&{include} lines */
   while (true) {
     if (loc>=limit) {
@@ -927,6 +925,11 @@ convention, but do not allow the string to be longer than |longest_name|.
   }
   id_loc++;
   return string;
+}
+
+@ @<Get a wide...@>={
+  if (delim=='u' && *loc=='8') { *++id_loc=*loc++; }
+  delim=*loc++; *++id_loc=delim;
 }
 
 @ After an \.{@@} sign has been scanned, the next character tells us
