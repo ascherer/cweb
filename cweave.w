@@ -389,27 +389,25 @@ name_pointer p)
 
 @ @<Predecl...@>=@+static void update_node(name_pointer p);
 
-@ We have to get \CEE/'s
+@ We have to get \CEE/'s and \CPLUSPLUS/'s
 reserved words into the hash table, and the simplest way to do this is
 to insert them every time \.{CWEAVE} is run.  Fortunately there are relatively
 few reserved words. (Some of these are not strictly ``reserved,'' but
-are defined in header files of the ISO Standard \CEE/ Library.)
+are defined in header files of the ISO Standard \CEE/ Library.
+An ever growing list of \CPLUSPLUS/ keywords can be found here:
+\.{https://en.cppreference.com/w/cpp/keyword}.)
 @^reserved words@>
 
 @<Store all the reserved words@>=
 id_lookup("alignas",NULL,alignas_like);
-id_lookup("_Alignas",NULL,alignas_like);
 id_lookup("alignof",NULL,sizeof_like);
-id_lookup("_Alignof",NULL,sizeof_like);
 id_lookup("and",NULL,alfop);
 id_lookup("and_eq",NULL,alfop);
 id_lookup("asm",NULL,sizeof_like);
-id_lookup("_Atomic",NULL,raw_int);
 id_lookup("auto",NULL,int_like);
 id_lookup("bitand",NULL,alfop);
 id_lookup("bitor",NULL,alfop);
 id_lookup("bool",NULL,raw_int);
-id_lookup("_Bool",NULL,raw_int);
 id_lookup("break",NULL,case_like);
 id_lookup("case",NULL,case_like);
 id_lookup("catch",NULL,catch_like);
@@ -419,20 +417,17 @@ id_lookup("char16_t",NULL,raw_int);
 id_lookup("char32_t",NULL,raw_int);
 id_lookup("class",NULL,struct_like);
 id_lookup("clock_t",NULL,raw_int);
-id_lookup("co_await",NULL,case_like);
 id_lookup("compl",NULL,alfop);
-id_lookup("_Complex",NULL,raw_int);
+id_lookup("concept",NULL,int_like);
 id_lookup("const",NULL,const_like);
-id_lookup("const_cast",NULL,raw_int);
 id_lookup("consteval",NULL,const_like);
 id_lookup("constexpr",NULL,const_like);
 id_lookup("constinit",NULL,const_like);
+id_lookup("const_cast",NULL,raw_int);
 id_lookup("continue",NULL,case_like);
+id_lookup("co_await",NULL,case_like);
 id_lookup("co_return",NULL,case_like);
 id_lookup("co_yield",NULL,case_like);
-id_lookup("_Decimal128",NULL,raw_int);
-id_lookup("_Decimal32",NULL,raw_int);
-id_lookup("_Decimal64",NULL,raw_int);
 id_lookup("decltype",NULL,sizeof_like);
 id_lookup("default",NULL,default_like);
 id_lookup("define",NULL,define_like);
@@ -451,16 +446,15 @@ id_lookup("explicit",NULL,int_like);
 id_lookup("export",NULL,int_like);
 id_lookup("extern",NULL,int_like);
 id_lookup("FILE",NULL,raw_int);
+id_lookup("false",NULL,normal);
 id_lookup("float",NULL,raw_int);
 id_lookup("for",NULL,for_like);
 id_lookup("fpos_t",NULL,raw_int);
 id_lookup("friend",NULL,int_like);
-id_lookup("_Generic",NULL,sizeof_like);
 id_lookup("goto",NULL,case_like);
 id_lookup("if",NULL,if_like);
 id_lookup("ifdef",NULL,if_like);
 id_lookup("ifndef",NULL,if_like);
-id_lookup("_Imaginary",NULL,raw_int);
 id_lookup("include",NULL,if_like);
 id_lookup("inline",NULL,int_like);
 id_lookup("int",NULL,raw_int);
@@ -472,7 +466,6 @@ id_lookup("mutable",NULL,int_like);
 id_lookup("namespace",NULL,struct_like);
 id_lookup("new",NULL,new_like);
 id_lookup("noexcept",NULL,attr);
-id_lookup("_Noreturn",NULL,raw_int);
 id_lookup("not",NULL,alfop);
 id_lookup("not_eq",NULL,alfop);
 id_lookup("NULL",NULL,custom);
@@ -488,6 +481,7 @@ id_lookup("ptrdiff_t",NULL,raw_int);
 id_lookup("public",NULL,public_like);
 id_lookup("register",NULL,int_like);
 id_lookup("reinterpret_cast",NULL,raw_int);
+id_lookup("requires",NULL,int_like);
 id_lookup("restrict",NULL,int_like);
 id_lookup("return",NULL,case_like);
 id_lookup("short",NULL,raw_int);
@@ -497,16 +491,15 @@ id_lookup("size_t",NULL,raw_int);
 id_lookup("sizeof",NULL,sizeof_like);
 id_lookup("static",NULL,int_like);
 id_lookup("static_assert",NULL,sizeof_like);
-id_lookup("_Static_assert",NULL,sizeof_like);
 id_lookup("static_cast",NULL,raw_int);
 id_lookup("struct",NULL,struct_like);
 id_lookup("switch",NULL,for_like);
 id_lookup("template",NULL,template_like);
 id_lookup("this",NULL,custom);
 id_lookup("thread_local",NULL,raw_int);
-id_lookup("_Thread_local",NULL,raw_int);
 id_lookup("throw",NULL,case_like);
 id_lookup("time_t",NULL,raw_int);
+id_lookup("true",NULL,normal);
 id_lookup("try",NULL,else_like);
 id_lookup("typedef",NULL,typedef_like);
 id_lookup("typeid",NULL,sizeof_like);
@@ -525,6 +518,8 @@ id_lookup("while",NULL,for_like);
 id_lookup("xor",NULL,alfop);
 id_lookup("xor_eq",NULL,alfop);@+ res_wd_end=name_ptr;
 id_lookup("TeX",NULL,custom);
+id_lookup("complex",NULL,int_like);
+id_lookup("imaginary",NULL,int_like);
 id_lookup("make_pair",NULL,func_template);
 
 @* Lexical scanning.
@@ -1990,19 +1985,15 @@ with discretionary breaks in between.
 end of \.\# line&|rproc|:  |force|&no\cr
 identifier&|exp|: \.{\\\\\{}identifier with underlines and
              dollar signs quoted\.\}&maybe\cr
-\.{and}&|alfop|: \stars&yes\cr
 \.{alignas}&|alignas_like|: \stars&maybe\cr
-\.{\_Alignas}&|alignas_like|: \stars&maybe\cr
 \.{alignof}&|sizeof_like|: \stars&maybe\cr
-\.{\_Alignof}&|sizeof_like|: \stars&maybe\cr
+\.{and}&|alfop|: \stars&yes\cr
 \.{and\_eq}&|alfop|: \stars&yes\cr
 \.{asm}&|sizeof_like|: \stars&maybe\cr
-\.{\_Atomic}&|raw_int|: \stars&maybe\cr
 \.{auto}&|int_like|: \stars&maybe\cr
 \.{bitand}&|alfop|: \stars&yes\cr
 \.{bitor}&|alfop|: \stars&yes\cr
 \.{bool}&|raw_int|: \stars&maybe\cr
-\.{\_Bool}&|raw_int|: \stars&maybe\cr
 \.{break}&|case_like|: \stars&maybe\cr
 \.{case}&|case_like|: \stars&maybe\cr
 \.{catch}&|catch_like|: \stars&maybe\cr
@@ -2012,17 +2003,19 @@ identifier&|exp|: \.{\\\\\{}identifier with underlines and
 \.{char32\_t}&|raw_int|: \stars&maybe\cr
 \.{class}&|struct_like|: \stars&maybe\cr
 \.{clock\_t}&|raw_int|: \stars&maybe\cr
+\.{co\_await}&|case_like|: \stars&maybe\cr
 \.{compl}&|alfop|: \stars&yes\cr
-\.{\_Complex}&|raw_int|: \stars&maybe\cr
+\.{complex}&|int_like|: \stars&yes\cr
+\.{concept}&|int_like|: \stars&maybe\cr
 \.{const}&|const_like|: \stars&maybe\cr
-\.{const\_cast}&|raw_int|: \stars&maybe\cr
 \.{consteval}&|const_like|: \stars&maybe\cr
 \.{constexpr}&|const_like|: \stars&maybe\cr
 \.{constinit}&|const_like|: \stars&maybe\cr
+\.{const\_cast}&|raw_int|: \stars&maybe\cr
 \.{continue}&|case_like|: \stars&maybe\cr
-\.{\_Decimal128}&|raw_int|: \stars&maybe\cr
-\.{\_Decimal32}&|raw_int|: \stars&maybe\cr
-\.{\_Decimal64}&|raw_int|: \stars&maybe\cr
+\.{co\_await}&|case_like|: \stars&maybe\cr
+\.{co\_return}&|case_like|: \stars&maybe\cr
+\.{co\_yield}&|case_like|: \stars&maybe\cr
 \.{decltype}&|sizeof_like|: \stars&maybe\cr
 \.{default}&|default_like|: \stars&maybe\cr
 \.{define}&|define_like|: \stars&maybe\cr
@@ -2041,16 +2034,16 @@ identifier&|exp|: \.{\\\\\{}identifier with underlines and
 \.{export}&|int_like|: \stars&maybe\cr
 \.{extern}&|int_like|: \stars&maybe\cr
 \.{FILE}&|raw_int|: \stars&maybe\cr
+\.{false}&|normal|: \stars&maybe\cr
 \.{float}&|raw_int|: \stars&maybe\cr
 \.{for}&|for_like|: \stars&maybe\cr
 \.{fpos\_t}&|raw_int|: \stars&maybe\cr
 \.{friend}&|int_like|: \stars&maybe\cr
-\.{\_Generic}&|sizeof_like|: \stars&maybe\cr
 \.{goto}&|case_like|: \stars&maybe\cr
 \.{if}&|if_like|: \stars&maybe\cr
 \.{ifdef}&|if_like|: \stars&maybe\cr
 \.{ifndef}&|if_like|: \stars&maybe\cr
-\.{\_Imaginary}&|raw_int|: \stars&maybe\cr
+\.{imaginary}&|int_like|: \stars&maybe\cr
 \.{include}&|if_like|: \stars&maybe\cr
 \.{inline}&|int_like|: \stars&maybe\cr
 \.{int}&|raw_int|: \stars&maybe\cr
@@ -2063,7 +2056,6 @@ identifier&|exp|: \.{\\\\\{}identifier with underlines and
 \.{namespace}&|struct_like|: \stars&maybe\cr
 \.{new}&|new_like|: \stars&maybe\cr
 \.{noexcept}&|attr|: \stars&maybe\cr
-\.{\_Noreturn}&|raw_int|: \stars&maybe\cr
 \.{not}&|alfop|: \stars&yes\cr
 \.{not\_eq}&|alfop|: \stars&yes\cr
 \.{NULL}&|exp|: \.{\\NULL}&yes\cr
@@ -2079,6 +2071,7 @@ identifier&|exp|: \.{\\\\\{}identifier with underlines and
 \.{public}&|public_like|: \stars&maybe\cr
 \.{register}&|int_like|: \stars&maybe\cr
 \.{reinterpret\_cast}&|raw_int|: \stars&maybe\cr
+\.{requires}&|int_link|: \stars&maybe\cr
 \.{restrict}&|int_link|: \stars&maybe\cr
 \.{return}&|case_like|: \stars&maybe\cr
 \.{short}&|raw_int|: \stars&maybe\cr
@@ -2088,14 +2081,12 @@ identifier&|exp|: \.{\\\\\{}identifier with underlines and
 \.{sizeof}&|sizeof_like|: \stars&maybe\cr
 \.{static}&|int_like|: \stars&maybe\cr
 \.{static\_assert}&|sizeof_like|: \stars&maybe\cr
-\.{\_Static\_assert}&|sizeof_like|: \stars&maybe\cr
 \.{static\_cast}&|raw_int|: \stars&maybe\cr
 \.{struct}&|struct_like|: \stars&maybe\cr
 \.{switch}&|for_like|: \stars&maybe\cr
 \.{template}&|template_like|: \stars&maybe\cr
 \.{TeX}&|exp|: \.{\\TeX}&yes\cr
 \.{this}&|exp|: \.{\\this}&yes\cr
-\.{\_Thread\_local}&|raw_int|: \stars&maybe\cr
 \.{thread\_local}&|raw_int|: \stars&maybe\cr
 \.{throw}&|case_like|: \stars&maybe\cr
 \.{time\_t}&|raw_int|: \stars&maybe\cr
