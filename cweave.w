@@ -2084,8 +2084,8 @@ identifier&|exp|: \.{\\\\\{}identifier with underlines and
 \.{public}&|public_like|: \stars&maybe\cr
 \.{register}&|int_like|: \stars&maybe\cr
 \.{reinterpret\_cast}&|raw_int|: \stars&maybe\cr
-\.{requires}&|int_link|: \stars&maybe\cr
-\.{restrict}&|int_link|: \stars&maybe\cr
+\.{requires}&|int_like|: \stars&maybe\cr
+\.{restrict}&|int_like|: \stars&maybe\cr
 \.{return}&|case_like|: \stars&maybe\cr
 \.{short}&|raw_int|: \stars&maybe\cr
 \.{sig\_atomic\_t}&|raw_int|: \stars&maybe\cr
