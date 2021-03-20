@@ -47,10 +47,6 @@ under the terms of a permission notice identical to this one.
 \pageno=\contentspagenumber \advance\pageno by 1
 \let\maybe=\iftrue
 
-@s boolean int
-@s uint8_t int
-@s uint16_t int
-
 @** Introduction.  This file contains code common
 to both \.{CTANGLE} and \.{CWEAVE}, which roughly concerns the following
 problems: character uniformity, input routines, error handling and

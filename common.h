@@ -27,9 +27,7 @@
 
 First comes general stuff:
 
-@s boolean int
-@s uint8_t int
-@s uint16_t int
+@i iso_types.w
 
 @d ctangle false
 @d cweave true
