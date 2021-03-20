@@ -3,35 +3,36 @@
 
 @q C99 and C11 internal types @>
 
-@s _Alignas int
-@s _Alignof int
+@s _Alignas alignas
+@s _Alignof alignof
 @s _Atomic int
-@s _Bool int
-@s _Complex int
-@d _Decimal128 int
-@d _Decimal32 int
-@d _Decimal64 int
-@s _Generic int
-@s _Imaginary int
-@s _Noreturn int
-@s _Static_assert int
-@s _Thread_local int
+@s _Bool bool
+@s _Complex complex
+@s _Decimal32 int
+@s _Decimal64 int
+@s _Decimal128 int
+@s _Generic class
+@s _Imaginary imaginary
+@s _Noreturn noreturn
+@s _Static_assert static_assert
+@s _Thread_local thread_local
 
-@s atomic_bool int
-@s atomic_char int
-@s atomic_schar int
-@s atomic_uchar int
-@s atomic_short int
-@s atomic_ushort int
+@s atomic_bool bool
+@s atomic_char char
+@s atomic_schar char
+@s atomic_uchar char
+@s atomic_short short
+@s atomic_ushort short
 @s atomic_int int
 @s atomic_uint int
-@s atomic_long int
-@s atomic_ulong int
-@s atomic_llong int
-@s atomic_ullong int
-@s atomic_char16_t int
-@s atomic_char32_t int
-@s atomic_wchar_t int
+@s atomic_long long
+@s atomic_ulong long
+@s atomic_llong long
+@s atomic_ullong long
+@s atomic_char8_t char8_t
+@s atomic_char16_t char16_t
+@s atomic_char32_t char32_t
+@s atomic_wchar_t wchar_t
 @s atomic_int_least8_t int
 @s atomic_uint_least8_t int
 @s atomic_int_least16_t int
@@ -48,16 +49,16 @@
 @s atomic_uint_fast32_t int
 @s atomic_int_fast64_t int
 @s atomic_uint_fast64_t int
-@s atomic_intptr_t int
-@s atomic_uintptr_t int
-@s atomic_size_t int
-@s atomic_ptrdiff_t int
 @s atomic_intmax_t int
+@s atomic_intptr_t int
 @s atomic_uintmax_t int
+@s atomic_uintptr_t int
+@s atomic_ptrdiff_t ptrdiff_t
+@s atomic_size_t size_t
 
 @q C99 preprocessor @>
 
-@s _Pragma int
+@s _Pragma pragma
 
 @q Integral types of C99 and C++, see @>
 @q http://en.cppreference.com/w/c/types/integer and @>
