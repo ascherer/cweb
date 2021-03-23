@@ -1,21 +1,22 @@
 @q This file defines type names introduced in modern dialects @>
 @q of C and C++ as special entities for TeX formatting @>
 
-@q C99 and C11 internal types @>
+@q C99 and C11 underscore keywords @>
+@q http://en.cppreference.com/w/c/keyword @>
 
 @s _Alignas alignas
 @s _Alignof alignof
 @s _Atomic int
 @s _Bool bool
 @s _Complex complex
-@s _Decimal32 int
-@s _Decimal64 int
-@s _Decimal128 int
 @s _Generic class
 @s _Imaginary imaginary
 @s _Noreturn noreturn
 @s _Static_assert static_assert
 @s _Thread_local thread_local
+
+@q C99 and C11 core language atomic types @>
+@q http://en.cppreference.com/w/c/atomic @>
 
 @s atomic_bool bool
 @s atomic_char char
@@ -49,12 +50,12 @@
 @s atomic_uint_fast32_t int
 @s atomic_int_fast64_t int
 @s atomic_uint_fast64_t int
-@s atomic_intmax_t int
 @s atomic_intptr_t int
-@s atomic_uintmax_t int
 @s atomic_uintptr_t int
 @s atomic_ptrdiff_t ptrdiff_t
 @s atomic_size_t size_t
+@s atomic_intmax_t int
+@s atomic_uintmax_t int
 
 @q C99 preprocessor @>
 
