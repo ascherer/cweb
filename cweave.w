@@ -2962,12 +2962,8 @@ force_lines=true;
 
 @ @<Cases for |stmt|@>=
 if (cat1==stmt||cat1==decl||cat1==function) {
-  int insertion;
-  if (cat1==function) insertion=big_force;
-  else if (cat1==decl) insertion=big_force;
-  else if (force_lines) insertion=force;
-  else insertion=break_space;
-  big_app1_insert(pp,insertion); reduce(pp,2,cat1,-1,76);
+  big_app1_insert(pp, (cat1==function || cat1==decl) ? big_force :
+     force_lines ? force : break_space); reduce(pp,2,cat1,-1,76);
 }
 
 @ @<Cases for |semi|@>=
