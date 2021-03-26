@@ -85,9 +85,9 @@ Please read the documentation for \.{common}, the set of routines common
 to \.{CTANGLE} and \.{CWEAVE}, before proceeding further.
 
 @c
-int main (@t\1\1@>
+int main (
 int ac, /* argument count */
-char **av@t\2\2@>) /* argument values */
+char **av) /* argument values */
 {
   argc=ac; argv=av;
   program=cweave;
@@ -354,11 +354,11 @@ text_ptr=max_text_ptr=tok_start+1;
 
 @ Here are the three procedures needed to complete |id_lookup|:
 @c
-boolean names_match(@t\1\1@>
+boolean names_match(
 name_pointer p, /* points to the proposed match */
 const char *first, /* position of first character of string */
 size_t l, /* length of identifier */
-eight_bits t@t\2\2@>) /* desired |ilk| */
+eight_bits t) /* desired |ilk| */
 {
   if (length(p)!=l) return false;
   if (p->ilk!=t && !(t==normal && abnormal(p))) return false;
@@ -1125,8 +1125,8 @@ static void outer_xref(void);
 
 @ @c
 static void
-C_xref(@t\1\1@> /* makes cross-references for \CEE/ identifiers */
-  eight_bits spec_ctrl@t\2\2@>)
+C_xref( /* makes cross-references for \CEE/ identifiers */
+  eight_bits spec_ctrl)
 {
   name_pointer p; /* a referenced name */
   while (next_control<format_code || next_control==spec_ctrl) {
@@ -1371,9 +1371,9 @@ static void finish_line(void);
 
 @ @c
 static void
-flush_buffer(@t\1\1@>
+flush_buffer(
 char *b, /* outputs from |out_buf+1| to |b|, where |b<=out_ptr| */
-boolean per_cent,boolean carryover@t\2\2@>)
+boolean per_cent,boolean carryover)
 {
   char *j; j=b; /* pointer into |out_buf| */
   if (! per_cent) /* remove trailing blanks */
@@ -1436,8 +1436,8 @@ static void break_out(void);
 
 @ @c
 static void
-out_str(@t\1\1@> /* output characters from |s| to end of string */
-const char*s@t\2\2@>)
+out_str( /* output characters from |s| to end of string */
+const char*s)
 {
   while (*s) out(*s++);
 }
@@ -1604,9 +1604,9 @@ one further token without overflow.
 @d app_tok(c) {if (tok_ptr+2>tok_mem_end) overflow("token"); *(tok_ptr++)=c;}
 
 @c
-static int copy_comment(@t\1\1@> /* copies \TeX\ code in comments */
+static int copy_comment( /* copies \TeX\ code in comments */
 boolean is_long_comment, /* is this a traditional \CEE/ comment? */
-int bal@t\2\2@>) /* brace balance */
+int bal) /* brace balance */
 {
   char c; /* current character being copied */
   while (true) {
@@ -1849,8 +1849,8 @@ static char cat_name[256][12];
 
 @c
 static void
-print_cat(@t\1\1@> /* symbolic printout of a category */
-eight_bits c@t\2\2@>)
+print_cat( /* symbolic printout of a category */
+eight_bits c)
 {
   fputs(cat_name[c],stdout);
 }
@@ -1882,7 +1882,9 @@ $10n$;
 
 \yskip\hang |indent| causes future lines to be indented one more em;
 
-\yskip\hang |outdent| causes future lines to be indented one less em.
+\yskip\hang |outdent| causes future lines to be indented one less em;
+
+\yskip\hang |dindent| causes future lines to be indented two more ems.
 
 \yskip\noindent All of these tokens are removed from the \TEX/ output that
 comes from \CEE/ text between \pb\ signs; |break_space| and |force| and
@@ -1895,6 +1897,10 @@ corresponding respectively to
 However, a sequence of consecutive `\.\ ', |break_space|,
 |force|, and/or |big_force| tokens is first replaced by a single token
 (the maximum of the given ones).
+
+A |dindent| token becomes \.{\\1\\1}. It is equivalent to a pair of |indent|
+tokens. However, if |dindent| immediately precedes |big_force|, the two tokens
+are swapped, so that the indentation happens after the line break.
 
 The token |math_rel| will be translated into
 \.{\\MRL\{}, and it will get a matching \.\} later.
@@ -1923,6 +1929,7 @@ reserved words, `\.{\\.\{}$\,\ldots\,$\.\}' surrounding strings,
 @d end_translation 0223 /* special sentinel token at end of list */
 @d inserted 0224 /* sentinel to mark translations of inserts */
 @d qualifier 0225 /* introduces an explicit namespace qualifier */
+@d dindent 0226 /* two more tabs (\.{\\1\\1}) */
 
 @ The raw input is converted into scraps according to the following table,
 which gives category codes followed by the translations.
@@ -2232,8 +2239,8 @@ translated without line-break controls.
 
 @c
 static void
-print_text(@t\1\1@> /* prints a token list for debugging; not used in |main| */
-text_pointer p@t\2\2@>)
+print_text( /* prints a token list for debugging; not used in |main| */
+text_pointer p)
 {
   token_pointer j; /* index into |tok_mem| */
   sixteen_bits r; /* remainder of token after the flag has been stripped off */
@@ -2264,6 +2271,7 @@ switch (r) {
   case cancel: printf("[cancel]"); break;
   case indent: printf("[indent]"); break;
   case outdent: printf("[outdent]"); break;
+  case dindent: printf("[dindent]"); break;
   case backup: printf("[backup]"); break;
   case opt: printf("[opt]"); break;
   case break_space: printf("[break]"); break;
@@ -2374,7 +2382,8 @@ static void
 big_app(
 token a)
 {
-        if (a==' ' || (a>=big_cancel && a<=big_force)) /* non-math token */ {
+        if (a==' ' || (a>=big_cancel && a<=big_force) || a==dindent)
+            /* non-math token */ {
                 if (cur_mathness==maybe_math) init_mathness=no_math;
                 else if (cur_mathness==yes_math) app_str("{}$");
                 cur_mathness=no_math;
@@ -2559,8 +2568,8 @@ the |for| loop below.
 
 @c
 static void
-make_reserved(@t\1\1@> /* make the first identifier in |p->trans| like |int| */
-scrap_pointer p@t\2\2@>)
+make_reserved( /* make the first identifier in |p->trans| like |int| */
+scrap_pointer p)
 {
   sixteen_bits tok_value; /* the name of this identifier, plus its flag */
   token_pointer tok_loc; /* pointer to |tok_value| */
@@ -2590,9 +2599,9 @@ it has been swallowed up by an |exp|.
 
 @c
 static void
-make_underlined(@t\1\1@>
+make_underlined(
 /* underline the entry for the first identifier in |p->trans| */
-scrap_pointer p@t\2\2@>)
+scrap_pointer p)
 {
   token_pointer tok_loc; /* where the first identifier appears */
   if ((tok_loc=find_first_ident(p->trans))<=operator_found)
@@ -2650,7 +2659,7 @@ to be performed, followed by |goto found|.
 
 @<Cases for |exp|@>=
 if (cat1==lbrace || cat1==int_like || cat1==decl) {
-  make_underlined(pp); big_app1(pp); big_app(indent); app(indent);
+  make_underlined(pp); big_app(dindent); big_app1(pp);
   reduce(pp,1,fn_decl,0,1);
 }
 else if (cat1==unop) squash(pp,2,exp,-2,2);
@@ -2766,7 +2775,7 @@ else if ((cat1==binop||cat1==colon) && cat2==exp && (cat3==comma ||
   squash(pp,3,decl_head,-1,36);
 else if (cat1==cast) squash(pp,2,decl_head,-1,37);
 else if (cat1==lbrace || cat1==int_like || cat1==decl) {
-  big_app1(pp); big_app(indent); app(indent); reduce(pp,1,fn_decl,0,38);
+  big_app(dindent); big_app1(pp); reduce(pp,1,fn_decl,0,38);
 }
 else if (cat1==semi) squash(pp,2,decl,-1,39);
 else if (cat1==attr) {
@@ -2930,7 +2939,7 @@ else if (cat1==exp) {
 
 @ @<Cases for |catch_like|@>=
 if (cat1==cast || cat1==exp) {
-  big_app2(pp); big_app(indent); big_app(indent); reduce(pp,2,fn_decl,0,73);
+  big_app1_insert(pp,dindent); reduce(pp,2,fn_decl,0,73);
 }
 
 @ @<Cases for |tag|@>=
@@ -3387,8 +3396,8 @@ is advanced.
 
 @c
 static void
-C_parse(@t\1\1@> /* creates scraps from \CEE/ tokens */
-  eight_bits spec_ctrl@t\2\2@>)
+C_parse( /* creates scraps from \CEE/ tokens */
+  eight_bits spec_ctrl)
 {
   int count; /* characters remaining before string break */
   while (next_control<format_code || next_control==spec_ctrl) {
@@ -3628,8 +3637,8 @@ static void outer_parse(void);
 
 @ @c
 static void
-app_cur_id(@t\1\1@>
-boolean scrapping@t\2\2@>) /* are we making this into a scrap? */
+app_cur_id(
+boolean scrapping) /* are we making this into a scrap? */
 {
   name_pointer p=id_lookup(id_first,id_loc,normal);
   if (p->ilk<=custom) { /* not a reserved word */
@@ -3795,8 +3804,8 @@ static void pop_level(void);
 
 @ @c
 static void
-push_level(@t\1\1@> /* suspends the current level */
-text_pointer p@t\2\2@>)
+push_level( /* suspends the current level */
+text_pointer p)
 {
   if (stack_ptr==stack_end) overflow("stack");
   if (stack_ptr>stack) { /* save current state */
@@ -3915,6 +3924,7 @@ make_output(void) /* outputs the equivalents of tokens */
   char *save_loc, *save_limit; /* |loc| and |limit| to be restored */
   name_pointer cur_section_name; /* name of section being output */
   boolean save_mode; /* value of |cur_mode| before a sequence of breaks */
+  boolean dindent_pending=false; /* should a |dindent| be output? */
   app(end_translation); /* append a sentinel */
   freeze_text; push_level(text_ptr-1);
   while (true) {
@@ -3937,6 +3947,11 @@ make_output(void) /* outputs the equivalents of tokens */
         }
         @<Output saved |indent| or |outdent| tokens@>@;
         goto reswitch;
+      case dindent: a=get_output();
+        if (a!=big_force) {
+          out_str("\\1\\1"); goto reswitch;
+        }
+        else dindent_pending=true; /* fall through */
       case indent: case outdent: case opt: case backup: case break_space:
       case force: case big_force: case preproc_line: @<Output a control,
         look ahead in case of line breaks, possibly |goto reswitch|@>@; break;
@@ -4014,7 +4029,10 @@ except at the very end of the translation. The very first line break
 is suppressed (i.e., a line break that follows `\.{\\Y\\B}').
 
 @<Look ahead for st...@>= {
-  b=a; save_mode=cur_mode; c=0;
+  b=a; save_mode=cur_mode;
+  if (dindent_pending) {
+    c=2; dindent_pending=false;
+  } else c=0;
   while (true) {
     a=get_output();
     if (a==inserted) continue;
@@ -4291,8 +4309,8 @@ takes place, so that the translation will normally end with \.{\\6} or
 
 @c
 static void
-finish_C(@t\1\1@> /* finishes a definition or a \CEE/ part */
-  boolean visible@t\2\2@>) /* |true| if we should produce \TeX\ output */
+finish_C( /* finishes a definition or a \CEE/ part */
+  boolean visible) /* |true| if we should produce \TeX\ output */
 {
   text_pointer p; /* translation of the scraps */
   if (visible) {
@@ -4470,8 +4488,8 @@ supply new definitions for the macros \.{\\A}, \.{\\As}, etc.
 
 @c
 static void
-footnote(@t\1\1@> /* outputs section cross-references */
-sixteen_bits flag@t\2\2@>)
+footnote( /* outputs section cross-references */
+sixteen_bits flag)
 {
   xref_pointer q; /* cross-reference pointer variable */
   if (cur_xref->num<=flag) return;
@@ -4712,8 +4730,8 @@ regarded as identical.
 
 @c
 static void
-unbucket(@t\1\1@> /* empties buckets having depth |d| */
-eight_bits d@t\2\2@>)
+unbucket( /* empties buckets having depth |d| */
+eight_bits d)
 {
   int c; /* index into |bucket|; cannot be a simple |char| because of sign
     comparison below */
@@ -4832,8 +4850,8 @@ prints them.
 
 @c
 static void
-section_print(@t\1\1@> /* print all section names in subtree |p| */
-name_pointer p@t\2\2@>)
+section_print( /* print all section names in subtree |p| */
+name_pointer p)
 {
   if (p) {
     section_print(p->llink); out_str("\\I");
