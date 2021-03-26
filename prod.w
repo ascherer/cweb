@@ -303,9 +303,9 @@ We use \\{in}, \\{out}, \\{back} and
   |enum class| \cr
 \+& |exp| |colcol| |int_like| & |int_like| & $\\{std}\DC\&{atomic}$ \cr
 \advance\midcol-60pt
-\+&\dagit |langle| |struct_like| \alt |exp| |int_like| |comma| &
+\+\dagit& |langle| |struct_like| \alt |exp| |int_like| |comma| &
   |langle| \hfill $LS$\alt $E^{**}$ $I^{**}$ $C$ & $\langle$\&{typename} $t,$\cr
-\+&\dagit |langle| |struct_like| \alt |exp| |int_like| |prerangle| &
+\+\dagit& |langle| |struct_like| \alt |exp| |int_like| |prerangle| &
   |cast| \hfill $LS$\alt $E^{**}$ $I^{**}$ $P$ &
   \hbox{$\langle$\&{typename} $t\rangle$} \hss \cr
 \advance\midcol60pt
