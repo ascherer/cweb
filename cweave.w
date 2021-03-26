@@ -404,12 +404,10 @@ id_lookup("alignof",NULL,sizeof_like);
 id_lookup("and",NULL,alfop);
 id_lookup("and_eq",NULL,alfop);
 id_lookup("asm",NULL,sizeof_like);
-id_lookup("_Atomic",NULL,raw_int);
 id_lookup("auto",NULL,int_like);
 id_lookup("bitand",NULL,alfop);
 id_lookup("bitor",NULL,alfop);
 id_lookup("bool",NULL,raw_int);
-id_lookup("_Bool",NULL,raw_int);
 id_lookup("break",NULL,case_like);
 id_lookup("case",NULL,case_like);
 id_lookup("catch",NULL,catch_like);
@@ -427,9 +425,6 @@ id_lookup("consteval",NULL,const_like);
 id_lookup("constexpr",NULL,const_like);
 id_lookup("constinit",NULL,const_like);
 id_lookup("const_cast",NULL,raw_int);
-id_lookup("consteval",NULL,const_like);
-id_lookup("constexpr",NULL,const_like);
-id_lookup("constinit",NULL,const_like);
 id_lookup("continue",NULL,case_like);
 id_lookup("co_await",NULL,case_like);
 id_lookup("co_return",NULL,case_like);
@@ -457,7 +452,6 @@ id_lookup("float",NULL,raw_int);
 id_lookup("for",NULL,for_like);
 id_lookup("fpos_t",NULL,raw_int);
 id_lookup("friend",NULL,int_like);
-id_lookup("_Generic",NULL,sizeof_like);
 id_lookup("goto",NULL,case_like);
 id_lookup("if",NULL,if_like);
 id_lookup("ifdef",NULL,if_like);
@@ -2018,12 +2012,10 @@ identifier&|exp|: \.{\\\\\{}identifier with underlines and
 \.{and}&|alfop|: \stars&yes\cr
 \.{and\_eq}&|alfop|: \stars&yes\cr
 \.{asm}&|sizeof_like|: \stars&maybe\cr
-\.{\_Atomic}&|raw_int|: \stars&maybe\cr
 \.{auto}&|int_like|: \stars&maybe\cr
 \.{bitand}&|alfop|: \stars&yes\cr
 \.{bitor}&|alfop|: \stars&yes\cr
 \.{bool}&|raw_int|: \stars&maybe\cr
-\.{\_Bool}&|raw_int|: \stars&maybe\cr
 \.{break}&|case_like|: \stars&maybe\cr
 \.{case}&|case_like|: \stars&maybe\cr
 \.{catch}&|catch_like|: \stars&maybe\cr
@@ -2042,9 +2034,6 @@ identifier&|exp|: \.{\\\\\{}identifier with underlines and
 \.{constexpr}&|const_like|: \stars&maybe\cr
 \.{constinit}&|const_like|: \stars&maybe\cr
 \.{const\_cast}&|raw_int|: \stars&maybe\cr
-\.{consteval}&|const_like|: \stars&maybe\cr
-\.{constexpr}&|const_like|: \stars&maybe\cr
-\.{constinit}&|const_like|: \stars&maybe\cr
 \.{continue}&|case_like|: \stars&maybe\cr
 \.{co\_await}&|case_like|: \stars&maybe\cr
 \.{co\_return}&|case_like|: \stars&maybe\cr
@@ -2072,7 +2061,6 @@ identifier&|exp|: \.{\\\\\{}identifier with underlines and
 \.{for}&|for_like|: \stars&maybe\cr
 \.{fpos\_t}&|raw_int|: \stars&maybe\cr
 \.{friend}&|int_like|: \stars&maybe\cr
-\.{\_Generic}&|sizeof_like|: \stars&maybe\cr
 \.{goto}&|case_like|: \stars&maybe\cr
 \.{if}&|if_like|: \stars&maybe\cr
 \.{ifdef}&|if_like|: \stars&maybe\cr
