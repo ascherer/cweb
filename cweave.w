@@ -2655,9 +2655,11 @@ with a particular type of scrap. Whenever a match is discovered,
 the |squash| or |reduce| macro will cause the appropriate action
 to be performed, followed by |goto found|.
 
+@d indent_parameters flags['i'] /* should parameter lists be indented? */
+
 @<Cases for |exp|@>=
 if (cat1==lbrace || cat1==int_like || cat1==decl) {
-  make_underlined(pp); big_app(dindent); big_app1(pp);
+  make_underlined(pp); if (indent_parameters) big_app(dindent); big_app1(pp);
   reduce(pp,1,fn_decl,0,1);
 }
 else if (cat1==unop) squash(pp,2,exp,-2,2);
@@ -2685,6 +2687,9 @@ else if (cat1==attr) {
   big_app1_insert(pp,' '); reduce(pp,2,exp,-2,142);
 }
 else if (cat1==colcol && cat2==int_like) squash(pp,3,int_like,-2,152);
+
+@ @<Set init...@>=
+indent_parameters=true;
 
 @ @<Cases for |lpar|@>=
 if ((cat1==exp||cat1==ubinop) && cat2==rpar) squash(pp,3,exp,-2,11);
@@ -2773,7 +2778,8 @@ else if ((cat1==binop||cat1==colon) && cat2==exp && (cat3==comma ||
   squash(pp,3,decl_head,-1,36);
 else if (cat1==cast) squash(pp,2,decl_head,-1,37);
 else if (cat1==lbrace || cat1==int_like || cat1==decl) {
-  big_app(dindent); big_app1(pp); reduce(pp,1,fn_decl,0,38);
+  if (indent_parameters) big_app(dindent); big_app1(pp);
+  reduce(pp,1,fn_decl,0,38);
 }
 else if (cat1==semi) squash(pp,2,decl,-1,39);
 else if (cat1==attr) {
@@ -2842,8 +2848,12 @@ if (cat1==decl) {
   big_app1_insert(pp,force); reduce(pp,2,fn_decl,0,51);
 }
 else if (cat1==stmt) {
-  big_app1(pp); app(outdent); app(outdent); big_app(force);
-  big_app1(pp+1); reduce(pp,2,function,-1,52);
+  big_app1(pp);
+  if (indent_parameters) {
+    app(outdent);
+    app(outdent);
+  }
+  big_app(force); big_app1(pp+1); reduce(pp,2,function,-1,52);
 }
 else if (cat1==attr) {
   big_app1_insert(pp,' '); reduce(pp,2,fn_decl,0,157);
@@ -2937,7 +2947,8 @@ else if (cat1==exp) {
 
 @ @<Cases for |catch_like|@>=
 if (cat1==cast || cat1==exp) {
-  big_app1(pp); big_app(dindent); big_app1(pp+1); reduce(pp,2,fn_decl,0,73);
+  big_app1(pp); if (indent_parameters) big_app(dindent); big_app1(pp+1);
+  reduce(pp,2,fn_decl,0,73);
 }
 
 @ @<Cases for |tag|@>=
