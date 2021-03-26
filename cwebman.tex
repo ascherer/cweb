@@ -394,9 +394,9 @@ program.  Therefore the \.{CWEB} language allows you to get the effect of
 \CEE/ editing within \TEX/ text, if you place `\.|' marks before and
 after the \CEE/ material. For example, suppose you want to say something
 like this:
-$$\hbox{ If \\{pa} is declared as `\&{int} ${}{*}\\{pa}$',
-the assignment $\\{pa}\K{\AND}\|a[\T{0}]$ makes \\{pa}
-point to the zeroth element of \|a.}$$
+$$\hbox{If \PB{\\{pa}} is declared as `\PB{\&{int} ${}{*}\\{pa}$}',
+the assignment \PB{$\\{pa}\K{\AND}\|a[\T{0}]$} makes \PB{\\{pa}}
+point to the zeroth element of \PB{\|a}.}$$
 The \TEX/ text would look like this in your \.{CWEB} file:
 $$\lpile{\.{If |pa| is declared as `|int *pa|', the assignment}\cr
 \.{|pa=\&a[0]| makes |pa| point to the zeroth element of |a|.}\cr}$$
@@ -481,9 +481,12 @@ the compiler's benefit) and which \.{CWEAVE} prints as $\T{\~40/}$.
 Similarly, \.{CWEAVE} prints the hexadecimal \CEE/ constant `\.{0x20}'
 as \T{\^20/}. The use of italic font for octal digits and typewriter font
 for hexadecimal digits makes the meaning of such constants clearer in
-a document. For consistency, then, you
-should type `\.{|040|}'  or `\.{|0x20|}'
-in the \TEX/ part of the section.
+a document. For consistency, then, you should type `\.{|040|}'  or
+`\.{|0x20|}' in the \TEX/ part of the section.
+
+And if you type a binary constant like `\.{0b00101010}', \.{CWEAVE} prints
+it as $\T{\\00101010/}$. In all numeric literals you may add \.' separators
+for improved readability.
 
 \section Control codes.
 A \.{CWEB} {\sl control code\/}
@@ -1042,7 +1045,7 @@ by default.)
 
 \option e Enclose \CEE/ material formatted by \.{CWEAVE} in
 brackets \.{\\PB\{...\}}, so that special hooks can be used.
-(On by default; has no effect on \.{CTANGLE}.)
+(On by default.) (Has no effect on \.{CTANGLE}.)
 
 \option f Force line breaks after each \CEE/ statement formatted
 by \.{CWEAVE}. (On by default; \.{-f} saves paper but looks less \CEE/-like
@@ -1051,13 +1054,18 @@ to some people.) (Has no effect on \.{CTANGLE}.)
 \option h Print a happy message at the conclusion of a successful
 run. (On by default.)
 
+\option k Keep single quotes (\.') in numeric literals in the
+\CEE//\CPLUSPLUS/ output. (Off by default.) (\.{CTANGLE} only.)
+
 \option p Give progress reports as the program runs. (On by default.)
 
 \option s Show statistics about memory usage after the program
 runs to completion. (Off by default.)
-If you
-have large \.{CWEB} files or sections, you may need to see
-how close you come to exceeding the capacity of \.{CTANGLE} and/or \.{CWEAVE}.
+If you have large \.{CWEB} files or sections, you may need to see how close
+you come to exceeding the capacity of \.{CTANGLE} and/or \.{CWEAVE}.
+
+\option t Treat \&{typename} in a template like \&{typedef}.
+(Off by default.) (Has no effect on \.{CTANGLE}.)
 
 \option x Include indexes and a table of contents in the \TEX/ file
 output by \.{CWEAVE}. (On by default.) (Has no effect on \.{CTANGLE}.)
@@ -1155,7 +1163,7 @@ for the macros that make this work.)
 Alternatively, thanks to H\`an Th\^e\kern-.3em\raise.3ex\hbox{\'{}} Th\`anh
 and Andreas Scherer, you can generate \.{cob.pdf} in one step by simply
 saying `\.{pdftex}~\.{cob}'.
-A third way to create PDF output from \.{CWEB} input is to say
+And a third way to create PDF output from \.{CWEB} input is to say
 `\.{xetex}~\.{cob}'.
 
 A more elaborate system called \.{CTWILL}, which extends the usual cross

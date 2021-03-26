@@ -50,7 +50,7 @@ typedef struct name_info {
   union {
     void huge* equiv_member;
     void huge* xref_member;
-  } ptr_union;  /* info corresponding to names */
+  } ptr_union; /* info corresponding to names */
 } name_info; /* contains information about an identifier or section name */
 typedef name_info *name_pointer; /* pointer into array of \&{name\_info}s */
 typedef name_pointer *hash_pointer;

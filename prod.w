@@ -307,16 +307,23 @@ We use \\{in}, \\{out}, \\{back} and
 \+& |struct_like| |struct_like| & |struct_like| \hfill $S\.\ S$ &
   |enum class| \cr
 \+& |exp| |colcol| |int_like| & |int_like| & $\\{std}\DC\&{atomic}$ \cr
-\specialline\dagit& |langle| |struct_like| \alt |exp| |int_like| |comma| &
+\advance\midcol-60pt
+\+&\dagit |langle| |struct_like| \alt |exp| |int_like| |comma| &
   |langle| \hfill $LS$\alt $E^{**}$ $I^{**}$ $C$ & $\langle$\&{typename} $t,$\cr
-\specialline\dagit& |langle| |struct_like| \alt |exp| |int_like| |prerangle| &
+\+&\dagit |langle| |struct_like| \alt |exp| |int_like| |prerangle| &
   |cast| \hfill $LS$\alt $E^{**}$ $I^{**}$ $P$ &
   \hbox{$\langle$\&{typename} $t\rangle$} \hss \cr
+\advance\midcol60pt
 \+& |template_like| |cast| |struct_like| & |struct_like| \hfill $T\.\ CS$ &
   |template<@t\dots@>> class| \cr
 \+& |tag| |rbrace| & |decl| |rbrace| & @q{@>|public: }| \cr
 \+& |fn_decl| |attr| & |fn_decl| \hfill $F\.\ A$ & |void f() noexcept| \cr
 \+& |alignas_like| |cast| & |attr| & |alignas(int)| \cr
+\yskip
+\yskip
+\yskip
+\yskip
+\yskip
 \yskip
 \yskip
 \yskip

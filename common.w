@@ -47,10 +47,6 @@ under the terms of a permission notice identical to this one.
 \pageno=\contentspagenumber \advance\pageno by 1
 \let\maybe=\iftrue
 
-@s boolean int
-@s uint8_t int
-@s uint16_t int
-
 @** Introduction.  This file contains code common
 to both \.{CTANGLE} and \.{CWEAVE}, which roughly concerns the following
 problems: character uniformity, input routines, error handling and
@@ -162,9 +158,9 @@ static boolean input_ln(@t\1\1@> /* copies a line into |buffer| or returns |fals
 FILE *fp@t\2\2@>) /* what file to read from */
 {
   register int c=EOF; /* character read; initialized so some compilers won't complain */
-  register char *k;  /* where next character goes */
-  if (feof(fp)) return false;  /* we have hit end-of-file */
-  limit = k = buffer;  /* beginning of buffer */
+  register char *k; /* where next character goes */
+  if (feof(fp)) return false; /* we have hit end-of-file */
+  limit = k = buffer; /* beginning of buffer */
   while (k<=buffer_end && (c=getc(fp)) != EOF && c!='\n')
     if ((*(k++) = c) != ' ') limit = k;
   if (k>buffer_end)
@@ -172,7 +168,7 @@ FILE *fp@t\2\2@>) /* what file to read from */
       ungetc(c,fp); loc=buffer; err_print("! Input line too long");
 @.Input line too long@>
     }
-  if (c==EOF && limit==buffer) return false;  /* there was nothing after
+  if (c==EOF && limit==buffer) return false; /* there was nothing after
     the last newline */
   return true;
 }

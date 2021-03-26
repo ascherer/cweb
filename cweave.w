@@ -389,18 +389,18 @@ name_pointer p)
 
 @ @<Predecl...@>=@+static void update_node(name_pointer p);
 
-@ We have to get \CEE/'s
+@ We have to get \CEE/'s and \CPLUSPLUS/'s
 reserved words into the hash table, and the simplest way to do this is
 to insert them every time \.{CWEAVE} is run.  Fortunately there are relatively
 few reserved words. (Some of these are not strictly ``reserved,'' but
-are defined in header files of the ISO Standard \CEE/ Library.)
+are defined in header files of the ISO Standard \CEE/ Library.
+An ever growing list of \CPLUSPLUS/ keywords can be found here:
+\.{https://en.cppreference.com/w/cpp/keyword}.)
 @^reserved words@>
 
 @<Store all the reserved words@>=
 id_lookup("alignas",NULL,alignas_like);
-id_lookup("_Alignas",NULL,alignas_like);
 id_lookup("alignof",NULL,sizeof_like);
-id_lookup("_Alignof",NULL,sizeof_like);
 id_lookup("and",NULL,alfop);
 id_lookup("and_eq",NULL,alfop);
 id_lookup("asm",NULL,sizeof_like);
@@ -421,18 +421,19 @@ id_lookup("class",NULL,struct_like);
 id_lookup("clock_t",NULL,raw_int);
 id_lookup("co_await",NULL,case_like);
 id_lookup("compl",NULL,alfop);
-id_lookup("_Complex",NULL,raw_int);
+id_lookup("concept",NULL,int_like);
 id_lookup("const",NULL,const_like);
+id_lookup("consteval",NULL,const_like);
+id_lookup("constexpr",NULL,const_like);
+id_lookup("constinit",NULL,const_like);
 id_lookup("const_cast",NULL,raw_int);
 id_lookup("consteval",NULL,const_like);
 id_lookup("constexpr",NULL,const_like);
 id_lookup("constinit",NULL,const_like);
 id_lookup("continue",NULL,case_like);
+id_lookup("co_await",NULL,case_like);
 id_lookup("co_return",NULL,case_like);
 id_lookup("co_yield",NULL,case_like);
-id_lookup("_Decimal128",NULL,raw_int);
-id_lookup("_Decimal32",NULL,raw_int);
-id_lookup("_Decimal64",NULL,raw_int);
 id_lookup("decltype",NULL,sizeof_like);
 id_lookup("default",NULL,default_like);
 id_lookup("define",NULL,define_like);
@@ -451,6 +452,7 @@ id_lookup("explicit",NULL,int_like);
 id_lookup("export",NULL,int_like);
 id_lookup("extern",NULL,int_like);
 id_lookup("FILE",NULL,raw_int);
+id_lookup("false",NULL,normal);
 id_lookup("float",NULL,raw_int);
 id_lookup("for",NULL,for_like);
 id_lookup("fpos_t",NULL,raw_int);
@@ -472,7 +474,6 @@ id_lookup("mutable",NULL,int_like);
 id_lookup("namespace",NULL,struct_like);
 id_lookup("new",NULL,new_like);
 id_lookup("noexcept",NULL,attr);
-id_lookup("_Noreturn",NULL,raw_int);
 id_lookup("not",NULL,alfop);
 id_lookup("not_eq",NULL,alfop);
 id_lookup("NULL",NULL,custom);
@@ -488,6 +489,7 @@ id_lookup("ptrdiff_t",NULL,raw_int);
 id_lookup("public",NULL,public_like);
 id_lookup("register",NULL,int_like);
 id_lookup("reinterpret_cast",NULL,raw_int);
+id_lookup("requires",NULL,int_like);
 id_lookup("restrict",NULL,int_like);
 id_lookup("return",NULL,case_like);
 id_lookup("short",NULL,raw_int);
@@ -497,16 +499,15 @@ id_lookup("size_t",NULL,raw_int);
 id_lookup("sizeof",NULL,sizeof_like);
 id_lookup("static",NULL,int_like);
 id_lookup("static_assert",NULL,sizeof_like);
-id_lookup("_Static_assert",NULL,sizeof_like);
 id_lookup("static_cast",NULL,raw_int);
 id_lookup("struct",NULL,struct_like);
 id_lookup("switch",NULL,for_like);
 id_lookup("template",NULL,template_like);
 id_lookup("this",NULL,custom);
 id_lookup("thread_local",NULL,raw_int);
-id_lookup("_Thread_local",NULL,raw_int);
 id_lookup("throw",NULL,case_like);
 id_lookup("time_t",NULL,raw_int);
+id_lookup("true",NULL,normal);
 id_lookup("try",NULL,else_like);
 id_lookup("typedef",NULL,typedef_like);
 id_lookup("typeid",NULL,sizeof_like);
@@ -525,6 +526,8 @@ id_lookup("while",NULL,for_like);
 id_lookup("xor",NULL,alfop);
 id_lookup("xor_eq",NULL,alfop);@+ res_wd_end=name_ptr;
 id_lookup("TeX",NULL,custom);
+id_lookup("complex",NULL,int_like);
+id_lookup("imaginary",NULL,int_like);
 id_lookup("make_pair",NULL,func_template);
 
 @* Lexical scanning.
@@ -787,22 +790,23 @@ treated as separate tokens.
 
 @<Compress tw...@>=
 switch(c) {
-  case '/': if (*loc=='*') {compress(begin_comment);}
+  case '/': if (*loc=='*') {@+compress(begin_comment);@+}
     else if (*loc=='/') compress(begin_short_comment); break;
   case '+': if (*loc=='+') compress(plus_plus); break;
-  case '-': if (*loc=='-') {compress(minus_minus);}
-    else { if (*loc=='>') { if (*(loc+1)=='*') {loc++; compress(minus_gt_ast);}
-                        else compress(minus_gt); } } break;
-  case '.': if (*loc=='*') {compress(period_ast);}
+  case '-': if (*loc=='-') {@+compress(minus_minus);@+}
+            else if (*loc=='>') {
+              if (*(loc+1)=='*') {loc++;@+compress(minus_gt_ast);}
+              else compress(minus_gt);
+            } break;
+  case '.': if (*loc=='*') {@+compress(period_ast);@+}
             else if (*loc=='.' && *(loc+1)=='.') {
-              loc++; compress(dot_dot_dot);
-            }
-            break;
+              loc++;@+compress(dot_dot_dot);
+            } break;
   case ':': if (*loc==':') compress(colon_colon); break;
   case '=': if (*loc=='=') compress(eq_eq); break;
-  case '>': if (*loc=='=') {compress(gt_eq);}
+  case '>': if (*loc=='=') {@+compress(gt_eq);@+}
     else if (*loc=='>') compress(gt_gt); break;
-  case '<': if (*loc=='=') {compress(lt_eq);}
+  case '<': if (*loc=='=') {@+compress(lt_eq);@+}
     else if (*loc=='<') compress(lt_lt); break;
   case '&': if (*loc=='&') compress(and_and); break;
   case '|': if (*loc=='|') compress(or_or); break;
@@ -811,7 +815,9 @@ switch(c) {
 
 @ @<Get an identifier@>= {
   id_first=--loc;
-  while (isalpha((eight_bits)*++loc) || isdigit((eight_bits)*loc) @|
+  do {
+    ++loc;
+  } while (isalpha((eight_bits)*loc) || isdigit((eight_bits)*loc) @|
       || isxalpha((eight_bits)*loc) || ishigh((eight_bits)*loc));
   id_loc=loc; return identifier;
 }
@@ -831,35 +837,17 @@ are pointers into the array |section_text|, not into |buffer|.
 
 @d gather_digits_while(t) while (t || *loc=='\'') {
   if (*loc=='\'') { /* \CPLUSPLUS/-style digit separator */
-    *id_loc++=' '; /* insert a little bit of space */
-    loc++;
-  } else
-    *id_loc++=*loc++;
+    *id_loc++=' '; loc++; /* insert a little bit of space */
+  }@+else *id_loc++=*loc++;
 }
 
 @<Get a constant@>= {
   id_first=id_loc=section_text+1;
   if (*(loc-1)=='.' && !xisdigit(*loc)) goto mistake; /* not a constant */
   if (*(loc-1)=='0') {
-    if (*loc=='x' || *loc=='X') { /* hexadecimal constant */
-      *id_loc++='^';
-      loc++;
-      gather_digits_while(xisxdigit(*loc) || *loc=='.');
-      *id_loc++='/';
-      goto get_exponent;
-    } else if (*loc=='b' || *loc=='B') { /* binary constant */
-      *id_loc++='\\';
-      loc++;
-      gather_digits_while(*loc=='0' || *loc=='1');
-      *id_loc++='/';
-      goto digit_suffix;
-    }
-    else if (xisdigit(*loc)) { /* octal constant */
-      *id_loc++='~';
-      gather_digits_while(xisdigit(*loc));
-      *id_loc++='/';
-      goto digit_suffix;
-    }
+    if (*loc=='x' || *loc=='X') @<Get a hexadecimal constant@>@;
+    else if (*loc=='b' || *loc=='B') @<Get a binary constant@>@;
+    else if (xisdigit(*loc)) @<Get an octal constant@>@;
   }
   *id_loc++=*(loc-1); /* decimal constant */
   gather_digits_while(xisdigit(*loc) || *loc=='.');
@@ -881,21 +869,36 @@ digit_suffix:
   return constant;
 }
 
+@ @<Get a hex...@>={
+  *id_loc++='^'; loc++;
+  gather_digits_while(xisxdigit(*loc) || *loc=='.');
+  *id_loc++='/'; goto get_exponent;
+}
+
+@ @<Get a bin...@>={
+  *id_loc++='\\'; loc++;
+  gather_digits_while(*loc=='0' || *loc=='1');
+  *id_loc++='/'; goto digit_suffix;
+}
+
+@ @<Get an oct...@>={
+  *id_loc++='~'; gather_digits_while(xisdigit(*loc));
+  *id_loc++='/'; goto digit_suffix;
+}
+
 @ \CEE/ strings and character constants, delimited by double and single
 quotes, respectively, can contain newlines or instances of their own
 delimiters if they are protected by a backslash.  We follow this
 convention, but do not allow the string to be longer than |longest_name|.
 
-@<Get a string@>= {
+@<Get a string@>= {@+
   char delim = c; /* what started the string */
   id_first = section_text+1;
   id_loc = section_text;
   if (delim=='\'' && *(loc-2)=='@@') {*++id_loc='@@'; *++id_loc='@@';}
   *++id_loc=delim;
-  if (delim=='L' || delim=='u' || delim=='U') { /* wide character constant */
-    if (delim=='u' && *loc=='8') { *++id_loc=*loc++; }
-    delim=*loc++; *++id_loc=delim;
-  }
+  if (delim=='L' || delim=='u' || delim=='U')
+    @<Get a wide character constant@>@;
   if (delim=='<') delim='>'; /* for file names in \#\&{include} lines */
   while (true) {
     if (loc>=limit) {
@@ -912,10 +915,14 @@ convention, but do not allow the string to be longer than |longest_name|.
       if (++id_loc<=section_text_end) *id_loc=c;
       break;
     }
-    if (c=='\\') { if (loc>=limit) continue;
-      else { if (++id_loc<=section_text_end) {
-        *id_loc = '\\'; c=*loc++;
-      } } }
+    if (c=='\\') {
+      if (loc>=limit) continue;
+      else {
+        if (++id_loc<=section_text_end) {
+          *id_loc = '\\'; c=*loc++;
+        }
+      }
+    }
     if (++id_loc<=section_text_end) *id_loc=c;
   }
   if (id_loc>=section_text_end) {
@@ -926,6 +933,11 @@ convention, but do not allow the string to be longer than |longest_name|.
   }
   id_loc++;
   return string;
+}
+
+@ @<Get a wide...@>={
+  if (delim=='u' && *loc=='8') { *++id_loc=*loc++; }
+  delim=*loc++; *++id_loc=delim;
 }
 
 @ After an \.{@@} sign has been scanned, the next character tells us
@@ -1024,8 +1036,7 @@ false_alarm:
   if (loc++>limit) {
     err_print("! Control text didn't end"); loc=limit;
 @.Control text didn't end@>
-  }
-  else {
+  } else {
     if (*loc=='@@'&&loc<=limit) {loc++; goto false_alarm;}
     if (*loc++!='>')
       err_print("! Control codes are forbidden in control text");
@@ -1614,8 +1625,7 @@ int bal@t\2\2@>) /* brace balance */
 @.Input ended in mid-comment@>
           loc=buffer+1; goto done;
         }
-      }
-      else {
+      } else {
         if (bal>1) err_print("! Missing } in comment");
 @.Missing \} in comment@>
         goto done;
@@ -1656,9 +1666,11 @@ if (c=='@@') {
 @.Illegal use of @@...@>
     loc-=2; if (phase==2) *(tok_ptr-1)=' '; goto done;
   }
+} else {
+  if (c=='\\' && *loc!='@@') {
+    if (phase==2) app_tok(*(loc++))@; else loc++;
+  }
 }
-else { if (c=='\\' && *loc!='@@') {
-  if (phase==2) app_tok(*(loc++))@; else loc++; } }
 
 @ We output
 enough right braces to keep \TEX/ happy.
@@ -1994,6 +2006,8 @@ with discretionary breaks in between.
 end of \.\# line&|rproc|:  |force|&no\cr
 identifier&|exp|: \.{\\\\\{}identifier with underlines and
              dollar signs quoted\.\}&maybe\cr
+\.{alignas}&|alignas_like|: \stars&maybe\cr
+\.{alignof}&|sizeof_like|: \stars&maybe\cr
 \.{and}&|alfop|: \stars&yes\cr
 \.{alignas}&|alignas_like|: \stars&maybe\cr
 \.{\_Alignas}&|alignas_like|: \stars&maybe\cr
@@ -2016,17 +2030,22 @@ identifier&|exp|: \.{\\\\\{}identifier with underlines and
 \.{char32\_t}&|raw_int|: \stars&maybe\cr
 \.{class}&|struct_like|: \stars&maybe\cr
 \.{clock\_t}&|raw_int|: \stars&maybe\cr
+\.{co\_await}&|case_like|: \stars&maybe\cr
 \.{compl}&|alfop|: \stars&yes\cr
-\.{\_Complex}&|raw_int|: \stars&maybe\cr
+\.{complex}&|int_like|: \stars&yes\cr
+\.{concept}&|int_like|: \stars&maybe\cr
 \.{const}&|const_like|: \stars&maybe\cr
+\.{consteval}&|const_like|: \stars&maybe\cr
+\.{constexpr}&|const_like|: \stars&maybe\cr
+\.{constinit}&|const_like|: \stars&maybe\cr
 \.{const\_cast}&|raw_int|: \stars&maybe\cr
 \.{consteval}&|const_like|: \stars&maybe\cr
 \.{constexpr}&|const_like|: \stars&maybe\cr
 \.{constinit}&|const_like|: \stars&maybe\cr
 \.{continue}&|case_like|: \stars&maybe\cr
-\.{\_Decimal128}&|raw_int|: \stars&maybe\cr
-\.{\_Decimal32}&|raw_int|: \stars&maybe\cr
-\.{\_Decimal64}&|raw_int|: \stars&maybe\cr
+\.{co\_await}&|case_like|: \stars&maybe\cr
+\.{co\_return}&|case_like|: \stars&maybe\cr
+\.{co\_yield}&|case_like|: \stars&maybe\cr
 \.{decltype}&|sizeof_like|: \stars&maybe\cr
 \.{default}&|default_like|: \stars&maybe\cr
 \.{define}&|define_like|: \stars&maybe\cr
@@ -2045,6 +2064,7 @@ identifier&|exp|: \.{\\\\\{}identifier with underlines and
 \.{export}&|int_like|: \stars&maybe\cr
 \.{extern}&|int_like|: \stars&maybe\cr
 \.{FILE}&|raw_int|: \stars&maybe\cr
+\.{false}&|normal|: \stars&maybe\cr
 \.{float}&|raw_int|: \stars&maybe\cr
 \.{for}&|for_like|: \stars&maybe\cr
 \.{fpos\_t}&|raw_int|: \stars&maybe\cr
@@ -2054,7 +2074,7 @@ identifier&|exp|: \.{\\\\\{}identifier with underlines and
 \.{if}&|if_like|: \stars&maybe\cr
 \.{ifdef}&|if_like|: \stars&maybe\cr
 \.{ifndef}&|if_like|: \stars&maybe\cr
-\.{\_Imaginary}&|raw_int|: \stars&maybe\cr
+\.{imaginary}&|int_like|: \stars&maybe\cr
 \.{include}&|if_like|: \stars&maybe\cr
 \.{inline}&|int_like|: \stars&maybe\cr
 \.{int}&|raw_int|: \stars&maybe\cr
@@ -2067,7 +2087,6 @@ identifier&|exp|: \.{\\\\\{}identifier with underlines and
 \.{namespace}&|struct_like|: \stars&maybe\cr
 \.{new}&|new_like|: \stars&maybe\cr
 \.{noexcept}&|attr|: \stars&maybe\cr
-\.{\_Noreturn}&|raw_int|: \stars&maybe\cr
 \.{not}&|alfop|: \stars&yes\cr
 \.{not\_eq}&|alfop|: \stars&yes\cr
 \.{NULL}&|exp|: \.{\\NULL}&yes\cr
@@ -2083,7 +2102,8 @@ identifier&|exp|: \.{\\\\\{}identifier with underlines and
 \.{public}&|public_like|: \stars&maybe\cr
 \.{register}&|int_like|: \stars&maybe\cr
 \.{reinterpret\_cast}&|raw_int|: \stars&maybe\cr
-\.{restrict}&|int_link|: \stars&maybe\cr
+\.{requires}&|int_like|: \stars&maybe\cr
+\.{restrict}&|int_like|: \stars&maybe\cr
 \.{return}&|case_like|: \stars&maybe\cr
 \.{short}&|raw_int|: \stars&maybe\cr
 \.{sig\_atomic\_t}&|raw_int|: \stars&maybe\cr
@@ -2092,14 +2112,12 @@ identifier&|exp|: \.{\\\\\{}identifier with underlines and
 \.{sizeof}&|sizeof_like|: \stars&maybe\cr
 \.{static}&|int_like|: \stars&maybe\cr
 \.{static\_assert}&|sizeof_like|: \stars&maybe\cr
-\.{\_Static\_assert}&|sizeof_like|: \stars&maybe\cr
 \.{static\_cast}&|raw_int|: \stars&maybe\cr
 \.{struct}&|struct_like|: \stars&maybe\cr
 \.{switch}&|for_like|: \stars&maybe\cr
 \.{template}&|template_like|: \stars&maybe\cr
 \.{TeX}&|exp|: \.{\\TeX}&yes\cr
 \.{this}&|exp|: \.{\\this}&yes\cr
-\.{\_Thread\_local}&|raw_int|: \stars&maybe\cr
 \.{thread\_local}&|raw_int|: \stars&maybe\cr
 \.{throw}&|case_like|: \stars&maybe\cr
 \.{time\_t}&|raw_int|: \stars&maybe\cr
@@ -2378,8 +2396,7 @@ token a)
                 if (cur_mathness==maybe_math) init_mathness=no_math;
                 else if (cur_mathness==yes_math) app_str("{}$");
                 cur_mathness=no_math;
-        }
-        else {
+        } else {
                 if (cur_mathness==maybe_math) init_mathness=yes_math;
                 else if (cur_mathness==no_math) app_str("${}");
                 cur_mathness=yes_math;
@@ -2665,7 +2682,7 @@ else if (cat1==lpar && cat2==rpar && cat3==colon) squash(pp+3,1,base,0,5);
 else if (cat1==cast && cat2==colon) squash(pp+2,1,base,0,5);
 else if (cat1==semi) squash(pp,2,stmt,-1,6);
 else if (cat1==colon) {
-  make_underlined (pp);  squash(pp,2,tag,-1,7);
+  make_underlined (pp); squash(pp,2,tag,-1,7);
 }
 else if (cat1==rbrace) squash(pp,1,stmt,-1,8);
 else if (cat1==lpar && cat2==rpar && (cat3==const_like || cat3==case_like)) {
@@ -2676,8 +2693,7 @@ else if (cat1==cast && (cat2==const_like || cat2==case_like)) {
 }
 else if (cat1==exp || cat1==cast) squash(pp,2,exp,-2,10);
 else if (cat1==attr) {
-  big_app1_insert(pp,' ');
-  reduce(pp,2,exp,-2,142);
+  big_app1_insert(pp,' '); reduce(pp,2,exp,-2,142);
 }
 else if (cat1==colcol && cat2==int_like) squash(pp,3,int_like,-2,152);
 
@@ -2750,15 +2766,15 @@ else squash(pp,1,int_like,-2,30);
 @ @<Cases for |colcol|@>=
 if (cat1==exp||cat1==int_like) {
   app(qualifier); squash(pp,2,cat1,-2,31);
-}@+else if (cat1==colcol) squash(pp,2,colcol,-1,32);
+}
+else if (cat1==colcol) squash(pp,2,colcol,-1,32);
 
 @ @<Cases for |decl_head|@>=
 if (cat1==comma) {
   big_app2(pp); big_app(' '); reduce(pp,2,decl_head,-1,33);
 }
 else if (cat1==ubinop) {
-  big_app1_insert(pp,'{'); big_app('}');
-  reduce(pp,2,decl_head,-1,34);
+  big_app1_insert(pp,'{'); big_app('}'); reduce(pp,2,decl_head,-1,34);
 }
 else if (cat1==exp && cat2!=lpar && cat2!=exp && cat2!=cast) {
   make_underlined(pp+1); squash(pp,2,decl_head,-1,35);
@@ -2772,8 +2788,7 @@ else if (cat1==lbrace || cat1==int_like || cat1==decl) {
 }
 else if (cat1==semi) squash(pp,2,decl,-1,39);
 else if (cat1==attr) {
-  big_app1_insert(pp,' ');
-  reduce(pp,2,decl_head,-1,139);
+  big_app1_insert(pp,' '); reduce(pp,2,decl_head,-1,139);
 }
 
 @ @<Cases for |decl|@>=
@@ -2815,18 +2830,16 @@ else if (cat1==exp||cat1==int_like) {
   }
 }
 else if (cat1==attr) {
-  big_app1_insert(pp,' ');
-  reduce(pp,2,struct_like,-3,141);
+  big_app1_insert(pp,' '); reduce(pp,2,struct_like,-3,141);
 }
 else if (cat1==struct_like) {
-  big_app1_insert(pp,' ');
-  reduce(pp,2,struct_like,-3,151);
+  big_app1_insert(pp,' '); reduce(pp,2,struct_like,-3,151);
 }
 
 @ @<Cases for |struct_head|@>=
 if ((cat1==decl || cat1==stmt || cat1==function) && cat2==rbrace) {
   big_app1(pp); big_app(indent); big_app(force); big_app1(pp+1);
-  big_app(outdent); big_app(force);  big_app1(pp+2);
+  big_app(outdent); big_app(force); big_app1(pp+2);
   reduce(pp,3,int_like,-2,49);
 }
 else if (cat1==rbrace) {
@@ -2844,8 +2857,7 @@ else if (cat1==stmt) {
   big_app1(pp+1); reduce(pp,2,function,-1,52);
 }
 else if (cat1==attr) {
-  big_app1_insert(pp,' ');
-  reduce(pp,2,fn_decl,0,157);
+  big_app1_insert(pp,' '); reduce(pp,2,fn_decl,0,157);
 }
 
 @ @<Cases for |function|@>=
@@ -2860,8 +2872,8 @@ if (cat1==rbrace) {
   reduce(pp,2,stmt,-1,54);
 }
 else if ((cat1==stmt||cat1==decl||cat1==function) && cat2==rbrace) {
-  big_app(force); big_app1(pp);  big_app(indent); big_app(force);
-  big_app1(pp+1); big_app(force); big_app(backup);  big_app1(pp+2);
+  big_app(force); big_app1(pp); big_app(indent); big_app(force);
+  big_app1(pp+1); big_app(force); big_app(backup); big_app1(pp+2);
   big_app(outdent); big_app(force); reduce(pp,3,stmt,-1,55);
 }
 else if (cat1==exp) {
@@ -2898,13 +2910,13 @@ else if (cat1==stmt) {
     big_app1(pp+1); big_app(outdent); big_app(force); big_app1(pp+2);
     if (cat3==if_like) {
       big_app(' '); big_app1(pp+3); reduce(pp,4,if_like,0,63);
-    }@+else reduce(pp,3,else_like,0,64);
+    }
+    else reduce(pp,3,else_like,0,64);
   }
   else squash(pp,1,else_like,0,65);
 }
 else if (cat1==attr) {
-  big_app1_insert(pp,' ');
-  reduce(pp,2,if_head,0,146);
+  big_app1_insert(pp,' '); reduce(pp,2,if_head,0,146);
 }
 
 @ @<Cases for |if_head|@>=
@@ -2914,7 +2926,8 @@ if (cat1==stmt || cat1==exp) {
     big_app(cancel); big_app1_insert(pp+1,force);
     if (cat3==if_like) {
       big_app(' '); big_app1(pp+3); reduce(pp,4,if_like,0,66);
-    }@+else reduce(pp,3,else_like,0,67);
+    }
+    else reduce(pp,3,else_like,0,67);
   }
   else squash(pp,1,else_head,0,68);
 }
@@ -2930,7 +2943,7 @@ if (cat1==stmt && cat2==else_like && cat3==semi) {
 if (cat1==semi) squash(pp,2,stmt,-1,70);
 else if (cat1==colon) squash(pp,2,tag,-1,71);
 else if (cat1==exp) {
-  big_app1_insert(pp,' ');  reduce(pp,2,exp,-2,72);
+  big_app1_insert(pp,' '); reduce(pp,2,exp,-2,72);
 }
 
 @ @<Cases for |catch_like|@>=
@@ -2943,8 +2956,7 @@ if (cat1==tag) {
   big_app1_insert(pp,break_space); reduce(pp,2,tag,-1,74);
 }
 else if (cat1==stmt||cat1==decl||cat1==function) {
-  big_app(force); big_app(backup);
-  big_app1_insert(pp,break_space);
+  big_app(force); big_app(backup); big_app1_insert(pp,break_space);
   reduce(pp,2,cat1,-1,75);
 }
 else if (cat1==rbrace) squash(pp,1,decl,-1,156);
@@ -3023,10 +3035,7 @@ else if (cat1==decl_head || cat1==int_like || cat1==exp) {
 }
 else if (cat1==struct_like) {
   if ((cat2==exp || cat2==int_like) && (cat3==comma || cat3==prerangle)) {
-    make_underlined(pp+2);
-    if (reserve_typenames) {
-      make_reserved(pp+2);
-    }
+    make_underlined(pp+2); if (reserve_typenames) make_reserved(pp+2);
     big_app2(pp); big_app(' '); big_app2(pp+2);
     if (cat3==comma) reduce(pp,4,langle,0,153);
     else reduce(pp,4,cast,-1,154);
@@ -3040,7 +3049,8 @@ else if (cat1==exp || cat1==raw_int) {
 }
 else if (cat1==cast && cat2==struct_like) {
   big_app1_insert(pp,' '); reduce(pp,2,struct_like,0,155);
-}@+ else squash(pp,1,raw_int,0,91);
+}
+else squash(pp,1,raw_int,0,91);
 
 @ @<Cases for |new_like|@>=
 if (cat1==lpar && cat2==exp && cat3==rpar) squash(pp,4,new_like,0,92);
@@ -3080,7 +3090,8 @@ if (cat1==exp) {
 if (cat1==const_like) {
   big_app2(pp); app_str("\\ "); reduce(pp,2,raw_ubin,0,103);
 @.\\\ @>
-} else squash(pp,1,ubinop,-2,104);
+}
+else squash(pp,1,ubinop,-2,104);
 
 @ @<Cases for |const_like|@>=
 squash(pp,1,int_like,-2,105);
@@ -3139,58 +3150,44 @@ if (cat1==exp && (cat2==colon || cat2==base)) {
 }
 
 @ @<Cases for |alignas_like|@>=
-if (cat1==decl_head)
-  squash(pp,2,attr,-1,126);
-else if (cat1==exp)
-  squash(pp,2,attr,-1,127);
-else if (cat1==cast)
-  squash(pp,2,attr,-1,158);
+if (cat1==decl_head) squash(pp,2,attr,-1,126);
+else if (cat1==exp) squash(pp,2,attr,-1,127);
+else if (cat1==cast) squash(pp,2,attr,-1,158);
 
 @ @<Cases for |lbrack|@>=
 if (cat1==lbrack)
-  if (cat2==rbrack && cat3==rbrack)
-    squash(pp,4,exp,-2,147);
+  if (cat2==rbrack && cat3==rbrack) squash(pp,4,exp,-2,147);
   else squash(pp,2,attr_head,-1,128);
 else squash(pp,1,lpar,-1,129);
 
 @ @<Cases for |attr_head|@>=
-if (cat1==rbrack && cat2==rbrack)
-  squash(pp,3,attr,-1,131);
-else if (cat1==exp)
-  squash(pp,2,attr_head,0,132);
+if (cat1==rbrack && cat2==rbrack) squash(pp,3,attr,-1,131);
+else if (cat1==exp) squash(pp,2,attr_head,0,132);
 else if (cat1==using_like && cat2==exp && cat3==colon) {
   big_app2(pp); big_app(' '); big_app2(pp+2); big_app(' ');
   reduce(pp,4,attr_head,0,133);
 }
-else if (cat1==comma)
-  squash(pp,2,attr_head,0,145);
+else if (cat1==comma) squash(pp,2,attr_head,0,145);
 
 @ @<Cases for |attr|@>=
 if (cat1==lbrace || cat1==stmt) {
-  big_app1_insert(pp,' ');
-  reduce(pp,2,cat1,-2,134);
+  big_app1_insert(pp,' '); reduce(pp,2,cat1,-2,134);
 }
 else if (cat1==tag) {
-  big_app1_insert(pp,' ');
-  reduce(pp,2,tag,-1,135);
+  big_app1_insert(pp,' '); reduce(pp,2,tag,-1,135);
 }
-else if (cat1==semi)
-  squash(pp,2,stmt,-2,136);
+else if (cat1==semi) squash(pp,2,stmt,-2,136);
 else if (cat1==attr) {
-  big_app1_insert(pp,' ');
-  reduce(pp,2,attr,-1,137);
+  big_app1_insert(pp,' '); reduce(pp,2,attr,-1,137);
 }
 else if (cat1==decl_head) {
-  big_app1_insert(pp,' ');
-  reduce(pp,2,decl_head,-1,138);
+  big_app1_insert(pp,' '); reduce(pp,2,decl_head,-1,138);
 }
 else if (cat1==typedef_like) {
-  big_app1_insert(pp,' ');
-  reduce(pp,2,typedef_like,0,143);
+  big_app1_insert(pp,' '); reduce(pp,2,typedef_like,0,143);
 }
 else if (cat1==function) {
-  big_app1_insert(pp,' ');
-  reduce(pp,2,function,-1,148);
+  big_app1_insert(pp,' '); reduce(pp,2,function,-1,148);
 }
 
 @ @<Cases for |default_like|@>=
@@ -3436,7 +3433,7 @@ been appended:
 switch (next_control) {
   case section_name:
     app(section_flag+(int)(cur_section-name_dir));
-    app_scrap(section_scrap,maybe_math);
+    app_scrap(section_scrap,maybe_math);@+
     app_scrap(exp,yes_math);@+break;
   case string: case constant: case verbatim:
     @<Append a string or constant@>@;@+break;
@@ -3522,7 +3519,7 @@ if (scrap_ptr+safe_scrap_incr>scrap_info_end ||
 standard ones. They are converted to \TEX/ control sequences so that it is
 possible to keep \.{CWEAVE} from outputting unusual |char| codes.
 
-@<Cases involving nonstandard...@>=
+@<Cases involving nonstandard...@>=@t\1\5\5@>
 case non_eq: app_str("\\I");@+app_scrap(binop,yes_math);@+break;
 @.\\I@>
 case lt_eq: app_str("\\Z");@+app_scrap(binop,yes_math);@+break;
@@ -3952,8 +3949,9 @@ make_output(void) /* outputs the equivalents of tokens */
           a=get_output();
           if (a==inserted) continue;
           if ((a<indent && !(b==big_cancel&&a==' ')) || a>big_force) break;
-          if (a==indent) c++; else if (a==outdent) c--;
-          else if (a==opt) a=get_output();
+          if (a==indent) c++;
+          else if (a==outdent) c--;
+            else if (a==opt) a=get_output();
         }
         @<Output saved |indent| or |outdent| tokens@>@;
         goto reswitch;
@@ -3980,7 +3978,8 @@ if (a==identifier) {
     for (p=cur_name->byte_start;p<(cur_name+1)->byte_start;p++)
       out(*p=='_'? 'x': *p=='$'? 'X': *p);
     break;
-  } else if (is_tiny(cur_name)) out('|')@;
+  }
+  else if (is_tiny(cur_name)) out('|')@;
 @.\\|@>
   else { delim='.';
     for (p=cur_name->byte_start;p<(cur_name+1)->byte_start;p++)
@@ -3991,10 +3990,12 @@ if (a==identifier) {
   }
 @.\\\\@>
 @.\\.@>
-}@+else if (cur_name->ilk==alfop) {
+}
+else if (cur_name->ilk==alfop) {
   out('X');
   goto custom_out;
-}@+else out('&'); /* |a==res_word| */
+}
+else out('&'); /* |a==res_word| */
 @.\\\&@>
 if (is_tiny(cur_name)) {
   if (isxalpha((cur_name->byte_start)[0]))
@@ -4021,7 +4022,7 @@ if (a<break_space || a==preproc_line) {
       else out_str("{-1}"); /* |force_lines| encourages more \.{@@\v} breaks */
     }
   } else if (a==opt) b=get_output(); /* ignore digit following |opt| */
-  }
+}
 else @<Look ahead for strongest line break, |goto reswitch|@>
 
 @ If several of the tokens |break_space|, |force|, |big_force| occur in a
@@ -4109,9 +4110,9 @@ while (k<k_limit) {
   if (b=='@@') @<Skip next character, give error if not `\.{@@}'@>@;
   if (an_output)
     switch (b) {
- case  ' ':case '\\':case '#':case '%':case '$':case '^':
- case '{': case '}': case '~': case '&': case '_':
-    out('\\'); /* falls through */
+    case ' ': case '\\': case '#': case '%': case '$': case '^':
+    case '{': case '}': case '~': case '&': case '_':
+      out('\\'); /* falls through */
 @.\\\ @>
 @.\\\\@>
 @.\\\#@>
@@ -4123,15 +4124,17 @@ while (k<k_limit) {
 @.\\\~@>
 @.\\\&@>
 @.\\\_@>
- default: out(b);
+    default: out(b);
     }
-  else { if (b!='|') out(b)@;
   else {
-    @<Copy the \CEE/ text into the |buffer| array@>@;
-    save_loc=loc; save_limit=limit; loc=limit+2; limit=j+1;
-    *limit='|'; output_C();
-    loc=save_loc; limit=save_limit;
-  } }
+    if (b!='|') out(b)@;
+    else {
+      @<Copy the \CEE/ text into the |buffer| array@>@;
+      save_loc=loc; save_limit=limit; loc=limit+2; limit=j+1;
+      *limit='|'; output_C();
+      loc=save_loc; limit=save_limit;
+    }
+  }
 }
 
 @ @<Skip next char...@>=
@@ -4428,7 +4431,7 @@ do next_control=get_next();
 if (next_control!='=' && next_control!=eq_eq)
   err_print("! You need an = sign after the section name");
 @.You need an = sign...@>
-  else next_control=get_next();
+else next_control=get_next();
 if (out_ptr>out_buf+1 && *out_ptr=='Y' && *(out_ptr-1)=='\\') app(backup);
     /* the section name will be flush left */
 @.\\Y@>
@@ -4784,14 +4787,15 @@ while (sort_ptr>scrap_info) {
 
 @ @<Output the name...@>=
 switch (cur_name->ilk) {
-  case normal: case func_template: if (is_tiny(cur_name)) out_str("\\|");
-    else {char *j;
+  case normal: case func_template:
+    if (is_tiny(cur_name)) out_str("\\|");
+    else {@+char *j;
       for (j=cur_name->byte_start;j<(cur_name+1)->byte_start;j++)
         if (xislower(*j)) goto lowcase;
       out_str("\\."); break;
 lowcase: out_str("\\\\");
     }
-  break;
+    break;
 @.\\|@>
 @.\\.@>
 @.\\\\@>

@@ -506,9 +506,7 @@ complain we're out of room@>=
   if (an_output_file==end_output_files) {
     if (cur_out_file>output_files)
         *--cur_out_file=cur_section_name;
-    else {
-      overflow("output files");
-    }
+    else overflow("output files");
   }
 }
 
@@ -933,19 +931,20 @@ treated as separate tokens.
 @<Compress tw...@>=
 switch(c) {
   case '+': if (*loc=='+') compress(plus_plus); break;
-  case '-': if (*loc=='-') {compress(minus_minus);}
-    else { if (*loc=='>') { if (*(loc+1)=='*') {loc++; compress(minus_gt_ast);}
-                        else compress(minus_gt); } } break;
-  case '.': if (*loc=='*') {compress(period_ast);}
+  case '-': if (*loc=='-') {@+compress(minus_minus);@+}
+            else if (*loc=='>') {
+              if (*(loc+1)=='*') {loc++;@+compress(minus_gt_ast);}
+              else compress(minus_gt);
+            } break;
+  case '.': if (*loc=='*') {@+compress(period_ast);@+}
             else if (*loc=='.' && *(loc+1)=='.') {
-              loc++; compress(dot_dot_dot);
-            }
-            break;
+              loc++;@+compress(dot_dot_dot);
+            } break;
   case ':': if (*loc==':') compress(colon_colon); break;
   case '=': if (*loc=='=') compress(eq_eq); break;
-  case '>': if (*loc=='=') {compress(gt_eq);}
+  case '>': if (*loc=='=') {@+compress(gt_eq);@+}
     else if (*loc=='>') compress(gt_gt); break;
-  case '<': if (*loc=='=') {compress(lt_eq);}
+  case '<': if (*loc=='=') {@+compress(lt_eq);@+}
     else if (*loc=='<') compress(lt_lt); break;
   case '&': if (*loc=='&') compress(and_and); break;
   case '|': if (*loc=='|') compress(or_or); break;
@@ -954,7 +953,9 @@ switch(c) {
 
 @ @<Get an identifier@>= {
   id_first=--loc;
-  while (isalpha((eight_bits)*++loc) || isdigit((eight_bits)*loc) @|
+  do {
+    ++loc;
+  } while (isalpha((eight_bits)*loc) || isdigit((eight_bits)*loc) @|
       || isxalpha((eight_bits)*loc) || ishigh((eight_bits)*loc));
   id_loc=loc; return identifier;
 }
@@ -974,8 +975,8 @@ switch(c) {
   }
   while (xisdigit(*loc) || *loc=='\'') loc++;
   if (*loc=='.') {
-  loc++;
-  while ((hex_flag && xisxdigit(*loc)) || xisdigit(*loc) || *loc=='\'') loc++;
+    loc++;
+    while ((hex_flag && xisxdigit(*loc)) || xisdigit(*loc) || *loc=='\'') loc++;
   }
   if (*loc=='e' || *loc=='E') { /* float constant */
     if (*++loc=='+' || *loc=='-') loc++;
@@ -1276,12 +1277,11 @@ case new_section: goto done;
      as explained in the manual */
 }
 
-@ By default, \.{CTANGLE} copies \CPLUSPLUS/-style literals (e.g., |1'000'000|)
-verbatim. The \.{+k} switch will cause the single quotes to be skipped---for
-\CPLUSPLUS/ this has no effect, but it allows the use of such literals in \CEE/
-code.
+@ By default, \.{CTANGLE} purges single-quote characters from \CPLUSPLUS/-style
+literals, e.g., |1'000'000|, so that you can use this notation also in \CEE/
+code. The \.{+k} switch will `keep' the single quotes in the output.
 
-@d skip_digit_separators flags['k']
+@d keep_digit_separators flags['k']
 
 @<Copy a string...@>=
   app_repl(a); /* |string| or |constant| */
@@ -1291,7 +1291,7 @@ code.
       else err_print("! Double @@ should be used in string");
 @.Double @@ should be used...@>
     }
-    else if (a==constant && *id_first=='\'' && skip_digit_separators)
+    else if (a==constant && *id_first=='\'' && !keep_digit_separators)
       id_first++;
     app_repl(*id_first++);
   }

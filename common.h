@@ -27,9 +27,7 @@
 
 First comes general stuff:
 
-@s boolean int
-@s uint8_t int
-@s uint16_t int
+@i iso_types.w
 
 @d ctangle false
 @d cweave true
@@ -56,20 +54,20 @@ extern int phase; /* which phase are we in? */
 @^ASCII code dependencies@>
 
 @d and_and 04 /* `\.{\&\&}'\,; corresponds to MIT's {\tentex\char'4} */
-@d lt_lt 020 /* `\.{<<}'\,;  corresponds to MIT's {\tentex\char'20} */
-@d gt_gt 021 /* `\.{>>}'\,;  corresponds to MIT's {\tentex\char'21} */
-@d plus_plus 013 /* `\.{++}'\,;  corresponds to MIT's {\tentex\char'13} */
-@d minus_minus 01 /* `\.{--}'\,;  corresponds to MIT's {\tentex\char'1} */
-@d minus_gt 031 /* `\.{->}'\,;  corresponds to MIT's {\tentex\char'31} */
-@d non_eq 032 /* `\.{!=}'\,;  corresponds to MIT's {\tentex\char'32} */
-@d lt_eq 034 /* `\.{<=}'\,;  corresponds to MIT's {\tentex\char'34} */
-@d gt_eq 035 /* `\.{>=}'\,;  corresponds to MIT's {\tentex\char'35} */
-@d eq_eq 036 /* `\.{==}'\,;  corresponds to MIT's {\tentex\char'36} */
-@d or_or 037 /* `\.{\v\v}'\,;  corresponds to MIT's {\tentex\char'37} */
-@d dot_dot_dot 016 /* `\.{...}'\,;  corresponds to MIT's {\tentex\char'16} */
-@d colon_colon 06 /* `\.{::}'\,;  corresponds to MIT's {\tentex\char'6} */
-@d period_ast 026 /* `\.{.*}'\,;  corresponds to MIT's {\tentex\char'26} */
-@d minus_gt_ast 027 /* `\.{->*}'\,;  corresponds to MIT's {\tentex\char'27} */
+@d lt_lt 020 /* `\.{<<}'\,; corresponds to MIT's {\tentex\char'20} */
+@d gt_gt 021 /* `\.{>>}'\,; corresponds to MIT's {\tentex\char'21} */
+@d plus_plus 013 /* `\.{++}'\,; corresponds to MIT's {\tentex\char'13} */
+@d minus_minus 01 /* `\.{--}'\,; corresponds to MIT's {\tentex\char'1} */
+@d minus_gt 031 /* `\.{->}'\,; corresponds to MIT's {\tentex\char'31} */
+@d non_eq 032 /* `\.{!=}'\,; corresponds to MIT's {\tentex\char'32} */
+@d lt_eq 034 /* `\.{<=}'\,; corresponds to MIT's {\tentex\char'34} */
+@d gt_eq 035 /* `\.{>=}'\,; corresponds to MIT's {\tentex\char'35} */
+@d eq_eq 036 /* `\.{==}'\,; corresponds to MIT's {\tentex\char'36} */
+@d or_or 037 /* `\.{\v\v}'\,; corresponds to MIT's {\tentex\char'37} */
+@d dot_dot_dot 016 /* `\.{...}'\,; corresponds to MIT's {\tentex\char'16} */
+@d colon_colon 06 /* `\.{::}'\,; corresponds to MIT's {\tentex\char'6} */
+@d period_ast 026 /* `\.{.*}'\,; corresponds to MIT's {\tentex\char'26} */
+@d minus_gt_ast 027 /* `\.{->*}'\,; corresponds to MIT's {\tentex\char'27} */
 @#
 @d compress(c) if (loc++<=limit) return c
 
