@@ -2971,7 +2971,7 @@ big_app(' '); big_app1(pp); reduce(pp,1,stmt,-1,77);
 
 @ @<Cases for |lproc|@>=
 if (cat1==define_like) make_underlined(pp+2);
-if (cat1==else_like || cat1==if_like ||cat1==define_like)
+if (cat1==else_like || cat1==if_like || cat1==define_like)
   squash(pp,2,lproc,0,78);
 else if (cat1==rproc) {
   app(inserted); big_app2(pp); reduce(pp,2,insert,-1,79);
