@@ -1175,11 +1175,10 @@ scan_args(void)
     if ((**(++argv)=='-'||**argv=='+')&&*(*argv+1)) @<Handle flag argument@>@;
     else {
       s=name_pos=*argv;@+dot_pos=NULL;
-      while (*s) {
+      while (*s)
         if (*s=='.') dot_pos=s++;
         else if (*s=='/') dot_pos=NULL,name_pos=++s;
         else s++;
-      }
       if (!found_web) @<Make
         |web_file_name|, |tex_file_name|, and |C_file_name|@>@;
       else if (!found_change) @<Make |change_file_name|@>@;

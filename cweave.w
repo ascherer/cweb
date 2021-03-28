@@ -829,11 +829,10 @@ On output, the \.{\ } that replaces \.{'} in \CPLUSPLUS/ literals will become
 Notice that in this section and the next, |id_first| and |id_loc|
 are pointers into the array |section_text|, not into |buffer|.
 
-@d gather_digits_while(t) while (t || *loc=='\'') {
+@d gather_digits_while(t) while (t || *loc=='\'')
   if (*loc=='\'') { /* \CPLUSPLUS/-style digit separator */
     *id_loc++=' '; loc++; /* insert a little bit of space */
   }@+else *id_loc++=*loc++;
-}
 
 @<Get a constant@>= {
   id_first=id_loc=section_text+1;
@@ -930,7 +929,7 @@ convention, but do not allow the string to be longer than |longest_name|.
 }
 
 @ @<Get a wide...@>={
-  if (delim=='u' && *loc=='8') { *++id_loc=*loc++; }
+  if (delim=='u' && *loc=='8') *++id_loc=*loc++;
   delim=*loc++; *++id_loc=delim;
 }
 
@@ -4124,7 +4123,7 @@ while (k<k_limit) {
 @.\\\_@>
     default: out(b);
     }
-  else {
+  else
     if (b!='|') out(b)@;
     else {
       @<Copy the \CEE/ text into the |buffer| array@>@;
@@ -4132,7 +4131,6 @@ while (k<k_limit) {
       *limit='|'; output_C();
       loc=save_loc; limit=save_limit;
     }
-  }
 }
 
 @ @<Skip next char...@>=
@@ -4316,7 +4314,7 @@ finish_C( /* finishes a definition or a \CEE/ part */
     p=translate();
 @.\\B@>
     app(tok_flag+(int)(p-tok_start)); make_output(); /* output the list */
-    if (out_ptr>out_buf+1) {
+    if (out_ptr>out_buf+1)
       if (*(out_ptr-1)=='\\') {
 @.\\6@>
 @.\\7@>
@@ -4324,7 +4322,6 @@ finish_C( /* finishes a definition or a \CEE/ part */
         if (*out_ptr=='6') out_ptr-=2;
         else if (*out_ptr=='7') *out_ptr='Y';
       }
-    }
     out_str("\\par"); finish_line();
   }
   if (text_ptr>max_text_ptr) max_text_ptr=text_ptr;

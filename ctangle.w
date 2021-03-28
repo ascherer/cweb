@@ -616,7 +616,7 @@ output_defs(void)
           if (a<024000) { /* |024000==(0250-0200)*0400| */
             cur_val=a; out_char(identifier);
           }
-          else if (a<050000) { confusion("macro defs have strange char");}
+          else if (a<050000) confusion("macro defs have strange char");
           else {
             cur_val=a-050000; cur_section=cur_val; out_char(section_number);
           }
@@ -843,8 +843,8 @@ boolean is_long_comment)
   while (true) {
     if (loc>limit) {
       if (is_long_comment) {
-        if(get_line()) return comment_continues=true;
-        else{
+        if (get_line()) return comment_continues=true;
+        else {
           err_print("! Input ended in mid-comment");
 @.Input ended in mid-comment@>
           return comment_continues=false;
@@ -1002,7 +1002,7 @@ convention, but do not allow the string to be longer than |longest_name|.
   id_first = section_text+1;
   id_loc = section_text; *++id_loc=delim;
   if (delim=='L' || delim=='u' || delim=='U') { /* wide character constant */
-    if (delim=='u' && *loc=='8') { *++id_loc=*loc++; }
+    if (delim=='u' && *loc=='8') *++id_loc=*loc++;
     delim=*loc++; *++id_loc=delim;
   }
   while (true) {
@@ -1071,9 +1071,8 @@ thus, \.{@@'\\nopq'} gives the same result as \.{@@'\\n'}.
 
 @<Scan an ASCII constant@>=
   id_first=loc;
-  if (*loc=='\\') {
+  if (*loc=='\\')
     if (*++loc=='\'') loc++;
-  }
   while (*loc!='\'') {
     if (*loc=='@@') {
       if (*(loc+1)!='@@')
