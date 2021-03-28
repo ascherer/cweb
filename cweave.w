@@ -2024,7 +2024,6 @@ identifier&|exp|: \.{\\\\\{}identifier with underlines and
 \.{char32\_t}&|raw_int|: \stars&maybe\cr
 \.{class}&|struct_like|: \stars&maybe\cr
 \.{clock\_t}&|raw_int|: \stars&maybe\cr
-\.{co\_await}&|case_like|: \stars&maybe\cr
 \.{compl}&|alfop|: \stars&yes\cr
 \.{complex}&|int_like|: \stars&yes\cr
 \.{concept}&|int_like|: \stars&maybe\cr
