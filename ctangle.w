@@ -1198,7 +1198,7 @@ scan_repl( /* creates a replacement text */
 eight_bits t)
 {
   sixteen_bits a; /* the current token */
-  if (t==section_name) {@<Insert the line number into |tok_mem|@>@;}
+  if (t==section_name) @<Insert the line number into |tok_mem|@>@;
   while (true) switch (a=get_next()) {
       @<In cases that |a| is a non-|char| token (|identifier|,
         |section_name|, etc.), either process it and change |a| to a byte
@@ -1221,17 +1221,19 @@ to |0150000|; then the numeric line number; then a pointer to the
 file name.
 
 @<Insert the line...@>=
-store_two_bytes(0150000);
-if (changing && include_depth==change_depth) { /* correction made Feb 2017 */
-  id_first=change_file_name;
-   store_two_bytes((sixteen_bits)change_line);
-}@+else {
-  id_first=cur_file_name;
-  store_two_bytes((sixteen_bits)cur_line);
+{
+  store_two_bytes(0150000);
+  if (changing && include_depth==change_depth) { /* correction made Feb 2017 */
+    id_first=change_file_name;
+     store_two_bytes((sixteen_bits)change_line);
+  }@+else {
+    id_first=cur_file_name;
+    store_two_bytes((sixteen_bits)cur_line);
+  }
+  id_loc=id_first+strlen(id_first);
+  {int a_l=id_lookup(id_first,id_loc,0)-name_dir; app_repl((a_l / 0400)+0200);
+    app_repl(a_l % 0400);}
 }
-id_loc=id_first+strlen(id_first);
-{int a_l=id_lookup(id_first,id_loc,0)-name_dir; app_repl((a_l / 0400)+0200);
-  app_repl(a_l % 0400);}
 
 @ @<In cases that |a| is...@>=@t\1\5\5@>
 case identifier: a=id_lookup(id_first,id_loc,0)-name_dir;

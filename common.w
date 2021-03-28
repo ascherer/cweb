@@ -404,7 +404,7 @@ boolean get_line(void) /* inputs the next line */
 {
   restart:
   if (changing && include_depth==change_depth)
-   @<Read from |change_file| and maybe turn off |changing|@>@;
+    @<Read from |change_file| and maybe turn off |changing|@>@;
   if (! changing || include_depth>change_depth) {
     @<Read from |cur_file| and maybe turn on |changing|@>@;
     if (changing && include_depth==change_depth) goto restart;
@@ -674,6 +674,7 @@ if (p==NULL) {
 @ The information associated with a new identifier must be initialized
 in a slightly different way in \.{CWEAVE} than in \.{CTANGLE}; hence the
 |init_p| procedure.
+
 @<Enter a new name...@>= {
   if (byte_ptr+l>byte_mem_end) overflow("byte memory");
   if (name_ptr>=name_dir_end) overflow("name");
@@ -1023,7 +1024,7 @@ const char *s)
 {
   char *k,*l; /* pointers into |buffer| */
   printf(*s=='!'? "\n%s" : "%s",s);
-  if(web_file_open) @<Print error location based on input buffer@>@;
+  if (web_file_open) @<Print error location based on input buffer@>@;
   update_terminal; mark_error;
 }
 
@@ -1180,7 +1181,7 @@ scan_args(void)
         else s++;
       }
       if (!found_web) @<Make
-       |web_file_name|, |tex_file_name|, and |C_file_name|@>@;
+        |web_file_name|, |tex_file_name|, and |C_file_name|@>@;
       else if (!found_change) @<Make |change_file_name|@>@;
       else if (!found_out) @<Override |tex_file_name| and |C_file_name|@>@;
         else @<Print usage error message and quit@>@;

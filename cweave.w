@@ -69,7 +69,8 @@ is modified.
 
 @d banner "This is CWEAVE (Version 4.2)"
 
-@c @<Include files@>@/
+@c
+@<Include files@>@/
 @h
 @<Common code for \.{CWEAVE} and \.{CTANGLE}@>@/
 @<Typedef declarations@>@/
@@ -755,7 +756,8 @@ a file name in lines that start with \.{\#include}.  We must treat this file
 name as a string.
 
 @<Private...@>=
-static boolean sharp_include_line=false; /* are we scanning a \#\&{include} line? */
+static boolean sharp_include_line=false;
+  /* are we scanning a \#\&{include} line? */
 
 @ @<Check if next token is |include|@>=
 while (loc<=buffer_end-7 && xisspace(*loc)) loc++;
@@ -1640,7 +1642,7 @@ int bal) /* brace balance */
       }
     }
   }
-done:@<Clear |bal| and |return|@>@;
+done: @<Clear |bal| and |return|@>@;
 }
 
 @ @<Check for end of comment@>=
@@ -2646,11 +2648,11 @@ to insert the new cross-reference not at the beginning of the list
 (namely, at |p->xref|), but rather right before |q|.
 
 @<Insert new cross-reference at |q|...@>=
-  append_xref(0); /* this number doesn't matter */
-  xref_ptr->xlink=(xref_pointer)p->xref; r=xref_ptr;
-  update_node(p);
-  while (r->xlink!=q) {r->num=r->xlink->num; r=r->xlink;}
-  r->num=m; /* everything from |q| on is left undisturbed */
+append_xref(0); /* this number doesn't matter */
+xref_ptr->xlink=(xref_pointer)p->xref; r=xref_ptr;
+update_node(p);
+while (r->xlink!=q) {r->num=r->xlink->num; r=r->xlink;}
+r->num=m; /* everything from |q| on is left undisturbed */
 
 @ Now comes the code that tries to match each production starting
 with a particular type of scrap. Whenever a match is discovered,
@@ -4829,6 +4831,7 @@ out('.'); finish_line();
 @ List inversion is best thought of as popping elements off one stack and
 pushing them onto another. In this case |cur_xref| will be the head of
 the stack that we push things onto.
+
 @<Private...@>=
 static xref_pointer next_xref, this_xref;
   /* pointer variables for rearranging a list */
