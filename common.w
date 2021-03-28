@@ -927,16 +927,16 @@ switch(section_name_cmp(&first,name_len,r)) {
     }
     else if (name_len<prefix_length(r)) set_prefix_length(r,name_len);
     /* fall through */
-  case equal: return r;
+  case equal: break;
   case extension: if (!ispref || first<=last)
         extend_section_name(r,first,last+1,ispref);
-      return r;
+      break;
   case bad_extension:
       fputs("\n! New name extends <",stdout);
 @.New name extends...@>
       print_section_name(r);
       err_print(">");
-    return r;
+    break;
   default: /* no match: illegal */
     fputs("\n! Section name incompatible with <",stdout);
 @.Section name incompatible...@>
@@ -944,8 +944,8 @@ switch(section_name_cmp(&first,name_len,r)) {
     fputs(">,\n which abbreviates <",stdout);
     print_section_name(r);
     err_print(">");
-    return r;
 }
+return r;
 
 @ The return codes of |section_name_cmp|, which compares a string with
 the full name of a section, are those of |web_strcmp| plus
