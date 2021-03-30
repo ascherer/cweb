@@ -1279,7 +1279,7 @@ case new_section: goto done;
 }
 
 @ By default, \.{CTANGLE} purges single-quote characters from \CPLUSPLUS/-style
-literals, e.g., |1'000'000|, so that you can use this notation also in \CEE/
+literals, e.g., \.{1'000'000}, so that you can use this notation also in \CEE/
 code. The \.{+k} switch will `keep' the single quotes in the output.
 
 @d keep_digit_separators flags['k']
