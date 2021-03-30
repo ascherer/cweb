@@ -57,7 +57,7 @@ We use \\{in}, \\{out}, \\{back}, \\{bsp}, and \\{din} as shorthands for
 & stmt; \ /$\ast\,$comment$\,*$/\cr
 \+& |exp| \altt|lbrace| |int_like| |decl|
     & |fn_decl| \altt|lbrace| |int_like| |decl|
-        \hfill $F=E^*\,|din|$ & \malt {\\{main}()$\{$}
+        \hfill $F=E^*\,\\{din}$ & \malt {\\{main}()$\{$}
            {\\{main}$(\\{ac},\\{av})$ \&{int} \\{ac};} \cr
 \+& |exp| |unop| & |exp| & |x++|\cr
 \+& |exp| \alt |binop| |ubinop| |exp| & |exp| & \malt {|x/y|} {|x+y|} \cr
@@ -117,7 +117,7 @@ We use \\{in}, \\{out}, \\{back}, \\{bsp}, and \\{din} as shorthands for
      $D=D$\alt $B$ $C$ \unskip$E$ & \malt {\&{int} $f(\&{int}\ x=2)$} |int b:1| \cr
 \+& |decl_head| |cast| & |decl_head| & |int f(int)|\cr
 \+& |decl_head| \altt|int_like| |lbrace| |decl| & |fn_decl|
-                   \altt|int_like| |lbrace| |decl| \hfill $F=D\,|din|$
+                   \altt|int_like| |lbrace| |decl| \hfill $F=D\,\\{din}$
                              & |long time () {|\cr
 \+& |decl_head| |semi| & |decl| & |int n;|\cr
 \+& |decl| |decl| & |decl| \hfill $D_1\,|force|\,D_2$ & |int n;double x;|\cr
