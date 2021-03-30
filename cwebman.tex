@@ -1281,14 +1281,14 @@ have been tangled into section~27.
 \begingroup \def\tt{\eighttt} \baselineskip9pt
 \verbatim
 /*:23*//*27:*/
-#line 231 "common.w"
+#line 227 "common.w"
 
 static void
 prime_the_change_buffer(void)
 {
 change_limit= change_buffer;
 /*29:*/
-#line 247 "common.w"
+#line 243 "common.w"
 
 while(true){
 change_line++;
@@ -1305,10 +1305,10 @@ err_print("!! Missing @x in change file");
 }
 
 /*:29*/
-#line 236 "common.w"
+#line 232 "common.w"
 
 /*30:*/
-#line 264 "common.w"
+#line 260 "common.w"
 
 do{
 change_line++;
@@ -1320,10 +1320,10 @@ return;
 }while(limit==buffer);
 
 /*:30*/
-#line 237 "common.w"
+#line 233 "common.w"
 
 /*31:*/
-#line 274 "common.w"
+#line 270 "common.w"
 
 {
 change_limit= change_buffer+(ptrdiff_t)(limit-buffer);
@@ -1331,7 +1331,7 @@ strncpy(change_buffer,buffer,(size_t)(limit-buffer+1));
 }
 
 /*:31*/
-#line 238 "common.w"
+#line 234 "common.w"
 
 }
 
@@ -1356,7 +1356,7 @@ the change file is exhausted. This procedure is called only when
 \PB{\\{changing}} is \PB{\\{true}}; hence error messages will be reported
 correctly.
 
-\Y\B\&{static} \&{void} \\{prime\_the\_change\_buffer}(\&{void})\1\1\2\2\6
+\Y\B\1\1\&{static} \&{void} \\{prime\_the\_change\_buffer}(\&{void})\2\2\6
 ${}\{{}$\1\6
 ${}\\{change\_limit}\K\\{change\_buffer}{}$;\C{ this value is used if the
 change file ends }\6
@@ -1434,7 +1434,7 @@ the change file is exhausted. This procedure is called only when
 \PB{\\{changing}} is \PB{\\{true}}; hence error messages will be reported
 correctly.
 
-\Y\B\&{static} \&{void} \\{prime\_the\_change\_buffer}(\&{void})\1\1\2\2\6
+\Y\B\1\1\&{static} \&{void} \\{prime\_the\_change\_buffer}(\&{void})\2\2\6
 ${}\{{}$\1\6
 ${}\\{change\_limit}\K\\{change\_buffer}{}$;\C{ this value is used if the
 change file ends }\6
