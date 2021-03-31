@@ -324,7 +324,7 @@ char scn_file_name[max_file_name_length];
 boolean flags[128];
 
 /*:73*//*83:*/
-#line 1277 "common.w"
+#line 1275 "common.w"
 
 FILE*C_file;
 FILE*tex_file;
@@ -432,7 +432,7 @@ show_stats= false;
 #line 100 "common.w"
 
 /*84:*/
-#line 1284 "common.w"
+#line 1282 "common.w"
 
 scan_args();
 if(program==ctangle){
@@ -1186,10 +1186,8 @@ while(--argc> 0){
 if((**(++argv)=='-'||**argv=='+')&&*(*argv+1))/*80:*/
 #line 1253 "common.w"
 
-{
 for(dot_pos= *argv+1;*dot_pos> '\0';dot_pos++)
 flags[(eight_bits)*dot_pos]= flag_change;
-}
 
 /*:80*/
 #line 1175 "common.w"
@@ -1206,7 +1204,7 @@ if(!found_web)/*77:*/
 {
 if(s-*argv> max_file_name_length-5)
 /*82:*/
-#line 1271 "common.w"
+#line 1269 "common.w"
 fatal("! Filename too long\n",*argv);
 
 
@@ -1237,7 +1235,7 @@ else if(!found_change)/*78:*/
 if(strcmp(*argv,"-")!=0){
 if(s-*argv> max_file_name_length-4)
 /*82:*/
-#line 1271 "common.w"
+#line 1269 "common.w"
 fatal("! Filename too long\n",*argv);
 
 
@@ -1260,7 +1258,7 @@ else if(!found_out)/*79:*/
 {
 if(s-*argv> max_file_name_length-5)
 /*82:*/
-#line 1271 "common.w"
+#line 1269 "common.w"
 fatal("! Filename too long\n",*argv);
 
 
@@ -1288,7 +1286,7 @@ found_out= true;
 #line 1185 "common.w"
 
 else/*81:*/
-#line 1259 "common.w"
+#line 1257 "common.w"
 
 {
 if(program==ctangle)
@@ -1307,7 +1305,7 @@ else fatal(
 }
 }
 if(!found_web)/*81:*/
-#line 1259 "common.w"
+#line 1257 "common.w"
 
 {
 if(program==ctangle)

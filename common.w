@@ -1251,10 +1251,8 @@ after the dot.  We must check that there is enough room in
 
 @ @d flag_change (**argv!='-')
 @<Handle flag...@>=
-{
-  for(dot_pos=*argv+1;*dot_pos>'\0';dot_pos++)
-    flags[(eight_bits)*dot_pos]=flag_change;
-}
+for(dot_pos=*argv+1;*dot_pos>'\0';dot_pos++)
+  flags[(eight_bits)*dot_pos]=flag_change;
 
 @ @<Print usage error message and quit@>=
 {
