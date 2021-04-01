@@ -1082,13 +1082,15 @@ int wrap_up(void) {
 
 @ @<Print the job |history|@>=
 switch (history) {
-case spotless: if (show_happiness) puts("(No errors were found.)"); break;
+case spotless:
+  if (show_happiness) puts("(No errors were found.)"); break;
 case harmless_message:
   puts("(Did you see the warning message above?)"); break;
 case error_message:
   puts("(Pardon me, but I think I spotted something wrong.)"); break;
-case fatal_message: puts("(That was a fatal error, my friend.)");
-} /* there are no other cases */
+case fatal_message: default:
+  puts("(That was a fatal error, my friend.)");
+}
 
 @ When there is no way to recover from an error, the |fatal| subroutine is
 invoked. This happens most often when |overflow| occurs.
