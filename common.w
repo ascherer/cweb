@@ -718,10 +718,11 @@ name_pointer p)
   while (p!=name_dir) {
     ss = (p+1)->byte_start-1;
     if (*ss==' ' && ss>=s) {
-      term_write(s,(size_t)(ss-s)); p=q->link; q=p;
+      p=q->link; q=p;
     } else {
-      term_write(s,(size_t)(ss+1-s)); p=name_dir; q=NULL;
+      ss++; p=name_dir; q=NULL;
     }
+    term_write(s,(size_t)(ss-s));
     s = p->byte_start;
   }
   if (q) term_write("...",3); /* complete name not yet known */
