@@ -717,11 +717,8 @@ name_pointer p)
   name_pointer q = p+1;
   while (p!=name_dir) {
     ss = (p+1)->byte_start-1;
-    if (*ss==' ' && ss>=s) {
-      p=q->link; q=p;
-    } else {
-      ss++; p=name_dir; q=NULL;
-    }
+    if (*ss==' ' && ss>=s) p=q->link,q=p;
+    else ss++,p=name_dir,q=NULL;
     term_write(s,(size_t)(ss-s));
     s = p->byte_start;
   }
@@ -738,11 +735,8 @@ sprint_section_name(
   name_pointer q = p+1;
   while (p!=name_dir) {
     ss = (p+1)->byte_start-1;
-    if (*ss==' ' && ss>=s) {
-      p=q->link; q=p;
-    } else {
-      ss++; p=name_dir;
-    }
+    if (*ss==' ' && ss>=s) p=q->link,q=p;
+    else ss++,p=name_dir;
     strncpy(dest,s,(size_t)(ss-s)), dest+=ss-s;
     s = p->byte_start;
   }
