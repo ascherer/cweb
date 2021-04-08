@@ -125,6 +125,7 @@
 \newskip\intersecskip \intersecskip=12pt minus 3pt % space between sections
 \let\yskip=\smallskip
 \def\?{\mathrel?}
+\def\,{\relax\ifmmode\mskip\thinmuskip\else\thinspace\fi}
 \def\note#1#2.{\Y\noindent{\hangindent2em%
     \baselineskip10pt\eightrm#1~\ifacro{\pdfnote#2.}\else#2\fi.\par}}
 
@@ -543,7 +544,6 @@
 \def\printtwodigits{\advance\twodigits100
   \expandafter\gobbleone\number\twodigits
   \advance\twodigits-100 }
-\def\,{\relax\ifmmode\mskip\thinmuskip\else\thinspace\fi}
 \def\datethis{\def\startsection{\leftline{\sc\today\ at \hours}\bigskip
   \let\startsection=\stsec\stsec}}
   % say `\datethis' in limbo, to get your listing timestamped before section 1
