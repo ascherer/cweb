@@ -664,7 +664,7 @@ restart:
     }
 }
 
-@ @<Cases like \.{!=}@>=@t\1\5\5@>
+@ @<Cases like \.{!=}@>=@t\1\quad@>
 case plus_plus: C_putc('+');@+C_putc('+'); out_state=normal; break;
 case minus_minus: C_putc('-');@+C_putc('-'); out_state=normal; break;
 case minus_gt: C_putc('-');@+C_putc('>'); out_state=normal; break;
@@ -702,7 +702,7 @@ static char translit[128][translit_length];
   for (i=0;i<128;i++) sprintf(translit[i],"X%02X",(unsigned int)(128+i));
 }
 
-@ @<Case of an identifier@>=@t\1\5\5@>
+@ @<Case of an identifier@>=@t\1\quad@>
 case identifier:
   if (out_state==num_or_id) C_putc(' ');
   j=(cur_val+name_dir)->byte_start;
@@ -715,7 +715,7 @@ case identifier:
   }
   out_state=num_or_id; break;
 
-@ @<Case of a sec...@>=@t\1\5\5@>
+@ @<Case of a sec...@>=@t\1\quad@>
 case section_number:
   if (cur_val>0) C_printf("/*%d:*/",cur_val);
   else if(cur_val<0) C_printf("/*:%d*/",-cur_val);
@@ -1234,7 +1234,7 @@ file name.
     app_repl(a_l % 0400);}
 }
 
-@ @<In cases that |a| is...@>=@t\1\5\5@>
+@ @<In cases that |a| is...@>=@t\1\quad@>
 case identifier: a=id_lookup(id_first,id_loc,0)-name_dir;
   app_repl((a / 0400)+0200);
   app_repl(a % 0400); break;

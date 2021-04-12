@@ -3506,7 +3506,7 @@ if (scrap_ptr+safe_scrap_incr>scrap_info_end ||
 standard ones. They are converted to \TEX/ control sequences so that it is
 possible to keep \.{CWEAVE} from outputting unusual |char| codes.
 
-@<Cases involving nonstandard...@>=@t\1\5\5@>
+@<Cases involving nonstandard...@>=@t\1\quad@>
 case non_eq: app_str("\\I");@+app_scrap(binop,yes_math);@+break;
 @.\\I@>
 case lt_eq: app_str("\\Z");@+app_scrap(binop,yes_math);@+break;
