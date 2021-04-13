@@ -4,9 +4,9 @@ No changes to CTANGLE or CWEAVE are needed.
 (Contributed 13 Oct 2000 by AndPio@aol.com; slightly edited by Don Knuth)
 
 @x in limbo, change the title page document to specify Mac version
-  \centerline{(Version 4.2)}
+  \centerline{(Version 4.3)}
 @y
-  \centerline{(Version 4.2 for MacOS)}
+  \centerline{(Version 4.3 for MacOS)}
 @z
 
 @x sections 23/24: Make input_ln accept \n, \r, \n\r, or \r\n as line endings
