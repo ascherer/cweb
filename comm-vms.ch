@@ -67,7 +67,7 @@ An omitted change file argument means that the
 null device |"NL:"| should be used, when no changes are desired.
 @z
 
-@x section 76 (1987 BL) (01-FEB-1992 ST) (05-APR-1992 DEK)
+@x section 75 (1987 BL) (01-FEB-1992 ST) (05-APR-1992 DEK)
   strcpy(change_file_name,"/dev/null");
 @y
   strcpy(change_file_name,"NL:");

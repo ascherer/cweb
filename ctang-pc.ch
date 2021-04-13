@@ -13,7 +13,7 @@ alternate change files with -bs suffix instead of -pc.
 @y
 @d banner "This is CTANGLE (Version 4.3pc)"
 @z
-@x section 4
+@x section 17
 @d max_bytes 1000000 /* the number of bytes in identifiers,
   index entries, and section names */
 @d max_toks 1000000 /* number of bytes in compressed \CEE/ code */

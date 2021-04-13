@@ -9,7 +9,7 @@ No changes to CTANGLE or CWEAVE are needed.
   \centerline{(Version 4.3 for MacOS)}
 @z
 
-@x sections 23/24: Make input_ln accept \n, \r, \n\r, or \r\n as line endings
+@x section 23: Make input_ln accept \n, \r, \n\r, or \r\n as line endings
 @ In the unlikely event that your standard I/O library does not
 support |feof|, |getc|, and |ungetc| you may have to change things here.
 @^system dependencies@>
@@ -42,10 +42,7 @@ line endings, so that \.{CWEB} will works with ASCII files stored in
 \UNIX/, {\mc DOS} or {\mc MAC} format.
 @^system dependencies@>
 
-@<Predecl...@>=
-static boolean input_ln(FILE *);@/
-
-@ @c
+@c
 static boolean input_ln( /* copies a line into |buffer| or returns |false| */
 FILE *fp) /* what file to read from */
 {
@@ -74,7 +71,7 @@ FILE *fp) /* what file to read from */
 }
 @z
 
-@x section 28, simply return if no change file was specified
+@x section 27, simply return if no change file was specified
   change_limit=change_buffer; /* this value is used if the change file ends */
   @<Skip over comment lines in the change file; |return| if end of file@>@;
 @y
@@ -118,20 +115,19 @@ An omitted change file argument means that |"/dev/null"| should be used,
 @y
 An omitted change file argument means that no change file should be used,
 @z
-
-@x section 76, make change file name empty when it is unspecified
+@x section 75, make change file name empty when it is unspecified
   strcpy(change_file_name,"/dev/null");
 @y
   change_file_name[0]='\0';   /* empty string */
 @z
-@x section 76, use the Metrowerks |ccommand| to access command lines
+@x section 75, use the Metrowerks |ccommand| to access command lines
   while (--argc > 0) {
 @y
   argc = ccommand (&argv); /* use Mac interface to command line */
 @^system dependencies@>
   while (--argc > 0) {
 @z
-@x section 76, use the path separator constant
+@x section 75, use the path separator constant
         else if (*s=='/') dot_pos=NULL,name_pos=++s;
 @y
         else if (*s==PATH_SEP) dot_pos=NULL,name_pos=++s;

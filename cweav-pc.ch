@@ -16,7 +16,7 @@ change files that have -bs in their name instead of -pc.)
 @d banner "This is CWEAVE (Version 4.3pc)"
 @z
 
-@x section 4
+@x section 17
 @d max_bytes 1000000 /* the number of bytes in identifiers,
 @y
 @d max_bytes (unsigned)60000 /* the number of bytes in identifiers,

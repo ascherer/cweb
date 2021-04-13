@@ -15,7 +15,7 @@ by using "huge" pointers.
 (Update attempt by Andreas Scherer, 31 Jan 2021.  Good luck!)
 
 
-@x Section 6.
+@x Section 9.
   for section names */
 
 @<Common code...@>=
@@ -180,7 +180,7 @@ boolean ispref) /* are we adding a prefix or a full name? */
 @z
 
 
-@x Section 64.
+@x Section 63.
 static int section_name_cmp(
 char **pfirst, /* pointer to beginning of comparison string */
 int len, /* length of string */
@@ -208,14 +208,14 @@ An omitted change file argument means that |"NUL"| should be used,
 @z
 
 
-@x Section 76.
+@x Section 75.
   strcpy(change_file_name,"/dev/null");
 @y
   strcpy(change_file_name,"NUL");
 @z
 
 
-@x Section 76.
+@x Section 75.
         else if (*s=='/') dot_pos=NULL,name_pos=++s;
 @y
         else if (*s == ':' || *s == '\\' || *s == '/')
