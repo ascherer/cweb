@@ -860,7 +860,7 @@ section_lookup( /* find or install section name in tree */
 char *first,char *last, /* first and last characters of new name */
 boolean ispref) /* is the new name a prefix or a full name? */
 {
-  int c=0; /* comparison between two names; initialized so some compilers won't complain */
+  int c=less; /* comparison between two names; initialized so some compilers won't complain */
   name_pointer p=root; /* current node of the search tree */
   name_pointer q=NULL; /* another place to look in the tree */
   name_pointer r=NULL; /* where a match has been found */
@@ -968,7 +968,7 @@ name_pointer r) /* section name being compared */
   char *first=*pfirst; /* beginning of comparison string */
   name_pointer q=r+1; /* access to subsequent chunks */
   char *ss, *s=first_chunk(r);
-  int c; /* comparison */
+  int c=less; /* comparison */
   boolean ispref; /* is chunk |r| a prefix? */
   while (true) {
     ss=(r+1)->byte_start-1;

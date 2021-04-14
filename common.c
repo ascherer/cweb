@@ -964,7 +964,7 @@ section_lookup(
 char*first,char*last,
 boolean ispref)
 {
-int c= 0;
+int c= less;
 name_pointer p= root;
 name_pointer q= NULL;
 name_pointer r= NULL;
@@ -1060,7 +1060,7 @@ name_pointer r)
 char*first= *pfirst;
 name_pointer q= r+1;
 char*ss,*s= first_chunk(r);
-int c;
+int c= less;
 boolean ispref;
 while(true){
 ss= (r+1)->byte_start-1;
