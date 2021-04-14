@@ -4254,7 +4254,7 @@ else {
   if (show_progress)
   printf("*%d",section_count); update_terminal; /* print a progress report */
 }
-out_str("{");out_section(section_count); out_str("}");
+out_str("{"); out_section(section_count); out_str("}");
 
 @ In the \TEX/ part of a section, we simply copy the source text, except that
 index entries are not copied and \CEE/ text within \pb\ is translated.
