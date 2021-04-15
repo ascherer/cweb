@@ -4262,8 +4262,7 @@ out('{'); out_section(section_count); out('}');
 index entries are not copied and \CEE/ text within \pb\ is translated.
 
 @<Translate the \T...@>= do {
-  next_control=copy_TeX();
-  switch (next_control) {
+  switch (next_control=copy_TeX()) {
     case '|': init_stack; output_C(); break;
     case '@@': out('@@'); break;
     case TeX_string: case noop:
