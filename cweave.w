@@ -3310,7 +3310,7 @@ static int tracing=off; /* can be used to show parsing details */
       if (k_l->mathness /4 ==  yes_math) putchar('+');
       else if (k_l->mathness /4 ==  no_math) putchar('-');
     }
-    if (hi_ptr<=scrap_ptr) fputs("...",stdout); /* indicate that more is coming */
+    if (hi_ptr<=scrap_ptr) printf("..."); /* indicate that more is coming */
   }
 }
 
