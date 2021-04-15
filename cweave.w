@@ -100,7 +100,7 @@ char **av) /* argument values */
   phase_one(); /* read all the user's text and store the cross-references */
   phase_two(); /* read all the text again and translate it to \TEX/ form */
   phase_three(); /* output the cross-reference index */
-  if (tracing==2 && !show_progress) new_line;
+  if (tracing==fully && !show_progress) new_line;
   return wrap_up(); /* and exit gracefully */
 }
 
@@ -3287,16 +3287,20 @@ if (lo_ptr<pp+3) {
 }
 
 @ If \.{CWEAVE} is being run in debugging mode, the production numbers and
-current stack categories will be printed out when |tracing| is set to 2;
+current stack categories will be printed out when |tracing| is set to |fully|;
 a sequence of two or more irreducible scraps will be printed out when
-|tracing| is set to 1.
+|tracing| is set to |partly|.
+
+@d off 0
+@d partly 1
+@d fully 2
 
 @<Private...@>=
-static int tracing; /* can be used to show parsing details */
+static int tracing=off; /* can be used to show parsing details */
 
 @ @<Print a snapsh...@>=
 { scrap_pointer k_l; /* pointer into |scrap_info| */
-  if (tracing==2) {
+  if (tracing==fully) {
     printf("\n%d:",n);
     for (k_l=scrap_base; k_l<=lo_ptr; k_l++) {
       if (k_l==pp) putchar('*'); else putchar(' ');
@@ -3355,7 +3359,7 @@ where appropriate.
 }
 
 @ @<If semi-tracing, show the irreducible scraps@>=
-if (lo_ptr>scrap_base && tracing==1) {
+if (lo_ptr>scrap_base && tracing==partly) {
   printf("\nIrreducible scrap sequence in section %d:",section_count);
 @.Irreducible scrap sequence...@>
   mark_harmless;
@@ -3365,7 +3369,7 @@ if (lo_ptr>scrap_base && tracing==1) {
 }
 
 @ @<If tracing,...@>=
-if (tracing==2) {
+if (tracing==fully) {
   printf("\nTracing after l. %d:\n",cur_line); mark_harmless;
 @.Tracing after...@>
   if (loc>buffer+50) {
