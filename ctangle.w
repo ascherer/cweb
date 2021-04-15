@@ -1035,8 +1035,7 @@ convention, but do not allow the string to be longer than |longest_name|.
 whether there is more work to do.
 
 @<Get control code and possible section name@>= {
-  c=ccode[(eight_bits)*loc++];
-  switch(c) {
+  switch (c=ccode[(eight_bits)*loc++]) {
     case ignore: continue;
     case translit_code: err_print("! Use @@l in limbo only"); continue;
 @.Use @@l in limbo...@>
