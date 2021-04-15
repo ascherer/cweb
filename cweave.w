@@ -3327,8 +3327,8 @@ for overflow.
 static text_pointer
 translate(void) /* converts a sequence of scraps */
 {
-  scrap_pointer i, /* index into |cat| */
-  j; /* runs through final scraps */
+  scrap_pointer i; /* index into |cat| */
+  scrap_pointer j; /* runs through final scraps */
   pp=scrap_base; lo_ptr=pp-1; hi_ptr=pp;
   @<If tracing, print an indication of where we are@>@;
   @<Reduce the scraps...@>@;
@@ -3909,8 +3909,8 @@ output_C(void) /* outputs the current token list */
 static void
 make_output(void) /* outputs the equivalents of tokens */
 {
-  eight_bits a=0, /* current output byte */
-  b; /* next output byte */
+  eight_bits a=0; /* current output byte */
+  eight_bits b; /* next output byte */
   int c; /* count of |indent| and |outdent| tokens */
   char scratch[longest_name+1]; /* scratch area for section names */
   char *k, *k_limit; /* indices into |scratch| */
