@@ -1376,7 +1376,7 @@ flush_buffer(
 char *b, /* outputs from |out_buf+1| to |b|, where |b<=out_ptr| */
 boolean per_cent,boolean carryover)
 {
-  char *j; j=b; /* pointer into |out_buf| */
+  char *j=b; /* pointer into |out_buf| */
   if (! per_cent) /* remove trailing blanks */
     while (j>out_buf && *j==' ') j--;
   c_line_write(j-out_buf);

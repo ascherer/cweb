@@ -1458,7 +1458,7 @@ section_count++;no_where= true;
 if(*(loc-1)=='*'&&show_progress){
 printf("*%d",section_count);update_terminal;
 }
-next_control= 0;
+next_control= ignore;
 while(true){
 /*92:*/
 #line 1405 "ctangle.w"
