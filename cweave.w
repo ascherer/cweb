@@ -2252,7 +2252,7 @@ text_pointer p)
         break; /* |id_flag| */
       case 2: printf("\\&{"@q}@>); print_id((name_dir+r)); printf(@q{@>"}");
         break; /* |res_flag| */
-      case 3: printf("<"); print_section_name((name_dir+r)); printf(">");
+      case 3: putchar('<'); print_section_name((name_dir+r)); putchar('>');
         break; /* |section_flag| */
       case 4: printf("[[%d]]",r); break; /* |tok_flag| */
       case 5: printf("|[[%d]]|",r); break; /* |inner_tok_flag| */
@@ -3364,7 +3364,7 @@ if (lo_ptr>scrap_base && tracing==partly) {
 @.Irreducible scrap sequence...@>
   mark_harmless;
   for (j=scrap_base; j<=lo_ptr; j++) {
-    printf(" "); print_cat(j->cat);
+    putchar(' '); print_cat(j->cat);
   }
 }
 
