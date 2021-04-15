@@ -3665,8 +3665,8 @@ static text_pointer
 C_translate(void)
 {
   text_pointer p; /* points to the translation */
-  scrap_pointer save_base; /* holds original value of |scrap_base| */
-  save_base=scrap_base; scrap_base=scrap_ptr+1;
+  scrap_pointer save_base=scrap_base; /* holds original value of |scrap_base| */
+  scrap_base=scrap_ptr+1;
   C_parse(section_name); /* get the scraps together */
   if (next_control!='|') err_print("! Missing '|' after C text");
 @.Missing '|'...@>
@@ -3890,12 +3890,11 @@ while outputting the name of a section.
 static void
 output_C(void) /* outputs the current token list */
 {
-  token_pointer save_tok_ptr;
-  text_pointer save_text_ptr;
-  sixteen_bits save_next_control; /* values to be restored */
+  token_pointer save_tok_ptr=tok_ptr;
+  text_pointer save_text_ptr=text_ptr;
+  sixteen_bits save_next_control=next_control; /* values to be restored */
   text_pointer p; /* translation of the \CEE/ text */
-  save_tok_ptr=tok_ptr; save_text_ptr=text_ptr;
-  save_next_control=next_control; next_control=ignore; p=C_translate();
+  next_control=ignore; p=C_translate();
   app(inner_tok_flag+(int)(p-tok_start));
   if (make_pb) {
     out_str("\\PB{"); make_output(); out('}');
