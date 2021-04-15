@@ -294,9 +294,9 @@ static void
 new_section_xref(
 name_pointer p)
 {
-  xref_pointer q,r; /* pointers to previous cross-references */
-  q=(xref_pointer)p->xref; r=xmem;
-  if (q>xmem)
+  xref_pointer q=(xref_pointer)p->xref;
+  xref_pointer r=xmem; /* pointers to previous cross-references */
+  if (q>r)
         while (q->num>section_xref_switch) {r=q; q=q->xlink;}
   if (r->num==section_count+section_xref_switch)
         return; /* don't duplicate entries */
@@ -314,8 +314,7 @@ static void
 set_file_flag(
 name_pointer p)
 {
-  xref_pointer q;
-  q=(xref_pointer)p->xref;
+  xref_pointer q=(xref_pointer)p->xref;
   if (q->num==file_flag) return;
   append_xref(file_flag);
   xref_ptr->xlink = q;
