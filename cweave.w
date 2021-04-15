@@ -579,7 +579,7 @@ representation by means of the table |ccode|.
 static eight_bits ccode[256]; /* meaning of a char following \.{@@} */
 
 @ @<Set ini...@>=
-{int c; for (c=0; c<256; c++) ccode[c]=0;}
+{int c; for (c=0; c<256; c++) ccode[c]=ignore;}
 ccode[' ']=ccode['\t']=ccode['\n']=ccode['\v']=ccode['\r']=ccode['\f']
    =ccode['*']=new_section;
 ccode['@@']='@@'; /* `quoted' at sign */

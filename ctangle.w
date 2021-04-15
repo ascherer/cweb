@@ -1372,7 +1372,7 @@ scan_section(void)
   if (*(loc-1)=='*' && show_progress) { /* starred section */
     printf("*%d",section_count); update_terminal;
   }
-  next_control=0;
+  next_control=ignore;
   while (true) {
     @<Skip ahead until |next_control| corresponds to \.{@@d}, \.{@@<},
       \.{@@\ } or the like@>@;
