@@ -1,3 +1,6 @@
 [Git-archive]
 .gitattributes export-ignore
 README.md export-ignore
+my-changes.md export-ignore
+testthings.w export-ignore
+indentation.w export-ignore
