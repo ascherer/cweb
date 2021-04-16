@@ -448,7 +448,7 @@ The remainder of the \.{@@i} line after the file name is ignored.
 @.CWEBINPUTS@>@<Try to open...@>= {
   char temp_file_name[max_file_name_length];
   char *cur_file_name_end=cur_file_name+max_file_name_length-1;
-  char *k=cur_file_name, *kk;
+  char *kk, *k=cur_file_name;
   int l; /* length of file name */
 
   if (*loc=='"') {
