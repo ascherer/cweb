@@ -702,7 +702,7 @@ and if it too is a prefix (ending with blank) its |link| will point
 to additional chunks in the same way. Null links are represented by
 |name_dir|.
 
-@d first_chunk(p)  ((p)->byte_start+2)
+@d first_chunk(p) ((p)->byte_start+2)
 @d prefix_length(p) (int)((eight_bits)*((p)->byte_start)*256 +
                 (eight_bits)*((p)->byte_start+1))
 @d set_prefix_length(p,m) (*((p)->byte_start)=(m)/256,
