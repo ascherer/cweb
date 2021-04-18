@@ -1140,8 +1140,7 @@ scanning the arguments; if additional flags are |true| by default they
 should be set before calling |common_init|.
 
 @<Set the default options common to \.{CTANGLE} and \.{CWEAVE}@>=
-show_banner=show_happiness=show_progress=make_xrefs=true;@/
-show_stats=false;
+show_banner=show_happiness=show_progress=make_xrefs=true;
 
 @ We now must look at the command line arguments and set the file names
 accordingly.  At least one file name must be present: the \.{CWEB}
