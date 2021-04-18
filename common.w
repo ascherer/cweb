@@ -445,7 +445,7 @@ The remainder of the \.{@@i} line after the file name is ignored.
 @d too_long() {include_depth--;
         err_print("! Include file name too long"); goto restart;}
 
-@.CWEBINPUTS@>@<Try to open...@>= {
+@<Try to open...@>= {
   char temp_file_name[max_file_name_length];
   char *cur_file_name_end=cur_file_name+max_file_name_length-1;
   char *kk, *k=cur_file_name;
@@ -464,8 +464,8 @@ The remainder of the \.{@@i} line after the file name is ignored.
     cur_line=0; print_where=true;
     goto restart; /* success */
   }
-  kk=getenv("CWEBINPUTS");
-  if (kk!=NULL) {
+  if ((kk=getenv("CWEBINPUTS"))!=NULL) {
+@.CWEBINPUTS@>
     if ((l=strlen(kk))>max_file_name_length-2) too_long();
     strcpy(temp_file_name,kk);
   }
