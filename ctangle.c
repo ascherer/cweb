@@ -1051,9 +1051,9 @@ else if(isalpha(c)||isxalpha(c)||ishigh(c))
 #line 954 "ctangle.w"
 {
 id_first= --loc;
-do{
+do
 ++loc;
-}while(isalpha((eight_bits)*loc)||isdigit((eight_bits)*loc)
+while(isalpha((eight_bits)*loc)||isdigit((eight_bits)*loc)
 ||isxalpha((eight_bits)*loc)||ishigh((eight_bits)*loc));
 id_loc= loc;return identifier;
 }
