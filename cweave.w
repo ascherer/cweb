@@ -249,7 +249,7 @@ If one were careful, one could probably make more changes around section
 @d append_xref(c) if (xref_ptr==xmem_end) overflow("cross-reference");
   else (++xref_ptr)->num=c;
 @d no_xref (!make_xrefs)
-@d is_tiny(p) ((p+1)->byte_start==(p)->byte_start+1)
+@d is_tiny(p) (length(p)==1)
 @d unindexed(a) (a<res_wd_end && a->ilk>=custom)
       /* tells if uses of a name are to be indexed */
 
