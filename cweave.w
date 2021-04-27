@@ -3400,7 +3400,6 @@ static void
 C_parse( /* creates scraps from \CEE/ tokens */
   eight_bits spec_ctrl)
 {
-  int count; /* characters remaining before string break */
   while (next_control<format_code || next_control==spec_ctrl) {
     @<Append the scrap appropriate to |next_control|@>@;
     next_control=get_next();
@@ -3553,8 +3552,7 @@ Many of the special characters in a string must be prefixed by `\.\\' so that
 \TEX/ will print them properly.
 @^special string characters@>
 
-@<Append a string or...@>=
-count= -1;
+@<Append a string or...@>={@+ int count=-1; /* characters remaining before string break */
 if (next_control==constant) app_str("\\T{"@q}@>);
 @.\\T@>
 else if (next_control==string) {
@@ -3598,6 +3596,7 @@ while (id_first<id_loc) {
 }
 app(@q{@>'}');
 app_scrap(exp,maybe_math);
+}
 
 @ We do not make the \TEX/ string into a scrap, because there is no
 telling what the user will be putting into it; instead we leave it
