@@ -577,10 +577,12 @@ representation by means of the table |ccode|.
 @<Private...@>=
 static eight_bits ccode[256]; /* meaning of a char following \.{@@} */
 
-@ @<Set ini...@>=
-{int c; for (c=0; c<256; c++) ccode[c]=ignore;}
+@ @<Set ini...@>= {
+  int c; /* must be |int| so the |for| loop will end */
+  for (c=0; c<256; c++) ccode[c]=ignore;
+}
 ccode[' ']=ccode['\t']=ccode['\n']=ccode['\v']=ccode['\r']=ccode['\f']
-   =ccode['*']=new_section;
+  =ccode['*']=new_section;
 ccode['@@']='@@'; /* `quoted' at sign */
 ccode['=']=verbatim;
 ccode['d']=ccode['D']=definition;

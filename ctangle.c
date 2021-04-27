@@ -484,6 +484,7 @@ for(i= 0;i<128;i++)sprintf(translit[i],"X%02X",(unsigned int)(128+i));
 {
 int c;
 for(c= 0;c<256;c++)ccode[c]= ignore;
+}
 ccode[' ']= ccode['\t']= ccode['\n']= ccode['\v']= ccode['\r']= ccode['\f']
 = ccode['*']= new_section;
 ccode['@']= '@';ccode['=']= string;
@@ -497,7 +498,6 @@ ccode['l']= ccode['L']= translit_code;
 ccode['&']= join;
 ccode['<']= ccode['(']= section_name;
 ccode['\'']= ord;
-}
 
 /*:63*//*78:*/
 #line 1111 "ctangle.w"
