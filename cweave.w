@@ -2249,9 +2249,9 @@ text_pointer p)
   else for (j=*p; j<*(p+1); j++) {
     r=*j%id_flag;
     switch (*j/id_flag) {
-      case 1: printf("\\\\{"@q}@>); print_id((name_dir+r)); printf(@q{@>"}");
+      case 1: printf("\\\\{"@q}@>); print_id((name_dir+r)); putchar(@q{@>'}');
         break; /* |id_flag| */
-      case 2: printf("\\&{"@q}@>); print_id((name_dir+r)); printf(@q{@>"}");
+      case 2: printf("\\&{"@q}@>); print_id((name_dir+r)); putchar(@q{@>'}');
         break; /* |res_flag| */
       case 3: putchar('<'); print_section_name((name_dir+r)); putchar('>');
         break; /* |section_flag| */
