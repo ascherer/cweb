@@ -67,7 +67,7 @@
 #define harmless_message 1
 #define error_message 2
 #define fatal_message 3
-#define mark_harmless {if(history==spotless) history= harmless_message;}
+#define mark_harmless if(history==spotless) history= harmless_message
 #define mark_error history= error_message
 #define confusion(s) fatal("! This can't happen: ",s)  \
  \
