@@ -4487,8 +4487,8 @@ static void
 footnote( /* outputs section cross-references */
 sixteen_bits flag)
 {
-  xref_pointer q; /* cross-reference pointer variable */
-  if (cur_xref->num<=flag) return;
+  xref_pointer q=cur_xref; /* cross-reference pointer variable */
+  if (q->num<=flag) return;
   finish_line(); out('\\');
 @.\\A@>
 @.\\Q@>
@@ -4505,7 +4505,7 @@ of cross-references is one, two, or more than two. Variable |q| points
 to the first cross-reference, and the last link is a zero.
 
 @<Output all the section numbers...@>=
-q=cur_xref; if (q->xlink->num>flag) out('s'); /* plural */
+if (q->xlink->num>flag) out('s'); /* plural */
 while (true) {
   out_section(cur_xref->num-flag);
   cur_xref=cur_xref->xlink; /* point to the next cross-reference to output */
