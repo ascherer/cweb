@@ -2248,15 +2248,18 @@ text_pointer p)
   if (p>=text_ptr) printf("BAD");
   else for (j=*p; j<*(p+1); j++) {
     r=*j%id_flag;
-    switch (*j/id_flag) {
-      case 1: printf("\\\\{"@q}@>); print_id((name_dir+r)); putchar(@q{@>'}');
-        break; /* |id_flag| */
-      case 2: printf("\\&{"@q}@>); print_id((name_dir+r)); putchar(@q{@>'}');
-        break; /* |res_flag| */
-      case 3: putchar('<'); print_section_name((name_dir+r)); putchar('>');
-        break; /* |section_flag| */
-      case 4: printf("[[%d]]",r); break; /* |tok_flag| */
-      case 5: printf("|[[%d]]|",r); break; /* |inner_tok_flag| */
+    switch (*j) {
+      case id_flag:
+        printf("\\\\{"@q}@>); print_id((name_dir+r)); putchar(@q{@>'}');
+        break;
+      case res_flag:
+        printf("\\&{"@q}@>); print_id((name_dir+r)); putchar(@q{@>'}');
+        break;
+      case section_flag:
+        putchar('<'); print_section_name((name_dir+r)); putchar('>');
+        break;
+      case tok_flag: printf("[[%d]]",r); break;
+      case inner_tok_flag: printf("|[[%d]]|",r); break;
       default: @<Print token |r| in symbolic form@>@;
     }
   }
