@@ -3303,19 +3303,18 @@ a sequence of two or more irreducible scraps will be printed out when
 static int tracing=off; /* can be used to show parsing details */
 
 @ @<Print a snapsh...@>=
-{ scrap_pointer k_l; /* pointer into |scrap_info| */
-  if (tracing==fully) {
-    printf("\n%d:",n);
-    for (k_l=scrap_base; k_l<=lo_ptr; k_l++) {
-      if (k_l==pp) putchar('*'); else putchar(' ');
-      if (k_l->mathness %4 ==  yes_math) putchar('+');
-      else if (k_l->mathness %4 ==  no_math) putchar('-');
-      print_cat(k_l->cat);
-      if (k_l->mathness /4 ==  yes_math) putchar('+');
-      else if (k_l->mathness /4 ==  no_math) putchar('-');
-    }
-    if (hi_ptr<=scrap_ptr) printf("..."); /* indicate that more is coming */
+if (tracing==fully) {
+  scrap_pointer k_l; /* pointer into |scrap_info| */
+  printf("\n%d:",n);
+  for (k_l=scrap_base; k_l<=lo_ptr; k_l++) {
+    if (k_l==pp) putchar('*'); else putchar(' ');
+    if (k_l->mathness %4 ==  yes_math) putchar('+');
+    else if (k_l->mathness %4 ==  no_math) putchar('-');
+    print_cat(k_l->cat);
+    if (k_l->mathness /4 ==  yes_math) putchar('+');
+    else if (k_l->mathness /4 ==  no_math) putchar('-');
   }
+  if (hi_ptr<=scrap_ptr) printf("..."); /* indicate that more is coming */
 }
 
 @ The |translate| function assumes that scraps have been stored in
