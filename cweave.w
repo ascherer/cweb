@@ -4650,7 +4650,6 @@ name_pointer Head;
 @f sort_pointer int
 @d sort_pointer scrap_pointer /* ditto */
 @d sort_ptr scrap_ptr /* ditto */
-@d max_sorts max_scraps /* ditto */
 
 @<Private...@>=
 static eight_bits cur_depth; /* depth of current buckets */
