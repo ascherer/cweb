@@ -117,8 +117,6 @@ handle \TEX/, so they should be sufficient for most applications of \.{CWEAVE}.
 @d line_length 80 /* lines of \TEX/ output have at most this many characters;
   should be less than 256 */
 @d max_refs 65535 /* number of cross-references; must be less than 65536 */
-@d max_texts 10239 /* number of phrases in \CEE/ texts being parsed;
-  must be less than 10240 */
 @d max_scraps 10000 /* number of tokens in \CEE/ texts being parsed */
 
 @* Data structures exclusive to {\tt CWEAVE}.
