@@ -2766,7 +2766,7 @@ if (cat1==comma) {
 else if (cat1==ubinop) {
   big_app1_insert(pp,'{'); big_app('}'); reduce(pp,2,decl_head,-1,34);
 }
-else if (cat1==exp && cat2!=lpar && cat2!=exp && cat2!=cast) {
+else if (cat1==exp && cat2!=lpar && cat2!=lbrack && cat2!=exp && cat2!=cast) {
   make_underlined(pp+1); squash(pp,2,decl_head,-1,35);
 }
 else if ((cat1==binop||cat1==colon) && cat2==exp && (cat3==comma ||
