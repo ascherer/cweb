@@ -76,8 +76,8 @@
 
 #define show_banner flags['b']
 #define show_progress flags['p']
-#define show_stats flags['s']
 #define show_happiness flags['h']
+#define show_stats flags['s']
 #define make_xrefs flags['x'] \
 
 #define update_terminal fflush(stdout) 
