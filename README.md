@@ -5,11 +5,14 @@ people have been accumulating several decades of experience with
 ctangle and cweave work reasonably well on numerous platforms. in general those
 programs are now entirely stable: don knuth won't be changing them any more,
 because they've proved their value in extensive use.  (henceforth he must
-devote full time to the art of computer programming!)
+devote full time to
+[the art of computer programming](https://www-cs-faculty.stanford.edu/~knuth/taocp.html)!)
 
 however, further significant developments, including versions that don himself
 does not maintain, are ongoing. all of the really current news about cweb is,
-in fact, now to be found in this cweb development project.
+in fact, now to be found in this cweb development project. Check out the
+details in the
+[releases description](https://github.com/ascherer/cweb/releases).
 
 # software archæology
 
