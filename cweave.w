@@ -4262,7 +4262,7 @@ out('{'); out_section(section_count); out('}');
 @ In the \TEX/ part of a section, we simply copy the source text, except that
 index entries are not copied and \CEE/ text within \pb\ is translated.
 
-@<Translate the \T...@>= do {
+@<Translate the \T...@>= do
   switch (next_control=copy_TeX()) {
     case '|': init_stack; output_C(); break;
     case '@@': out('@@'); break;
@@ -4279,7 +4279,7 @@ index entries are not copied and \CEE/ text within \pb\ is translated.
         err_print("! You can't do that in TeX text"); break;
 @.You can't do that...@>
   }
-} while (next_control<format_code);
+while (next_control<format_code);
 
 @ When we get to the following code we have |next_control>=format_code|, and
 the token memory is in its initial empty state.
