@@ -1,22 +1,25 @@
-# cweb 4.2
+# cweb 4.3
 
 people have been accumulating several decades of experience with
 [cweb](http://www-cs-faculty.stanford.edu/~uno/cweb.html), and we know that
 ctangle and cweave work reasonably well on numerous platforms. in general those
 programs are now entirely stable: don knuth won't be changing them any more,
 because they've proved their value in extensive use.  (henceforth he must
-devote full time to the art of computer programming!)
+devote full time to
+[the art of computer programming](https://www-cs-faculty.stanford.edu/~knuth/taocp.html)!)
 
 however, further significant developments, including versions that don himself
 does not maintain, are ongoing. all of the really current news about cweb is,
-in fact, now to be found in this cweb development project.
+in fact, now to be found in this cweb development project. Check out the
+details in the
+[releases description](https://github.com/ascherer/cweb/releases).
 
 # software archæology
 
 besides for further development, this ‘project’ is used as an – obviously
 incomplete – repository of original release versions of levy/knuth
 [cweb](http://www-cs-faculty.stanford.edu/~uno/cweb.html). you can either
-compile these sources directly or stick the recent version “cweb-4.2” into my
+compile these sources directly or stick the recent version “cweb-4.3” into my
 [cwebbin](https://github.com/ascherer/cwebbin), which introduces convenient
 extensions and prepares cweb for inclusion in the “tex live” distribution.
 
