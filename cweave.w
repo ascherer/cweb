@@ -1313,8 +1313,7 @@ name_pointer p) /* print anomalies in subtree |p| */
   if (p) {
     section_check(p->llink);
     cur_xref=(xref_pointer)p->xref;
-    if (cur_xref->num==file_flag) {an_output=true; cur_xref=cur_xref->xlink;}
-    else an_output=false;
+    if ((an_output=(cur_xref->num==file_flag))==true) cur_xref=cur_xref->xlink;
     if (cur_xref->num <def_flag) {
       fputs("\n! Never defined: <",stdout);
       print_section_name(p); putchar('>'); mark_harmless;
@@ -4075,8 +4074,7 @@ input buffer and the translation process uses the end of the active
   out_str("\\X");
 @.\\X@>
   cur_xref=(xref_pointer)cur_name->xref;
-  if (cur_xref->num==file_flag) {an_output=true; cur_xref=cur_xref->xlink;}
-  else an_output=false;
+  if ((an_output=(cur_xref->num==file_flag))==true) cur_xref=cur_xref->xlink;
   if (cur_xref->num>=def_flag) {
     out_section(cur_xref->num-def_flag);
     if (phase==3) {
@@ -4461,8 +4459,7 @@ after the section ends.
 @<Show cross...@>=
 if (this_section>name_dir) {
   cur_xref=(xref_pointer)this_section->xref;
-  if (cur_xref->num==file_flag){an_output=true;cur_xref=cur_xref->xlink;}
-  else an_output=false;
+  if ((an_output=(cur_xref->num==file_flag))==true) cur_xref=cur_xref->xlink;
   if (cur_xref->num>def_flag)
     cur_xref=cur_xref->xlink; /* bypass current section number */
   footnote(def_flag); footnote(cite_flag); footnote(0);
