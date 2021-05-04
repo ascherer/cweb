@@ -1089,12 +1089,12 @@ void
 err_print(
 const char*s)
 {
-char*k,*l;
 printf(*s=='!'?"\n%s":"%s",s);
 if(web_file_open)/*67:*/
-#line 1036 "common.w"
+#line 1035 "common.w"
 
-{if(changing&&include_depth==change_depth)
+{char*k,*l;
+if(changing&&include_depth==change_depth)
 printf(". (l. %d of change file)\n",change_line);
 else if(include_depth==0)printf(". (l. %d)\n",cur_line);
 else printf(". (l. %d of include file %s)\n",cur_line,cur_file_name);
@@ -1112,7 +1112,7 @@ putchar(' ');
 }
 
 /*:67*/
-#line 1023 "common.w"
+#line 1022 "common.w"
 
 update_terminal;mark_error;
 }

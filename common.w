@@ -1018,7 +1018,6 @@ void
 err_print( /* prints `\..' and location of error message */
 const char *s)
 {
-  char *k,*l; /* pointers into |buffer| */
   printf(*s=='!'? "\n%s" : "%s",s);
   if (web_file_open) @<Print error location based on input buffer@>@;
   update_terminal; mark_error;
@@ -1034,7 +1033,8 @@ has special line-numbering conventions.
 @^system dependencies@>
 
 @<Print error location based on input buffer@>=
-{if (changing && include_depth==change_depth)
+{char *k,*l; /* pointers into |buffer| */
+if (changing && include_depth==change_depth)
   printf(". (l. %d of change file)\n", change_line);
 else if (include_depth==0) printf(". (l. %d)\n", cur_line);
   else printf(". (l. %d of include file %s)\n", cur_line, cur_file_name);
