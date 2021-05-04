@@ -1482,13 +1482,12 @@ processing is straightforward.
 static void
 skip_limbo(void)
 {
-  char c;
   while (true) {
     if (loc>limit && get_line()==false) return;
     *(limit+1)='@@';
     while (*loc!='@@') loc++;
     if (loc++<=limit) {
-      c=*loc++;
+      char c=*loc++;
       if (ccode[(eight_bits)c]==new_section) break;
       switch (ccode[(eight_bits)c]) {
         case translit_code: @<Read in transliteration of a character@>@; break;
