@@ -1212,7 +1212,7 @@ if(dot_pos==NULL)
 sprintf(web_file_name,"%s.w",*argv);
 else{
 strcpy(web_file_name,*argv);
-*dot_pos= 0;
+*dot_pos= '\0';
 }
 sprintf(alt_web_file_name,"%s.web",*argv);
 sprintf(tex_file_name,"%s.tex",name_pos);
@@ -1271,7 +1271,7 @@ sprintf(C_file_name,"%s.c",*argv);
 strcpy(tex_file_name,*argv);
 strcpy(C_file_name,*argv);
 if(make_xrefs){
-*dot_pos= 0;
+*dot_pos= '\0';
 sprintf(idx_file_name,"%s.idx",*argv);
 sprintf(scn_file_name,"%s.scn",*argv);
 }
