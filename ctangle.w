@@ -1089,7 +1089,7 @@ thus, \.{@@'\\nopq'} gives the same result as \.{@@'\\n'}.
   return ord;
 
 @ @<Scan the section name...@>= {
-  char *k; /* pointer into |section_text| */
+  char *k=section_text; /* pointer into |section_text| */
   @<Put section name into |section_text|@>@;
   if (k-section_text>3 && strncmp(k-2,"...",3)==0)
     cur_section_name=section_lookup(section_text+1,k-3,true);
@@ -1111,7 +1111,6 @@ character of the name.)
 @<Set init...@>=section_text[0]=' ';
 
 @ @<Put section name...@>=
-k=section_text;
 while (true) {
   if (loc>limit && get_line()==false) {
     err_print("! Input ended in section name");
