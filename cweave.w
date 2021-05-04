@@ -3279,7 +3279,7 @@ stored, since zero does not match anything in a production.
 @<Make sure the entries...@>=
 if (lo_ptr<pp+3) {
   while (hi_ptr<=scrap_ptr && lo_ptr!=pp+3) {
-    (++lo_ptr)->cat=hi_ptr->cat; lo_ptr->mathness=(hi_ptr)->mathness;
+    (++lo_ptr)->cat=hi_ptr->cat; lo_ptr->mathness=hi_ptr->mathness;
     lo_ptr->trans=(hi_ptr++)->trans;
   }
   for (i=lo_ptr+1;i<=pp+3;i++) i->cat=0;

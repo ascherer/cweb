@@ -1532,7 +1532,7 @@ scan_repl(section_name);
 #line 1449 "ctangle.w"
 
 if(p==name_dir||p==NULL){
-(last_unnamed)->text_link= cur_text-text_info;last_unnamed= cur_text;
+last_unnamed->text_link= cur_text-text_info;last_unnamed= cur_text;
 }
 else if(p->equiv==(void*)text_info)p->equiv= (void*)cur_text;
 
