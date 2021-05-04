@@ -1127,11 +1127,10 @@ static void
 C_xref( /* makes cross-references for \CEE/ identifiers */
   eight_bits spec_ctrl)
 {
-  name_pointer p; /* a referenced name */
   while (next_control<format_code || next_control==spec_ctrl) {
     if (next_control>=identifier && next_control<=xref_typewriter) {
       if (next_control>identifier) @<Replace |"@@@@"| by |"@@"| @>@;
-      p=id_lookup(id_first, id_loc,next_control-identifier); new_xref(p);
+      new_xref(id_lookup(id_first,id_loc,next_control-identifier));
     }
     if (next_control==section_name) {
       section_xref_switch=cite_flag;
@@ -1184,7 +1183,7 @@ while (true) {
       loc-=2; next_control=get_next(); /* scan to \.{@@>} */
       if (next_control>=xref_roman && next_control<=xref_typewriter) {
         @<Replace |"@@@@"| by |"@@"| @>@;
-        new_xref(id_lookup(id_first, id_loc,next_control-identifier));
+        new_xref(id_lookup(id_first,id_loc,next_control-identifier));
       }
       break;
   }
