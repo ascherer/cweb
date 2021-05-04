@@ -956,7 +956,7 @@ whether there is more work to do.
 because the section name might (for example) follow \&{int}.
 
 @<Scan the section name...@>= {
-  char *k; /* pointer into |section_text| */
+  char *k=section_text; /* pointer into |section_text| */
   cur_section_char=*(loc-1);
   @<Put section name into |section_text|@>@;
   if (k-section_text>3 && strncmp(k-2,"...",3)==0)
@@ -975,7 +975,6 @@ character of the name.)
 @<Set init...@>=section_text[0]=' ';
 
 @ @<Put section name...@>=
-k=section_text;
 while (true) {
   if (loc>limit && get_line()==false) {
     err_print("! Input ended in section name");
