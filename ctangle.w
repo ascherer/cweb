@@ -1199,7 +1199,7 @@ eight_bits t)
   sixteen_bits a; /* the current token */
   if (t==section_name) @<Insert the line number into |tok_mem|@>@;
   while (true) switch (a=get_next()) {
-      @<In cases that |a| is a non-|char| token (|identifier|,
+      @/@t\4@>@<In cases that |a| is a non-|char| token (|identifier|,
         |section_name|, etc.), either process it and change |a| to a byte
         that should be stored, or |continue| if |a| should be ignored,
         or |goto done| if |a| signals the end of this replacement text@>@;
