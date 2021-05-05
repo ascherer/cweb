@@ -1235,7 +1235,7 @@ file name.
 }
 
 @ @<In cases that |a| is...@>=@t\1\quad@>
-case identifier: a=id_lookup(id_first,id_loc,0)-name_dir;
+case identifier: a=id_lookup(id_first,id_loc,0)-name_dir;@/
   app_repl((a / 0400)+0200);
   app_repl(a % 0400); break;
 case section_name: if (t!=section_name) goto done;
