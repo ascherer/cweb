@@ -775,8 +775,8 @@ the last character was a \.\\.
   }
 
 @ The following code assigns values to the combinations \.{++},
-\.{--}, \.{->}, \.{>=}, \.{<=}, \.{==}, \.{<<}, \.{>>}, \.{!=}, \.{\v\v}, and
-\.{\&\&}, and to the \CPLUSPLUS/
+\.{--}, \.{->}, \.{>=}, \.{<=}, \.{==}, \.{<<}, \.{>>}, \.{!=}, %\.{||}
+\.{\v\v} and~\.{\&\&}, and to the \CPLUSPLUS/
 combinations \.{...}, \.{::}, \.{.*} and \.{->*}.
 The compound assignment operators (e.g., \.{+=}) are
 treated as separate tokens.
