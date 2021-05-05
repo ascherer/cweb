@@ -525,9 +525,11 @@ phase_two (void) {
 @.No program text...@>
   }
   else {
-    if(cur_out_file==end_output_files) {
-      if(show_progress)
+    if (cur_out_file==end_output_files) {
+      if (show_progress) {
         printf("\nWriting the output file (%s):",C_file_name);
+        update_terminal;
+      }
     }
     else {
       if (show_progress) {
