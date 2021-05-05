@@ -924,8 +924,8 @@ get_next(void) /* produces the next input token */
 @ @<Predecl...@>=@+static eight_bits get_next(void);
 
 @ The following code assigns values to the combinations \.{++},
-\.{--}, \.{->}, \.{>=}, \.{<=}, \.{==}, \.{<<}, \.{>>}, \.{!=}, \.{||} and
-\.{\&\&}, and to the \CPLUSPLUS/
+\.{--}, \.{->}, \.{>=}, \.{<=}, \.{==}, \.{<<}, \.{>>}, \.{!=}, %\.{||}
+\.{\v\v} and~\.{\&\&}, and to the \CPLUSPLUS/
 combinations \.{...}, \.{::}, \.{.*} and \.{->*}.
 The compound assignment operators (e.g., \.{+=}) are
 treated as separate tokens.
