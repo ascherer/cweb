@@ -126,7 +126,9 @@ typedef struct {
 } text;
 typedef text *text_pointer;
 
-@ @<Private...@>=
+@ @d max_texts 2500 /* number of replacement texts, must be less than 10240 */
+@d max_toks 270000 /* number of bytes in compressed \CEE/ code */
+@<Private...@>=
 static text text_info[max_texts];
 static text_pointer text_info_end=text_info+max_texts-1;
 static text_pointer text_ptr; /* first unused position in |text_info| */
@@ -285,6 +287,8 @@ typedef output_state *stack_pointer;
 @d cur_name cur_state.name_field /* pointer to current name being expanded */
 @d cur_repl cur_state.repl_field /* pointer to current replacement text */
 @d cur_section cur_state.section_field /* current section number being expanded */
+@#
+@d stack_size 50 /* number of simultaneous levels of macro expansion */
 
 @<Private...@>=
 static output_state cur_state; /* |cur_end|, |cur_byte|, |cur_name|, |cur_repl|,

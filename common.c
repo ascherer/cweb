@@ -82,17 +82,15 @@
 #define new_line putchar('\n') 
 #define term_write(a,b) fflush(stdout) ,fwrite(a,sizeof(char) ,b,stdout)  \
 
-#define max_bytes 1000000 \
+#define buf_size 100
+#define longest_name 10000 \
 
-#define max_toks 1000000
-#define max_names 10239 \
+#define long_buf_size (buf_size+longest_name) 
+#define max_bytes 90000 \
 
-#define max_sections 4000
-#define max_texts 10239
-#define longest_name 10000
-#define stack_size 500
-#define buf_size 1000
-#define long_buf_size (buf_size+longest_name)  \
+#define max_names 4000 \
+
+#define max_sections 2000 \
 
 #define lines_dont_match (change_limit-change_buffer!=limit-buffer|| \
 strncmp(buffer,change_buffer,(size_t) (limit-buffer) ) )  \
@@ -107,7 +105,7 @@ if(*loc=='@'&&(xisspace(*(loc+1) ) ||*(loc+1) =='*') ) change_pending= b; \
 #define too_long() {include_depth--; \
 err_print("! Include file name too long") ;goto restart;} \
 
-#define hash_size 8501 \
+#define hash_size 353 \
 
 #define first_chunk(p) ((p) ->byte_start+2) 
 #define prefix_length(p) (int) ((eight_bits) *((p) ->byte_start) *256+ \

@@ -116,8 +116,8 @@ handle \TEX/, so they should be sufficient for most applications of \.{CWEAVE}.
 
 @d line_length 80 /* lines of \TEX/ output have at most this many characters;
   should be less than 256 */
-@d max_refs 65535 /* number of cross-references; must be less than 65536 */
-@d max_scraps 10000 /* number of tokens in \CEE/ texts being parsed */
+@d max_refs 20000 /* number of cross-references; must be less than 65536 */
+@d max_scraps 2000 /* number of tokens in \CEE/ texts being parsed */
 
 @* Data structures exclusive to {\tt CWEAVE}.
 As explained in \.{common.w}, the field of a |name_info| structure
@@ -334,6 +334,11 @@ typedef token_pointer *text_pointer;
 that is unoccupied by replacement text is called |tok_ptr|, and the first
 unused location of |tok_start| is called |text_ptr|.
 Thus, we usually have |*text_ptr==tok_ptr|.
+
+@d max_toks 20000 /* number of symbols in \CEE/ texts being parsed;
+  must be less than 65536 */
+@d max_texts 4000 /* number of phrases in \CEE/ texts being parsed;
+  must be less than 10240 */
 
 @<Private...@>=
 static token tok_mem[max_toks]; /* tokens */
@@ -3780,6 +3785,8 @@ typedef output_state *stack_pointer;
 @d cur_tok cur_state.tok_field /* location of next output token in |tok_mem| */
 @d cur_mode cur_state.mode_field /* current mode of interpretation */
 @d init_stack stack_ptr=stack;cur_mode=outer /* initialize the stack */
+@#
+@d stack_size 400 /* number of simultaneous output levels */
 
 @<Private...@>=
 static output_state cur_state; /* |cur_end|, |cur_tok|, |cur_mode| */
