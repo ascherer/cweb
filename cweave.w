@@ -383,14 +383,9 @@ name_pointer p)
   p->xref=(void *)xmem;
 }
 
-static void
-update_node(
-name_pointer p)
-{
-  p->xref=(void *)xref_ptr;
-}
+@ And here's a small helper function to simplify the code.
 
-@ @<Predecl...@>=@+static void update_node(name_pointer p);
+@d update_node(p) p->xref=(void *)xref_ptr
 
 @ We have to get \CEE/'s and \CPLUSPLUS/'s
 reserved words into the hash table, and the simplest way to do this is
@@ -1501,7 +1496,7 @@ sixteen_bits n)
 {
   char s[6];
   sprintf(s,"%d",n); out_str(s);
-  if(changed_section[n]) out_str ("\\*");
+  if (changed_section[n]) out_str("\\*");
 @.\\*@>
 }
 
@@ -1849,15 +1844,7 @@ static char cat_name[256][12];
 
 @ This code allows \.{CWEAVE} to display its parsing steps.
 
-@c
-static void
-print_cat( /* symbolic printout of a category */
-eight_bits c)
-{
-  fputs(cat_name[c],stdout);
-}
-
-@ @<Predecl...@>=@+static void print_cat(eight_bits);
+@d print_cat(c) fputs(cat_name[(eight_bits)c],stdout)
 
 @ The token lists for translated \TEX/ output contain some special control
 symbols as well as ordinary characters. These control symbols are
@@ -2379,7 +2366,7 @@ static void
 app_str(
 const char *s)
 {
-  while (*s) app_tok(*(s++));
+  while (*s) app_tok(*s++);
 }
 
 static void
