@@ -51,7 +51,7 @@
 
 #define max_include_depth 10 \
 
-#define max_file_name_length 1024
+#define max_file_name_length 60
 #define cur_file file[include_depth]
 #define cur_file_name file_name[include_depth]
 #define cur_line line[include_depth]

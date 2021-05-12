@@ -40,7 +40,7 @@ for the file name plus one character as string terminator. (Note that
 (current) QDOS/SMSQ file systems have a limitation of 36 characters as
 maximum length for a file name.
 @x
-@d max_file_name_length 1024
+@d max_file_name_length 60
 @y
 @d max_file_name_length 42
 @z
