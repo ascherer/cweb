@@ -148,7 +148,7 @@ the routine as if it would work.
     sprintf(web_file_name,"%s.w",*argv);
   else {
     strcpy(web_file_name,*argv);
-    *dot_pos=0; /* string now ends where the dot was */
+    *dot_pos='\0'; /* string now ends where the dot was */
   }
   sprintf(alt_web_file_name,"%s.web",*argv);
   sprintf(tex_file_name,"%s.tex",name_pos); /* strip off directory name */
@@ -166,7 +166,7 @@ the routine as if it would work.
     sprintf(web_file_name,"%s_w",*argv);
   else {
     strcpy(web_file_name,*argv);
-    *dot_pos=0; /* string now ends where the dot was */
+    *dot_pos='\0'; /* string now ends where the dot was */
   }
   sprintf(alt_web_file_name,"%s_web",*argv);
   sprintf(tex_file_name,"%s_tex",name_pos); /* strip off directory name */
@@ -219,7 +219,7 @@ the routine as if it would work.
     strcpy(tex_file_name,*argv);
     strcpy(C_file_name,*argv);
     if (make_xrefs) { /* indexes will be generated */
-      *dot_pos=0;
+      *dot_pos='\0';
       sprintf(idx_file_name,"%s.idx",*argv);
       sprintf(scn_file_name,"%s.scn",*argv);
     }
@@ -240,7 +240,7 @@ the routine as if it would work.
     strcpy(tex_file_name,*argv);
     strcpy(C_file_name,*argv);
     if (make_xrefs) { /* indexes will be generated */
-      *dot_pos=0;
+      *dot_pos='\0';
       sprintf(idx_file_name,"%s_idx",*argv);
       sprintf(scn_file_name,"%s_scn",*argv);
     }

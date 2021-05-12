@@ -14,11 +14,14 @@ alternate change files with -bs suffix instead of -pc.
 @d banner "This is CTANGLE (Version 4.3pc)"
 @z
 @x section 17
-@d max_bytes 1000000 /* the number of bytes in identifiers,
-  index entries, and section names */
-@d max_toks 1000000 /* number of bytes in compressed \CEE/ code */
+@d max_bytes 90000 /* the number of bytes in identifiers,
+  index entries, and section names; must be less than $2^{24}$ */
 @y (note that CWEAVE itself needs only about 42K toks)
 @d max_bytes (unsigned)60000 /* the number of bytes in identifiers,
-  index entries, and section names */
+  index entries, and section names; must be less than $2^{24}$ */
+@z
+@x section 20
+@d max_toks 270000 /* number of bytes in compressed \CEE/ code */
+@y
 @d max_toks (unsigned)60000 /* number of bytes in compressed \CEE/ code */
 @z
