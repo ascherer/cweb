@@ -3011,14 +3011,14 @@ else if (cat1==decl_head || cat1==int_like || cat1==exp) {
     big_app3(pp); app(opt); app('9'); reduce(pp,3,langle,0,88);
   }
 }
-else if (cat1==struct_like) {
-  if ((cat2==exp || cat2==int_like) && (cat3==comma || cat3==prerangle)) {
+else if ((cat1==struct_like) @|
+  && (cat2==exp || cat2==int_like) @|
+  && (cat3==comma || cat3==prerangle)) {
     make_underlined(pp+2); if (reserve_typenames) make_reserved(pp+2);
     big_app2(pp); big_app(' '); big_app2(pp+2);
     if (cat3==comma) reduce(pp,4,langle,0,153);
     else reduce(pp,4,cast,-1,154);
   }
-}
 
 @ @<Cases for |template_like|@>=
 if (cat1==exp && cat2==prelangle) squash(pp+2,1,langle,2,89);
