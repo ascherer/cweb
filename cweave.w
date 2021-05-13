@@ -152,7 +152,7 @@ formatted.
 @d roman 1 /* normal index entries have |roman| ilk */
 @d wildcard 2 /* user-formatted index entries have |wildcard| ilk */
 @d typewriter 3 /* `typewriter type' entries have |typewriter| ilk */
-@d abnormal(a) (a->ilk>typewriter) /* tells if a name is special */
+@d abnormal(a) ((a)->ilk>typewriter) /* tells if a name is special */
 @d func_template 4 /* identifiers that can be followed by optional template */
 @d custom 5 /* identifiers with user-given control sequence */
 @d alfop 22 /* alphabetic operators like \&{and} or \&{not\_eq} */
@@ -246,9 +246,9 @@ If one were careful, one could probably make more changes around section
 
 @d append_xref(c) if (xref_ptr==xmem_end) overflow("cross-reference");
   else (++xref_ptr)->num=c;
-@d no_xref (!make_xrefs)
-@d is_tiny(p) (length(p)==1)
-@d unindexed(a) (a<res_wd_end && a->ilk>=custom)
+@d no_xref !make_xrefs
+@d is_tiny(p) length(p)==1
+@d unindexed(a) ((a)<res_wd_end && (a)->ilk>=custom)
       /* tells if uses of a name are to be indexed */
 
 @<Predecl...@>=
@@ -385,7 +385,7 @@ name_pointer p)
 
 @ And here's a small helper function to simplify the code.
 
-@d update_node(p) p->xref=(void *)xref_ptr
+@d update_node(p) (p)->xref=(void *)xref_ptr
 
 @ We have to get \CEE/'s and \CPLUSPLUS/'s
 reserved words into the hash table, and the simplest way to do this is
@@ -828,7 +828,7 @@ On output, the \.{\ } that replaces \.{'} in \CPLUSPLUS/ literals will become
 Notice that in this section and the next, |id_first| and |id_loc|
 are pointers into the array |section_text|, not into |buffer|.
 
-@d gather_digits_while(t) while (t || *loc=='\'')
+@d gather_digits_while(t) while ((t) || *loc=='\'')
   if (*loc=='\'') { /* \CPLUSPLUS/-style digit separator */
     *id_loc++=' '; loc++; /* insert a little bit of space */
   }@+else *id_loc++=*loc++;
@@ -1844,7 +1844,7 @@ static char cat_name[256][12];
 
 @ This code allows \.{CWEAVE} to display its parsing steps.
 
-@d print_cat(c) fputs(cat_name[(eight_bits)c],stdout)
+@d print_cat(c) fputs(cat_name[(eight_bits)(c)],stdout)
 
 @ The token lists for translated \TEX/ output contain some special control
 symbols as well as ordinary characters. These control symbols are
@@ -2220,10 +2220,10 @@ items for \TEX/ output.
 translated without line-break controls.
 
 @d id_flag 10240 /* signifies an identifier */
-@d res_flag 2*id_flag /* signifies a reserved word */
-@d section_flag 3*id_flag /* signifies a section name */
-@d tok_flag 4*id_flag /* signifies a token list */
-@d inner_tok_flag 5*id_flag /* signifies a token list in `\pb' */
+@d res_flag (2*id_flag) /* signifies a reserved word */
+@d section_flag (3*id_flag) /* signifies a section name */
+@d tok_flag (4*id_flag) /* signifies a token list */
+@d inner_tok_flag (5*id_flag) /* signifies a token list in `\pb' */
 
 @c
 static void

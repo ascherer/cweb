@@ -1189,7 +1189,7 @@ ANSI \CEE/ preprocessor sometimes requires it.
 acted, |cur_text| will point to the replacement text just generated, and
 |next_control| will contain the control code that terminated the activity.
 
-@d app_repl(c)  {if (tok_ptr==tok_mem_end) overflow("token"); *tok_ptr++=c;}
+@d app_repl(c)  {if (tok_ptr==tok_mem_end) overflow("token"); *(tok_ptr++)=c;}
 
 @<Private...@>=
 static text_pointer cur_text; /* replacement text formed by |scan_repl| */

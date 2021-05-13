@@ -57,7 +57,7 @@
 #define web_file_name file_name[0] \
 
 #define length(c) (size_t) ((c+1) ->byte_start-(c) ->byte_start) 
-#define print_id(c) term_write((c) ->byte_start,length((c) ) ) 
+#define print_id(c) term_write((c) ->byte_start,length(c) ) 
 #define llink link
 #define rlink dummy.Rlink
 #define root name_dir->rlink \

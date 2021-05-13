@@ -59,7 +59,7 @@
 #define web_file_name file_name[0] \
 
 #define length(c) (size_t) ((c+1) ->byte_start-(c) ->byte_start) 
-#define print_id(c) term_write((c) ->byte_start,length((c) ) ) 
+#define print_id(c) term_write((c) ->byte_start,length(c) ) 
 #define llink link
 #define rlink dummy.Rlink
 #define root name_dir->rlink \
@@ -140,7 +140,7 @@
 #define section_name 0311
 #define new_section 0312 \
 
-#define app_repl(c) {if(tok_ptr==tok_mem_end) overflow("token") ;*tok_ptr++= c;} \
+#define app_repl(c) {if(tok_ptr==tok_mem_end) overflow("token") ;*(tok_ptr++) = c;} \
 
 #define keep_digit_separators flags['k'] \
 
