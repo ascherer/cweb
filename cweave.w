@@ -2336,7 +2336,7 @@ If we combine two scraps and the right boundary of the first has
 a different mathness from the left boundary of the second, we
 insert a \.{\$} in between.  Similarly, if at printing time some
 irreducible scrap has a |yes_math| boundary the scrap gets preceded
-or followed by a \.{\$}. The left boundary is |maybe_math| if and
+or followed by a~\.{\$}. The left boundary is |maybe_math| if and
 only if the right boundary is.
 
 The code below is an exact translation of the production rules into
@@ -3182,7 +3182,7 @@ because no ending point for the current list has been
 stored in the |tok_start| array. After saying |freeze_text|, the
 old current token list becomes legitimate, and its number is the current
 value of |text_ptr-1| since |text_ptr| has been increased. The new
-current token list is empty and ready to be appended to.
+current token list is empty and ready to be appended~to.
 Note that |freeze_text| does not check to see that |text_ptr| hasn't gotten
 too large, since it is assumed that this test was done beforehand.
 
@@ -4223,7 +4223,7 @@ static boolean group_found=false; /* has a starred section occurred? */
 output with the \TEX/ control sequence `\.{\\M}', followed by the section
 number. Similarly, `\.{@@*}' sections lead to the control sequence `\.{\\N}'.
 In this case there's an additional parameter, representing one plus the
-specified depth, immediately after the \.{\\N}.
+specified depth, immediately after the~\.{\\N}.
 If the section has changed, we put \.{\\*} just after the section number.
 
 @<Output the code for the beginning...@>=

@@ -178,7 +178,7 @@ FILE *fp) /* what file to read from */
 @ Now comes the problem of deciding which file to read from next.
 Recall that the actual text that \.{CWEB} should process comes from two
 streams: a |web_file|, which can contain possibly nested include
-commands \.{@@i}, and a |change_file|, which might also contain
+commands~\.{@@i}, and a |change_file|, which might also contain
 includes.  The |web_file| together with the currently open include
 files form a stack |file|, whose names are stored in a parallel stack
 |file_name|.  The boolean |changing| tells whether or not we're reading
