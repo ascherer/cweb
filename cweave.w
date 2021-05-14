@@ -2682,7 +2682,7 @@ else if (cat1==colcol && cat2==int_like) squash(pp,3,int_like,-2,152);
 @ @<Cases for |lpar|@>=
 if ((cat1==exp||cat1==ubinop) && cat2==rpar) squash(pp,3,exp,-2,11);
 else if (cat1==rpar) {
-  big_app1(pp); app('\\'); app(','); big_app1(pp+1);
+  big_app1(pp); app_str("\\,"); big_app1(pp+1);
 @.\\,@>
   reduce(pp,2,exp,-2,12);
 }
@@ -2849,7 +2849,7 @@ if (cat1==function || cat1==decl || cat1==stmt) {
 
 @ @<Cases for |lbrace|@>=
 if (cat1==rbrace) {
-  big_app1(pp); app('\\'); app(','); big_app1(pp+1);
+  big_app1(pp); app_str("\\,"); big_app1(pp+1);
 @.\\,@>
   reduce(pp,2,stmt,-1,54);
 }
@@ -3001,7 +3001,7 @@ app('>'); reduce(pp,1,binop,-2,85);
 
 @<Cases for |langle|@>=
 if (cat1==prerangle) {
-  big_app1(pp); app('\\'); app(','); big_app1(pp+1);
+  big_app1(pp); app_str("\\,"); big_app1(pp+1);
 @.\\,@>
   reduce(pp,2,cast,-1,86);
 }
@@ -3113,7 +3113,7 @@ else if (cat1==ubinop && (cat2==ubinop || cat2==cast)) {
 
 @ @<Cases for |delete_like|@>=
 if (cat1==lpar && cat2==rpar) {
-  big_app2(pp); app('\\'); app(','); big_app1(pp+2);
+  big_app2(pp); app_str("\\,"); big_app1(pp+2);
 @.\\,@>
   reduce(pp,3,delete_like,0,121);
 }
@@ -3462,7 +3462,7 @@ switch (next_control) {
   @t\4@>  @<Cases involving nonstandard characters@>@;
   case thin_space: app_str("\\,");@+app_scrap(insert,maybe_math);@+break;
 @.\\,@>
-  case math_break: app(opt);@+app_str("0");@+
+  case math_break: app(opt);@+app('0');@+
     app_scrap(insert,maybe_math);@+break;
   case line_break: app(force);@+app_scrap(insert,no_math);@+break;
   case left_preproc: app(force);@+app(preproc_line);@+app_str("\\#");
