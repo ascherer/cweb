@@ -167,7 +167,7 @@ formatted.
 @d delete_like 48 /* \&{delete} */
 @d raw_ubin 49 /* `\.\&' or `\.*' when looking for \&{const} following */
 @d const_like 50 /* \&{const}, \&{volatile} */
-@d raw_int 51 /* \&{int}, \&{char}, \dots; also structure and class names  */
+@d raw_int 51 /* \&{int}, \&{char}, \dots; also structure and class names */
 @d int_like 52 /* same, when not followed by left parenthesis or \DC\ */
 @d case_like 53 /* \&{case}, \&{return}, \&{goto}, \&{break}, \&{continue} */
 @d sizeof_like 54 /* \&{sizeof} */
@@ -1279,7 +1279,7 @@ definition is found in limbo.
 |next_control>=begin_C|.
 
 @<Store cross-references in the \CEE/...@>=
-if (next_control<=section_name) {  /* |begin_C| or |section_name| */
+if (next_control<=section_name) { /* |begin_C| or |section_name| */
   if (next_control==begin_C) section_xref_switch=0;
   else {
     section_xref_switch=def_flag;
@@ -1990,8 +1990,8 @@ with discretionary breaks in between.
 \.;&|semi|: \.;&maybe\cr
 \.:&|colon|: \.:&no\cr
 \.\# (within line)&|ubinop|: \.{\\\#}&yes\cr
-\.\# (at beginning)&|lproc|:  |force| |preproc_line| \.{\\\#}&no\cr
-end of \.\# line&|rproc|:  |force|&no\cr
+\.\# (at beginning)&|lproc|: |force| |preproc_line| \.{\\\#}&no\cr
+end of \.\# line&|rproc|: |force|&no\cr
 identifier&|exp|: \.{\\\\\{}identifier with underlines and
              dollar signs quoted\.\}&maybe\cr
 \.{alignas}&|alignas_like|: \stars&maybe\cr
@@ -2116,10 +2116,10 @@ identifier&|exp|: \.{\\\\\{}identifier with underlines and
 \.{xor}&|alfop|: \stars&yes\cr
 \.{xor\_eq}&|alfop|: \stars&yes\cr
 \.{@@,}&|insert|: \.{\\,}&maybe\cr
-\.{@@\v}&|insert|:  |opt| \.0&maybe\cr
-\.{@@/}&|insert|:  |force|&no\cr
-\.{@@\#}&|insert|:  |big_force|&no\cr
-\.{@@+}&|insert|:  |big_cancel| \.{\{\}} |break_space|
+\.{@@\v}&|insert|: |opt| \.0&maybe\cr
+\.{@@/}&|insert|: |force|&no\cr
+\.{@@\#}&|insert|: |big_force|&no\cr
+\.{@@+}&|insert|: |big_cancel| \.{\{\}} |break_space|
   \.{\{\}} |big_cancel|&no\cr
 \.{@@;}&|semi|: &maybe\cr
 \.{@@[@q]@>}&|begin_arg|: &maybe\cr
@@ -2139,7 +2139,7 @@ identifier&|exp|: \.{\\\\\{}identifier with underlines and
 
 \smallskip
 The construction \.{@@t}\thinspace stuff\/\thinspace\.{@@>} contributes
-\.{\\hbox\{}\thinspace  stuff\/\thinspace\.\} to the following scrap.
+\.{\\hbox\{}\thinspace stuff\/\thinspace\.\} to the following scrap.
 
 @i prod.w
 
@@ -3295,11 +3295,11 @@ if (tracing==fully) {
   printf("\n%d:",n);
   for (k_l=scrap_base; k_l<=lo_ptr; k_l++) {
     if (k_l==pp) putchar('*'); else putchar(' ');
-    if (k_l->mathness %4 ==  yes_math) putchar('+');
-    else if (k_l->mathness %4 ==  no_math) putchar('-');
+    if (k_l->mathness %4 == yes_math) putchar('+');
+    else if (k_l->mathness %4 == no_math) putchar('-');
     print_cat(k_l->cat);
-    if (k_l->mathness /4 ==  yes_math) putchar('+');
-    else if (k_l->mathness /4 ==  no_math) putchar('-');
+    if (k_l->mathness /4 == yes_math) putchar('+');
+    else if (k_l->mathness /4 == no_math) putchar('-');
   }
   if (hi_ptr<=scrap_ptr) printf("..."); /* indicate that more is coming */
 }
@@ -3459,7 +3459,7 @@ switch (next_control) {
   case ',': app(',');@+app_scrap(comma,yes_math);@+break;
   case ';': app(';');@+app_scrap(semi,maybe_math);@+break;
   case ':': app(':');@+app_scrap(colon,no_math);@+break;@/
-  @t\4@>  @<Cases involving nonstandard characters@>@;
+  @t\4@> @<Cases involving nonstandard characters@>@;
   case thin_space: app_str("\\,");@+app_scrap(insert,maybe_math);@+break;
 @.\\,@>
   case math_break: app(opt);@+app('0');@+
@@ -3562,7 +3562,7 @@ while (id_first<id_loc) {
   }
   else {
     switch (*id_first) {
-      case  ' ':case '\\':case '#':case '%':case '$':case '^':
+      case ' ':case '\\':case '#':case '%':case '$':case '^':
       case '{': case '}': case '~': case '&': case '_': app('\\'); break;
 @.\\\ @>
 @.\\\\@>
@@ -3706,7 +3706,7 @@ outer_parse(void) /* makes scraps from \CEE/ tokens and comments */
         if (make_pb) app_str("\\PB{");
 @.\\PB@>
         app(inner_tok_flag+(int)(q-tok_start));
-        if (make_pb)  app_tok('}');
+        if (make_pb) app_tok('}');
         if (next_control=='|') {
           bal=copy_comment(is_long_comment,bal);
           next_control=ignore;
@@ -3724,7 +3724,7 @@ So far our programs have only built up multi-layered token lists in
 the desired final form. The job of converting token lists to characters in
 the \TEX/ output file is not difficult, although it is an implicitly
 recursive process. Four main considerations had to be kept in mind when
-this part of \.{CWEAVE} was designed.  (a) There are two modes of output:
+this part of \.{CWEAVE} was designed. (a) There are two modes of output:
 |outer| mode, which translates tokens like |force| into line-breaking
 control sequences, and |inner| mode, which ignores them except that blank
 spaces take the place of line breaks. (b) The |cancel| instruction applies
@@ -3732,7 +3732,7 @@ to adjacent token or tokens that are output, and this cuts across levels
 of recursion since `|cancel|' occurs at the beginning or end of a token
 list on one level. (c) The \TEX/ output file will be semi-readable if line
 breaks are inserted after the result of tokens like |break_space| and
-|force|.  (d) The final line break should be suppressed, and there should
+|force|. (d) The final line break should be suppressed, and there should
 be no |force| token output immediately after `\.{\\Y\\B}'.
 
 @ The output process uses a stack to keep track of what is going on at
@@ -4401,7 +4401,7 @@ if (next_control<=section_name) {
     @<Check that '=' or '==' follows this section name, and
       emit the scraps to start the section definition@>@;
   }
-  while  (next_control<=section_name) {
+  while (next_control<=section_name) {
     outer_parse();
     @<Emit the scrap for a section name if present@>@;
   }

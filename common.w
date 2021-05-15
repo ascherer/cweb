@@ -478,7 +478,7 @@ The remainder of the \.{@@i} line after the file name is ignored.
 #endif /* |CWEBINPUTS| */
   }
   if (l>0) {
-    if (k+l+2>=cur_file_name_end)  too_long();
+    if (k+l+2>=cur_file_name_end) too_long();
 @.Include file name ...@>
     for (; k>=cur_file_name; k--) *(k+l+1)=*k;
     strcpy(cur_file_name,temp_file_name);
@@ -886,7 +886,7 @@ while (p) { /* compare shortest prefix of |p| with new name */
       par=p;
     p=(c==less?p->llink:p->rlink);
   } else { /* new name matches |p| */
-    if (r!=NULL) {  /* and also |r|: illegal */
+    if (r!=NULL) { /* and also |r|: illegal */
       fputs("\n! Ambiguous prefix: matches <",stdout);
 @.Ambiguous prefix ... @>
       print_prefix_name(p);
