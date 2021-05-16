@@ -943,12 +943,12 @@ whether there is more work to do.
 @.Use @@l in limbo...@>
     case underline: xref_switch=def_flag; continue;
     case trace: tracing=c-'0'; continue;
-    case xref_roman: case xref_wildcard: case xref_typewriter: case noop:
-    case TeX_string: skip_restricted(); return ccode[(eight_bits)c];
     case section_name:
       @<Scan the section name and make |cur_section| point to it@>@;
     case verbatim: @<Scan a verbatim string@>@;
     case ord: @<Get a string@>@;
+    case xref_roman: case xref_wildcard: case xref_typewriter: case noop:
+    case TeX_string: skip_restricted();
     default: return ccode[(eight_bits)c];
   }
 }
