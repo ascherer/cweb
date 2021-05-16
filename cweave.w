@@ -626,11 +626,12 @@ skip_limbo(void) {
     if (loc>limit && get_line()==false) return;
     *(limit+1)='@@';
     while (*loc!='@@') loc++; /* look for `\.{@@}', then skip two chars */
-    if (loc++ <=limit) { int c=ccode[(eight_bits)*loc++];
-      if (c==new_section) return;
-      if (c==noop) skip_restricted();
-      else if (c==format_code) @<Process simple format in limbo@>@;
-    }
+    if (loc++ <=limit)
+      switch (ccode[(eight_bits)*loc++]) {
+      case new_section: return;
+      case noop: skip_restricted(); break;
+      case format_code: @<Process simple format in limbo@>@;
+      }
   }
 }
 
