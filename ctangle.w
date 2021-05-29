@@ -520,6 +520,7 @@ output.
 @c
 static void
 phase_two (void) {
+  phase=2;
   web_file_open=false;
   cur_line=1;
   @<Initialize the output stacks@>@;
@@ -1476,7 +1477,6 @@ phase_one(void) {
   skip_limbo();
   while (!input_has_ended) scan_section();
   check_complete();
-  phase=2;
 }
 
 @ @<Predec...@>=@+static void phase_one(void);

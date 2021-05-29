@@ -1077,7 +1077,6 @@ phase_one(void) {
     @<Store cross-reference data for the current section@>@;
   changed_section[section_count]=change_exists;
     /* the index changes if anything does */
-  phase=2; /* prepare for second phase */
   @<Print error messages about unused or undefined section names@>@;
 }
 
@@ -4177,10 +4176,12 @@ actually output the \TEX/ material instead of merely looking at the
 @c
 static void
 phase_two(void) {
-reset_input(); if (show_progress) fputs("\nWriting the output file...",stdout);
+phase=2; reset_input();
+if (show_progress) fputs("\nWriting the output file...",stdout);
 @.Writing the output file...@>
 section_count=0; format_visible=true; copy_limbo();
-finish_line(); flush_buffer(out_buf,false,false); /* insert a blank line, it looks nice */
+finish_line(); flush_buffer(out_buf,false,false);
+  /* insert a blank line, it looks nice */
 while (!input_has_ended) @<Translate the current section@>@;
 }
 
