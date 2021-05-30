@@ -268,10 +268,8 @@ do {
 } while (limit==buffer);
 
 @ @<Move |buffer| and |limit| to |change_buffer| and |change_limit|@>=
-{
-  change_limit=change_buffer+(ptrdiff_t)(limit-buffer);
-  strncpy(change_buffer,buffer,(size_t)(limit-buffer+1));
-}
+change_limit=change_buffer+(ptrdiff_t)(limit-buffer);
+strncpy(change_buffer,buffer,(size_t)(limit-buffer+1));
 
 @ The following procedure is used to see if the next change entry should
 go into effect; it is called only when |changing| is |false|.
@@ -289,12 +287,11 @@ either `\.{@@*}' or `\.{@@\ }' (possibly preceded by whitespace).
 This procedure is called only when |buffer<limit|, i.e., when the
 current line is nonempty.
 
-@d if_section_start_make_pending(b) {
+@d if_section_start_make_pending(b)
   *limit='!';@+
   for (loc=buffer;xisspace(*loc);loc++) ;@+
   *limit=' ';
   if (*loc=='@@' && (xisspace(*(loc+1)) || *(loc+1)=='*')) change_pending=b;
-}
 
 @c
 static void
