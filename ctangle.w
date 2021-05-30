@@ -229,7 +229,7 @@ or line breaks allowed between them (the \.{@@\&} operation of \.{CWEB}).
 @d string 02 /* takes the place of ASCII \.{STX} */
 @d constant 03 /* takes the place of ASCII \.{ETX} */
 @d join 0177 /* takes the place of ASCII \.{DEL} */
-@d output_defs_flag (2*024000-1)
+@d output_defs_flag (2*024000-1) /* |024000==(0250-0200)*0400| */
 
 @ The following procedure is used to enter a two-byte value into
 |tok_mem| when a replacement text is being generated.
