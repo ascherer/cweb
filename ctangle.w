@@ -1224,8 +1224,13 @@ eight_bits t)
 to |0150000|; then the numeric line number; then a pointer to the
 file name.
 
+@d store_id(a) a=id_lookup(id_first,id_loc,0)-name_dir;@/
+  app_repl((a / 0400)+0200);
+  app_repl(a % 0400);
+
 @<Insert the line...@>=
 {
+  eight_bits a; /* shadow variable |a| */
   store_two_bytes(0150000);
   if (changing && include_depth==change_depth) { /* correction made Feb 2017 */
     id_first=change_file_name;
@@ -1235,14 +1240,11 @@ file name.
     store_two_bytes((sixteen_bits)cur_line);
   }
   id_loc=id_first+strlen(id_first);
-  {int a_l=id_lookup(id_first,id_loc,0)-name_dir; app_repl((a_l / 0400)+0200);
-    app_repl(a_l % 0400);}
+  store_id(a);
 }
 
 @ @<In cases that |a| is...@>=@t\1\quad@>
-case identifier: a=id_lookup(id_first,id_loc,0)-name_dir;@/
-  app_repl((a / 0400)+0200);
-  app_repl(a % 0400); break;
+case identifier: store_id(a); break;
 case section_name: if (t!=section_name) goto done;
   else {
     @<Was an `\.{@@}' missed here?@>@;
@@ -1421,9 +1423,7 @@ while (next_control<definition)
 @.Definition flushed...@>
     continue;
   }
-  app_repl(((a=id_lookup(id_first,id_loc,0)-name_dir) / 0400)+0200);
-        /* append the lhs */
-  app_repl(a % 0400);
+  store_id(a); /* append the lhs */
   if (*loc!='(') { /* identifier must be separated from replacement text */
     app_repl(string); app_repl(' '); app_repl(string);
   }

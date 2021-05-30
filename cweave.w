@@ -3291,15 +3291,15 @@ static int tracing=off; /* can be used to show parsing details */
 
 @ @<Print a snapsh...@>=
 if (tracing==fully) {
-  scrap_pointer k_l; /* pointer into |scrap_info| */
+  scrap_pointer k; /* pointer into |scrap_info|; shadows |short k| */
   printf("\n%d:",n);
-  for (k_l=scrap_base; k_l<=lo_ptr; k_l++) {
-    if (k_l==pp) putchar('*'); else putchar(' ');
-    if (k_l->mathness %4 == yes_math) putchar('+');
-    else if (k_l->mathness %4 == no_math) putchar('-');
-    print_cat(k_l->cat);
-    if (k_l->mathness /4 == yes_math) putchar('+');
-    else if (k_l->mathness /4 == no_math) putchar('-');
+  for (k=scrap_base; k<=lo_ptr; k++) {
+    if (k==pp) putchar('*'); else putchar(' ');
+    if (k->mathness %4 == yes_math) putchar('+');
+    else if (k->mathness %4 == no_math) putchar('-');
+    print_cat(k->cat);
+    if (k->mathness /4 == yes_math) putchar('+');
+    else if (k->mathness /4 == no_math) putchar('-');
   }
   if (hi_ptr<=scrap_ptr) printf("..."); /* indicate that more is coming */
 }
