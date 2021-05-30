@@ -1049,24 +1049,23 @@ convention, but do not allow the string to be longer than |longest_name|.
 @ After an \.{@@} sign has been scanned, the next character tells us
 whether there is more work to do.
 
-@<Get control code and possible section name@>= {
-  switch(c=ccode[(eight_bits)*loc++]) {
-    case ignore: continue;
-    case translit_code: err_print("! Use @@l in limbo only"); continue;
+@<Get control code and possible section name@>=
+switch(c=ccode[(eight_bits)*loc++]) {
+  case ignore: continue;
+  case translit_code: err_print("! Use @@l in limbo only"); continue;
 @.Use @@l in limbo...@>
-    case control_text: while ((c=skip_ahead())=='@@');
-      /* only \.{@@@@} and \.{@@>} are expected */
-      if (*(loc-1)!='>')
-        err_print("! Double @@ should be used in control text");
+  case control_text: while ((c=skip_ahead())=='@@');
+    /* only \.{@@@@} and \.{@@>} are expected */
+    if (*(loc-1)!='>')
+      err_print("! Double @@ should be used in control text");
 @.Double @@ should be used...@>
-      continue;
-    case section_name:
-      cur_section_name_char=*(loc-1);
-      @<Scan the section name and make |cur_section_name| point to it@>@;
-    case string: @<Scan a verbatim string@>@;
-    case ord: @<Scan an ASCII constant@>@;
-    default: return c;
-  }
+    continue;
+  case section_name:
+    cur_section_name_char=*(loc-1);
+    @<Scan the section name and make |cur_section_name| point to it@>@;
+  case string: @<Scan a verbatim string@>@;
+  case ord: @<Scan an ASCII constant@>@;
+  default: return c;
 }
 
 @ After scanning a valid ASCII constant that follows
@@ -1162,14 +1161,13 @@ have |*(loc-1)==string|; we set |id_first| to the beginning
 of the string itself, and |id_loc| to its ending-plus-one location in the
 buffer.  We also set |loc| to the position just after the ending delimiter.
 
-@<Scan a verbatim string@>= {
-  id_first=loc++; *(limit+1)='@@'; *(limit+2)='>';
-  while (*loc!='@@' || *(loc+1)!='>') loc++;
-  if (loc>=limit) err_print("! Verbatim string didn't end");
+@<Scan a verbatim string@>=
+id_first=loc++; *(limit+1)='@@'; *(limit+2)='>';
+while (*loc!='@@' || *(loc+1)!='>') loc++;
+if (loc>=limit) err_print("! Verbatim string didn't end");
 @.Verbatim string didn't end@>
-  id_loc=loc; loc+=2;
-  return string;
-}
+id_loc=loc; loc+=2;
+return string;
 
 @* Scanning a macro definition.
 The rules for generating the replacement texts corresponding to macros and
@@ -1416,20 +1414,19 @@ while (next_control<definition)
     loc-=2; next_control=get_next();
   }
 
-@ @<Scan a definition@>= {
-  while ((next_control=get_next())=='\n'); /* allow newline before definition */
-  if (next_control!=identifier) {
-    err_print("! Definition flushed, must start with identifier");
+@ @<Scan a definition@>=
+while ((next_control=get_next())=='\n'); /* allow newline before definition */
+if (next_control!=identifier) {
+  err_print("! Definition flushed, must start with identifier");
 @.Definition flushed...@>
-    continue;
-  }
-  store_id(a); /* append the lhs */
-  if (*loc!='(') { /* identifier must be separated from replacement text */
-    app_repl(string); app_repl(' '); app_repl(string);
-  }
-  scan_repl(macro);
-  cur_text->text_link=macro;
+  continue;
 }
+store_id(a); /* append the lhs */
+if (*loc!='(') { /* identifier must be separated from replacement text */
+  app_repl(string); app_repl(' '); app_repl(string);
+}
+scan_repl(macro);
+cur_text->text_link=macro;
 
 @ If the section name is not followed by \.{=} or \.{+=}, no \CEE/
 code is forthcoming: the section is being cited, not being
