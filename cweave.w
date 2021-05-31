@@ -1043,14 +1043,13 @@ have |*(loc-1)==verbatim|; we set |id_first| to the beginning
 of the string itself, and |id_loc| to its ending-plus-one location in the
 buffer.  We also set |loc| to the position just after the ending delimiter.
 
-@<Scan a verbatim string@>= {
-  id_first=loc++; *(limit+1)='@@'; *(limit+2)='>';
-  while (*loc!='@@' || *(loc+1)!='>') loc++;
-  if (loc>=limit) err_print("! Verbatim string didn't end");
+@<Scan a verbatim string@>=
+id_first=loc++; *(limit+1)='@@'; *(limit+2)='>';
+while (*loc!='@@' || *(loc+1)!='>') loc++;
+if (loc>=limit) err_print("! Verbatim string didn't end");
 @.Verbatim string didn't end@>
-  id_loc=loc; loc+=2;
-  return verbatim;
-}
+id_loc=loc; loc+=2;
+return verbatim;
 
 @** Phase one processing.
 We now have accumulated enough subroutines to make it possible to carry out
@@ -1259,19 +1258,17 @@ discover should be unindexed.
 definition is found in limbo.
 
 @<Process simple format in limbo@>=
-{
-  if (get_next()!=identifier)
-    err_print("! Missing left identifier of @@s");
+if (get_next()!=identifier)
+  err_print("! Missing left identifier of @@s");
 @.Missing left identifier...@>
-  else {
-    lhs=id_lookup(id_first,id_loc,normal);
-    if (get_next()!=identifier)
-      err_print("! Missing right identifier of @@s");
+else {
+  lhs=id_lookup(id_first,id_loc,normal);
+  if (get_next()!=identifier)
+    err_print("! Missing right identifier of @@s");
 @.Missing right identifier...@>
-    else {
-      rhs=id_lookup(id_first,id_loc,normal);
-      lhs->ilk=rhs->ilk;
-    }
+  else {
+    rhs=id_lookup(id_first,id_loc,normal);
+    lhs->ilk=rhs->ilk;
   }
 }
 
@@ -2428,16 +2425,16 @@ code needs to be provided with a proper environment.
         && pp->cat!=operator_like)
  /* not a production with left side length 1 */
 
-@<Match a production at |pp|, or increase |pp| if there is no match@>= {
-  if (cat1==end_arg && lhs_not_simple)
-    if (pp->cat==begin_arg) squash(pp,2,exp,-2,124);
-    else squash(pp,2,end_arg,-1,125);
-  else if (pp->cat==rbrack) squash(pp,1,rpar,-3,130);
-  else if (pp->cat==using_like) squash(pp,1,int_like,-3,140);
-  else if (cat1==insert) squash(pp,2,pp->cat,-2,0);
-  else if (cat2==insert) squash(pp+1,2,(pp+1)->cat,-1,0);
-  else if (cat3==insert) squash(pp+2,2,(pp+2)->cat,0,0);
-  else
+@<Match a production at |pp|, or increase |pp| if there is no match@>=
+if (cat1==end_arg && lhs_not_simple)
+  if (pp->cat==begin_arg) squash(pp,2,exp,-2,124);
+  else squash(pp,2,end_arg,-1,125);
+else if (pp->cat==rbrack) squash(pp,1,rpar,-3,130);
+else if (pp->cat==using_like) squash(pp,1,int_like,-3,140);
+else if (cat1==insert) squash(pp,2,pp->cat,-2,0);
+else if (cat2==insert) squash(pp+1,2,(pp+1)->cat,-1,0);
+else if (cat3==insert) squash(pp+2,2,(pp+2)->cat,0,0);
+else
   switch (pp->cat) {
     case exp: @<Cases for |exp|@>@; @+break;
     case lpar: @<Cases for |lpar|@>@; @+break;
@@ -2492,8 +2489,7 @@ code needs to be provided with a proper environment.
     case attr: @<Cases for |attr|@>@; @+break;
     case default_like: @<Cases for |default_like|@>@; @+break;
   }
-  pp++; /* if no match was found, we move to the right */
-}
+pp++; /* if no match was found, we move to the right */
 
 @ In \CEE/, new specifier names can be defined via |typedef|, and we want
 to make the parser recognize future occurrences of the identifier thus
@@ -3336,17 +3332,16 @@ we concatenate the translations of all remaining scraps, separated by
 blank spaces, with dollar signs surrounding the translations of scraps
 where appropriate.
 
-@<Combine the irreducible...@>= {
-  @<If semi-tracing, show the irreducible scraps@>@;
-  for (j=scrap_base; j<=lo_ptr; j++) {
-    if (j!=scrap_base) app(' ');
-    if (j->mathness % 4 == yes_math) app('$');
-    app1(j);
-    if (j->mathness / 4 == yes_math) app('$');
-    if (tok_ptr+6>tok_mem_end) overflow("token");
-  }
-  freeze_text; return text_ptr-1;
+@<Combine the irreducible...@>=
+@<If semi-tracing, show the irreducible scraps@>@;
+for (j=scrap_base; j<=lo_ptr; j++) {
+  if (j!=scrap_base) app(' ');
+  if (j->mathness % 4 == yes_math) app('$');
+  app1(j);
+  if (j->mathness / 4 == yes_math) app('$');
+  if (tok_ptr+6>tok_mem_end) overflow("token");
 }
+freeze_text; return text_ptr-1;
 
 @ @<If semi-tracing, show the irreducible scraps@>=
 if (lo_ptr>scrap_base && tracing==partly) {
@@ -4064,30 +4059,29 @@ routines, since the name may contain \CEE/ code embedded in
 input buffer and the translation process uses the end of the active
 |tok_mem| area.
 
-@<Output a section name@>= {
-  out_str("\\X");
+@<Output a section name@>=
+out_str("\\X");
 @.\\X@>
-  cur_xref=(xref_pointer)cur_name->xref;
-  if ((an_output=(cur_xref->num==file_flag))==true) cur_xref=cur_xref->xlink;
-  if (cur_xref->num>=def_flag) {
-    out_section(cur_xref->num-def_flag);
-    if (phase==3) {
-      cur_xref=cur_xref->xlink;
-      while (cur_xref->num>=def_flag) {
-        out_str(", ");
-        out_section(cur_xref->num-def_flag);
-      cur_xref=cur_xref->xlink;
-      }
+cur_xref=(xref_pointer)cur_name->xref;
+if ((an_output=(cur_xref->num==file_flag))==true) cur_xref=cur_xref->xlink;
+if (cur_xref->num>=def_flag) {
+  out_section(cur_xref->num-def_flag);
+  if (phase==3) {
+    cur_xref=cur_xref->xlink;
+    while (cur_xref->num>=def_flag) {
+      out_str(", ");
+      out_section(cur_xref->num-def_flag);
+    cur_xref=cur_xref->xlink;
     }
   }
-  else out('0'); /* output the section number, or zero if it was undefined */
-  out(':');
-  if (an_output) out_str("\\.{"@q}@>);
-@.\\.@>
-  @<Output the text of the section name@>@;
-  if (an_output) out_str(@q{@>" }");
-  out_str("\\X");
 }
+else out('0'); /* output the section number, or zero if it was undefined */
+out(':');
+if (an_output) out_str("\\.{"@q}@>);
+@.\\.@>
+@<Output the text of the section name@>@;
+if (an_output) out_str(@q{@>" }");
+out_str("\\X");
 
 @ @<Output the text...@>=
 sprint_section_name(scratch,cur_name);
@@ -4577,19 +4571,18 @@ the index section itself.
 @<Private...@>=
 static sixteen_bits k_section; /* runs through the sections */
 
-@ @<Tell about changed sections@>= {
-  /* remember that the index is already marked as changed */
-  k_section=0;
-  while (!changed_section[++k_section]);
-  out_str("\\ch ");
+@ @<Tell about changed sections@>=
+/* remember that the index is already marked as changed */
+k_section=0;
+while (!changed_section[++k_section]);
+out_str("\\ch ");
 @.\\ch@>
-  out_section(k_section);
-  while (k_section<section_count) {
-    while (!changed_section[++k_section]);
-    out_str(", "); out_section(k_section);
-  }
-  out('.');
+out_section(k_section);
+while (k_section<section_count) {
+  while (!changed_section[++k_section]);
+  out_str(", "); out_section(k_section);
 }
+out('.');
 
 @ A left-to-right radix sorting method is used, since this makes it easy to
 adjust the collating sequence and since the running time will be at worst
