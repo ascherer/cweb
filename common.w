@@ -287,7 +287,7 @@ either `\.{@@*}' or `\.{@@\ }' (possibly preceded by whitespace).
 This procedure is called only when |buffer<limit|, i.e., when the
 current line is nonempty.
 
-@d if_section_start_make_pending(b)
+@d if_section_start_make_pending(b)@/
   *limit='!';@+
   for (loc=buffer;xisspace(*loc);loc++) ;@+
   *limit=' ';
