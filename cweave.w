@@ -936,21 +936,19 @@ convention, but do not allow the string to be longer than |longest_name|.
 @ After an \.{@@} sign has been scanned, the next character tells us
 whether there is more work to do.
 
-@<Get control code and possible section name@>= {
-  c=*loc++;
-  switch(ccode[(eight_bits)c]) {
-    case translit_code: err_print("! Use @@l in limbo only"); continue;
+@<Get control code and possible section name@>=
+switch(ccode[(eight_bits)(c=*loc++)]) {
+  case translit_code: err_print("! Use @@l in limbo only"); continue;
 @.Use @@l in limbo...@>
-    case underline: xref_switch=def_flag; continue;
-    case trace: tracing=c-'0'; continue;
-    case section_name:
-      @<Scan the section name and make |cur_section| point to it@>@;
-    case verbatim: @<Scan a verbatim string@>@;
-    case ord: @<Get a string@>@;
-    case xref_roman: case xref_wildcard: case xref_typewriter: case noop:
-    case TeX_string: skip_restricted();
-    default: return ccode[(eight_bits)c];
-  }
+  case underline: xref_switch=def_flag; continue;
+  case trace: tracing=c-'0'; continue;
+  case section_name:
+    @<Scan the section name and make |cur_section| point to it@>@;
+  case verbatim: @<Scan a verbatim string@>@;
+  case ord: @<Get a string@>@;
+  case xref_roman: case xref_wildcard: case xref_typewriter: case noop:
+  case TeX_string: skip_restricted();
+  default: return ccode[(eight_bits)c];
 }
 
 @ The occurrence of a section name sets |xref_switch| to zero,
