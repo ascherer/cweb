@@ -159,8 +159,7 @@ const char *first, /* position of first character of string */
 size_t l, /* length of identifier */
 eight_bits t) /* not used by \.{TANGLE} */
 {@+(void)t;
-  if (length(p)!=l) return false;
-  return !strncmp(first,p->byte_start,l);
+  return length(p)==l && strncmp(first,p->byte_start,l)==0;
 }
 
 @ The common lookup routine refers to separate routines |init_node| and
