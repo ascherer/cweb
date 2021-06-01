@@ -149,16 +149,16 @@ cweave.c: cweave.w $(WCHANGES) common.h prod.w
 doc: $(SOURCES:.w=.dvi)
 
 usermanual: cwebman.tex cwebmac.tex
-	tex cwebman
+	$(PDF)tex cwebman
 
 fullmanual: usermanual $(SOURCES) comm-man.ch ctang-man.ch cweav-man.ch
 	make cweave
 	./cweave common.w comm-man.ch
-	tex common.tex
+	$(PDF)tex common.tex
 	./cweave ctangle.w ctang-man.ch
-	tex ctangle.tex
+	$(PDF)tex ctangle.tex
 	./cweave cweave.w cweav-man.ch
-	tex cweave.tex
+	$(PDF)tex cweave.tex
 
 # be sure to leave ctangle.c and common.c for bootstrapping
 clean:
