@@ -3761,12 +3761,11 @@ typedef struct {
 } output_state;
 typedef output_state *stack_pointer;
 
-@ @d cur_end cur_state.end_field /* current ending location in |tok_mem| */
+@ @d stack_size 400 /* number of simultaneous output levels */
+@d cur_end cur_state.end_field /* current ending location in |tok_mem| */
 @d cur_tok cur_state.tok_field /* location of next output token in |tok_mem| */
 @d cur_mode cur_state.mode_field /* current mode of interpretation */
 @d init_stack stack_ptr=stack;cur_mode=outer /* initialize the stack */
-@#
-@d stack_size 400 /* number of simultaneous output levels */
 
 @<Private...@>=
 static output_state cur_state; /* |cur_end|, |cur_tok|, |cur_mode| */

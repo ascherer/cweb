@@ -281,13 +281,12 @@ typedef struct {
 } output_state;
 typedef output_state *stack_pointer;
 
-@ @d cur_end cur_state.end_field /* current ending location in |tok_mem| */
+@ @d stack_size 50 /* number of simultaneous levels of macro expansion */
+@d cur_end cur_state.end_field /* current ending location in |tok_mem| */
 @d cur_byte cur_state.byte_field /* location of next output byte in |tok_mem|*/
 @d cur_name cur_state.name_field /* pointer to current name being expanded */
 @d cur_repl cur_state.repl_field /* pointer to current replacement text */
 @d cur_section cur_state.section_field /* current section number being expanded */
-@#
-@d stack_size 50 /* number of simultaneous levels of macro expansion */
 
 @<Private...@>=
 static output_state cur_state; /* |cur_end|, |cur_byte|, |cur_name|, |cur_repl|,
