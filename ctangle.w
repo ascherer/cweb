@@ -711,11 +711,10 @@ static char translit[128][translit_length];
 case identifier:
   if (out_state==num_or_id) C_putc(' ');
   for (j=(cur_val+name_dir)->byte_start, k=(cur_val+name_dir+1)->byte_start;
-       j<k; j++) {
+       j<k; j++)
     if ((eight_bits)(*j)<0200) C_putc(*j);
 @^high-bit character handling@>
     else C_printf("%s",translit[(eight_bits)(*j)-0200]);
-  }
   out_state=num_or_id; break;
 
 @ @<Case of a sec...@>=@t\1\quad@>
