@@ -1262,10 +1262,8 @@ do {
 } while (limit==buffer);
 
 @ @<Move |buffer| and |limit| to |change_buffer| and |change_limit|@>=
-{
-  change_limit=change_buffer+(ptrdiff_t)(limit-buffer);
-  strncpy(change_buffer,buffer,(size_t)(limit-buffer+1));
-}
+change_limit=change_buffer+(ptrdiff_t)(limit-buffer);
+strncpy(change_buffer,buffer,(size_t)(limit-buffer+1));
 !endgroup
 \endgroup
 \vfill\eject
@@ -1324,10 +1322,8 @@ return;
 /*31:*/
 #line 270 "common.w"
 
-{
 change_limit= change_buffer+(ptrdiff_t)(limit-buffer);
 strncpy(change_buffer,buffer,(size_t)(limit-buffer+1));
-}
 
 /*:31*/
 #line 234 "common.w"
@@ -1496,12 +1492,10 @@ ${}\{{}$\1\6
 
 \M{31}\B\X31:Move \PB{\\{buffer}} and \PB{\\{limit}} to \PB{\\{change\_buffer}}
 and \PB{\\{change\_limit}}\X${}\E{}$\6
-${}\{{}$\1\6
-${}\\{change\_limit}\K\\{change\_buffer}+(\&{ptrdiff\_t})(\\{limit}-%
+$\\{change\_limit}\K\\{change\_buffer}+(\&{ptrdiff\_t})(\\{limit}-%
 \\{buffer});{}$\6
 ${}\\{strncpy}(\\{change\_buffer},\39\\{buffer},\39(\&{size\_t})(\\{limit}-%
-\\{buffer}+\T{1}));{}$\6
-\4${}\}{}$\2\par
+\\{buffer}+\T{1})){}$;\par
 \Us27\ET32.\fi
 \vfil\eject\titletrue
 \rightskip=0pt % get out of C mode (cf. \B)
