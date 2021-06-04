@@ -1126,7 +1126,7 @@ C_xref( /* makes cross-references for \CEE/ identifiers */
 {
   while (next_control<format_code || next_control==spec_ctrl) {
     if (next_control>=identifier && next_control<=xref_typewriter) {
-      if (next_control>identifier) @<Replace |"@@@@"| by |"@@"| @>@;
+      if (next_control>identifier) @<Replace |"@@@@"| by |"@@"|@>@;
       new_xref(id_lookup(id_first,id_loc,next_control-identifier));
     }
     if (next_control==section_name) {
@@ -1179,7 +1179,7 @@ while (true) {
     case noop: case section_name:
       loc-=2; next_control=get_next(); /* scan to \.{@@>} */
       if (next_control>=xref_roman && next_control<=xref_typewriter) {
-        @<Replace |"@@@@"| by |"@@"| @>@;
+        @<Replace |"@@@@"| by |"@@"|@>@;
         new_xref(id_lookup(id_first,id_loc,next_control-identifier));
       }
       break;
@@ -1652,7 +1652,7 @@ if (c=='@@') {
   }
 } else {
   if (c=='\\' && *loc!='@@') {
-    if (phase==2) app_tok(*(loc++))@; else loc++;
+    if (phase==2) app_tok(*(loc++))@t;@>@; else loc++;
   }
 }
 
@@ -3629,7 +3629,7 @@ boolean scrapping) /* are we making this into a scrap? */
   } else {
     app(res_flag+(int)(p-name_dir));
     if (scrapping) {
-      if (p->ilk==alfop) app_scrap(ubinop,yes_math)@;
+      if (p->ilk==alfop) app_scrap(ubinop,yes_math)@t;@>@;
       else app_scrap(p->ilk,maybe_math);
     }
   }
@@ -3956,7 +3956,7 @@ if (a==identifier) {
       out(*p=='_'? 'x': *p=='$'? 'X': *p);
     break;
   }
-  else if (is_tiny(cur_name)) out('|')@;
+  else if (is_tiny(cur_name)) out('|')@t;@>@;
 @.\\|@>
   else { delim='.';
     for (p=cur_name->byte_start;p<(cur_name+1)->byte_start;p++)
@@ -3995,7 +3995,7 @@ if (a<break_space || a==preproc_line) {
 @.\\8@>
     if (a==opt) {
       b=get_output(); /* |opt| is followed by a digit */
-      if (b!='0' || force_lines==false) out(b)@;
+      if (b!='0' || force_lines==false) out(b)@t;@>@;
       else out_str("{-1}"); /* |force_lines| encourages more \.{@@\v} breaks */
     }
   } else if (a==opt) b=get_output(); /* ignore digit following |opt| */
@@ -4105,7 +4105,7 @@ while (k<k_limit) {
     default: out(b);
     }
   else
-    if (b!='|') out(b)@;
+    if (b!='|') out(b)@t;@>@;
     else {
       @<Copy the \CEE/ text into the |buffer| array@>@;
       save_loc=loc; save_limit=limit; loc=limit+2; limit=j+1;
