@@ -158,7 +158,7 @@ name_pointer p, /* points to the proposed match */
 const char *first, /* position of first character of string */
 size_t l, /* length of identifier */
 eight_bits t) /* not used by \.{TANGLE} */
-{@+(void)t;
+{@+(void)t;@/
   return length(p)==l && strncmp(first,p->byte_start,l)==0;
 }
 
