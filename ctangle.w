@@ -727,12 +727,12 @@ case section_number:
     goto restart;
   } else {
     sixteen_bits a;
-    a=0400* *cur_byte++;
+    a=*cur_byte++ *0400;
     a+=*cur_byte++; /* gets the line number */
     C_printf("\n#line %d \"",a);
 @:line}{\.{\#line}@>
-    cur_val=*cur_byte++;
-    cur_val=0400*(cur_val-0200)+ *cur_byte++; /* points to the file name */
+    cur_val=(*cur_byte++-0200)*0400;
+    cur_val+=*cur_byte++; /* points to the file name */
     for (j=(cur_val+name_dir)->byte_start, k=(cur_val+name_dir+1)->byte_start;
          j<k; j++) {
       if (*j=='\\' || *j=='"') C_putc('\\');
