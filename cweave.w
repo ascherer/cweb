@@ -2561,14 +2561,12 @@ scrap_pointer p)
   if ((tok_loc=find_first_ident(p->trans))<=operator_found)
     return; /* this should not happen */
   tok_value=*tok_loc;
-  for (;p<=scrap_ptr; p==lo_ptr? p=hi_ptr: p++) {
-    if (p->cat==exp) {
+  for (;p<=scrap_ptr; p==lo_ptr? p=hi_ptr: p++)
+    if (p->cat==exp)
       if (**(p->trans)==tok_value) {
         p->cat=raw_int;
         **(p->trans)=tok_value%id_flag+res_flag;
       }
-    }
-  }
   (name_dir+(sixteen_bits)(tok_value%id_flag))->ilk=raw_int;
   *tok_loc=tok_value%id_flag+res_flag;
 }
