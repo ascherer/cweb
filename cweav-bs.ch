@@ -219,7 +219,7 @@ static char huge* cur_byte; /* index into |byte_mem| */
 
 
 @x Section 264.
-switch (cur_name->ilk) {@+char *j;
+switch (cur_name->ilk) {@+char *j;@+@t}\6{\4@>
 @y
-switch (cur_name->ilk) {@+char huge* j;
+switch (cur_name->ilk) {@+char huge* j;@+@t}\6{\4@>
 @z

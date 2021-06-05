@@ -2175,7 +2175,7 @@ typedef struct {
   eight_bits cat;
   eight_bits mathness;
   union {
-    text_pointer Trans;
+    text_pointer Trans;@+@t}\6{@>
     @<Rest of |trans_plus| union@>@;
   } trans_plus;
 } scrap;
@@ -4760,7 +4760,7 @@ while (sort_ptr>scrap_info) {
 }
 
 @ @<Output the name...@>=
-switch (cur_name->ilk) {@+char *j;
+switch (cur_name->ilk) {@+char *j;@+@t}\6{\4@>
   case normal: case func_template:
     if (is_tiny(cur_name)) out_str("\\|");
     else {
