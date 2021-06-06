@@ -15,7 +15,7 @@
 /*:4*/
 #line 67 "ctangle.w"
 
-#define banner "This is CTANGLE (Version 4.3)" \
+#define banner "This is CTANGLE (Version 4.4)" \
 
 #define ctangle false
 #define cweave true \
