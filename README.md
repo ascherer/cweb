@@ -1,4 +1,4 @@
-# cweb 4.3
+# cweb 4.4
 
 people have been accumulating several decades of experience with
 [cweb](http://www-cs-faculty.stanford.edu/~uno/cweb.html), and we know that
@@ -19,7 +19,7 @@ details in the
 besides for further development, this ‘project’ is used as an – obviously
 incomplete – repository of original release versions of levy/knuth
 [cweb](http://www-cs-faculty.stanford.edu/~uno/cweb.html). you can either
-compile these sources directly or stick the recent version “cweb-4.3” into my
+compile these sources directly or stick the recent version “cweb-4.4” into my
 [cwebbin](https://github.com/ascherer/cwebbin), which introduces convenient
 extensions and prepares cweb for inclusion in the “tex live” distribution.
 
