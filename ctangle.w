@@ -1244,8 +1244,9 @@ case section_name: if (t!=section_name) goto done;
     a=cur_section_name-name_dir;
     app_repl((a / 0400)+0250);
     app_repl(a % 0400);
-    @<Insert the line number into |tok_mem|@>@; break;
+    @<Insert the line number into |tok_mem|@>@;
   }
+  break;
 case output_defs_code: if (t!=section_name) err_print("! Misplaced @@h");
 @.Misplaced @@h@>
   else {
@@ -1255,11 +1256,13 @@ case output_defs_code: if (t!=section_name) err_print("! Misplaced @@h");
     app_repl(a % 0400);
     @<Insert the line number into |tok_mem|@>@;
   }
- break;
+  break;
 case constant: case string:
   @<Copy a string or verbatim construction or numerical constant@>@;
+  break;
 case ord:
   @<Copy an ASCII constant@>@;
+  break;
 case definition: case format_code: case begin_C: if (t!=section_name) goto done;
   else {
     err_print("! @@d, @@f and @@c are ignored in C text"); continue;
@@ -1296,7 +1299,7 @@ code. The \.{+k} switch will `keep' the single quotes in the output.
       id_first++;
     app_repl(*id_first++);
   }
-  app_repl(a); break;
+  app_repl(a);
 
 @ This section should be rewritten on machines that don't use ASCII
 code internally.
@@ -1349,7 +1352,6 @@ code internally.
   app_repl('0'+c%10);
   app_repl(constant);
 }
-break;
 
 @* Scanning a section.
 The |scan_section| procedure starts when `\.{@@\ }' or `\.{@@*}' has been
