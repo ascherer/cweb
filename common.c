@@ -788,7 +788,7 @@ l= (int)(last-first);
 /*49:*/
 #line 656 "common.w"
 
-h= (eight_bits)*i;
+h= (int)((eight_bits)*i);
 while(++i<last)h= (h+h+(int)((eight_bits)*i))%hash_size;
 
 

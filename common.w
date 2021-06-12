@@ -638,7 +638,7 @@ const char *last, /* last character of string plus one */
 char t) /* the |ilk|; used by \.{CWEAVE} only */
 {
   const char *i=first; /* position in |buffer| */
-  int h; /* hash code */
+  int h; /* hash code; shadows |hash_pointer h| */
   int l; /* length of the given identifier */
   name_pointer p; /* where the identifier is being sought */
   if (last==NULL) for (last=first; *last!='\0'; last++);
@@ -654,7 +654,7 @@ character codes is $c_1c_2\ldots c_n$, its hash value will be
 $$(2^{n-1}c_1+2^{n-2}c_2+\cdots+c_n)\,\bmod\,|hash_size|.$$
 
 @<Compute the hash...@>=
-h=(eight_bits)*i;
+h=(int)((eight_bits)*i);
 while (++i<last) h=(h+h+(int)((eight_bits)*i)) % hash_size;
 @^high-bit character handling@>
 
