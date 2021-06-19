@@ -2642,7 +2642,7 @@ to be performed, followed by |goto found|.
 
 @<Cases for |exp|@>=
 if (cat1==lbrace || cat1==int_like || cat1==decl) {
-  make_underlined(pp); big_app(dindent); big_app1(pp);
+  make_underlined(pp); big_app1(pp); big_app(dindent);
   reduce(pp,1,fn_decl,0,1);
 }
 else if (cat1==unop) squash(pp,2,exp,-2,2);
@@ -3920,10 +3920,14 @@ make_output(void) /* outputs the equivalents of tokens */
         while (true) {
           a=get_output();
           if (a==inserted) continue;
-          if ((a<indent && !(b==big_cancel&&a==' ')) || a>big_force) break;
-          if (a==indent) c++;
-          else if (a==outdent) c--;
-            else if (a==opt) a=get_output();
+          if ((a<indent && !(b==big_cancel&&a==' ')) @|
+            || (a>big_force && a!=dindent)) break;
+          switch (a) {
+          case indent: c++; break;
+          case outdent: c--; break;
+          case dindent: c+=2; break;
+          case opt: a=get_output();
+          }
         }
         @<Output saved |indent| or |outdent| tokens@>@;
         goto reswitch;
