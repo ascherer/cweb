@@ -914,7 +914,8 @@ get_next(void) /* produces the next input token */
     else if (xisspace(c)) {
         if (!preprocessing || loc>limit) continue;
           /* we don't want a blank after a final backslash */
-        else return ' '; /* ignore spaces and tabs, unless |preprocessing| */
+        else return (eight_bits)' ';
+          /* ignore spaces and tabs, unless |preprocessing| */
     }
     else if (c=='#' && loc==buffer+1) preprocessing=true;
     mistake: @<Compress two-symbol operator@>@;
@@ -1001,7 +1002,7 @@ delimiters if they are protected by a backslash.  We follow this
 convention, but do not allow the string to be longer than |longest_name|.
 
 @<Get a string@>= {
-  char delim = c; /* what started the string */
+  char delim = (char)c; /* what started the string */
   id_first = section_text+1;
   id_loc = section_text; *++id_loc=delim;
   if (delim=='L' || delim=='u' || delim=='U') { /* wide character constant */
@@ -1021,16 +1022,16 @@ convention, but do not allow the string to be longer than |longest_name|.
       else if (++id_loc<=section_text_end) *id_loc='\n'; /* will print as
       \.{"\\\\\\n"} */
     }
-    if ((c=*loc++)==delim) {
-      if (++id_loc<=section_text_end) *id_loc=c;
+    if ((c=(eight_bits)*loc++)==delim) {
+      if (++id_loc<=section_text_end) *id_loc=(char)c;
       break;
     }
     if (c=='\\') {
       if (loc>=limit) continue;
       if (++id_loc<=section_text_end) *id_loc = '\\';
-      c=*loc++;
+      c=(eight_bits)*loc++;
     }
-    if (++id_loc<=section_text_end) *id_loc=c;
+    if (++id_loc<=section_text_end) *id_loc=(char)c;
   }
   if (id_loc>=section_text_end) {
     fputs("\n! String too long: ",stdout);
@@ -1119,13 +1120,13 @@ while (true) {
 @.Input ended in section name@>
     loc=buffer+1; break;
   }
-  c=*loc;
+  c=(eight_bits)*loc;
   @<If end of name or erroneous nesting, |break|@>@;
   loc++; if (k<section_text_end) k++;
   if (xisspace(c)) {
-    c=' '; if (*(k-1)==' ') k--;
+    c=(eight_bits)' '; if (*(k-1)==' ') k--;
   }
-*k=c;
+*k=(char)c;
 }
 if (k>=section_text_end) {
   fputs("\n! Section name too long: ",stdout);
@@ -1137,7 +1138,7 @@ if (*k==' ' && k>section_text) k--;
 
 @ @<If end of name or erroneous nesting,...@>=
 if (c=='@@') {
-  c=*(loc+1);
+  c=(eight_bits)*(loc+1);
   if (c=='>') {
     loc+=2; break;
   }
@@ -1203,7 +1204,7 @@ eight_bits t)
         that should be stored, or |continue| if |a| should be ignored,
         or |goto done| if |a| signals the end of this replacement text@>@;
       case ')': app_repl(a);
-        if (t==macro) app_repl(' ');
+        if (t==macro) app_repl((eight_bits)' ');
         break;
       default: app_repl(a); /* store |a| in |tok_mem| */
     }
@@ -1298,7 +1299,7 @@ code. The \.{+k} switch will `keep' the single quotes in the output.
     }
     else if (a==constant && *id_first=='\'' && !keep_digit_separators)
       id_first++;
-    app_repl(*id_first++);
+    app_repl((eight_bits)*id_first++);
   }
   app_repl(a);
 
@@ -1309,7 +1310,7 @@ code internally.
 @<Copy an ASCII constant@>= {
   int c=(int)((eight_bits) *id_first);
   if (c=='\\') {
-    c=*++id_first;
+    c=(int)((eight_bits) *++id_first);
     if (c>='0' && c<='7') {
       c-='0';
       if (*(id_first+1)>='0' && *(id_first+1)<='7') {
@@ -1328,15 +1329,15 @@ code internally.
     case 'a':c='\7';@+break;
     case '?':c='?';@+break;
     case 'x':
-      if (xisdigit(*(id_first+1))) c=*(++id_first)-'0';
+      if (xisdigit(*(id_first+1))) c=(int)(*(++id_first)-'0');
       else if (xisxdigit(*(id_first+1))) {
         ++id_first;
         c=toupper((int)*id_first)-'A'+10;
       }
-      if (xisdigit(*(id_first+1))) c=16*c+*(++id_first)-'0';
+      if (xisdigit(*(id_first+1))) c=16*c+(int)(*(++id_first)-'0');
       else if (xisxdigit(*(id_first+1))) {
         ++id_first;
-        c=16*c+toupper((int)*id_first)-'A'+10;
+        c=16*c+toupper((int)*id_first)-(int)'A'+10;
       }
       break;
     case '\\':c='\\';@+break;
@@ -1348,9 +1349,9 @@ code internally.
   }@/
   /* at this point |c| should have been converted to its ASCII code number */
   app_repl(constant);
-  if (c>=100) app_repl('0'+c/100);
-  if (c>=10) app_repl('0'+(c/10)%10);
-  app_repl('0'+c%10);
+  if (c>=100) app_repl((int)'0'+c/100);
+  if (c>=10) app_repl((int)'0'+(c/10)%10);
+  app_repl((int)'0'+c%10);
   app_repl(constant);
 }
 
@@ -1421,7 +1422,7 @@ if (next_control!=identifier) {
 }
 store_id(a); /* append the lhs */
 if (*loc!='(') { /* identifier must be separated from replacement text */
-  app_repl(string); app_repl(' '); app_repl(string);
+  app_repl(string); app_repl((eight_bits)' '); app_repl(string);
 }
 scan_repl(macro);
 cur_text->text_link=macro;
