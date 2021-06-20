@@ -495,7 +495,7 @@ for(c= 0;c<256;c++)ccode[c]= ignore;
 }
 ccode[' ']= ccode['\t']= ccode['\n']= ccode['\v']= ccode['\r']= ccode['\f']
 = ccode['*']= new_section;
-ccode['@']= '@';ccode['=']= string;
+ccode['@']= (eight_bits)'@';ccode['=']= string;
 ccode['d']= ccode['D']= definition;
 ccode['f']= ccode['F']= ccode['s']= ccode['S']= format_code;
 ccode['c']= ccode['C']= ccode['p']= ccode['P']= begin_C;
