@@ -22,10 +22,8 @@ common.w:641:5: Variable h shadows outer declaration
   An outer declaration is shadowed by the local declaration. (Use -shadow to
   inhibit warning)
    common.w:624:14: Previous definition of h: hash_pointer
-common.w:666:33: Function names_match expects arg 4 to be eight_bits gets char:
-                    t
 common.w:666:7: Left operand of && is non-boolean (name_pointer):
-                   p && !names_match(p, first, l, t)
+                   p && !names_match(p, first, l, (eight_bits)t)
   The operand of a boolean operator is not a boolean. Use +ptrnegate to allow !
   to be used on pointers. (Use -boolops to inhibit warning)
 common.w: (in function add_section_name)

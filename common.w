@@ -663,7 +663,7 @@ otherwise |p| will point to its existing location.
 
 @<Compute the name location...@>=
 p=hash[h];
-while (p && !names_match(p,first,l,t)) p=p->link;
+while (p && !names_match(p,first,l,(eight_bits)t)) p=p->link;
 if (p==NULL) {
   p=name_ptr; /* the current identifier is new */
   p->link=hash[h]; hash[h]=p; /* insert |p| at beginning of hash list */

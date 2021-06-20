@@ -799,7 +799,7 @@ while(++i<last)h= (h+h+(int)((eight_bits)*i))%hash_size;
 #line 664 "common.w"
 
 p= hash[h];
-while(p&&!names_match(p,first,l,t))p= p->link;
+while(p&&!names_match(p,first,l,(eight_bits)t))p= p->link;
 if(p==NULL){
 p= name_ptr;
 p->link= hash[h];hash[h]= p;
