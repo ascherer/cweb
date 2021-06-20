@@ -456,24 +456,8 @@ ctangle.w:899:1: Return value (type boolean) ignored: skip_comment(com...
   result to (void) to eliminate message. (Use -retvalbool to inhibit warning)
 ctangle.w:901:28: Return value type char does not match declared type
                      eight_bits: '\n'
-ctangle.w:905:13: Function isdigit expects arg 1 to be int gets eight_bits:
-                     (eight_bits)(c)
-ctangle.w:905:62: Operands of == have incompatible types (eight_bits, char):
+ctangle.w:905:55: Operands of == have incompatible types (eight_bits, char):
                      c == '.'
-ctangle.w:968:30: Function isdigit expects arg 1 to be int gets eight_bits:
-                     (eight_bits)(*loc)
-ctangle.w:972:23: Function isxdigit expects arg 1 to be int gets eight_bits:
-                     (eight_bits)(*loc)
-ctangle.w:978:16: Function isdigit expects arg 1 to be int gets eight_bits:
-                     (eight_bits)(*loc)
-ctangle.w:981:28: Function isxdigit expects arg 1 to be int gets eight_bits:
-                     (eight_bits)(*loc)
-ctangle.w:981:93: Function isdigit expects arg 1 to be int gets eight_bits:
-                     (eight_bits)(*loc)
-ctangle.w:985:16: Function isdigit expects arg 1 to be int gets eight_bits:
-                     (eight_bits)(*loc)
-ctangle.w:989:17: Function isxdigit expects arg 1 to be int gets eight_bits:
-                     (eight_bits)(*loc)
 ctangle.w:906:9: Operands of == have incompatible types (eight_bits, char):
                     c == '\''
 ctangle.w:906:18: Operands of == have incompatible types (eight_bits, char):
@@ -520,8 +504,6 @@ ctangle.w:1138:4: Operands of == have incompatible types (eight_bits, char):
 ctangle.w:1139:1: Assignment of char to eight_bits: c = *(loc + 1)
 ctangle.w:1140:4: Operands of == have incompatible types (eight_bits, char):
                      c == '>'
-ctangle.w:1124:13: Function isspace expects arg 1 to be int gets eight_bits:
-                      (eight_bits)(c)
 ctangle.w:1125:1: Assignment of char to eight_bits: c = ' '
 ctangle.w:1127:1: Assignment of eight_bits to char: *k = c
 ctangle.w:1130:1: Return value (type int) ignored: fputs("\n! Secti...
@@ -533,8 +515,6 @@ ctangle.w:1096:1: Only storage assigned to unqualified static:
   -onlytrans to inhibit warning)
 ctangle.w:1098:6: Only storage assigned to unqualified static:
     cur_section_name = section_lookup(section_text + 1, k, false)
-ctangle.w:913:18: Function isspace expects arg 1 to be int gets eight_bits:
-                     (eight_bits)(c)
 ctangle.w:916:12: Return value type char does not match declared type
                      eight_bits: ' '
 ctangle.w:918:9: Operands of == have incompatible types (eight_bits, char):
@@ -572,18 +552,10 @@ ctangle.w:1325:9: Assignment of char to int: c = '\v'
 ctangle.w:1326:9: Assignment of char to int: c = '\r'
 ctangle.w:1327:9: Assignment of char to int: c = '\7'
 ctangle.w:1328:9: Assignment of char to int: c = '?'
-ctangle.w:1330:13: Function isdigit expects arg 1 to be int gets eight_bits:
-                      (eight_bits)(*(id_first + 1))
-ctangle.w:1330:85: Assignment of char to int: c = *(++id_first) - '0'
-ctangle.w:1331:19: Function isxdigit expects arg 1 to be int gets eight_bits:
-                      (eight_bits)(*(id_first + 1))
+ctangle.w:1330:78: Assignment of char to int: c = *(++id_first) - '0'
 ctangle.w:1333:12: Function toupper expects arg 1 to be int gets eight_bits:
                       (eight_bits)*id_first
-ctangle.w:1335:13: Function isdigit expects arg 1 to be int gets eight_bits:
-                      (eight_bits)(*(id_first + 1))
-ctangle.w:1335:88: Incompatible types for + (int, char): 16 * c + *(++id_first)
-ctangle.w:1336:19: Function isxdigit expects arg 1 to be int gets eight_bits:
-                      (eight_bits)(*(id_first + 1))
+ctangle.w:1335:81: Incompatible types for + (int, char): 16 * c + *(++id_first)
 ctangle.w:1338:17: Function toupper expects arg 1 to be int gets eight_bits:
                       (eight_bits)*id_first
 ctangle.w:1338:4: Incompatible types for - (int, char):
@@ -624,21 +596,7 @@ ctangle.w:1461:1: Variable cur_text is kept in true branch, but not kept in
    ctangle.w:1461:1: in true branch:
    ctangle.w:1454:44: Storage cur_text becomes kept
 ctangle.w: (in function skip_limbo)
-ctangle.w:1512:16: Function isspace expects arg 1 to be int gets eight_bits:
-                      (eight_bits)(*loc)
-ctangle.w:1514:27: Function isxdigit expects arg 1 to be int gets eight_bits:
-                      (eight_bits)(*(loc - 3))
-ctangle.w:1514:101: Function isxdigit expects arg 1 to be int gets eight_bits:
-                       (eight_bits)(*(loc - 2))
-ctangle.w:1515:45: Function isspace expects arg 1 to be int gets eight_bits:
-                      (eight_bits)(*(loc - 1))
 ctangle.w:1521:1: Return value (type int) ignored: sscanf(loc - 3, ...
-ctangle.w:1522:16: Function isspace expects arg 1 to be int gets eight_bits:
-                      (eight_bits)(*loc)
-ctangle.w:1524:28: Function isalpha expects arg 1 to be int gets eight_bits:
-                      (eight_bits)(*loc)
-ctangle.w:1524:92: Function isdigit expects arg 1 to be int gets eight_bits:
-                      (eight_bits)(*loc)
 ctangle.w:1496:8: Assignment of eight_bits to char: c = skip_ahead()
 ctangle.w:1502:9: Fall through case (no preceding break)
 ctangle.w: (in function print_stats)
