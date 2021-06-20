@@ -446,7 +446,7 @@ The remainder of the \.{@@i} line after the file name is ignored.
   char temp_file_name[max_file_name_length];
   char *cur_file_name_end=cur_file_name+max_file_name_length-1;
   char *kk, *k=cur_file_name;
-  int l; /* length of file name */
+  size_t l; /* length of file name */
 
   if (*loc=='"') {
     loc++;
@@ -639,10 +639,10 @@ char t) /* the |ilk|; used by \.{CWEAVE} only */
 {
   const char *i=first; /* position in |buffer| */
   int h; /* hash code; shadows |hash_pointer h| */
-  int l; /* length of the given identifier */
+  size_t l; /* length of the given identifier */
   name_pointer p; /* where the identifier is being sought */
   if (last==NULL) for (last=first; *last!='\0'; last++);
-  l=(int)(last-first); /* compute the length */
+  l=(size_t)(last-first); /* compute the length */
   @<Compute the hash code |h|@>@;
   @<Compute the name location |p|@>@;
   if (p==name_ptr) @<Enter a new name into the table at position |p|@>@;
@@ -700,7 +700,7 @@ to additional chunks in the same way. Null links are represented by
 |name_dir|.
 
 @d first_chunk(p) ((p)->byte_start+2)
-@d prefix_length(p) (int)((eight_bits)*((p)->byte_start)*256 +
+@d prefix_length(p) (size_t)((eight_bits)*((p)->byte_start)*256 +
                 (eight_bits)*((p)->byte_start+1))
 @d set_prefix_length(p,m) (*((p)->byte_start)=(char)((m)/256),
                  *((p)->byte_start+1)=(char)((m)%256))
@@ -746,7 +746,7 @@ print_prefix_name(
 name_pointer p)
 {
   char *s = first_chunk(p);
-  int l = prefix_length(p);
+  size_t l = prefix_length(p);
   term_write(s,l);
   if (s+l<(p+1)->byte_start) term_write("...",3);
 }
@@ -877,7 +877,7 @@ the need for chunk-chasing at this stage.
 
 @<Look for matches for new name among...@>=
 while (p) { /* compare shortest prefix of |p| with new name */
-  c=web_strcmp(first,name_len,first_chunk(p),prefix_length(p));
+  c=web_strcmp(first,name_len,first_chunk(p),(int)prefix_length(p));
   if (c==less || c==greater) { /* new name does not match |p| */
     if (r==NULL) /* no previous matches have been found */
       par=p;

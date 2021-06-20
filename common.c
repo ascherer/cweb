@@ -107,7 +107,7 @@ err_print("! Include file name too long") ;goto restart;} \
 #define hash_size 353 \
 
 #define first_chunk(p) ((p) ->byte_start+2) 
-#define prefix_length(p) (int) ((eight_bits) *((p) ->byte_start) *256+ \
+#define prefix_length(p) (size_t) ((eight_bits) *((p) ->byte_start) *256+ \
 (eight_bits) *((p) ->byte_start+1) ) 
 #define set_prefix_length(p,m) (*((p) ->byte_start) = (char) ((m) /256) , \
 *((p) ->byte_start+1) = (char) ((m) %256) )  \
@@ -707,7 +707,7 @@ include_depth++;
 char temp_file_name[max_file_name_length];
 char*cur_file_name_end= cur_file_name+max_file_name_length-1;
 char*kk,*k= cur_file_name;
-int l;
+size_t l;
 
 if(*loc=='"'){
 loc++;
@@ -781,10 +781,10 @@ char t)
 {
 const char*i= first;
 int h;
-int l;
+size_t l;
 name_pointer p;
 if(last==NULL)for(last= first;*last!='\0';last++);
-l= (int)(last-first);
+l= (size_t)(last-first);
 /*49:*/
 #line 656 "common.w"
 
@@ -871,7 +871,7 @@ print_prefix_name(
 name_pointer p)
 {
 char*s= first_chunk(p);
-int l= prefix_length(p);
+size_t l= prefix_length(p);
 term_write(s,l);
 if(s+l<(p+1)->byte_start)term_write("...",3);
 }
@@ -967,7 +967,7 @@ int name_len= (int)(last-first)+1;
 #line 878 "common.w"
 
 while(p){
-c= web_strcmp(first,name_len,first_chunk(p),prefix_length(p));
+c= web_strcmp(first,name_len,first_chunk(p),(int)prefix_length(p));
 if(c==less||c==greater){
 if(r==NULL)
 par= p;
