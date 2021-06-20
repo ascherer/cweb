@@ -702,8 +702,8 @@ to additional chunks in the same way. Null links are represented by
 @d first_chunk(p) ((p)->byte_start+2)
 @d prefix_length(p) (int)((eight_bits)*((p)->byte_start)*256 +
                 (eight_bits)*((p)->byte_start+1))
-@d set_prefix_length(p,m) (*((p)->byte_start)=(m)/256,
-                 *((p)->byte_start+1)=(m)%256)
+@d set_prefix_length(p,m) (*((p)->byte_start)=(char)((m)/256),
+                 *((p)->byte_start+1)=(char)((m)%256))
 
 @c
 void

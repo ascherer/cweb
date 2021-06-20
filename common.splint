@@ -138,10 +138,6 @@ common.w:812:27: Dependent storage s assigned to unqualified:
    common.w:808:16: Storage s becomes dependent
 common.w:816:1: Unqualified storage name_dir assigned to implicitly only:
                    name_ptr->link = name_dir
-common.w:819:2: Assignment of int to char:
-                   *((p)->byte_start) = (name_len) / 256
-common.w:819:41: Assignment of int to char:
-                    *((p)->byte_start + 1) = (name_len) % 256
 common.w:820:17: Function strncpy expects arg 3 to be size_t gets int: name_len
 common.w:820:9: Parameter 1 (s) to function strncpy is declared unique but may
                    be aliased externally by parameter 2 (first)
@@ -200,10 +196,6 @@ common.w:905:25: Null storage par passed as non-null param:
   (Use -nullpass to inhibit warning)
    common.w:864:19: Storage par becomes null
 common.w:916:1: Return value (type int) ignored: fputs("\n! New n...
-common.w:921:102: Assignment of int to char:
-                     *((r)->byte_start) = (name_len) / 256
-common.w:921:141: Assignment of int to char:
-                     *((r)->byte_start + 1) = (name_len) % 256
 common.w:923:6: Fall through case (no preceding break)
   Execution falls through from the previous case (use /*@fallthrough@*/ to mark
   fallthrough cases). (Use -casebreak to inhibit warning)
