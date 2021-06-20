@@ -1,4 +1,20 @@
+common.w: (in function common_init)
+common.w:606:9: Arrow access of non-pointer (name_info []):
+                   name_dir->byte_start
+  Types are incompatible. (Use -type to inhibit warning)
+common.w:609:9: Arrow access of non-pointer (name_info []): name_dir->dummy
+common.w: (in function input_ln)
+common.w:164:42: Operands of != have incompatible types (int, char): c != '\n'
+  A character constant is used as an int. Use +charintliteral to allow
+  character constants to be used as ints.  (This is safe since the actual type
+  of a char constant is int.)
+common.w:165:5: Assignment of int to char: *(k++) = c
+  To make char and int types equivalent, use +charint.
+common.w:167:24: Operands of != have incompatible types (int, char): c != '\n'
 common.w: (in function get_line)
+common.w:466:5: Assignment of size_t to int: l = strlen(kk)
+  To allow arbitrary integral types to match any integral type, use
+  +matchanyintegral.
 common.w:481:33: Passed storage temp_file_name not completely defined
     (*temp_file_name is undefined): strcpy (..., temp_file_name)
   Storage derivable from a parameter, return value or global is not defined.
@@ -9,11 +25,24 @@ common.w:641:5: Variable h shadows outer declaration
   An outer declaration is shadowed by the local declaration. (Use -shadow to
   inhibit warning)
    common.w:624:14: Previous definition of h: hash_pointer
+common.w:666:31: Function names_match expects arg 3 to be size_t gets int: l
+common.w:666:33: Function names_match expects arg 4 to be eight_bits gets char:
+                    t
 common.w:666:7: Left operand of && is non-boolean (name_pointer):
                    p && !names_match(p, first, l, t)
   The operand of a boolean operator is not a boolean. Use +ptrnegate to allow !
   to be used on pointers. (Use -boolops to inhibit warning)
+common.w:679:24: Function strncpy expects arg 3 to be size_t gets int: l
+common.w:681:10: Function init_p expects arg 2 to be eight_bits gets char: t
+common.w: (in function print_prefix_name)
+common.w:750:40: Function fwrite expects arg 3 to be size_t gets int: l
+common.w: (in function add_section_name)
+common.w:820:17: Function strncpy expects arg 3 to be size_t gets int: name_len
+common.w:823:27: Arrow access of non-pointer (name_info []): name_dir->dummy
+common.w: (in function extend_section_name)
+common.w:844:17: Function strncpy expects arg 3 to be size_t gets int: name_len
 common.w: (in function section_lookup)
+common.w:861:25: Arrow access of non-pointer (name_info []): name_dir->dummy
 common.w:905:25: Null storage par passed as non-null param:
                     add_section_name (par, ...)
   A possibly null pointer is passed as a parameter corresponding to a formal
