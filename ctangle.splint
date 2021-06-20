@@ -424,147 +424,144 @@ ctangle.w:670:9: Return value (type int) ignored: putc((int)(cur_c...
 ctangle.w: (in function get_next)
 ctangle.w:900:24: Operands of == have incompatible types (eight_bits, char):
                      c == '/'
-ctangle.w:901:1: Return value (type boolean) ignored: skip_comment(com...
-  Result returned by function call is not used. If this is intended, can cast
-  result to (void) to eliminate message. (Use -retvalbool to inhibit warning)
-ctangle.w:903:28: Return value type char does not match declared type
+ctangle.w:901:57: Return value type char does not match declared type
                      eight_bits: '\n'
-ctangle.w:907:55: Operands of == have incompatible types (eight_bits, char):
+ctangle.w:906:55: Operands of == have incompatible types (eight_bits, char):
                      c == '.'
-ctangle.w:908:9: Operands of == have incompatible types (eight_bits, char):
+ctangle.w:907:9: Operands of == have incompatible types (eight_bits, char):
                     c == '\''
-ctangle.w:908:18: Operands of == have incompatible types (eight_bits, char):
+ctangle.w:907:18: Operands of == have incompatible types (eight_bits, char):
                      c == '"'
-ctangle.w:909:5: Operands of == have incompatible types (eight_bits, char):
+ctangle.w:908:5: Operands of == have incompatible types (eight_bits, char):
                     c == 'L'
-ctangle.w:909:13: Operands of == have incompatible types (eight_bits, char):
+ctangle.w:908:13: Operands of == have incompatible types (eight_bits, char):
                      c == 'u'
-ctangle.w:909:21: Operands of == have incompatible types (eight_bits, char):
+ctangle.w:908:21: Operands of == have incompatible types (eight_bits, char):
                      c == 'U'
-ctangle.w:910:5: Operands of == have incompatible types (eight_bits, char):
+ctangle.w:909:5: Operands of == have incompatible types (eight_bits, char):
                     c == 'u'
-ctangle.w:1005:13: Variable delim initialized to type eight_bits, expects char:
+ctangle.w:1004:13: Variable delim initialized to type eight_bits, expects char:
                       c
-ctangle.w:1025:5: Assignment of char to eight_bits: c = *loc++
-ctangle.w:1025:4: Operands of == have incompatible types (eight_bits, char):
+ctangle.w:1024:5: Assignment of char to eight_bits: c = *loc++
+ctangle.w:1024:4: Operands of == have incompatible types (eight_bits, char):
                      (c = *loc++) == delim
-ctangle.w:1026:31: Assignment of eight_bits to char: *id_loc = c
-ctangle.w:1029:4: Operands of == have incompatible types (eight_bits, char):
+ctangle.w:1025:31: Assignment of eight_bits to char: *id_loc = c
+ctangle.w:1028:4: Operands of == have incompatible types (eight_bits, char):
                      c == '\\'
-ctangle.w:1032:1: Assignment of char to eight_bits: c = *loc++
-ctangle.w:1034:31: Assignment of eight_bits to char: *id_loc = c
-ctangle.w:1037:1: Return value (type int) ignored: fputs("\n! Strin...
-ctangle.w:912:27: Operands of == have incompatible types (eight_bits, char):
+ctangle.w:1031:1: Assignment of char to eight_bits: c = *loc++
+ctangle.w:1033:31: Assignment of eight_bits to char: *id_loc = c
+ctangle.w:1036:1: Return value (type int) ignored: fputs("\n! Strin...
+ctangle.w:911:27: Operands of == have incompatible types (eight_bits, char):
                      (c) == '_'
-ctangle.w:912:38: Operands of == have incompatible types (eight_bits, char):
+ctangle.w:911:38: Operands of == have incompatible types (eight_bits, char):
                      (c) == '$'
-ctangle.w:914:9: Operands of == have incompatible types (eight_bits, char):
+ctangle.w:913:9: Operands of == have incompatible types (eight_bits, char):
                     c == '@'
-ctangle.w:1054:17: Operands of == have incompatible types (eight_bits, char):
+ctangle.w:1053:17: Operands of == have incompatible types (eight_bits, char):
                       (c = skip_ahead()) == '@'
-ctangle.w:1123:1: Assignment of char to eight_bits: c = *loc
-ctangle.w:1140:4: Operands of == have incompatible types (eight_bits, char):
+ctangle.w:1122:1: Assignment of char to eight_bits: c = *loc
+ctangle.w:1139:4: Operands of == have incompatible types (eight_bits, char):
                      c == '@'
-ctangle.w:1141:1: Assignment of char to eight_bits: c = *(loc + 1)
-ctangle.w:1142:4: Operands of == have incompatible types (eight_bits, char):
+ctangle.w:1140:1: Assignment of char to eight_bits: c = *(loc + 1)
+ctangle.w:1141:4: Operands of == have incompatible types (eight_bits, char):
                      c == '>'
-ctangle.w:1127:1: Assignment of char to eight_bits: c = ' '
-ctangle.w:1129:1: Assignment of eight_bits to char: *k = c
-ctangle.w:1132:1: Return value (type int) ignored: fputs("\n! Secti...
-ctangle.w:1098:1: Only storage assigned to unqualified static:
+ctangle.w:1126:1: Assignment of char to eight_bits: c = ' '
+ctangle.w:1128:1: Assignment of eight_bits to char: *k = c
+ctangle.w:1131:1: Return value (type int) ignored: fputs("\n! Secti...
+ctangle.w:1097:1: Only storage assigned to unqualified static:
     cur_section_name = section_lookup(section_text + 1, k - 3, true)
   The only reference to this storage is transferred to another reference (e.g.,
   by returning it) that does not have the only annotation. This may lead to a
   memory leak, since the new reference is not necessarily released. (Use
   -onlytrans to inhibit warning)
-ctangle.w:1100:6: Only storage assigned to unqualified static:
+ctangle.w:1099:6: Only storage assigned to unqualified static:
     cur_section_name = section_lookup(section_text + 1, k, false)
-ctangle.w:918:12: Return value type char does not match declared type
+ctangle.w:917:12: Return value type char does not match declared type
                      eight_bits: ' '
-ctangle.w:920:9: Operands of == have incompatible types (eight_bits, char):
+ctangle.w:919:9: Operands of == have incompatible types (eight_bits, char):
                     c == '#'
-ctangle.w:924:2: Path with no return in function declared to return eight_bits
+ctangle.w:923:2: Path with no return in function declared to return eight_bits
   There is a path through a function declared to return a value on which there
   is no return statement. This means the execution may fall through without
   returning a meaningful result to the caller. (Use -noret to inhibit warning)
 ctangle.w: (in function scan_repl)
-ctangle.w:1228:12: Variable a shadows outer declaration
+ctangle.w:1227:12: Variable a shadows outer declaration
   An outer declaration is shadowed by the local declaration. (Use -shadow to
   inhibit warning)
-   ctangle.w:1199:14: Previous definition of a: sixteen_bits
-ctangle.w:1300:34: Array fetch using non-integer, char: flags['k']
-ctangle.w:1302:47: Assignment of char to eight_bits: *(tok_ptr++) = *id_first++
-ctangle.w:1312:4: Operands of == have incompatible types (int, char): c == '\\'
+   ctangle.w:1198:14: Previous definition of a: sixteen_bits
+ctangle.w:1299:34: Array fetch using non-integer, char: flags['k']
+ctangle.w:1301:47: Assignment of char to eight_bits: *(tok_ptr++) = *id_first++
+ctangle.w:1311:4: Operands of == have incompatible types (int, char): c == '\\'
   A character constant is used as an int. Use +charintliteral to allow
   character constants to be used as ints.  (This is safe since the actual type
   of a char constant is int.)
-ctangle.w:1313:1: Assignment of char to int: c = *++id_first
+ctangle.w:1312:1: Assignment of char to int: c = *++id_first
   To make char and int types equivalent, use +charint.
-ctangle.w:1314:4: Operands of >= have incompatible types (int, char): c >= '0'
-ctangle.w:1314:12: Operands of <= have incompatible types (int, char): c <= '7'
-ctangle.w:1315:1: Incompatible types for -= (int, char): c -= '0'
-ctangle.w:1317:4: Incompatible types for + (int, char): 8 * c + *(++id_first)
-ctangle.w:1319:4: Incompatible types for + (int, char): 8 * c + *(++id_first)
-ctangle.w:1323:9: Assignment of char to int: c = '\t'
-ctangle.w:1324:9: Assignment of char to int: c = '\n'
-ctangle.w:1325:9: Assignment of char to int: c = '\b'
-ctangle.w:1326:9: Assignment of char to int: c = '\f'
-ctangle.w:1327:9: Assignment of char to int: c = '\v'
-ctangle.w:1328:9: Assignment of char to int: c = '\r'
-ctangle.w:1329:9: Assignment of char to int: c = '\7'
-ctangle.w:1330:9: Assignment of char to int: c = '?'
-ctangle.w:1332:78: Assignment of char to int: c = *(++id_first) - '0'
-ctangle.w:1337:81: Incompatible types for + (int, char): 16 * c + *(++id_first)
-ctangle.w:1340:4: Incompatible types for - (int, char):
+ctangle.w:1313:4: Operands of >= have incompatible types (int, char): c >= '0'
+ctangle.w:1313:12: Operands of <= have incompatible types (int, char): c <= '7'
+ctangle.w:1314:1: Incompatible types for -= (int, char): c -= '0'
+ctangle.w:1316:4: Incompatible types for + (int, char): 8 * c + *(++id_first)
+ctangle.w:1318:4: Incompatible types for + (int, char): 8 * c + *(++id_first)
+ctangle.w:1322:9: Assignment of char to int: c = '\t'
+ctangle.w:1323:9: Assignment of char to int: c = '\n'
+ctangle.w:1324:9: Assignment of char to int: c = '\b'
+ctangle.w:1325:9: Assignment of char to int: c = '\f'
+ctangle.w:1326:9: Assignment of char to int: c = '\v'
+ctangle.w:1327:9: Assignment of char to int: c = '\r'
+ctangle.w:1328:9: Assignment of char to int: c = '\7'
+ctangle.w:1329:9: Assignment of char to int: c = '?'
+ctangle.w:1331:78: Assignment of char to int: c = *(++id_first) - '0'
+ctangle.w:1336:81: Incompatible types for + (int, char): 16 * c + *(++id_first)
+ctangle.w:1339:4: Incompatible types for - (int, char):
                      16 * c + toupper((int)*id_first) - 'A'
-ctangle.w:1343:10: Assignment of char to int: c = '\\'
-ctangle.w:1344:10: Assignment of char to int: c = '\''
-ctangle.w:1345:10: Assignment of char to int: c = '\"'
-ctangle.w:1352:72: Incompatible types for + (char, int): '0' + c / 100
-ctangle.w:1353:71: Incompatible types for + (char, int): '0' + (c / 10) % 10
-ctangle.w:1354:62: Incompatible types for + (char, int): '0' + c % 10
-ctangle.w:1207:55: Assignment of char to eight_bits: *(tok_ptr++) = ' '
-ctangle.w:1211:20: Variable a used before definition
+ctangle.w:1342:10: Assignment of char to int: c = '\\'
+ctangle.w:1343:10: Assignment of char to int: c = '\''
+ctangle.w:1344:10: Assignment of char to int: c = '\"'
+ctangle.w:1351:72: Incompatible types for + (char, int): '0' + c / 100
+ctangle.w:1352:71: Incompatible types for + (char, int): '0' + (c / 10) % 10
+ctangle.w:1353:62: Incompatible types for + (char, int): '0' + c % 10
+ctangle.w:1206:55: Assignment of char to eight_bits: *(tok_ptr++) = ' '
+ctangle.w:1210:20: Variable a used before definition
   An rvalue is used that may not be initialized to a value on some execution
   path. (Use -usedef to inhibit warning)
 ctangle.w: (in function scan_section)
-ctangle.w:1376:19: Array fetch using non-integer, char: flags['p']
-ctangle.w:1377:34: Return value (type int) ignored: fflush(stdout)
-ctangle.w:1417:7: Operands of == have incompatible types (eight_bits, char):
+ctangle.w:1375:19: Array fetch using non-integer, char: flags['p']
+ctangle.w:1376:34: Return value (type int) ignored: fflush(stdout)
+ctangle.w:1416:7: Operands of == have incompatible types (eight_bits, char):
                      (next_control = get_next()) == '\n'
-ctangle.w:1425:113: Assignment of char to eight_bits: *(tok_ptr++) = ' '
-ctangle.w:1439:7: Operands of == have incompatible types (eight_bits, char):
+ctangle.w:1424:113: Assignment of char to eight_bits: *(tok_ptr++) = ' '
+ctangle.w:1438:7: Operands of == have incompatible types (eight_bits, char):
                      (next_control = get_next()) == '+'
-ctangle.w:1440:4: Operands of != have incompatible types (eight_bits, char):
+ctangle.w:1439:4: Operands of != have incompatible types (eight_bits, char):
                      next_control != '='
-ctangle.w:1453:4: Variable p used before definition
-ctangle.w:1456:44: Implicitly only storage p->equiv_or_xref (type void *) not
+ctangle.w:1452:4: Variable p used before definition
+ctangle.w:1455:44: Implicitly only storage p->equiv_or_xref (type void *) not
     released before assignment: p->equiv_or_xref = (void *)cur_text
-ctangle.w:1456:44: Unqualified static storage (void *)cur_text assigned to
+ctangle.w:1455:44: Unqualified static storage (void *)cur_text assigned to
                       implicitly only: p->equiv_or_xref = (void *)cur_text
-ctangle.w:1461:4: Incompatible types for + (sixteen_bits, text [2500]):
+ctangle.w:1460:4: Incompatible types for + (sixteen_bits, text [2500]):
                      q->text_link + text_info
-ctangle.w:1463:1: Variable cur_text is kept in true branch, but not kept in
+ctangle.w:1462:1: Variable cur_text is kept in true branch, but not kept in
                      false branch.
-   ctangle.w:1463:1: in true branch:
-   ctangle.w:1456:44: Storage cur_text becomes kept
+   ctangle.w:1462:1: in true branch:
+   ctangle.w:1455:44: Storage cur_text becomes kept
 ctangle.w: (in function skip_limbo)
-ctangle.w:1523:1: Return value (type int) ignored: sscanf(loc - 3, ...
-ctangle.w:1498:8: Assignment of eight_bits to char: c = skip_ahead()
-ctangle.w:1504:9: Fall through case (no preceding break)
+ctangle.w:1522:1: Return value (type int) ignored: sscanf(loc - 3, ...
+ctangle.w:1497:8: Assignment of eight_bits to char: c = skip_ahead()
+ctangle.w:1503:9: Fall through case (no preceding break)
 ctangle.w: (in function print_stats)
-ctangle.w:1542:1: Return value (type int) ignored: puts("\nMemory u...
-ctangle.w:1544:1: Format argument 1 to printf (%ld) expects long int gets
+ctangle.w:1541:1: Return value (type int) ignored: puts("\nMemory u...
+ctangle.w:1543:1: Format argument 1 to printf (%ld) expects long int gets
                      ptrdiff_t: (ptrdiff_t)(name_ptr - name_dir)
   To allow arbitrary integral types to match long unsigned, use +longintegral.
-   ctangle.w:1543:11: Corresponding format code
-ctangle.w:1546:1: Format argument 1 to printf (%ld) expects long int gets
+   ctangle.w:1542:11: Corresponding format code
+ctangle.w:1545:1: Format argument 1 to printf (%ld) expects long int gets
                      ptrdiff_t: (ptrdiff_t)(text_ptr - text_info)
-   ctangle.w:1545:11: Corresponding format code
-ctangle.w:1548:1: Format argument 1 to printf (%ld) expects long int gets
+   ctangle.w:1544:11: Corresponding format code
+ctangle.w:1547:1: Format argument 1 to printf (%ld) expects long int gets
                      ptrdiff_t: (ptrdiff_t)(byte_ptr - byte_mem)
-   ctangle.w:1547:11: Corresponding format code
-ctangle.w:1550:1: Format argument 1 to printf (%ld) expects long int gets
+   ctangle.w:1546:11: Corresponding format code
+ctangle.w:1549:1: Format argument 1 to printf (%ld) expects long int gets
                      ptrdiff_t: (ptrdiff_t)(tok_ptr - tok_mem)
-   ctangle.w:1549:11: Corresponding format code
+   ctangle.w:1548:11: Corresponding format code
 

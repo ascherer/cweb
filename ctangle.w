@@ -898,9 +898,8 @@ get_next(void) /* produces the next input token */
     }
     c=(eight_bits)*loc;
     if (comment_continues || (c=='/' && (*(loc+1)=='*' || *(loc+1)=='/'))) {
-      skip_comment(comment_continues||*(loc+1)=='*');
+      if (skip_comment(comment_continues||*(loc+1)=='*')) return '\n';
           /* scan to end of comment or newline */
-      if (comment_continues) return '\n';
       else continue;
     }
     loc++;

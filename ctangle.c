@@ -346,7 +346,7 @@ static name_pointer cur_section_name;
 static boolean no_where;
 
 /*:68*//*82:*/
-#line 1190 "ctangle.w"
+#line 1189 "ctangle.w"
 
 static text_pointer cur_text;
 static eight_bits next_control;
@@ -423,23 +423,23 @@ static eight_bits skip_ahead(void);
 static boolean skip_comment(boolean);
 
 /*:65*//*70:*/
-#line 926 "ctangle.w"
+#line 925 "ctangle.w"
 static eight_bits get_next(void);
 
 /*:70*//*84:*/
-#line 1216 "ctangle.w"
+#line 1215 "ctangle.w"
 static void scan_repl(eight_bits);
 
 /*:84*//*91:*/
-#line 1401 "ctangle.w"
+#line 1400 "ctangle.w"
 static void scan_section(void);
 
 /*:91*//*99:*/
-#line 1478 "ctangle.w"
+#line 1477 "ctangle.w"
 static void phase_one(void);
 
 /*:99*//*101:*/
-#line 1511 "ctangle.w"
+#line 1510 "ctangle.w"
 static void skip_limbo(void);
 
 /*:101*/
@@ -505,7 +505,7 @@ ccode['<']= ccode['(']= section_name;
 ccode['\'']= ord;
 
 /*:63*//*78:*/
-#line 1114 "ctangle.w"
+#line 1113 "ctangle.w"
 section_text[0]= ' ';
 
 /*:78*/
@@ -935,7 +935,7 @@ if(get_line()==false)return new_section;
 else if(print_where&&!no_where){
 print_where= false;
 /*85:*/
-#line 1226 "ctangle.w"
+#line 1225 "ctangle.w"
 
 {
 eight_bits a;
@@ -959,14 +959,13 @@ else return(eight_bits)'\n';
 }
 c= (eight_bits)*loc;
 if(comment_continues||(c=='/'&&(*(loc+1)=='*'||*(loc+1)=='/'))){
-skip_comment(comment_continues||*(loc+1)=='*');
+if(skip_comment(comment_continues||*(loc+1)=='*'))return'\n';
 
-if(comment_continues)return'\n';
 else continue;
 }
 loc++;
 if(xisdigit(c)||c=='.')/*73:*/
-#line 967 "ctangle.w"
+#line 966 "ctangle.w"
 {
 boolean hex_flag= false;
 id_first= loc-1;
@@ -1000,13 +999,13 @@ return constant;
 }
 
 /*:73*/
-#line 907 "ctangle.w"
+#line 906 "ctangle.w"
 
 else if(c=='\''||c=='"'
 ||((c=='L'||c=='u'||c=='U')&&(*loc=='\''||*loc=='"'))
 ||((c=='u'&&*loc=='8')&&(*(loc+1)=='\''||*(loc+1)=='"')))
 /*74:*/
-#line 1004 "ctangle.w"
+#line 1003 "ctangle.w"
 {
 char delim= c;
 id_first= section_text+1;
@@ -1050,11 +1049,11 @@ return string;
 }
 
 /*:74*/
-#line 911 "ctangle.w"
+#line 910 "ctangle.w"
 
 else if(isalpha((int)c)||isxalpha(c)||ishigh(c))
 /*72:*/
-#line 958 "ctangle.w"
+#line 957 "ctangle.w"
 {
 id_first= --loc;
 do
@@ -1065,10 +1064,10 @@ id_loc= loc;return identifier;
 }
 
 /*:72*/
-#line 913 "ctangle.w"
+#line 912 "ctangle.w"
 
 else if(c=='@')/*75:*/
-#line 1049 "ctangle.w"
+#line 1048 "ctangle.w"
 
 switch(c= ccode[(eight_bits)*loc++]){
 case ignore:continue;
@@ -1083,11 +1082,11 @@ continue;
 case section_name:
 cur_section_name_char= *(loc-1);
 /*77:*/
-#line 1094 "ctangle.w"
+#line 1093 "ctangle.w"
 {
 char*k= section_text;
 /*79:*/
-#line 1116 "ctangle.w"
+#line 1115 "ctangle.w"
 
 while(true){
 if(loc> limit&&get_line()==false){
@@ -1097,7 +1096,7 @@ loc= buffer+1;break;
 }
 c= *loc;
 /*80:*/
-#line 1139 "ctangle.w"
+#line 1138 "ctangle.w"
 
 if(c=='@'){
 c= *(loc+1);
@@ -1116,7 +1115,7 @@ err_print("! Nesting of section names not allowed");break;
 }
 
 /*:80*/
-#line 1124 "ctangle.w"
+#line 1123 "ctangle.w"
 
 loc++;if(k<section_text_end)k++;
 if(xisspace(c)){
@@ -1133,7 +1132,7 @@ printf("...");mark_harmless;
 if(*k==' '&&k> section_text)k--;
 
 /*:79*/
-#line 1096 "ctangle.w"
+#line 1095 "ctangle.w"
 
 if(k-section_text> 3&&strncmp(k-2,"...",3)==0)
 cur_section_name= section_lookup(section_text+1,k-3,true);
@@ -1156,16 +1155,16 @@ else overflow("output files");
 }
 
 /*:47*/
-#line 1104 "ctangle.w"
+#line 1103 "ctangle.w"
 
 return section_name;
 }
 
 /*:77*/
-#line 1062 "ctangle.w"
+#line 1061 "ctangle.w"
 
 case string:/*81:*/
-#line 1161 "ctangle.w"
+#line 1160 "ctangle.w"
 
 id_first= loc++;*(limit+1)= '@';*(limit+2)= '>';
 while(*loc!='@'||*(loc+1)!='>')loc++;
@@ -1175,10 +1174,10 @@ id_loc= loc;loc+= 2;
 return string;
 
 /*:81*/
-#line 1063 "ctangle.w"
+#line 1062 "ctangle.w"
 
 case ord:/*76:*/
-#line 1074 "ctangle.w"
+#line 1073 "ctangle.w"
 
 id_first= loc;
 if(*loc=='\\')
@@ -1200,13 +1199,13 @@ loc++;
 return ord;
 
 /*:76*/
-#line 1064 "ctangle.w"
+#line 1063 "ctangle.w"
 
 default:return c;
 }
 
 /*:75*/
-#line 914 "ctangle.w"
+#line 913 "ctangle.w"
 
 else if(xisspace(c)){
 if(!preprocessing||loc> limit)continue;
@@ -1215,7 +1214,7 @@ else return' ';
 }
 else if(c=='#'&&loc==buffer+1)preprocessing= true;
 mistake:/*71:*/
-#line 935 "ctangle.w"
+#line 934 "ctangle.w"
 
 switch(c){
 case'+':if(*loc=='+')compress(plus_plus);break;
@@ -1240,14 +1239,14 @@ case'!':if(*loc=='=')compress(non_eq);break;
 }
 
 /*:71*/
-#line 921 "ctangle.w"
+#line 920 "ctangle.w"
 
 return c;
 }
 }
 
 /*:69*//*83:*/
-#line 1194 "ctangle.w"
+#line 1193 "ctangle.w"
 
 static void
 scan_repl(
@@ -1255,7 +1254,7 @@ eight_bits t)
 {
 sixteen_bits a;
 if(t==section_name)/*85:*/
-#line 1226 "ctangle.w"
+#line 1225 "ctangle.w"
 
 {
 eight_bits a;
@@ -1272,17 +1271,17 @@ store_id(a);
 }
 
 /*:85*/
-#line 1200 "ctangle.w"
+#line 1199 "ctangle.w"
 
 while(true)switch(a= get_next()){
 /*86:*/
-#line 1241 "ctangle.w"
+#line 1240 "ctangle.w"
 
 case identifier:store_id(a);break;
 case section_name:if(t!=section_name)goto done;
 else{
 /*87:*/
-#line 1275 "ctangle.w"
+#line 1274 "ctangle.w"
 {
 char*try_loc= loc;
 while(*try_loc==' '&&try_loc<limit)try_loc++;
@@ -1295,13 +1294,13 @@ if(*try_loc=='=')err_print("! Missing `@ ' before a named section");
 }
 
 /*:87*/
-#line 1245 "ctangle.w"
+#line 1244 "ctangle.w"
 
 a= cur_section_name-name_dir;
 app_repl((a/0400)+0250);
 app_repl(a%0400);
 /*85:*/
-#line 1226 "ctangle.w"
+#line 1225 "ctangle.w"
 
 {
 eight_bits a;
@@ -1318,7 +1317,7 @@ store_id(a);
 }
 
 /*:85*/
-#line 1249 "ctangle.w"
+#line 1248 "ctangle.w"
 
 }
 break;
@@ -1330,7 +1329,7 @@ a= output_defs_flag;
 app_repl((a/0400)+0200);
 app_repl(a%0400);
 /*85:*/
-#line 1226 "ctangle.w"
+#line 1225 "ctangle.w"
 
 {
 eight_bits a;
@@ -1347,13 +1346,13 @@ store_id(a);
 }
 
 /*:85*/
-#line 1259 "ctangle.w"
+#line 1258 "ctangle.w"
 
 }
 break;
 case constant:case string:
 /*88:*/
-#line 1292 "ctangle.w"
+#line 1291 "ctangle.w"
 
 app_repl(a);
 while(id_first<id_loc){
@@ -1369,12 +1368,12 @@ app_repl(*id_first++);
 app_repl(a);
 
 /*:88*/
-#line 1263 "ctangle.w"
+#line 1262 "ctangle.w"
 
 break;
 case ord:
 /*89:*/
-#line 1310 "ctangle.w"
+#line 1309 "ctangle.w"
 {
 int c= (int)((eight_bits)*id_first);
 if(c=='\\'){
@@ -1424,7 +1423,7 @@ app_repl(constant);
 }
 
 /*:89*/
-#line 1266 "ctangle.w"
+#line 1265 "ctangle.w"
 
 break;
 case definition:case format_code:case begin_C:if(t!=section_name)goto done;
@@ -1435,7 +1434,7 @@ err_print("! @d, @f and @c are ignored in C text");continue;
 case new_section:goto done;
 
 /*:86*/
-#line 1205 "ctangle.w"
+#line 1204 "ctangle.w"
 
 case')':app_repl(a);
 if(t==macro)app_repl(' ');
@@ -1448,7 +1447,7 @@ cur_text= text_ptr;(++text_ptr)->tok_start= tok_ptr;
 }
 
 /*:83*//*90:*/
-#line 1368 "ctangle.w"
+#line 1367 "ctangle.w"
 
 static void
 scan_section(void)
@@ -1463,7 +1462,7 @@ printf("*%d",(int)section_count);update_terminal;
 next_control= ignore;
 while(true){
 /*92:*/
-#line 1409 "ctangle.w"
+#line 1408 "ctangle.w"
 
 while(next_control<definition)
 
@@ -1472,11 +1471,11 @@ loc-= 2;next_control= get_next();
 }
 
 /*:92*/
-#line 1382 "ctangle.w"
+#line 1381 "ctangle.w"
 
 if(next_control==definition){
 /*93:*/
-#line 1416 "ctangle.w"
+#line 1415 "ctangle.w"
 
 while((next_control= get_next())=='\n');
 if(next_control!=identifier){
@@ -1492,7 +1491,7 @@ scan_repl(macro);
 cur_text->text_link= macro;
 
 /*:93*/
-#line 1384 "ctangle.w"
+#line 1383 "ctangle.w"
 
 continue;
 }
@@ -1502,14 +1501,14 @@ p= name_dir;break;
 if(next_control==section_name){
 p= cur_section_name;
 /*94:*/
-#line 1438 "ctangle.w"
+#line 1437 "ctangle.w"
 
 while((next_control= get_next())=='+');
 if(next_control!='='&&next_control!=eq_eq)
 continue;
 
 /*:94*/
-#line 1392 "ctangle.w"
+#line 1391 "ctangle.w"
 
 break;
 }
@@ -1517,20 +1516,20 @@ return;
 }
 no_where= print_where= false;
 /*95:*/
-#line 1443 "ctangle.w"
+#line 1442 "ctangle.w"
 
 /*96:*/
-#line 1448 "ctangle.w"
+#line 1447 "ctangle.w"
 
 store_two_bytes((sixteen_bits)(0150000+section_count));
 
 
 /*:96*/
-#line 1444 "ctangle.w"
+#line 1443 "ctangle.w"
 
 scan_repl(section_name);
 /*97:*/
-#line 1452 "ctangle.w"
+#line 1451 "ctangle.w"
 
 if(p==name_dir||p==NULL){
 last_unnamed->text_link= cur_text-text_info;last_unnamed= cur_text;
@@ -1547,16 +1546,16 @@ cur_text->text_link= section_flag;
 
 
 /*:97*/
-#line 1446 "ctangle.w"
+#line 1445 "ctangle.w"
 
 
 /*:95*/
-#line 1398 "ctangle.w"
+#line 1397 "ctangle.w"
 
 }
 
 /*:90*//*98:*/
-#line 1467 "ctangle.w"
+#line 1466 "ctangle.w"
 
 static void
 phase_one(void){
@@ -1569,7 +1568,7 @@ check_complete();
 }
 
 /*:98*//*100:*/
-#line 1483 "ctangle.w"
+#line 1482 "ctangle.w"
 
 static void
 skip_limbo(void)
@@ -1583,7 +1582,7 @@ char c= *loc++;
 if(ccode[(eight_bits)c]==new_section)break;
 switch(ccode[(eight_bits)c]){
 case translit_code:/*102:*/
-#line 1513 "ctangle.w"
+#line 1512 "ctangle.w"
 
 while(xisspace(*loc)&&loc<limit)loc++;
 loc+= 3;
@@ -1608,7 +1607,7 @@ translit[i-0200][loc-beg]= '\0';
 }
 
 /*:102*/
-#line 1495 "ctangle.w"
+#line 1494 "ctangle.w"
 break;
 case format_code:case'@':break;
 case control_text:if(c=='q'||c=='Q'){
@@ -1626,7 +1625,7 @@ default:err_print("! Double @ should be used in limbo");
 }
 
 /*:100*//*103:*/
-#line 1539 "ctangle.w"
+#line 1538 "ctangle.w"
 
 void
 print_stats(void){
