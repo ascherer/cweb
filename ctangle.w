@@ -725,7 +725,7 @@ case section_number:
   else if(cur_val<0) C_printf("/*:%d*/",-cur_val);
   else if (protect) {
     cur_byte +=4; /* skip line number and file name */
-    cur_char = '\n';
+    cur_char = (eight_bits)'\n';
     goto restart;
   } else {
     sixteen_bits a;
@@ -1185,7 +1185,10 @@ ANSI \CEE/ preprocessor sometimes requires it.
 acted, |cur_text| will point to the replacement text just generated, and
 |next_control| will contain the control code that terminated the activity.
 
-@d app_repl(c) {if (tok_ptr==tok_mem_end) overflow("token"); *(tok_ptr++)=c;}
+@d app_repl(c) {
+  if (tok_ptr==tok_mem_end) overflow("token");
+  else *(tok_ptr++)=(eight_bits)c;
+}
 
 @<Private...@>=
 static text_pointer cur_text; /* replacement text formed by |scan_repl| */
@@ -1204,7 +1207,7 @@ eight_bits t)
         that should be stored, or |continue| if |a| should be ignored,
         or |goto done| if |a| signals the end of this replacement text@>@;
       case ')': app_repl(a);
-        if (t==macro) app_repl((eight_bits)' ');
+        if (t==macro) app_repl(' ');
         break;
       default: app_repl(a); /* store |a| in |tok_mem| */
     }
@@ -1299,7 +1302,7 @@ code. The \.{+k} switch will `keep' the single quotes in the output.
     }
     else if (a==constant && *id_first=='\'' && !keep_digit_separators)
       id_first++;
-    app_repl((eight_bits)*id_first++);
+    app_repl(*id_first++);
   }
   app_repl(a);
 
@@ -1422,7 +1425,7 @@ if (next_control!=identifier) {
 }
 store_id(a); /* append the lhs */
 if (*loc!='(') { /* identifier must be separated from replacement text */
-  app_repl(string); app_repl((eight_bits)' '); app_repl(string);
+  app_repl(string); app_repl(' '); app_repl(string);
 }
 scan_repl(macro);
 cur_text->text_link=macro;
@@ -1495,7 +1498,7 @@ skip_limbo(void)
         case translit_code: @<Read in transliteration of a character@>@; break;
         case format_code: case '@@': break;
         case control_text: if (c=='q' || c=='Q') {
-          while ((c=skip_ahead())=='@@');
+          while ((c=(char)skip_ahead())=='@@');
           if (*(loc-1)!='>')
             err_print("! Double @@ should be used in control text");
 @.Double @@ should be used...@>
@@ -1541,13 +1544,13 @@ void
 print_stats(void) {
   puts("\nMemory usage statistics:");
   printf("%ld names (out of %ld)\n",
-          (ptrdiff_t)(name_ptr-name_dir),(long)max_names);
+          (long)(name_ptr-name_dir),(long)max_names);
   printf("%ld replacement texts (out of %ld)\n",
-          (ptrdiff_t)(text_ptr-text_info),(long)max_texts);
+          (long)(text_ptr-text_info),(long)max_texts);
   printf("%ld bytes (out of %ld)\n",
-          (ptrdiff_t)(byte_ptr-byte_mem),(long)max_bytes);
+          (long)(byte_ptr-byte_mem),(long)max_bytes);
   printf("%ld tokens (out of %ld)\n",
-          (ptrdiff_t)(tok_ptr-tok_mem),(long)max_toks);
+          (long)(tok_ptr-tok_mem),(long)max_toks);
 }
 
 @** Index.
