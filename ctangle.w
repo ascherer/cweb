@@ -594,7 +594,7 @@ static void output_defs(void);@/
 static void out_char(eight_bits);
 
 @ @d C_printf(c,a) fprintf(C_file,c,a)
-@d C_putc(c) putc(c,C_file) /* isn't \CEE/ wonderfully consistent? */
+@d C_putc(c) putc((int)(c),C_file) /* isn't \CEE/ wonderfully consistent? */
 
 @c
 static void
@@ -907,7 +907,7 @@ get_next(void) /* produces the next input token */
            || ((c=='L' || c=='u' || c=='U')&&(*loc=='\'' || *loc=='"'))@|
            || ((c=='u' && *loc=='8')&&(*(loc+1)=='\'' || *(loc+1)=='"')))
         @<Get a string@>@;
-    else if (isalpha(c) || isxalpha(c) || ishigh(c))
+    else if (isalpha((int)c) || isxalpha(c) || ishigh(c))
       @<Get an identifier@>@;
     else if (c=='@@') @<Get control code and possible section name@>@;
     else if (xisspace(c)) {
@@ -957,8 +957,8 @@ switch(c) {
   id_first=--loc;
   do
     ++loc;
-  while (isalpha((eight_bits)*loc) || isdigit((eight_bits)*loc) @|
-      || isxalpha((eight_bits)*loc) || ishigh((eight_bits)*loc));
+  while (isalpha((int)*loc) || isdigit((int)*loc) @|
+      || isxalpha(*loc) || ishigh(*loc));
   id_loc=loc; return identifier;
 }
 
@@ -1217,7 +1217,7 @@ eight_bits t)
 to |0150000|; then the numeric line number; then a pointer to the
 file name.
 
-@d store_id(a) a=id_lookup(id_first,id_loc,0)-name_dir;@/
+@d store_id(a) a=id_lookup(id_first,id_loc,'\0')-name_dir;@/
   app_repl((a / 0400)+0200);
   app_repl(a % 0400);
 
@@ -1330,12 +1330,12 @@ code internally.
       if (xisdigit(*(id_first+1))) c=*(++id_first)-'0';
       else if (xisxdigit(*(id_first+1))) {
         ++id_first;
-        c=toupper((eight_bits)*id_first)-'A'+10;
+        c=toupper((int)*id_first)-'A'+10;
       }
       if (xisdigit(*(id_first+1))) c=16*c+*(++id_first)-'0';
       else if (xisxdigit(*(id_first+1))) {
         ++id_first;
-        c=16*c+toupper((eight_bits)*id_first)-'A'+10;
+        c=16*c+toupper((int)*id_first)-'A'+10;
       }
       break;
     case '\\':c='\\';@+break;

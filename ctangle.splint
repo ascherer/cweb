@@ -235,8 +235,7 @@ ctangle.w:350:2: Global storage *stack_ptr contains 4 undefined fields when
 ctangle.w: (in function get_output)
 ctangle.w:387:32: Operands of != have incompatible types (sixteen_bits, char):
                      a != '\n'
-ctangle.w:388:6: Function putc expects arg 1 to be int gets sixteen_bits: a
-ctangle.w:388:1: Return value (type int) ignored: putc(a, C_file)
+ctangle.w:388:1: Return value (type int) ignored: putc((int)(a), C...
 ctangle.w:393:8: Assignment of sixteen_bits to int: cur_val = a
   To allow arbitrary integral types to match any integral type, use
   +matchanyintegral.
@@ -252,7 +251,7 @@ ctangle.w:397:9: Assignment of arbitrary unsigned integral type to int:
 ctangle.w:397:41: Assignment of int to sixteen_bits:
                      cur_state.section_field = cur_val
 ctangle.w: (in function flush_buffer)
-ctangle.w:470:1: Return value (type int) ignored: putc('\n', C_file)
+ctangle.w:470:1: Return value (type int) ignored: putc((int)('\n')...
 ctangle.w:471:32: Array fetch using non-integer, char: flags['p']
 ctangle.w:472:1: Return value (type int) ignored: putchar('.')
 ctangle.w:474:1: Return value (type int) ignored: fflush(stdout)
@@ -358,8 +357,7 @@ ctangle.w:614:47: Operands of == have incompatible types (sixteen_bits, char):
                      a == '\n'
 ctangle.w:615:32: Operands of != have incompatible types (sixteen_bits, char):
                      a != '\n'
-ctangle.w:616:6: Function putc expects arg 1 to be int gets sixteen_bits: a
-ctangle.w:616:1: Return value (type int) ignored: putc(a, C_file)
+ctangle.w:616:1: Return value (type int) ignored: putc((int)(a), C...
 ctangle.w:622:1: Assignment of sixteen_bits to int: cur_val = a
 ctangle.w:626:1: Assignment of arbitrary unsigned integral type to int:
                     cur_val = a - 050000
@@ -377,14 +375,14 @@ ctangle.w:633:1: Storage cur_state.byte_field is kept in one path, but live in
 ctangle.w:635:2: Storage text_info->tok_start reachable from global is
                     unqualified (should be implicitly only)
 ctangle.w: (in function out_char)
-ctangle.w:650:35: Return value (type int) ignored: putc(' ', C_file)
-ctangle.w:651:26: Return value (type int) ignored: putc('\\', C_file)
-ctangle.w:712:17: Return value (type int) ignored: putc(' ', C_file)
+ctangle.w:650:35: Return value (type int) ignored: putc((int)(' '),...
+ctangle.w:651:26: Return value (type int) ignored: putc((int)('\\')...
+ctangle.w:712:17: Return value (type int) ignored: putc((int)(' '),...
 ctangle.w:713:9: Incompatible types for + (int, name_info []):
                     cur_val + name_dir
 ctangle.w:713:43: Incompatible types for + (int, name_info []):
                      cur_val + name_dir
-ctangle.w:715:26: Return value (type int) ignored: putc(*j, C_file)
+ctangle.w:715:26: Return value (type int) ignored: putc((int)(*j), ...
 ctangle.w:726:1: Assignment of char to eight_bits: cur_char = '\n'
 ctangle.w:732:32: Format argument 1 to fprintf (%d) expects int gets
                      sixteen_bits: a
@@ -395,57 +393,52 @@ ctangle.w:736:9: Incompatible types for + (int, name_info []):
                     cur_val + name_dir
 ctangle.w:736:43: Incompatible types for + (int, name_info []):
                      cur_val + name_dir
-ctangle.w:738:22: Return value (type int) ignored: putc('\\', C_file)
-ctangle.w:739:1: Return value (type int) ignored: putc(*j, C_file)
-ctangle.w:741:1: Return value (type int) ignored: putc('"', C_file)
-ctangle.w:741:18: Return value (type int) ignored: putc('\n', C_file)
-ctangle.w:673:10: Return value (type int) ignored: putc('+', C_file)
-ctangle.w:673:27: Return value (type int) ignored: putc('+', C_file)
-ctangle.w:674:9: Return value (type int) ignored: putc('-', C_file)
-ctangle.w:674:26: Return value (type int) ignored: putc('-', C_file)
-ctangle.w:675:10: Return value (type int) ignored: putc('-', C_file)
-ctangle.w:675:27: Return value (type int) ignored: putc('>', C_file)
-ctangle.w:676:10: Return value (type int) ignored: putc('>', C_file)
-ctangle.w:676:27: Return value (type int) ignored: putc('>', C_file)
-ctangle.w:677:10: Return value (type int) ignored: putc('=', C_file)
-ctangle.w:677:27: Return value (type int) ignored: putc('=', C_file)
-ctangle.w:678:10: Return value (type int) ignored: putc('<', C_file)
-ctangle.w:678:27: Return value (type int) ignored: putc('<', C_file)
-ctangle.w:679:10: Return value (type int) ignored: putc('>', C_file)
-ctangle.w:679:27: Return value (type int) ignored: putc('=', C_file)
-ctangle.w:680:10: Return value (type int) ignored: putc('<', C_file)
-ctangle.w:680:27: Return value (type int) ignored: putc('=', C_file)
-ctangle.w:681:10: Return value (type int) ignored: putc('!', C_file)
-ctangle.w:681:27: Return value (type int) ignored: putc('=', C_file)
-ctangle.w:682:9: Return value (type int) ignored: putc('&', C_file)
-ctangle.w:682:26: Return value (type int) ignored: putc('&', C_file)
-ctangle.w:683:10: Return value (type int) ignored: putc('|', C_file)
-ctangle.w:683:27: Return value (type int) ignored: putc('|', C_file)
-ctangle.w:684:10: Return value (type int) ignored: putc('.', C_file)
-ctangle.w:684:27: Return value (type int) ignored: putc('.', C_file)
-ctangle.w:684:44: Return value (type int) ignored: putc('.', C_file)
-ctangle.w:686:9: Return value (type int) ignored: putc(':', C_file)
-ctangle.w:686:26: Return value (type int) ignored: putc(':', C_file)
-ctangle.w:687:10: Return value (type int) ignored: putc('.', C_file)
-ctangle.w:687:27: Return value (type int) ignored: putc('*', C_file)
-ctangle.w:688:10: Return value (type int) ignored: putc('-', C_file)
-ctangle.w:688:27: Return value (type int) ignored: putc('>', C_file)
-ctangle.w:688:44: Return value (type int) ignored: putc('*', C_file)
-ctangle.w:656:22: Function putc expects arg 1 to be int gets eight_bits:
-                     cur_char
-ctangle.w:656:17: Return value (type int) ignored: putc(cur_char, C...
-ctangle.w:656:39: Return value (type int) ignored: putc(' ', C_file)
-ctangle.w:662:17: Return value (type int) ignored: putc(' ', C_file)
-ctangle.w:665:9: Return value (type int) ignored: putc('/', C_file)
-ctangle.w:666:25: Return value (type int) ignored: putc(' ', C_file)
+ctangle.w:738:22: Return value (type int) ignored: putc((int)('\\')...
+ctangle.w:739:1: Return value (type int) ignored: putc((int)(*j), ...
+ctangle.w:741:1: Return value (type int) ignored: putc((int)('"'),...
+ctangle.w:741:27: Return value (type int) ignored: putc((int)('\n')...
+ctangle.w:673:10: Return value (type int) ignored: putc((int)('+'),...
+ctangle.w:673:36: Return value (type int) ignored: putc((int)('+'),...
+ctangle.w:674:9: Return value (type int) ignored: putc((int)('-'),...
+ctangle.w:674:35: Return value (type int) ignored: putc((int)('-'),...
+ctangle.w:675:10: Return value (type int) ignored: putc((int)('-'),...
+ctangle.w:675:36: Return value (type int) ignored: putc((int)('>'),...
+ctangle.w:676:10: Return value (type int) ignored: putc((int)('>'),...
+ctangle.w:676:36: Return value (type int) ignored: putc((int)('>'),...
+ctangle.w:677:10: Return value (type int) ignored: putc((int)('='),...
+ctangle.w:677:36: Return value (type int) ignored: putc((int)('='),...
+ctangle.w:678:10: Return value (type int) ignored: putc((int)('<'),...
+ctangle.w:678:36: Return value (type int) ignored: putc((int)('<'),...
+ctangle.w:679:10: Return value (type int) ignored: putc((int)('>'),...
+ctangle.w:679:36: Return value (type int) ignored: putc((int)('='),...
+ctangle.w:680:10: Return value (type int) ignored: putc((int)('<'),...
+ctangle.w:680:36: Return value (type int) ignored: putc((int)('='),...
+ctangle.w:681:10: Return value (type int) ignored: putc((int)('!'),...
+ctangle.w:681:36: Return value (type int) ignored: putc((int)('='),...
+ctangle.w:682:9: Return value (type int) ignored: putc((int)('&'),...
+ctangle.w:682:35: Return value (type int) ignored: putc((int)('&'),...
+ctangle.w:683:10: Return value (type int) ignored: putc((int)('|'),...
+ctangle.w:683:36: Return value (type int) ignored: putc((int)('|'),...
+ctangle.w:684:10: Return value (type int) ignored: putc((int)('.'),...
+ctangle.w:684:36: Return value (type int) ignored: putc((int)('.'),...
+ctangle.w:684:62: Return value (type int) ignored: putc((int)('.'),...
+ctangle.w:686:9: Return value (type int) ignored: putc((int)(':'),...
+ctangle.w:686:35: Return value (type int) ignored: putc((int)(':'),...
+ctangle.w:687:10: Return value (type int) ignored: putc((int)('.'),...
+ctangle.w:687:36: Return value (type int) ignored: putc((int)('*'),...
+ctangle.w:688:10: Return value (type int) ignored: putc((int)('-'),...
+ctangle.w:688:36: Return value (type int) ignored: putc((int)('>'),...
+ctangle.w:688:62: Return value (type int) ignored: putc((int)('*'),...
+ctangle.w:656:17: Return value (type int) ignored: putc((int)(cur_c...
+ctangle.w:656:48: Return value (type int) ignored: putc((int)(' '),...
+ctangle.w:662:17: Return value (type int) ignored: putc((int)(' '),...
+ctangle.w:665:9: Return value (type int) ignored: putc((int)('/'),...
+ctangle.w:666:25: Return value (type int) ignored: putc((int)(' '),...
 ctangle.w:668:9: Fall through case (no preceding break)
   Execution falls through from the previous case (use /*@fallthrough@*/ to mark
   fallthrough cases). (Use -casebreak to inhibit warning)
-ctangle.w:668:14: Function putc expects arg 1 to be int gets eight_bits:
-                     cur_char
-ctangle.w:668:9: Return value (type int) ignored: putc(cur_char, C...
+ctangle.w:668:9: Return value (type int) ignored: putc((int)(cur_c...
 ctangle.w: (in function get_next)
-ctangle.w:1236:30: Function id_lookup expects arg 3 to be char gets int: 0
 ctangle.w:895:12: Return value type char does not match declared type
                      eight_bits: '\n'
 ctangle.w:897:1: Assignment of char to eight_bits: c = *loc
@@ -481,19 +474,10 @@ ctangle.w:1027:4: Operands of == have incompatible types (eight_bits, char):
 ctangle.w:1030:1: Assignment of char to eight_bits: c = *loc++
 ctangle.w:1032:31: Assignment of eight_bits to char: *id_loc = c
 ctangle.w:1035:1: Return value (type int) ignored: fputs("\n! Strin...
-ctangle.w:910:17: Function isalpha expects arg 1 to be int gets eight_bits: c
-ctangle.w:910:22: Operands of == have incompatible types (eight_bits, char):
+ctangle.w:910:27: Operands of == have incompatible types (eight_bits, char):
                      (c) == '_'
-ctangle.w:910:33: Operands of == have incompatible types (eight_bits, char):
+ctangle.w:910:38: Operands of == have incompatible types (eight_bits, char):
                      (c) == '$'
-ctangle.w:960:15: Function isalpha expects arg 1 to be int gets eight_bits:
-                     (eight_bits)*loc
-ctangle.w:960:42: Function isdigit expects arg 1 to be int gets eight_bits:
-                     (eight_bits)*loc
-ctangle.w:961:4: Operands of == have incompatible types (eight_bits, char):
-                    ((eight_bits)*loc) == '_'
-ctangle.w:961:30: Operands of == have incompatible types (eight_bits, char):
-                     ((eight_bits)*loc) == '$'
 ctangle.w:912:9: Operands of == have incompatible types (eight_bits, char):
                     c == '@'
 ctangle.w:1052:17: Operands of == have incompatible types (eight_bits, char):
@@ -528,7 +512,6 @@ ctangle.w:1226:12: Variable a shadows outer declaration
   An outer declaration is shadowed by the local declaration. (Use -shadow to
   inhibit warning)
    ctangle.w:1197:14: Previous definition of a: sixteen_bits
-ctangle.w:1240:40: Function id_lookup expects arg 3 to be char gets int: 0
 ctangle.w:1298:34: Array fetch using non-integer, char: flags['k']
 ctangle.w:1300:47: Assignment of char to eight_bits: *(tok_ptr++) = *id_first++
 ctangle.w:1309:8: Variable c initialized to type eight_bits, expects int:
@@ -553,13 +536,9 @@ ctangle.w:1326:9: Assignment of char to int: c = '\r'
 ctangle.w:1327:9: Assignment of char to int: c = '\7'
 ctangle.w:1328:9: Assignment of char to int: c = '?'
 ctangle.w:1330:78: Assignment of char to int: c = *(++id_first) - '0'
-ctangle.w:1333:12: Function toupper expects arg 1 to be int gets eight_bits:
-                      (eight_bits)*id_first
 ctangle.w:1335:81: Incompatible types for + (int, char): 16 * c + *(++id_first)
-ctangle.w:1338:17: Function toupper expects arg 1 to be int gets eight_bits:
-                      (eight_bits)*id_first
 ctangle.w:1338:4: Incompatible types for - (int, char):
-                     16 * c + toupper((eight_bits)*id_first) - 'A'
+                     16 * c + toupper((int)*id_first) - 'A'
 ctangle.w:1341:10: Assignment of char to int: c = '\\'
 ctangle.w:1342:10: Assignment of char to int: c = '\''
 ctangle.w:1343:10: Assignment of char to int: c = '\"'
@@ -578,7 +557,6 @@ ctangle.w:1375:14: Format argument 1 to printf (%d) expects int gets
 ctangle.w:1375:29: Return value (type int) ignored: fflush(stdout)
 ctangle.w:1415:7: Operands of == have incompatible types (eight_bits, char):
                      (next_control = get_next()) == '\n'
-ctangle.w:1421:30: Function id_lookup expects arg 3 to be char gets int: 0
 ctangle.w:1423:113: Assignment of char to eight_bits: *(tok_ptr++) = ' '
 ctangle.w:1437:7: Operands of == have incompatible types (eight_bits, char):
                      (next_control = get_next()) == '+'

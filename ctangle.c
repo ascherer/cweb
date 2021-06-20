@@ -124,7 +124,7 @@
 
 #define max_files 256
 #define C_printf(c,a) fprintf(C_file,c,a) 
-#define C_putc(c) putc(c,C_file)  \
+#define C_putc(c) putc((int) (c) ,C_file)  \
 
 #define translit_length 10 \
 
@@ -141,7 +141,7 @@
 
 #define app_repl(c) {if(tok_ptr==tok_mem_end) overflow("token") ;*(tok_ptr++) = c;} \
 
-#define store_id(a) a= id_lookup(id_first,id_loc,0) -name_dir; \
+#define store_id(a) a= id_lookup(id_first,id_loc,'\0') -name_dir; \
 app_repl((a/0400) +0200) ; \
 app_repl(a%0400) ; \
 
@@ -1050,15 +1050,15 @@ return string;
 /*:74*/
 #line 909 "ctangle.w"
 
-else if(isalpha(c)||isxalpha(c)||ishigh(c))
+else if(isalpha((int)c)||isxalpha(c)||ishigh(c))
 /*72:*/
 #line 956 "ctangle.w"
 {
 id_first= --loc;
 do
 ++loc;
-while(isalpha((eight_bits)*loc)||isdigit((eight_bits)*loc)
-||isxalpha((eight_bits)*loc)||ishigh((eight_bits)*loc));
+while(isalpha((int)*loc)||isdigit((int)*loc)
+||isxalpha(*loc)||ishigh(*loc));
 id_loc= loc;return identifier;
 }
 
@@ -1398,12 +1398,12 @@ case'x':
 if(xisdigit(*(id_first+1)))c= *(++id_first)-'0';
 else if(xisxdigit(*(id_first+1))){
 ++id_first;
-c= toupper((eight_bits)*id_first)-'A'+10;
+c= toupper((int)*id_first)-'A'+10;
 }
 if(xisdigit(*(id_first+1)))c= 16*c+*(++id_first)-'0';
 else if(xisxdigit(*(id_first+1))){
 ++id_first;
-c= 16*c+toupper((eight_bits)*id_first)-'A'+10;
+c= 16*c+toupper((int)*id_first)-'A'+10;
 }
 break;
 case'\\':c= '\\';break;
