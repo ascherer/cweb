@@ -1015,7 +1015,7 @@ void
 err_print( /* prints `\..' and location of error message */
 const char *s)
 {
-  printf(*s=='!'? "\n%s" : "%s",s);
+  *s=='!'? printf("\n%s",s) : printf("%s",s);
   if (web_file_open) @<Print error location based on input buffer@>@;
   update_terminal; mark_error;
 }

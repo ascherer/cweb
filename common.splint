@@ -203,11 +203,6 @@ common.w:928:1: Return value (type int) ignored: fputs("\n! New n...
 common.w:934:1: Return value (type int) ignored: fputs("\n! Secti...
 common.w:937:1: Return value (type int) ignored: fputs(">,\n whic...
 common.w: (in function err_print)
-common.w:1018:1: Format string parameter to printf is not a compile-time
-                    constant: *s == '!' ? "\n%s" : "%s"
-  Format parameter is not known at compile-time.  This can lead to security
-  vulnerabilities because the arguments cannot be type checked. (Use
-  -formatconst to inhibit warning)
 common.w:1041:13: Return value (type int) ignored: putchar(' ')
 common.w:1042:6: Return value (type int) ignored: putchar(*k)
 common.w:1043:1: Return value (type int) ignored: putchar('\n')

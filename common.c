@@ -1082,7 +1082,7 @@ void
 err_print(
 const char*s)
 {
-printf(*s=='!'?"\n%s":"%s",s);
+*s=='!'?printf("\n%s",s):printf("%s",s);
 if(web_file_open)/*67:*/
 #line 1032 "common.w"
 
