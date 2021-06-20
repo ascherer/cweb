@@ -812,9 +812,9 @@ goto restart;
 sixteen_bits a;
 a= *cur_byte++*0400;
 a+= *cur_byte++;
-C_printf("\n#line %d \"",a);
+C_printf("\n#line %d \"",(int)a);
 
-cur_val= (*cur_byte++-0200)*0400;
+cur_val= (int)(*cur_byte++-0200)*0400;
 cur_val+= *cur_byte++;
 for(j= (cur_val+name_dir)->byte_start,k= (cur_val+name_dir+1)->byte_start;
 j<k;j++){
@@ -955,9 +955,9 @@ store_id(a);
 #line 895 "ctangle.w"
 
 }
-else return'\n';
+else return(eight_bits)'\n';
 }
-c= *loc;
+c= (eight_bits)*loc;
 if(comment_continues||(c=='/'&&(*(loc+1)=='*'||*(loc+1)=='/'))){
 skip_comment(comment_continues||*(loc+1)=='*');
 
@@ -1376,7 +1376,7 @@ case ord:
 /*89:*/
 #line 1310 "ctangle.w"
 {
-int c= (eight_bits)*id_first;
+int c= (int)((eight_bits)*id_first);
 if(c=='\\'){
 c= *++id_first;
 if(c>='0'&&c<='7'){
@@ -1458,7 +1458,7 @@ text_pointer q;
 sixteen_bits a;
 section_count++;no_where= true;
 if(*(loc-1)=='*'&&show_progress){
-printf("*%d",section_count);update_terminal;
+printf("*%d",(int)section_count);update_terminal;
 }
 next_control= ignore;
 while(true){

@@ -731,9 +731,9 @@ case section_number:
     sixteen_bits a;
     a=*cur_byte++ *0400;
     a+=*cur_byte++; /* gets the line number */
-    C_printf("\n#line %d \"",a);
+    C_printf("\n#line %d \"",(int)a);
 @:line}{\.{\#line}@>
-    cur_val=(*cur_byte++-0200)*0400;
+    cur_val=(int)(*cur_byte++-0200)*0400;
     cur_val+=*cur_byte++; /* points to the file name */
     for (j=(cur_val+name_dir)->byte_start, k=(cur_val+name_dir+1)->byte_start;
          j<k; j++) {
@@ -894,9 +894,9 @@ get_next(void) /* produces the next input token */
           print_where=false;
           @<Insert the line number into |tok_mem|@>@;
         }
-        else return '\n';
+        else return (eight_bits)'\n';
     }
-    c=*loc;
+    c=(eight_bits)*loc;
     if (comment_continues || (c=='/' && (*(loc+1)=='*' || *(loc+1)=='/'))) {
       skip_comment(comment_continues||*(loc+1)=='*');
           /* scan to end of comment or newline */
@@ -1308,7 +1308,7 @@ code internally.
 @^ASCII code dependencies@>
 
 @<Copy an ASCII constant@>= {
-  int c=(eight_bits) *id_first;
+  int c=(int)((eight_bits) *id_first);
   if (c=='\\') {
     c=*++id_first;
     if (c>='0' && c<='7') {
@@ -1374,7 +1374,7 @@ scan_section(void)
   sixteen_bits a; /* token for left-hand side of definition */
   section_count++; @+ no_where=true;
   if (*(loc-1)=='*' && show_progress) { /* starred section */
-    printf("*%d",section_count); update_terminal;
+    printf("*%d",(int)section_count); update_terminal;
   }
   next_control=ignore;
   while (true) {

@@ -372,13 +372,6 @@ ctangle.w:715:43: Incompatible types for + (int, name_info []):
                      cur_val + name_dir
 ctangle.w:717:26: Return value (type int) ignored: putc((int)(*j), ...
 ctangle.w:728:1: Assignment of char to eight_bits: cur_char = '\n'
-ctangle.w:734:32: Format argument 1 to fprintf (%d) expects int gets
-                     sixteen_bits: a
-  To allow arbitrary integral types to match any integral type, use
-  +matchanyintegral.
-   ctangle.w:734:26: Corresponding format code
-ctangle.w:736:1: Assignment of arbitrary unsigned integral type to int:
-                    cur_val = (*cur_state.byte_field++ - 0200) * 0400
 ctangle.w:738:9: Incompatible types for + (int, name_info []):
                     cur_val + name_dir
 ctangle.w:738:43: Incompatible types for + (int, name_info []):
@@ -429,9 +422,6 @@ ctangle.w:670:9: Fall through case (no preceding break)
   fallthrough cases). (Use -casebreak to inhibit warning)
 ctangle.w:670:9: Return value (type int) ignored: putc((int)(cur_c...
 ctangle.w: (in function get_next)
-ctangle.w:897:12: Return value type char does not match declared type
-                     eight_bits: '\n'
-ctangle.w:899:1: Assignment of char to eight_bits: c = *loc
 ctangle.w:900:24: Operands of == have incompatible types (eight_bits, char):
                      c == '/'
 ctangle.w:901:1: Return value (type boolean) ignored: skip_comment(com...
@@ -504,8 +494,6 @@ ctangle.w:1228:12: Variable a shadows outer declaration
    ctangle.w:1199:14: Previous definition of a: sixteen_bits
 ctangle.w:1300:34: Array fetch using non-integer, char: flags['k']
 ctangle.w:1302:47: Assignment of char to eight_bits: *(tok_ptr++) = *id_first++
-ctangle.w:1311:8: Variable c initialized to type eight_bits, expects int:
-                     (eight_bits)*id_first
 ctangle.w:1312:4: Operands of == have incompatible types (int, char): c == '\\'
   A character constant is used as an int. Use +charintliteral to allow
   character constants to be used as ints.  (This is safe since the actual type
@@ -541,10 +529,7 @@ ctangle.w:1211:20: Variable a used before definition
   path. (Use -usedef to inhibit warning)
 ctangle.w: (in function scan_section)
 ctangle.w:1376:19: Array fetch using non-integer, char: flags['p']
-ctangle.w:1377:14: Format argument 1 to printf (%d) expects int gets
-                      sixteen_bits: section_count
-   ctangle.w:1377:11: Corresponding format code
-ctangle.w:1377:29: Return value (type int) ignored: fflush(stdout)
+ctangle.w:1377:34: Return value (type int) ignored: fflush(stdout)
 ctangle.w:1417:7: Operands of == have incompatible types (eight_bits, char):
                      (next_control = get_next()) == '\n'
 ctangle.w:1425:113: Assignment of char to eight_bits: *(tok_ptr++) = ' '
