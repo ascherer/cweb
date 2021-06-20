@@ -815,7 +815,7 @@ if(byte_ptr+l> byte_mem_end)overflow("byte memory");
 if(name_ptr>=name_dir_end)overflow("name");
 strncpy(byte_ptr,first,l);
 (++name_ptr)->byte_start= byte_ptr+= l;
-init_p(p,t);
+init_p(p,(eight_bits)t);
 }
 
 /*:51*/

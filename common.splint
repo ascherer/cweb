@@ -28,7 +28,6 @@ common.w:666:7: Left operand of && is non-boolean (name_pointer):
                    p && !names_match(p, first, l, t)
   The operand of a boolean operator is not a boolean. Use +ptrnegate to allow !
   to be used on pointers. (Use -boolops to inhibit warning)
-common.w:681:10: Function init_p expects arg 2 to be eight_bits gets char: t
 common.w: (in function add_section_name)
 common.w:820:17: Function strncpy expects arg 3 to be size_t gets int: name_len
   To allow arbitrary integral types to match any integral type, use
