@@ -1536,7 +1536,7 @@ skip_limbo(void)
     }
   }
 
-@ Because on some systems the difference between two pointers is a |ptrdiff_t|
+@ Because on some systems the difference between two pointers is a |long|
 but not an |int|, we use \.{\%ld} to print these quantities.
 
 @c
