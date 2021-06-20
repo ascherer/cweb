@@ -38,12 +38,12 @@
 
 #define compress(c) if(loc++<=limit) return c \
 
-#define xisalpha(c) (isalpha((eight_bits) (c) ) &&((eight_bits) (c) <0200) ) 
-#define xisdigit(c) (isdigit((eight_bits) (c) ) &&((eight_bits) (c) <0200) ) 
-#define xisspace(c) (isspace((eight_bits) (c) ) &&((eight_bits) (c) <0200) ) 
-#define xislower(c) (islower((eight_bits) (c) ) &&((eight_bits) (c) <0200) ) 
-#define xisupper(c) (isupper((eight_bits) (c) ) &&((eight_bits) (c) <0200) ) 
-#define xisxdigit(c) (isxdigit((eight_bits) (c) ) &&((eight_bits) (c) <0200) ) 
+#define xisalpha(c) (isalpha((int) (c) ) &&((eight_bits) (c) <0200) ) 
+#define xisdigit(c) (isdigit((int) (c) ) &&((eight_bits) (c) <0200) ) 
+#define xisspace(c) (isspace((int) (c) ) &&((eight_bits) (c) <0200) ) 
+#define xislower(c) (islower((int) (c) ) &&((eight_bits) (c) <0200) ) 
+#define xisupper(c) (isupper((int) (c) ) &&((eight_bits) (c) <0200) ) 
+#define xisxdigit(c) (isxdigit((int) (c) ) &&((eight_bits) (c) <0200) ) 
 #define isxalpha(c) ((c) =='_'||(c) =='$')  \
 
 #define ishigh(c) ((eight_bits) (c) > 0177)  \

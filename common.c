@@ -36,12 +36,12 @@
 
 #define compress(c) if(loc++<=limit) return c \
 
-#define xisalpha(c) (isalpha((eight_bits) (c) ) &&((eight_bits) (c) <0200) ) 
-#define xisdigit(c) (isdigit((eight_bits) (c) ) &&((eight_bits) (c) <0200) ) 
-#define xisspace(c) (isspace((eight_bits) (c) ) &&((eight_bits) (c) <0200) ) 
-#define xislower(c) (islower((eight_bits) (c) ) &&((eight_bits) (c) <0200) ) 
-#define xisupper(c) (isupper((eight_bits) (c) ) &&((eight_bits) (c) <0200) ) 
-#define xisxdigit(c) (isxdigit((eight_bits) (c) ) &&((eight_bits) (c) <0200) ) 
+#define xisalpha(c) (isalpha((int) (c) ) &&((eight_bits) (c) <0200) ) 
+#define xisdigit(c) (isdigit((int) (c) ) &&((eight_bits) (c) <0200) ) 
+#define xisspace(c) (isspace((int) (c) ) &&((eight_bits) (c) <0200) ) 
+#define xislower(c) (islower((int) (c) ) &&((eight_bits) (c) <0200) ) 
+#define xisupper(c) (isupper((int) (c) ) &&((eight_bits) (c) <0200) ) 
+#define xisxdigit(c) (isxdigit((int) (c) ) &&((eight_bits) (c) <0200) ) 
 #define isxalpha(c) ((c) =='_'||(c) =='$')  \
 
 #define ishigh(c) ((eight_bits) (c) > 0177)  \
@@ -484,7 +484,7 @@ change_line++;
 if(!input_ln(change_file))return;
 if(limit<buffer+2)continue;
 if(buffer[0]!='@')continue;
-if(xisupper(buffer[1]))buffer[1]= tolower((eight_bits)buffer[1]);
+if(xisupper(buffer[1]))buffer[1]= tolower((int)buffer[1]);
 if(buffer[1]=='x')break;
 if(buffer[1]=='y'||buffer[1]=='z'||buffer[1]=='i'){
 loc= buffer+2;
@@ -544,7 +544,7 @@ change_limit= change_buffer;changing= false;
 return;
 }
 if(limit> buffer+1&&buffer[0]=='@'){
-char xyz_code= xisupper(buffer[1])?tolower((eight_bits)buffer[1]):buffer[1];
+char xyz_code= xisupper(buffer[1])?tolower((int)buffer[1]):buffer[1];
 /*34:*/
 #line 336 "common.w"
 
@@ -644,7 +644,7 @@ changed_section[section_count]= true;change_pending= false;
 }
 *limit= ' ';
 if(buffer[0]=='@'){
-if(xisupper(buffer[1]))buffer[1]= tolower((eight_bits)buffer[1]);
+if(xisupper(buffer[1]))buffer[1]= tolower((int)buffer[1]);
 if(buffer[1]=='x'||buffer[1]=='y'){
 loc= buffer+2;
 err_print("! Where is the matching @z?");

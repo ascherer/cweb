@@ -69,20 +69,6 @@ common.w:167:24: Operands of != have incompatible types (int, char): c != '\n'
 common.w:168:1: Return value (type int) ignored: ungetc(c, fp)
   Result returned by function call is not used. If this is intended, can cast
   result to (void) to eliminate message. (Use -retvalint to inhibit warning)
-common.w: (in function prime_the_change_buffer)
-common.w:249:13: Function isupper expects arg 1 to be int gets eight_bits:
-                    (eight_bits)(buffer[1])
-common.w:249:96: Function tolower expects arg 1 to be int gets eight_bits:
-                    (eight_bits)buffer[1]
-common.w: (in function check_change)
-common.w:304:40: Function isspace expects arg 1 to be int gets eight_bits:
-                    (eight_bits)(*loc)
-common.w:304:141: Function isspace expects arg 1 to be int gets eight_bits:
-                     (eight_bits)(*(loc + 1))
-common.w:316:25: Function isupper expects arg 1 to be int gets eight_bits:
-                    (eight_bits)(buffer[1])
-common.w:316:97: Function tolower expects arg 1 to be int gets eight_bits:
-                    (eight_bits)buffer[1]
 common.w: (in function reset_input)
 common.w:372:5: Dependent storage assigned to unqualified:
                    file[0] = fopen(file_name[0], "r")
@@ -100,14 +86,6 @@ common.w:366:2: Function returns with non-null global change_file referencing
                    null storage
    common.w:380:18: Storage change_file may become null
 common.w: (in function get_line)
-common.w:517:40: Function isspace expects arg 1 to be int gets eight_bits:
-                    (eight_bits)(*loc)
-common.w:517:141: Function isspace expects arg 1 to be int gets eight_bits:
-                     (eight_bits)(*(loc + 1))
-common.w:524:13: Function isupper expects arg 1 to be int gets eight_bits:
-                    (eight_bits)(buffer[1])
-common.w:524:96: Function tolower expects arg 1 to be int gets eight_bits:
-                    (eight_bits)buffer[1]
 common.w:497:1: Return value (type int) ignored: fclose(file[incl...
 common.w:460:5: Dependent storage assigned to unqualified:
                    file[include_depth] = fopen(file_name[include_depth], "r")

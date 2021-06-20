@@ -246,7 +246,7 @@ while(true) {
   if (!input_ln(change_file)) return;
   if (limit<buffer+2) continue;
   if (buffer[0]!='@@') continue;
-  if (xisupper(buffer[1])) buffer[1]=tolower((eight_bits)buffer[1]);
+  if (xisupper(buffer[1])) buffer[1]=tolower((int)buffer[1]);
   if (buffer[1]=='x') break;
   if (buffer[1]=='y' || buffer[1]=='z' || buffer[1]=='i') {
     loc=buffer+2;
@@ -313,7 +313,7 @@ check_change(void) /* switches to |change_file| if the buffers match */
       return;
     }
     if (limit>buffer+1 && buffer[0]=='@@') {
-      char xyz_code=xisupper(buffer[1])? tolower((eight_bits)buffer[1]): buffer[1];
+      char xyz_code=xisupper(buffer[1])? tolower((int)buffer[1]): buffer[1];
       @<If the current line starts with \.{@@y},
         report any discrepancies and |return|@>@;
     }
@@ -521,7 +521,7 @@ The remainder of the \.{@@i} line after the file name is ignored.
     }
     *limit=' ';
     if (buffer[0]=='@@') {
-      if (xisupper(buffer[1])) buffer[1]=tolower((eight_bits)buffer[1]);
+      if (xisupper(buffer[1])) buffer[1]=tolower((int)buffer[1]);
       if (buffer[1]=='x' || buffer[1]=='y') {
         loc=buffer+2;
         err_print("! Where is the matching @@z?");
