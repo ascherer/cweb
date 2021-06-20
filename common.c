@@ -93,7 +93,7 @@
 #define max_sections 2000 \
 
 #define lines_dont_match (change_limit-change_buffer!=limit-buffer|| \
-strncmp(buffer,change_buffer,(size_t) (limit-buffer) ) )  \
+strncmp(buffer,change_buffer,(size_t) (limit-buffer) ) !=0)  \
 
 #define if_section_start_make_pending(b)  \
 *limit= '!'; \

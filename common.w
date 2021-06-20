@@ -211,7 +211,7 @@ so that no further matches will be made.
 Here's a shorthand expression for inequality between the two lines:
 
 @d lines_dont_match (change_limit-change_buffer != limit-buffer @| ||
-  strncmp(buffer, change_buffer, (size_t)(limit-buffer)))
+  strncmp(buffer, change_buffer, (size_t)(limit-buffer)) != 0)
 
 @<Global var...@>=
 static char change_buffer[buf_size]; /* next line of |change_file| */

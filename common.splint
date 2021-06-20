@@ -75,11 +75,6 @@ common.w:249:13: Function isupper expects arg 1 to be int gets eight_bits:
 common.w:249:96: Function tolower expects arg 1 to be int gets eight_bits:
                     (eight_bits)buffer[1]
 common.w: (in function check_change)
-common.w:301:48: Right operand of || is non-boolean (int):
-    change_limit - change_buffer != limit - buffer || strncmp(buffer,
-    change_buffer, (size_t)(limit - buffer))
-  The operand of a boolean operator is not a boolean. Use +ptrnegate to allow !
-  to be used on pointers. (Use -boolops to inhibit warning)
 common.w:304:40: Function isspace expects arg 1 to be int gets eight_bits:
                     (eight_bits)(*loc)
 common.w:304:141: Function isspace expects arg 1 to be int gets eight_bits:
@@ -88,9 +83,6 @@ common.w:316:25: Function isupper expects arg 1 to be int gets eight_bits:
                     (eight_bits)(buffer[1])
 common.w:316:97: Function tolower expects arg 1 to be int gets eight_bits:
                     (eight_bits)buffer[1]
-common.w:330:48: Right operand of || is non-boolean (int):
-    change_limit - change_buffer != limit - buffer || strncmp(buffer,
-    change_buffer, (size_t)(limit - buffer))
 common.w: (in function reset_input)
 common.w:372:5: Dependent storage assigned to unqualified:
                    file[0] = fopen(file_name[0], "r")
@@ -139,6 +131,8 @@ common.w:666:33: Function names_match expects arg 4 to be eight_bits gets char:
                     t
 common.w:666:7: Left operand of && is non-boolean (name_pointer):
                    p && !names_match(p, first, l, t)
+  The operand of a boolean operator is not a boolean. Use +ptrnegate to allow !
+  to be used on pointers. (Use -boolops to inhibit warning)
 common.w:669:1: Implicitly only storage p->link (type struct name_info *) not
                    released before assignment: p->link = hash[h]
 common.w:669:1: Unqualified storage hash[h] assigned to implicitly only:
