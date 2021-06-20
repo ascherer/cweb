@@ -211,4 +211,12 @@ ctangle.w:1466:1: Variable cur_text is kept in true branch, but not kept in
    ctangle.w:1459:44: Storage cur_text becomes kept
 ctangle.w: (in function skip_limbo)
 ctangle.w:1507:9: Fall through case (no preceding break)
+ctangle.w: (in function print_stats)
+ctangle.w:1546:10: Unrecognized format code: %td names (out of %ld)\n
+  Format code in a format string is not valid. (Use -formatcode to inhibit
+  warning)
+ctangle.w:1548:10: Unrecognized format code:
+                      %td replacement texts (out of %ld)\n
+ctangle.w:1550:10: Unrecognized format code: %td bytes (out of %ld)\n
+ctangle.w:1552:10: Unrecognized format code: %td tokens (out of %ld)\n
 
