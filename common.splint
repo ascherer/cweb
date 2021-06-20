@@ -1,0 +1,396 @@
+common.h:36:14: Type boolean is probably meant as a boolean type, but the
+    boolean type name is not set. Use -booltype boolean to set it.
+  Use the -booltype, -boolfalse and -booltrue flags to change the name of the
+  default boolean type. (Use -likelybool to inhibit warning)
+common.w: (in function common_init)
+common.w:606:9: Arrow access of non-pointer (name_info []):
+                   name_dir->byte_start
+  Types are incompatible. (Use -type to inhibit warning)
+common.w:608:1: Implicitly only storage name_ptr->byte_start (type char *) not
+                   released before assignment: name_ptr->byte_start = byte_mem
+  A memory leak has been detected. Only-qualified storage is not released
+  before the last reference to it is lost. (Use -mustfreeonly to inhibit
+  warning)
+common.w:608:1: Unqualified storage byte_mem assigned to implicitly only:
+                   name_ptr->byte_start = byte_mem
+  Unqualified storage is transferred in an inconsistent way. (Use
+  -unqualifiedtrans to inhibit warning)
+common.w:609:9: Arrow access of non-pointer (name_info []): name_dir->dummy
+common.w:1140:1: Array fetch using non-integer, char: flags['b']
+  To allow char types to index arrays, use +charindex. (Use +charindex to
+  inhibit warning)
+common.w:1140:13: Array fetch using non-integer, char: flags['h']
+common.w:1140:25: Array fetch using non-integer, char: flags['p']
+common.w:1140:37: Array fetch using non-integer, char: flags['x']
+common.w:1140:37: Expression has undefined behavior (value of left operand
+    flags['p'] is modified by right operand flags['x'] = true):
+    flags['p'] = flags['x'] = true
+  Code has unspecified behavior. Order of evaluation of function parameters or
+  subexpressions is not defined, so if a value is used and modified in
+  different places not separated by a sequence point constraining evaluation
+  order, then the result of the expression is unspecified. (Use -evalorder to
+  inhibit warning)
+common.w:1140:25: Expression has undefined behavior (value of left operand
+    flags['h'] is modified by right operand flags['p'] = flags['x'] = true):
+    flags['h'] = flags['p'] = flags['x'] = true
+common.w:1140:13: Expression has undefined behavior (value of left operand
+    flags['b'] is modified by right operand flags['h'] = flags['p'] =
+    flags['x'] = true): flags['b'] = flags['h'] = flags['p'] = flags['x'] =
+    true
+common.w:1279:5: Dependent storage assigned to unqualified:
+                    C_file = fopen(C_file_name, "wb")
+  Dependent storage is transferred to a non-dependent reference. (Use
+  -dependenttrans to inhibit warning)
+common.w:1284:5: Dependent storage assigned to unqualified:
+                    tex_file = fopen(tex_file_name, "wb")
+common.w:102:2: Function returns with global byte_ptr referencing kept storage
+  A global variable does not satisfy its annotations when control is
+  transferred. (Use -globstate to inhibit warning)
+   common.w:608:1: Storage byte_ptr becomes kept
+common.w:102:2: Function returns with global byte_mem referencing kept storage
+   common.w:608:1: Storage byte_mem becomes kept
+common.w:102:2: Function returns with non-null global C_file referencing null
+                   storage
+   common.w:1279:13: Storage C_file may become null
+common.w:102:2: Function returns with non-null global tex_file referencing null
+                   storage
+   common.w:1284:15: Storage tex_file may become null
+common.w: (in function input_ln)
+common.w:162:4: Test expression for if not boolean, type int: feof(fp)
+  Test expression type is not boolean or int. (Use -predboolint to inhibit
+  warning)
+common.w:164:42: Operands of != have incompatible types (int, char): c != '\n'
+  A character constant is used as an int. Use +charintliteral to allow
+  character constants to be used as ints.  (This is safe since the actual type
+  of a char constant is int.)
+common.w:165:5: Assignment of int to char: *(k++) = c
+  To make char and int types equivalent, use +charint.
+common.w:167:24: Operands of != have incompatible types (int, char): c != '\n'
+common.w:168:1: Return value (type int) ignored: ungetc(c, fp)
+  Result returned by function call is not used. If this is intended, can cast
+  result to (void) to eliminate message. (Use -retvalint to inhibit warning)
+common.w: (in function prime_the_change_buffer)
+common.w:249:13: Function isupper expects arg 1 to be int gets eight_bits:
+                    (eight_bits)(buffer[1])
+common.w:249:96: Function tolower expects arg 1 to be int gets eight_bits:
+                    (eight_bits)buffer[1]
+common.w: (in function check_change)
+common.w:301:48: Right operand of || is non-boolean (int):
+    change_limit - change_buffer != limit - buffer || strncmp(buffer,
+    change_buffer, (size_t)(limit - buffer))
+  The operand of a boolean operator is not a boolean. Use +ptrnegate to allow !
+  to be used on pointers. (Use -boolops to inhibit warning)
+common.w:304:40: Function isspace expects arg 1 to be int gets eight_bits:
+                    (eight_bits)(*loc)
+common.w:304:141: Function isspace expects arg 1 to be int gets eight_bits:
+                     (eight_bits)(*(loc + 1))
+common.w:316:25: Function isupper expects arg 1 to be int gets eight_bits:
+                    (eight_bits)(buffer[1])
+common.w:316:97: Function tolower expects arg 1 to be int gets eight_bits:
+                    (eight_bits)buffer[1]
+common.w:330:48: Right operand of || is non-boolean (int):
+    change_limit - change_buffer != limit - buffer || strncmp(buffer,
+    change_buffer, (size_t)(limit - buffer))
+common.w: (in function reset_input)
+common.w:372:5: Dependent storage assigned to unqualified:
+                   file[0] = fopen(file_name[0], "r")
+common.w:374:5: Dependent storage assigned to unqualified:
+                   file[0] = fopen(file_name[0], "r")
+common.w:380:5: Dependent storage assigned to unqualified:
+                   change_file = fopen(change_file_name, "r")
+common.w:366:2: Function returns with possibly null storage derivable from
+                   global file[]
+  A possibly null pointer is reachable from a parameter or global variable that
+  is not declared using a /*@null@*/ annotation. (Use -nullstate to inhibit
+  warning)
+   common.w:374:14: Storage file[] may become null
+common.w:366:2: Function returns with non-null global change_file referencing
+                   null storage
+   common.w:380:18: Storage change_file may become null
+common.w: (in function get_line)
+common.w:517:40: Function isspace expects arg 1 to be int gets eight_bits:
+                    (eight_bits)(*loc)
+common.w:517:141: Function isspace expects arg 1 to be int gets eight_bits:
+                     (eight_bits)(*(loc + 1))
+common.w:524:13: Function isupper expects arg 1 to be int gets eight_bits:
+                    (eight_bits)(buffer[1])
+common.w:524:96: Function tolower expects arg 1 to be int gets eight_bits:
+                    (eight_bits)buffer[1]
+common.w:497:1: Return value (type int) ignored: fclose(file[incl...
+common.w:460:5: Dependent storage assigned to unqualified:
+                   file[include_depth] = fopen(file_name[include_depth], "r")
+common.w:466:5: Assignment of size_t to int: l = strlen(kk)
+  To allow arbitrary integral types to match any integral type, use
+  +matchanyintegral.
+common.w:481:33: Passed storage temp_file_name not completely defined
+    (*temp_file_name is undefined): strcpy (..., temp_file_name)
+  Storage derivable from a parameter, return value or global is not defined.
+  Use /*@out@*/ to denote passed or returned storage which need not be defined.
+  (Use -compdef to inhibit warning)
+common.w:483:5: Dependent storage assigned to unqualified:
+                   file[include_depth] = fopen(file_name[include_depth], "r")
+common.w: (in function id_lookup)
+common.w:641:5: Variable h shadows outer declaration
+  An outer declaration is shadowed by the local declaration. (Use -shadow to
+  inhibit warning)
+   common.w:624:14: Previous definition of h: hash_pointer
+common.w:666:31: Function names_match expects arg 3 to be size_t gets int: l
+common.w:666:33: Function names_match expects arg 4 to be eight_bits gets char:
+                    t
+common.w:666:7: Left operand of && is non-boolean (name_pointer):
+                   p && !names_match(p, first, l, t)
+common.w:669:1: Implicitly only storage p->link (type struct name_info *) not
+                   released before assignment: p->link = hash[h]
+common.w:669:1: Unqualified storage hash[h] assigned to implicitly only:
+                   p->link = hash[h]
+common.w:679:24: Function strncpy expects arg 3 to be size_t gets int: l
+common.w:679:9: Parameter 1 (byte_ptr) to function strncpy is declared unique
+                   but may be aliased externally by parameter 2 (first)
+  A unique or only parameter may be aliased by some other parameter or visible
+  global. (Use -mayaliasunique to inhibit warning)
+common.w:681:10: Function init_p expects arg 2 to be eight_bits gets char: t
+common.w:649:10: Function returns with global name_ptr referencing released
+                    storage
+   common.w:649:8: Storage name_ptr released
+common.w: (in function print_prefix_name)
+common.w:750:40: Function fwrite expects arg 3 to be size_t gets int: l
+common.w: (in function add_section_name)
+common.w:809:15: Incompatible types for + (int, boolean):
+                    (int)(last - first) + ispref
+  To make bool and int types equivalent, use +boolint.
+common.w:812:27: Only storage name_ptr->byte_start assigned to unqualified (s
+                    aliases name_ptr->byte_start): byte_ptr = s + name_len
+  The only reference to this storage is transferred to another reference (e.g.,
+  by returning it) that does not have the only annotation. This may lead to a
+  memory leak, since the new reference is not necessarily released. (Use
+  -onlytrans to inhibit warning)
+common.w:812:27: Dependent storage s assigned to unqualified:
+                    byte_ptr = s + name_len
+   common.w:808:16: Storage s becomes dependent
+common.w:816:1: Unqualified storage name_dir assigned to implicitly only:
+                   name_ptr->link = name_dir
+common.w:819:2: Assignment of int to char:
+                   *((p)->byte_start) = (name_len) / 256
+common.w:819:41: Assignment of int to char:
+                    *((p)->byte_start + 1) = (name_len) % 256
+common.w:820:17: Function strncpy expects arg 3 to be size_t gets int: name_len
+common.w:820:9: Parameter 1 (s) to function strncpy is declared unique but may
+                   be aliased externally by parameter 2 (first)
+common.w:821:1: Implicitly only storage p->link (type struct name_info *) not
+                   released before assignment: p->link = p->dummy.Rlink = NULL
+common.w:822:11: Null storage p->link derivable from parameter init_node (p)
+   common.w:821:10: Storage p->link becomes null
+common.w:822:11: Storage p->dummy.Rlink reachable from passed parameter is kept
+                    (should be implicitly only): p
+  Storage derivable from a parameter does not match the alias kind expected for
+  the formal parameter. (Use -compmempass to inhibit warning)
+   common.w:821:1: Storage p->dummy.Rlink becomes kept
+common.w:822:11: Null storage p->dummy.Rlink derivable from parameter init_node
+                    (p)
+   common.w:821:26: Storage p->dummy.Rlink becomes null
+common.w:823:27: Arrow access of non-pointer (name_info []): name_dir->dummy
+common.w:823:51: Implicitly only storage par->link (type struct name_info *)
+    not released before assignment (p aliases name_ptr): par->link = p
+common.w:823:8: Unqualified storage par == NULL ? (name_dir->dummy.Rlink = p) :
+    c == 0 ? (par->link = p) : (par->dummy.Rlink = p) returned as implicitly
+    only: par == NULL ? (name_dir->dummy.Rlink = p) :
+    c == 0 ? (par->link = p) : (par->dummy.Rlink = p)
+common.w:823:87: Function returns with global name_ptr referencing kept storage
+   common.w:823:66: Storage name_ptr becomes kept
+common.w:823:87: Function returns with global name_dir referencing kept storage
+   common.w:818:1: Storage name_dir becomes kept
+common.w: (in function extend_section_name)
+common.w:836:15: Incompatible types for + (int, boolean):
+                    (int)(last - first) + ispref
+common.w:839:1: Unqualified storage name_ptr assigned to implicitly only:
+                   q->link = name_ptr
+   common.w:823:66: Storage name_ptr becomes kept
+common.w:841:1: Unqualified storage name_dir assigned to implicitly only:
+                   name_ptr->link = name_dir
+   common.w:818:1: Storage name_dir becomes kept
+common.w:843:27: Only storage name_ptr->byte_start assigned to unqualified (s
+                    aliases name_ptr->byte_start): byte_ptr = s + name_len
+common.w:844:17: Function strncpy expects arg 3 to be size_t gets int: name_len
+common.w:846:2: Function returns with global name_ptr referencing kept storage
+   common.w:839:1: Storage name_ptr becomes kept
+common.w:846:2: Function returns with global name_dir referencing kept storage
+   common.w:841:1: Storage name_dir becomes kept
+common.w: (in function section_lookup)
+common.w:861:25: Arrow access of non-pointer (name_info []): name_dir->dummy
+common.w:887:1: Return value (type int) ignored: fputs("\n! Ambig...
+common.w:890:1: Return value (type int) ignored: fputs(">\n and <...
+common.w:893:8: Unqualified storage name_dir returned as implicitly only:
+                   name_dir
+   common.w:841:1: Storage name_dir becomes kept
+common.w:893:17: Function returns with global name_dir referencing released
+                    storage
+   common.w:893:8: Storage name_dir released
+common.w:905:25: Null storage par passed as non-null param:
+                    add_section_name (par, ...)
+  A possibly null pointer is passed as a parameter corresponding to a formal
+  parameter with no /*@null@*/ annotation.  If NULL may be used for this
+  parameter, add a /*@null@*/ annotation to the function parameter declaration.
+  (Use -nullpass to inhibit warning)
+   common.w:864:19: Storage par becomes null
+common.w:916:1: Return value (type int) ignored: fputs("\n! New n...
+common.w:921:102: Assignment of int to char:
+                     *((r)->byte_start) = (name_len) / 256
+common.w:921:141: Assignment of int to char:
+                     *((r)->byte_start + 1) = (name_len) % 256
+common.w:923:6: Fall through case (no preceding break)
+  Execution falls through from the previous case (use /*@fallthrough@*/ to mark
+  fallthrough cases). (Use -casebreak to inhibit warning)
+common.w:928:1: Return value (type int) ignored: fputs("\n! New n...
+common.w:934:1: Return value (type int) ignored: fputs("\n! Secti...
+common.w:937:1: Return value (type int) ignored: fputs(">,\n whic...
+common.w: (in function err_print)
+common.w:1018:1: Format string parameter to printf is not a compile-time
+                    constant: *s == '!' ? "\n%s" : "%s"
+  Format parameter is not known at compile-time.  This can lead to security
+  vulnerabilities because the arguments cannot be type checked. (Use
+  -formatconst to inhibit warning)
+common.w:1041:13: Return value (type int) ignored: putchar(' ')
+common.w:1042:6: Return value (type int) ignored: putchar(*k)
+common.w:1043:1: Return value (type int) ignored: putchar('\n')
+common.w:1044:23: Return value (type int) ignored: putchar(' ')
+common.w:1046:22: Return value (type int) ignored: putchar(*k)
+common.w:1047:16: Return value (type int) ignored: putchar('|')
+common.w:1048:1: Return value (type int) ignored: putchar(' ')
+common.w:1020:1: Return value (type int) ignored: fflush(stdout)
+common.w: (in function wrap_up)
+common.w:1067:4: Array fetch using non-integer, char: flags['p']
+common.w:1067:15: Return value (type int) ignored: putchar('\n')
+common.w:1068:4: Array fetch using non-integer, char: flags['s']
+common.w:1078:4: Array fetch using non-integer, char: flags['h']
+common.w:1078:15: Return value (type int) ignored: puts("(No errors...
+common.w:1080:1: Return value (type int) ignored: puts("(Did you s...
+common.w:1082:1: Return value (type int) ignored: puts("(Pardon me...
+common.w:1084:1: Return value (type int) ignored: puts("(That was ...
+common.w: (in function fatal)
+common.w:1097:4: Test expression for if not boolean, type char: *s
+  Test expression type is not boolean. (Use -predboolothers to inhibit warning)
+common.w: (in function scan_args)
+common.w:1169:36: Right operand of && is non-boolean (char):
+                     (**(++argv) == '-' || **argv == '+') && *(*argv + 1)
+common.w:1172:7: Test expression for while not boolean, type char: *s
+common.w:1200:1: Buffer overflow possible with sprintf.  Recommend using
+                    snprintf instead: sprintf
+  Use of function that may lead to buffer overflow. (Use -bufferoverflowhigh to
+  inhibit warning)
+common.w:1205:1: Buffer overflow possible with sprintf.  Recommend using
+                    snprintf instead: sprintf
+common.w:1206:1: Buffer overflow possible with sprintf.  Recommend using
+                    snprintf instead: sprintf
+common.w:1207:1: Buffer overflow possible with sprintf.  Recommend using
+                    snprintf instead: sprintf
+common.w:1208:1: Buffer overflow possible with sprintf.  Recommend using
+                    snprintf instead: sprintf
+common.w:1209:1: Buffer overflow possible with sprintf.  Recommend using
+                    snprintf instead: sprintf
+common.w:1219:1: Buffer overflow possible with sprintf.  Recommend using
+                    snprintf instead: sprintf
+common.w:1230:1: Buffer overflow possible with sprintf.  Recommend using
+                    snprintf instead: sprintf
+common.w:1231:1: Buffer overflow possible with sprintf.  Recommend using
+                    snprintf instead: sprintf
+common.w:1232:1: Buffer overflow possible with sprintf.  Recommend using
+                    snprintf instead: sprintf
+common.w:1233:1: Buffer overflow possible with sprintf.  Recommend using
+                    snprintf instead: sprintf
+common.w:1237:4: Array fetch using non-integer, char: flags['x']
+common.w:1239:1: Buffer overflow possible with sprintf.  Recommend using
+                    snprintf instead: sprintf
+common.w:1240:1: Buffer overflow possible with sprintf.  Recommend using
+                    snprintf instead: sprintf
+common.h:75:13: Variable exported but not used outside common: section_text
+  A declaration is exported, but not used outside this module. Declaration can
+  use static qualifier. (Use -exportlocal to inhibit warning)
+   common.w:127:6: Definition of section_text
+common.h:93:13: Variable exported but not used outside common: buffer
+   common.w:147:6: Definition of buffer
+common.h:94:13: Variable exported but not used outside common: buffer_end
+   common.w:148:6: Definition of buffer_end
+common.h:95:13: Variable exported but not used outside common: loc
+   common.w:149:6: Definition of loc
+common.h:96:13: Variable exported but not used outside common: limit
+   common.w:150:6: Definition of limit
+common.h:110:12: Variable exported but not used outside common: include_depth
+   common.w:191:5: Definition of include_depth
+common.h:111:13: Variable exported but not used outside common: file
+   common.w:192:6: Definition of file
+common.h:112:13: Variable exported but not used outside common: change_file
+   common.w:193:6: Definition of change_file
+common.h:113:13: Variable exported but not used outside common: file_name
+   common.w:194:6: Definition of file_name
+common.h:115:13: Variable exported but not used outside common:
+                    change_file_name
+   common.w:196:6: Definition of change_file_name
+common.h:116:12: Variable exported but not used outside common: line
+   common.w:198:5: Definition of line
+common.h:117:12: Variable exported but not used outside common: change_line
+   common.w:199:5: Definition of change_line
+common.h:118:12: Variable exported but not used outside common: change_depth
+   common.w:200:5: Definition of change_depth
+common.h:119:16: Variable exported but not used outside common: input_has_ended
+   common.w:201:9: Definition of input_has_ended
+common.h:120:16: Variable exported but not used outside common: changing
+   common.w:202:9: Definition of changing
+common.h:121:16: Variable exported but not used outside common: web_file_open
+   common.w:203:9: Definition of web_file_open
+common.h:130:21: Variable exported but not used outside common: section_count
+   common.w:394:14: Definition of section_count
+common.h:131:16: Variable exported but not used outside common: changed_section
+   common.w:395:9: Definition of changed_section
+common.h:132:16: Variable exported but not used outside common: change_pending
+   common.w:396:9: Definition of change_pending
+common.h:133:16: Variable exported but not used outside common: print_where
+   common.w:398:9: Definition of print_where
+common.h:156:13: Variable exported but not used outside common: byte_mem
+   common.w:591:6: Definition of byte_mem
+common.h:157:13: Variable exported but not used outside common: byte_mem_end
+   common.w:592:6: Definition of byte_mem_end
+common.h:158:13: Variable exported but not used outside common: byte_ptr
+   common.w:602:6: Definition of byte_ptr
+common.h:159:18: Variable exported but not used outside common: name_dir
+   common.w:593:11: Definition of name_dir
+common.h:160:21: Variable exported but not used outside common: name_dir_end
+   common.w:594:14: Definition of name_dir_end
+common.h:161:21: Variable exported but not used outside common: name_ptr
+   common.w:603:14: Definition of name_ptr
+common.h:162:21: Variable exported but not used outside common: hash
+   common.w:622:14: Definition of hash
+common.h:163:21: Variable exported but not used outside common: hash_end
+   common.w:623:14: Definition of hash_end
+common.h:164:21: Variable exported but not used outside common: h
+   common.w:624:14: Definition of h
+common.h:188:12: Variable exported but not used outside common: history
+   common.w:1004:5: Definition of history
+common.h:204:12: Variable exported but not used outside common: argc
+   common.w:1127:5: Definition of argc
+common.h:205:14: Variable exported but not used outside common: argv
+   common.w:1128:7: Definition of argv
+common.h:206:13: Variable exported but not used outside common: C_file_name
+   common.w:1129:6: Definition of C_file_name
+common.h:207:13: Variable exported but not used outside common: tex_file_name
+   common.w:1130:6: Definition of tex_file_name
+common.h:208:13: Variable exported but not used outside common: idx_file_name
+   common.w:1131:6: Definition of idx_file_name
+common.h:209:13: Variable exported but not used outside common: scn_file_name
+   common.w:1132:6: Definition of scn_file_name
+common.h:210:16: Variable exported but not used outside common: flags
+   common.w:1133:9: Definition of flags
+common.h:173:13: Function exported but not used outside common:
+                    print_prefix_name
+   common.w:752:1: Definition of print_prefix_name
+common.h:174:13: Function exported but not used outside common:
+                    print_section_name
+   common.w:723:1: Definition of print_section_name
+common.h:191:12: Function exported but not used outside common: wrap_up
+   common.w:1073:1: Definition of wrap_up
+common.h:192:13: Function exported but not used outside common: err_print
+   common.w:1021:1: Definition of err_print
+common.h:193:13: Function exported but not used outside common: fatal
+   common.w:1100:1: Definition of fatal
+common.h:194:13: Function exported but not used outside common: overflow
+   common.w:1109:1: Definition of overflow
+

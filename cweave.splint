@@ -1,0 +1,1861 @@
+cweave.w: (in macro exp)
+cweave.w:261:14: Function exp defined by unparameterized macro not
+                    corresponding to function
+  A function, variable or constant is redefined with a different type. (Use
+  -incondefs to inhibit warning)
+common.h:36:14: Type boolean is probably meant as a boolean type, but the
+    boolean type name is not set. Use -booltype boolean to set it.
+  Use the -booltype, -boolfalse and -booltrue flags to change the name of the
+  default boolean type. (Use -likelybool to inhibit warning)
+cweave.w: (in function main)
+cweave.w:236:5: Arrow access of non-pointer (xref_info [20000]): xmem->num
+  Types are incompatible. (Use -type to inhibit warning)
+cweave.w:582:1: Array fetch using non-integer, char: ccode[' ']
+  To allow char types to index arrays, use +charindex. (Use +charindex to
+  inhibit warning)
+cweave.w:582:13: Array fetch using non-integer, char: ccode['\t']
+cweave.w:582:26: Array fetch using non-integer, char: ccode['\n']
+cweave.w:582:39: Array fetch using non-integer, char: ccode['\v']
+cweave.w:582:52: Array fetch using non-integer, char: ccode['\r']
+cweave.w:582:65: Array fetch using non-integer, char: ccode['\f']
+cweave.w:583:3: Array fetch using non-integer, char: ccode['*']
+cweave.w:583:3: Expression has undefined behavior (value of left operand
+    ccode['\f'] is modified by right operand ccode['*'] = 0231):
+    ccode['\f'] = ccode['*'] = 0231
+  Code has unspecified behavior. Order of evaluation of function parameters or
+  subexpressions is not defined, so if a value is used and modified in
+  different places not separated by a sequence point constraining evaluation
+  order, then the result of the expression is unspecified. (Use -evalorder to
+  inhibit warning)
+cweave.w:582:65: Expression has undefined behavior (value of left operand
+    ccode['\r'] is modified by right operand ccode['\f'] = ccode['*'] = 0231):
+    ccode['\r'] = ccode['\f'] = ccode['*'] = 0231
+cweave.w:582:52: Expression has undefined behavior (value of left operand
+    ccode['\v'] is modified by right operand ccode['\r'] = ccode['\f'] =
+    ccode['*'] = 0231): ccode['\v'] = ccode['\r'] = ccode['\f'] = ccode['*'] =
+    0231
+cweave.w:582:39: Expression has undefined behavior (value of left operand
+    ccode['\n'] is modified by right operand ccode['\v'] = ccode['\r'] =
+    ccode['\f'] = ccode['*'] = 0231): ccode['\n'] = ccode['\v'] = ccode['\r'] =
+    ccode['\f'] = ccode['*'] = 0231
+cweave.w:582:26: Expression has undefined behavior (value of left operand
+    ccode['\t'] is modified by right operand ccode['\n'] = ccode['\v'] =
+    ccode['\r'] = ccode['\f'] = ccode['*'] = 0231):
+    ccode['\t'] = ccode['\n'] = ccode['\v'] = ccode['\r'] = ccode['\f'] =
+    ccode['*'] = 0231
+cweave.w:582:13: Expression has undefined behavior (value of left operand
+    ccode[' '] is modified by right operand ccode['\t'] = ccode['\n'] =
+    ccode['\v'] = ccode['\r'] = ccode['\f'] = ccode['*'] = 0231):
+    ccode[' '] = ccode['\t'] = ccode['\n'] = ccode['\v'] = ccode['\r'] =
+    ccode['\f'] = ccode['*'] = 0231
+cweave.w:584:1: Array fetch using non-integer, char: ccode['@']
+cweave.w:584:1: Assignment of char to eight_bits: ccode['@'] = '@'
+cweave.w:585:1: Array fetch using non-integer, char: ccode['=']
+cweave.w:586:1: Array fetch using non-integer, char: ccode['d']
+cweave.w:586:13: Array fetch using non-integer, char: ccode['D']
+cweave.w:586:13: Expression has undefined behavior (value of left operand
+    ccode['d'] is modified by right operand ccode['D'] = 0226):
+    ccode['d'] = ccode['D'] = 0226
+cweave.w:587:1: Array fetch using non-integer, char: ccode['f']
+cweave.w:587:13: Array fetch using non-integer, char: ccode['F']
+cweave.w:587:25: Array fetch using non-integer, char: ccode['s']
+cweave.w:587:37: Array fetch using non-integer, char: ccode['S']
+cweave.w:587:37: Expression has undefined behavior (value of left operand
+    ccode['s'] is modified by right operand ccode['S'] = 0225):
+    ccode['s'] = ccode['S'] = 0225
+cweave.w:587:25: Expression has undefined behavior (value of left operand
+    ccode['F'] is modified by right operand ccode['s'] = ccode['S'] = 0225):
+    ccode['F'] = ccode['s'] = ccode['S'] = 0225
+cweave.w:587:13: Expression has undefined behavior (value of left operand
+    ccode['f'] is modified by right operand ccode['F'] = ccode['s'] =
+    ccode['S'] = 0225): ccode['f'] = ccode['F'] = ccode['s'] = ccode['S'] =
+    0225
+cweave.w:588:1: Array fetch using non-integer, char: ccode['c']
+cweave.w:588:13: Array fetch using non-integer, char: ccode['C']
+cweave.w:588:25: Array fetch using non-integer, char: ccode['p']
+cweave.w:588:37: Array fetch using non-integer, char: ccode['P']
+cweave.w:588:37: Expression has undefined behavior (value of left operand
+    ccode['p'] is modified by right operand ccode['P'] = 0227):
+    ccode['p'] = ccode['P'] = 0227
+cweave.w:588:25: Expression has undefined behavior (value of left operand
+    ccode['C'] is modified by right operand ccode['p'] = ccode['P'] = 0227):
+    ccode['C'] = ccode['p'] = ccode['P'] = 0227
+cweave.w:588:13: Expression has undefined behavior (value of left operand
+    ccode['c'] is modified by right operand ccode['C'] = ccode['p'] =
+    ccode['P'] = 0227): ccode['c'] = ccode['C'] = ccode['p'] = ccode['P'] =
+    0227
+cweave.w:589:1: Array fetch using non-integer, char: ccode['t']
+cweave.w:589:13: Array fetch using non-integer, char: ccode['T']
+cweave.w:589:13: Expression has undefined behavior (value of left operand
+    ccode['t'] is modified by right operand ccode['T'] = 0206):
+    ccode['t'] = ccode['T'] = 0206
+cweave.w:590:1: Array fetch using non-integer, char: ccode['l']
+cweave.w:590:13: Array fetch using non-integer, char: ccode['L']
+cweave.w:590:13: Expression has undefined behavior (value of left operand
+    ccode['l'] is modified by right operand ccode['L'] = 0223):
+    ccode['l'] = ccode['L'] = 0223
+cweave.w:591:1: Array fetch using non-integer, char: ccode['q']
+cweave.w:591:13: Array fetch using non-integer, char: ccode['Q']
+cweave.w:591:13: Expression has undefined behavior (value of left operand
+    ccode['q'] is modified by right operand ccode['Q'] = 0177):
+    ccode['q'] = ccode['Q'] = 0177
+cweave.w:592:1: Array fetch using non-integer, char: ccode['h']
+cweave.w:592:13: Array fetch using non-integer, char: ccode['H']
+cweave.w:592:13: Expression has undefined behavior (value of left operand
+    ccode['h'] is modified by right operand ccode['H'] = 0224):
+    ccode['h'] = ccode['H'] = 0224
+cweave.w:593:1: Array fetch using non-integer, char: ccode['&']
+cweave.w:593:18: Array fetch using non-integer, char: ccode['<']
+cweave.w:593:30: Array fetch using non-integer, char: ccode['(']
+cweave.w:593:30: Expression has undefined behavior (value of left operand
+    ccode['<'] is modified by right operand ccode['('] = 0230):
+    ccode['<'] = ccode['('] = 0230
+cweave.w:594:1: Array fetch using non-integer, char: ccode['!']
+cweave.w:594:1: Assignment of char to eight_bits: ccode['!'] = '\n'
+cweave.w:594:18: Array fetch using non-integer, char: ccode['^']
+cweave.w:595:1: Array fetch using non-integer, char: ccode[':']
+cweave.w:595:18: Array fetch using non-integer, char: ccode['.']
+cweave.w:595:35: Array fetch using non-integer, char: ccode[',']
+cweave.w:596:1: Array fetch using non-integer, char: ccode['|']
+cweave.w:596:18: Array fetch using non-integer, char: ccode['/']
+cweave.w:596:35: Array fetch using non-integer, char: ccode['#']
+cweave.w:597:1: Array fetch using non-integer, char: ccode['+']
+cweave.w:597:18: Array fetch using non-integer, char: ccode[';']
+cweave.w:598:1: Array fetch using non-integer, char: ccode['[']
+cweave.w:598:18: Array fetch using non-integer, char: ccode[']']
+cweave.w:599:1: Array fetch using non-integer, char: ccode['\'']
+cweave.w:607:1: Array fetch using non-integer, char: ccode['0']
+cweave.w:607:13: Array fetch using non-integer, char: ccode['1']
+cweave.w:607:25: Array fetch using non-integer, char: ccode['2']
+cweave.w:607:25: Expression has undefined behavior (value of left operand
+    ccode['1'] is modified by right operand ccode['2'] = 0222):
+    ccode['1'] = ccode['2'] = 0222
+cweave.w:607:13: Expression has undefined behavior (value of left operand
+    ccode['0'] is modified by right operand ccode['1'] = ccode['2'] = 0222):
+    ccode['0'] = ccode['1'] = ccode['2'] = 0222
+cweave.w:1774:8: Array fetch using non-integer, [function (double) returns
+                    double]: cat_name[exp]
+cweave.w:2944:1: Array fetch using non-integer, char: flags['f']
+cweave.w:3673:1: Array fetch using non-integer, char: flags['e']
+cweave.w:98:4: Array fetch using non-integer, char: flags['b']
+cweave.w:98:15: Return value (type int) ignored: puts("This is CW...
+  Result returned by function call is not used. If this is intended, can cast
+  result to (void) to eliminate message. (Use -retvalint to inhibit warning)
+cweave.w:400:26: Function id_lookup expects arg 3 to be char gets int: 59
+  To make char and int types equivalent, use +charint.
+cweave.w:400:21: Null storage passed as non-null param:
+                    id_lookup (..., NULL, ...)
+  A possibly null pointer is passed as a parameter corresponding to a formal
+  parameter with no /*@null@*/ annotation.  If NULL may be used for this
+  parameter, add a /*@null@*/ annotation to the function parameter declaration.
+  (Use -nullpass to inhibit warning)
+cweave.w:400:1: Return value (type name_pointer) ignored: id_lookup("align...
+  Result returned by function call is not used. If this is intended, can cast
+  result to (void) to eliminate message. (Use -retvalother to inhibit warning)
+cweave.w:401:26: Function id_lookup expects arg 3 to be char gets int: 54
+cweave.w:401:21: Null storage passed as non-null param:
+                    id_lookup (..., NULL, ...)
+cweave.w:401:1: Return value (type name_pointer) ignored: id_lookup("align...
+cweave.w:402:22: Function id_lookup expects arg 3 to be char gets int: 22
+cweave.w:402:17: Null storage passed as non-null param:
+                    id_lookup (..., NULL, ...)
+cweave.w:402:1: Return value (type name_pointer) ignored: id_lookup("and",...
+cweave.w:403:25: Function id_lookup expects arg 3 to be char gets int: 22
+cweave.w:403:20: Null storage passed as non-null param:
+                    id_lookup (..., NULL, ...)
+cweave.w:403:1: Return value (type name_pointer) ignored: id_lookup("and_e...
+cweave.w:404:22: Function id_lookup expects arg 3 to be char gets int: 54
+cweave.w:404:17: Null storage passed as non-null param:
+                    id_lookup (..., NULL, ...)
+cweave.w:404:1: Return value (type name_pointer) ignored: id_lookup("asm",...
+cweave.w:405:23: Function id_lookup expects arg 3 to be char gets int: 52
+cweave.w:405:18: Null storage passed as non-null param:
+                    id_lookup (..., NULL, ...)
+cweave.w:405:1: Return value (type name_pointer) ignored: id_lookup("auto"...
+cweave.w:406:25: Function id_lookup expects arg 3 to be char gets int: 22
+cweave.w:406:20: Null storage passed as non-null param:
+                    id_lookup (..., NULL, ...)
+cweave.w:406:1: Return value (type name_pointer) ignored: id_lookup("bitan...
+cweave.w:407:24: Function id_lookup expects arg 3 to be char gets int: 22
+cweave.w:407:19: Null storage passed as non-null param:
+                    id_lookup (..., NULL, ...)
+cweave.w:407:1: Return value (type name_pointer) ignored: id_lookup("bitor...
+cweave.w:408:23: Function id_lookup expects arg 3 to be char gets int: 51
+cweave.w:408:18: Null storage passed as non-null param:
+                    id_lookup (..., NULL, ...)
+cweave.w:408:1: Return value (type name_pointer) ignored: id_lookup("bool"...
+cweave.w:409:24: Function id_lookup expects arg 3 to be char gets int: 53
+cweave.w:409:19: Null storage passed as non-null param:
+                    id_lookup (..., NULL, ...)
+cweave.w:409:1: Return value (type name_pointer) ignored: id_lookup("break...
+cweave.w:410:23: Function id_lookup expects arg 3 to be char gets int: 53
+cweave.w:410:18: Null storage passed as non-null param:
+                    id_lookup (..., NULL, ...)
+cweave.w:410:1: Return value (type name_pointer) ignored: id_lookup("case"...
+cweave.w:411:24: Function id_lookup expects arg 3 to be char gets int: 43
+cweave.w:411:19: Null storage passed as non-null param:
+                    id_lookup (..., NULL, ...)
+cweave.w:411:1: Return value (type name_pointer) ignored: id_lookup("catch...
+cweave.w:412:23: Function id_lookup expects arg 3 to be char gets int: 51
+cweave.w:412:18: Null storage passed as non-null param:
+                    id_lookup (..., NULL, ...)
+cweave.w:412:1: Return value (type name_pointer) ignored: id_lookup("char"...
+cweave.w:413:26: Function id_lookup expects arg 3 to be char gets int: 51
+cweave.w:413:21: Null storage passed as non-null param:
+                    id_lookup (..., NULL, ...)
+cweave.w:413:1: Return value (type name_pointer) ignored: id_lookup("char8...
+cweave.w:414:27: Function id_lookup expects arg 3 to be char gets int: 51
+cweave.w:414:22: Null storage passed as non-null param:
+                    id_lookup (..., NULL, ...)
+cweave.w:414:1: Return value (type name_pointer) ignored: id_lookup("char1...
+cweave.w:415:27: Function id_lookup expects arg 3 to be char gets int: 51
+cweave.w:415:22: Null storage passed as non-null param:
+                    id_lookup (..., NULL, ...)
+cweave.w:415:1: Return value (type name_pointer) ignored: id_lookup("char3...
+cweave.w:416:24: Function id_lookup expects arg 3 to be char gets int: 55
+cweave.w:416:19: Null storage passed as non-null param:
+                    id_lookup (..., NULL, ...)
+cweave.w:416:1: Return value (type name_pointer) ignored: id_lookup("class...
+cweave.w:417:26: Function id_lookup expects arg 3 to be char gets int: 51
+cweave.w:417:21: Null storage passed as non-null param:
+                    id_lookup (..., NULL, ...)
+cweave.w:417:1: Return value (type name_pointer) ignored: id_lookup("clock...
+cweave.w:418:24: Function id_lookup expects arg 3 to be char gets int: 22
+cweave.w:418:19: Null storage passed as non-null param:
+                    id_lookup (..., NULL, ...)
+cweave.w:418:1: Return value (type name_pointer) ignored: id_lookup("compl...
+cweave.w:419:26: Function id_lookup expects arg 3 to be char gets int: 52
+cweave.w:419:21: Null storage passed as non-null param:
+                    id_lookup (..., NULL, ...)
+cweave.w:419:1: Return value (type name_pointer) ignored: id_lookup("conce...
+cweave.w:420:24: Function id_lookup expects arg 3 to be char gets int: 50
+cweave.w:420:19: Null storage passed as non-null param:
+                    id_lookup (..., NULL, ...)
+cweave.w:420:1: Return value (type name_pointer) ignored: id_lookup("const...
+cweave.w:421:28: Function id_lookup expects arg 3 to be char gets int: 50
+cweave.w:421:23: Null storage passed as non-null param:
+                    id_lookup (..., NULL, ...)
+cweave.w:421:1: Return value (type name_pointer) ignored: id_lookup("const...
+cweave.w:422:28: Function id_lookup expects arg 3 to be char gets int: 50
+cweave.w:422:23: Null storage passed as non-null param:
+                    id_lookup (..., NULL, ...)
+cweave.w:422:1: Return value (type name_pointer) ignored: id_lookup("const...
+cweave.w:423:28: Function id_lookup expects arg 3 to be char gets int: 50
+cweave.w:423:23: Null storage passed as non-null param:
+                    id_lookup (..., NULL, ...)
+cweave.w:423:1: Return value (type name_pointer) ignored: id_lookup("const...
+cweave.w:424:29: Function id_lookup expects arg 3 to be char gets int: 51
+cweave.w:424:24: Null storage passed as non-null param:
+                    id_lookup (..., NULL, ...)
+cweave.w:424:1: Return value (type name_pointer) ignored: id_lookup("const...
+cweave.w:425:27: Function id_lookup expects arg 3 to be char gets int: 53
+cweave.w:425:22: Null storage passed as non-null param:
+                    id_lookup (..., NULL, ...)
+cweave.w:425:1: Return value (type name_pointer) ignored: id_lookup("conti...
+cweave.w:426:27: Function id_lookup expects arg 3 to be char gets int: 53
+cweave.w:426:22: Null storage passed as non-null param:
+                    id_lookup (..., NULL, ...)
+cweave.w:426:1: Return value (type name_pointer) ignored: id_lookup("co_aw...
+cweave.w:427:28: Function id_lookup expects arg 3 to be char gets int: 53
+cweave.w:427:23: Null storage passed as non-null param:
+                    id_lookup (..., NULL, ...)
+cweave.w:427:1: Return value (type name_pointer) ignored: id_lookup("co_re...
+cweave.w:428:27: Function id_lookup expects arg 3 to be char gets int: 53
+cweave.w:428:22: Null storage passed as non-null param:
+                    id_lookup (..., NULL, ...)
+cweave.w:428:1: Return value (type name_pointer) ignored: id_lookup("co_yi...
+cweave.w:429:27: Function id_lookup expects arg 3 to be char gets int: 54
+cweave.w:429:22: Null storage passed as non-null param:
+                    id_lookup (..., NULL, ...)
+cweave.w:429:1: Return value (type name_pointer) ignored: id_lookup("declt...
+cweave.w:430:26: Function id_lookup expects arg 3 to be char gets int: 61
+cweave.w:430:21: Null storage passed as non-null param:
+                    id_lookup (..., NULL, ...)
+cweave.w:430:1: Return value (type name_pointer) ignored: id_lookup("defau...
+cweave.w:431:25: Function id_lookup expects arg 3 to be char gets int: 57
+cweave.w:431:20: Null storage passed as non-null param:
+                    id_lookup (..., NULL, ...)
+cweave.w:431:1: Return value (type name_pointer) ignored: id_lookup("defin...
+cweave.w:432:26: Function id_lookup expects arg 3 to be char gets int: 54
+cweave.w:432:21: Null storage passed as non-null param:
+                    id_lookup (..., NULL, ...)
+cweave.w:432:1: Return value (type name_pointer) ignored: id_lookup("defin...
+cweave.w:433:25: Function id_lookup expects arg 3 to be char gets int: 48
+cweave.w:433:20: Null storage passed as non-null param:
+                    id_lookup (..., NULL, ...)
+cweave.w:433:1: Return value (type name_pointer) ignored: id_lookup("delet...
+cweave.w:434:24: Function id_lookup expects arg 3 to be char gets int: 51
+cweave.w:434:19: Null storage passed as non-null param:
+                    id_lookup (..., NULL, ...)
+cweave.w:434:1: Return value (type name_pointer) ignored: id_lookup("div_t...
+cweave.w:435:21: Function id_lookup expects arg 3 to be char gets int: 46
+cweave.w:435:16: Null storage passed as non-null param:
+                    id_lookup (..., NULL, ...)
+cweave.w:435:1: Return value (type name_pointer) ignored: id_lookup("do", ...
+cweave.w:436:25: Function id_lookup expects arg 3 to be char gets int: 51
+cweave.w:436:20: Null storage passed as non-null param:
+                    id_lookup (..., NULL, ...)
+cweave.w:436:1: Return value (type name_pointer) ignored: id_lookup("doubl...
+cweave.w:437:31: Function id_lookup expects arg 3 to be char gets int: 51
+cweave.w:437:26: Null storage passed as non-null param:
+                    id_lookup (..., NULL, ...)
+cweave.w:437:1: Return value (type name_pointer) ignored: id_lookup("dynam...
+cweave.w:438:23: Function id_lookup expects arg 3 to be char gets int: 47
+cweave.w:438:18: Null storage passed as non-null param:
+                    id_lookup (..., NULL, ...)
+cweave.w:438:1: Return value (type name_pointer) ignored: id_lookup("elif"...
+cweave.w:439:23: Function id_lookup expects arg 3 to be char gets int: 26
+cweave.w:439:18: Null storage passed as non-null param:
+                    id_lookup (..., NULL, ...)
+cweave.w:439:1: Return value (type name_pointer) ignored: id_lookup("else"...
+cweave.w:440:24: Function id_lookup expects arg 3 to be char gets int: 47
+cweave.w:440:19: Null storage passed as non-null param:
+                    id_lookup (..., NULL, ...)
+cweave.w:440:1: Return value (type name_pointer) ignored: id_lookup("endif...
+cweave.w:441:23: Function id_lookup expects arg 3 to be char gets int: 55
+cweave.w:441:18: Null storage passed as non-null param:
+                    id_lookup (..., NULL, ...)
+cweave.w:441:1: Return value (type name_pointer) ignored: id_lookup("enum"...
+cweave.w:442:24: Function id_lookup expects arg 3 to be char gets int: 47
+cweave.w:442:19: Null storage passed as non-null param:
+                    id_lookup (..., NULL, ...)
+cweave.w:442:1: Return value (type name_pointer) ignored: id_lookup("error...
+cweave.w:443:27: Function id_lookup expects arg 3 to be char gets int: 52
+cweave.w:443:22: Null storage passed as non-null param:
+                    id_lookup (..., NULL, ...)
+cweave.w:443:1: Return value (type name_pointer) ignored: id_lookup("expli...
+cweave.w:444:25: Function id_lookup expects arg 3 to be char gets int: 52
+cweave.w:444:20: Null storage passed as non-null param:
+                    id_lookup (..., NULL, ...)
+cweave.w:444:1: Return value (type name_pointer) ignored: id_lookup("expor...
+cweave.w:445:25: Function id_lookup expects arg 3 to be char gets int: 52
+cweave.w:445:20: Null storage passed as non-null param:
+                    id_lookup (..., NULL, ...)
+cweave.w:445:1: Return value (type name_pointer) ignored: id_lookup("exter...
+cweave.w:446:23: Function id_lookup expects arg 3 to be char gets int: 51
+cweave.w:446:18: Null storage passed as non-null param:
+                    id_lookup (..., NULL, ...)
+cweave.w:446:1: Return value (type name_pointer) ignored: id_lookup("FILE"...
+cweave.w:447:24: Function id_lookup expects arg 3 to be char gets int: 0
+cweave.w:447:19: Null storage passed as non-null param:
+                    id_lookup (..., NULL, ...)
+cweave.w:447:1: Return value (type name_pointer) ignored: id_lookup("false...
+cweave.w:448:24: Function id_lookup expects arg 3 to be char gets int: 51
+cweave.w:448:19: Null storage passed as non-null param:
+                    id_lookup (..., NULL, ...)
+cweave.w:448:1: Return value (type name_pointer) ignored: id_lookup("float...
+cweave.w:449:22: Function id_lookup expects arg 3 to be char gets int: 45
+cweave.w:449:17: Null storage passed as non-null param:
+                    id_lookup (..., NULL, ...)
+cweave.w:449:1: Return value (type name_pointer) ignored: id_lookup("for",...
+cweave.w:450:25: Function id_lookup expects arg 3 to be char gets int: 51
+cweave.w:450:20: Null storage passed as non-null param:
+                    id_lookup (..., NULL, ...)
+cweave.w:450:1: Return value (type name_pointer) ignored: id_lookup("fpos_...
+cweave.w:451:25: Function id_lookup expects arg 3 to be char gets int: 52
+cweave.w:451:20: Null storage passed as non-null param:
+                    id_lookup (..., NULL, ...)
+cweave.w:451:1: Return value (type name_pointer) ignored: id_lookup("frien...
+cweave.w:452:23: Function id_lookup expects arg 3 to be char gets int: 53
+cweave.w:452:18: Null storage passed as non-null param:
+                    id_lookup (..., NULL, ...)
+cweave.w:452:1: Return value (type name_pointer) ignored: id_lookup("goto"...
+cweave.w:453:21: Function id_lookup expects arg 3 to be char gets int: 47
+cweave.w:453:16: Null storage passed as non-null param:
+                    id_lookup (..., NULL, ...)
+cweave.w:453:1: Return value (type name_pointer) ignored: id_lookup("if", ...
+cweave.w:454:24: Function id_lookup expects arg 3 to be char gets int: 47
+cweave.w:454:19: Null storage passed as non-null param:
+                    id_lookup (..., NULL, ...)
+cweave.w:454:1: Return value (type name_pointer) ignored: id_lookup("ifdef...
+cweave.w:455:25: Function id_lookup expects arg 3 to be char gets int: 47
+cweave.w:455:20: Null storage passed as non-null param:
+                    id_lookup (..., NULL, ...)
+cweave.w:455:1: Return value (type name_pointer) ignored: id_lookup("ifnde...
+cweave.w:456:26: Function id_lookup expects arg 3 to be char gets int: 47
+cweave.w:456:21: Null storage passed as non-null param:
+                    id_lookup (..., NULL, ...)
+cweave.w:456:1: Return value (type name_pointer) ignored: id_lookup("inclu...
+cweave.w:457:25: Function id_lookup expects arg 3 to be char gets int: 52
+cweave.w:457:20: Null storage passed as non-null param:
+                    id_lookup (..., NULL, ...)
+cweave.w:457:1: Return value (type name_pointer) ignored: id_lookup("inlin...
+cweave.w:458:22: Function id_lookup expects arg 3 to be char gets int: 51
+cweave.w:458:17: Null storage passed as non-null param:
+                    id_lookup (..., NULL, ...)
+cweave.w:458:1: Return value (type name_pointer) ignored: id_lookup("int",...
+cweave.w:459:26: Function id_lookup expects arg 3 to be char gets int: 51
+cweave.w:459:21: Null storage passed as non-null param:
+                    id_lookup (..., NULL, ...)
+cweave.w:459:1: Return value (type name_pointer) ignored: id_lookup("jmp_b...
+cweave.w:460:25: Function id_lookup expects arg 3 to be char gets int: 51
+cweave.w:460:20: Null storage passed as non-null param:
+                    id_lookup (..., NULL, ...)
+cweave.w:460:1: Return value (type name_pointer) ignored: id_lookup("ldiv_...
+cweave.w:461:23: Function id_lookup expects arg 3 to be char gets int: 47
+cweave.w:461:18: Null storage passed as non-null param:
+                    id_lookup (..., NULL, ...)
+cweave.w:461:1: Return value (type name_pointer) ignored: id_lookup("line"...
+cweave.w:462:23: Function id_lookup expects arg 3 to be char gets int: 51
+cweave.w:462:18: Null storage passed as non-null param:
+                    id_lookup (..., NULL, ...)
+cweave.w:462:1: Return value (type name_pointer) ignored: id_lookup("long"...
+cweave.w:463:26: Function id_lookup expects arg 3 to be char gets int: 52
+cweave.w:463:21: Null storage passed as non-null param:
+                    id_lookup (..., NULL, ...)
+cweave.w:463:1: Return value (type name_pointer) ignored: id_lookup("mutab...
+cweave.w:464:28: Function id_lookup expects arg 3 to be char gets int: 55
+cweave.w:464:23: Null storage passed as non-null param:
+                    id_lookup (..., NULL, ...)
+cweave.w:464:1: Return value (type name_pointer) ignored: id_lookup("names...
+cweave.w:465:22: Function id_lookup expects arg 3 to be char gets int: 42
+cweave.w:465:17: Null storage passed as non-null param:
+                    id_lookup (..., NULL, ...)
+cweave.w:465:1: Return value (type name_pointer) ignored: id_lookup("new",...
+cweave.w:466:27: Function id_lookup expects arg 3 to be char gets int: 62
+cweave.w:466:22: Null storage passed as non-null param:
+                    id_lookup (..., NULL, ...)
+cweave.w:466:1: Return value (type name_pointer) ignored: id_lookup("noexc...
+cweave.w:467:22: Function id_lookup expects arg 3 to be char gets int: 22
+cweave.w:467:17: Null storage passed as non-null param:
+                    id_lookup (..., NULL, ...)
+cweave.w:467:1: Return value (type name_pointer) ignored: id_lookup("not",...
+cweave.w:468:25: Function id_lookup expects arg 3 to be char gets int: 22
+cweave.w:468:20: Null storage passed as non-null param:
+                    id_lookup (..., NULL, ...)
+cweave.w:468:1: Return value (type name_pointer) ignored: id_lookup("not_e...
+cweave.w:469:23: Function id_lookup expects arg 3 to be char gets int: 5
+cweave.w:469:18: Null storage passed as non-null param:
+                    id_lookup (..., NULL, ...)
+cweave.w:469:1: Return value (type name_pointer) ignored: id_lookup("NULL"...
+cweave.w:470:26: Function id_lookup expects arg 3 to be char gets int: 5
+cweave.w:470:21: Null storage passed as non-null param:
+                    id_lookup (..., NULL, ...)
+cweave.w:470:1: Return value (type name_pointer) ignored: id_lookup("nullp...
+cweave.w:471:27: Function id_lookup expects arg 3 to be char gets int: 51
+cweave.w:471:22: Null storage passed as non-null param:
+                    id_lookup (..., NULL, ...)
+cweave.w:471:1: Return value (type name_pointer) ignored: id_lookup("offse...
+cweave.w:472:27: Function id_lookup expects arg 3 to be char gets int: 41
+cweave.w:472:22: Null storage passed as non-null param:
+                    id_lookup (..., NULL, ...)
+cweave.w:472:1: Return value (type name_pointer) ignored: id_lookup("opera...
+cweave.w:473:21: Function id_lookup expects arg 3 to be char gets int: 22
+cweave.w:473:16: Null storage passed as non-null param:
+                    id_lookup (..., NULL, ...)
+cweave.w:473:1: Return value (type name_pointer) ignored: id_lookup("or", ...
+cweave.w:474:24: Function id_lookup expects arg 3 to be char gets int: 22
+cweave.w:474:19: Null storage passed as non-null param:
+                    id_lookup (..., NULL, ...)
+cweave.w:474:1: Return value (type name_pointer) ignored: id_lookup("or_eq...
+cweave.w:475:25: Function id_lookup expects arg 3 to be char gets int: 47
+cweave.w:475:20: Null storage passed as non-null param:
+                    id_lookup (..., NULL, ...)
+cweave.w:475:1: Return value (type name_pointer) ignored: id_lookup("pragm...
+cweave.w:476:26: Function id_lookup expects arg 3 to be char gets int: 40
+cweave.w:476:21: Null storage passed as non-null param:
+                    id_lookup (..., NULL, ...)
+cweave.w:476:1: Return value (type name_pointer) ignored: id_lookup("priva...
+cweave.w:477:28: Function id_lookup expects arg 3 to be char gets int: 40
+cweave.w:477:23: Null storage passed as non-null param:
+                    id_lookup (..., NULL, ...)
+cweave.w:477:1: Return value (type name_pointer) ignored: id_lookup("prote...
+cweave.w:478:28: Function id_lookup expects arg 3 to be char gets int: 51
+cweave.w:478:23: Null storage passed as non-null param:
+                    id_lookup (..., NULL, ...)
+cweave.w:478:1: Return value (type name_pointer) ignored: id_lookup("ptrdi...
+cweave.w:479:25: Function id_lookup expects arg 3 to be char gets int: 40
+cweave.w:479:20: Null storage passed as non-null param:
+                    id_lookup (..., NULL, ...)
+cweave.w:479:1: Return value (type name_pointer) ignored: id_lookup("publi...
+cweave.w:480:27: Function id_lookup expects arg 3 to be char gets int: 52
+cweave.w:480:22: Null storage passed as non-null param:
+                    id_lookup (..., NULL, ...)
+cweave.w:480:1: Return value (type name_pointer) ignored: id_lookup("regis...
+cweave.w:481:35: Function id_lookup expects arg 3 to be char gets int: 51
+cweave.w:481:30: Null storage passed as non-null param:
+                    id_lookup (..., NULL, ...)
+cweave.w:481:1: Return value (type name_pointer) ignored: id_lookup("reint...
+cweave.w:482:27: Function id_lookup expects arg 3 to be char gets int: 52
+cweave.w:482:22: Null storage passed as non-null param:
+                    id_lookup (..., NULL, ...)
+cweave.w:482:1: Return value (type name_pointer) ignored: id_lookup("requi...
+cweave.w:483:27: Function id_lookup expects arg 3 to be char gets int: 52
+cweave.w:483:22: Null storage passed as non-null param:
+                    id_lookup (..., NULL, ...)
+cweave.w:483:1: Return value (type name_pointer) ignored: id_lookup("restr...
+cweave.w:484:25: Function id_lookup expects arg 3 to be char gets int: 53
+cweave.w:484:20: Null storage passed as non-null param:
+                    id_lookup (..., NULL, ...)
+cweave.w:484:1: Return value (type name_pointer) ignored: id_lookup("retur...
+cweave.w:485:24: Function id_lookup expects arg 3 to be char gets int: 51
+cweave.w:485:19: Null storage passed as non-null param:
+                    id_lookup (..., NULL, ...)
+cweave.w:485:1: Return value (type name_pointer) ignored: id_lookup("short...
+cweave.w:486:31: Function id_lookup expects arg 3 to be char gets int: 51
+cweave.w:486:26: Null storage passed as non-null param:
+                    id_lookup (..., NULL, ...)
+cweave.w:486:1: Return value (type name_pointer) ignored: id_lookup("sig_a...
+cweave.w:487:25: Function id_lookup expects arg 3 to be char gets int: 51
+cweave.w:487:20: Null storage passed as non-null param:
+                    id_lookup (..., NULL, ...)
+cweave.w:487:1: Return value (type name_pointer) ignored: id_lookup("signe...
+cweave.w:488:25: Function id_lookup expects arg 3 to be char gets int: 51
+cweave.w:488:20: Null storage passed as non-null param:
+                    id_lookup (..., NULL, ...)
+cweave.w:488:1: Return value (type name_pointer) ignored: id_lookup("size_...
+cweave.w:489:25: Function id_lookup expects arg 3 to be char gets int: 54
+cweave.w:489:20: Null storage passed as non-null param:
+                    id_lookup (..., NULL, ...)
+cweave.w:489:1: Return value (type name_pointer) ignored: id_lookup("sizeo...
+cweave.w:490:25: Function id_lookup expects arg 3 to be char gets int: 52
+cweave.w:490:20: Null storage passed as non-null param:
+                    id_lookup (..., NULL, ...)
+cweave.w:490:1: Return value (type name_pointer) ignored: id_lookup("stati...
+cweave.w:491:32: Function id_lookup expects arg 3 to be char gets int: 54
+cweave.w:491:27: Null storage passed as non-null param:
+                    id_lookup (..., NULL, ...)
+cweave.w:491:1: Return value (type name_pointer) ignored: id_lookup("stati...
+cweave.w:492:30: Function id_lookup expects arg 3 to be char gets int: 51
+cweave.w:492:25: Null storage passed as non-null param:
+                    id_lookup (..., NULL, ...)
+cweave.w:492:1: Return value (type name_pointer) ignored: id_lookup("stati...
+cweave.w:493:25: Function id_lookup expects arg 3 to be char gets int: 55
+cweave.w:493:20: Null storage passed as non-null param:
+                    id_lookup (..., NULL, ...)
+cweave.w:493:1: Return value (type name_pointer) ignored: id_lookup("struc...
+cweave.w:494:25: Function id_lookup expects arg 3 to be char gets int: 45
+cweave.w:494:20: Null storage passed as non-null param:
+                    id_lookup (..., NULL, ...)
+cweave.w:494:1: Return value (type name_pointer) ignored: id_lookup("switc...
+cweave.w:495:27: Function id_lookup expects arg 3 to be char gets int: 58
+cweave.w:495:22: Null storage passed as non-null param:
+                    id_lookup (..., NULL, ...)
+cweave.w:495:1: Return value (type name_pointer) ignored: id_lookup("templ...
+cweave.w:496:23: Function id_lookup expects arg 3 to be char gets int: 5
+cweave.w:496:18: Null storage passed as non-null param:
+                    id_lookup (..., NULL, ...)
+cweave.w:496:1: Return value (type name_pointer) ignored: id_lookup("this"...
+cweave.w:497:31: Function id_lookup expects arg 3 to be char gets int: 51
+cweave.w:497:26: Null storage passed as non-null param:
+                    id_lookup (..., NULL, ...)
+cweave.w:497:1: Return value (type name_pointer) ignored: id_lookup("threa...
+cweave.w:498:24: Function id_lookup expects arg 3 to be char gets int: 53
+cweave.w:498:19: Null storage passed as non-null param:
+                    id_lookup (..., NULL, ...)
+cweave.w:498:1: Return value (type name_pointer) ignored: id_lookup("throw...
+cweave.w:499:25: Function id_lookup expects arg 3 to be char gets int: 51
+cweave.w:499:20: Null storage passed as non-null param:
+                    id_lookup (..., NULL, ...)
+cweave.w:499:1: Return value (type name_pointer) ignored: id_lookup("time_...
+cweave.w:500:23: Function id_lookup expects arg 3 to be char gets int: 0
+cweave.w:500:18: Null storage passed as non-null param:
+                    id_lookup (..., NULL, ...)
+cweave.w:500:1: Return value (type name_pointer) ignored: id_lookup("true"...
+cweave.w:501:22: Function id_lookup expects arg 3 to be char gets int: 26
+cweave.w:501:17: Null storage passed as non-null param:
+                    id_lookup (..., NULL, ...)
+cweave.w:501:1: Return value (type name_pointer) ignored: id_lookup("try",...
+cweave.w:502:26: Function id_lookup expects arg 3 to be char gets int: 56
+cweave.w:502:21: Null storage passed as non-null param:
+                    id_lookup (..., NULL, ...)
+cweave.w:502:1: Return value (type name_pointer) ignored: id_lookup("typed...
+cweave.w:503:25: Function id_lookup expects arg 3 to be char gets int: 54
+cweave.w:503:20: Null storage passed as non-null param:
+                    id_lookup (..., NULL, ...)
+cweave.w:503:1: Return value (type name_pointer) ignored: id_lookup("typei...
+cweave.w:504:27: Function id_lookup expects arg 3 to be char gets int: 55
+cweave.w:504:22: Null storage passed as non-null param:
+                    id_lookup (..., NULL, ...)
+cweave.w:504:1: Return value (type name_pointer) ignored: id_lookup("typen...
+cweave.w:505:24: Function id_lookup expects arg 3 to be char gets int: 47
+cweave.w:505:19: Null storage passed as non-null param:
+                    id_lookup (..., NULL, ...)
+cweave.w:505:1: Return value (type name_pointer) ignored: id_lookup("undef...
+cweave.w:506:24: Function id_lookup expects arg 3 to be char gets int: 55
+cweave.w:506:19: Null storage passed as non-null param:
+                    id_lookup (..., NULL, ...)
+cweave.w:506:1: Return value (type name_pointer) ignored: id_lookup("union...
+cweave.w:507:27: Function id_lookup expects arg 3 to be char gets int: 51
+cweave.w:507:22: Null storage passed as non-null param:
+                    id_lookup (..., NULL, ...)
+cweave.w:507:1: Return value (type name_pointer) ignored: id_lookup("unsig...
+cweave.w:508:24: Function id_lookup expects arg 3 to be char gets int: 60
+cweave.w:508:19: Null storage passed as non-null param:
+                    id_lookup (..., NULL, ...)
+cweave.w:508:1: Return value (type name_pointer) ignored: id_lookup("using...
+cweave.w:509:25: Function id_lookup expects arg 3 to be char gets int: 20
+cweave.w:509:20: Null storage passed as non-null param:
+                    id_lookup (..., NULL, ...)
+cweave.w:509:1: Return value (type name_pointer) ignored: id_lookup("va_dc...
+cweave.w:510:26: Function id_lookup expects arg 3 to be char gets int: 51
+cweave.w:510:21: Null storage passed as non-null param:
+                    id_lookup (..., NULL, ...)
+cweave.w:510:1: Return value (type name_pointer) ignored: id_lookup("va_li...
+cweave.w:511:26: Function id_lookup expects arg 3 to be char gets int: 52
+cweave.w:511:21: Null storage passed as non-null param:
+                    id_lookup (..., NULL, ...)
+cweave.w:511:1: Return value (type name_pointer) ignored: id_lookup("virtu...
+cweave.w:512:23: Function id_lookup expects arg 3 to be char gets int: 51
+cweave.w:512:18: Null storage passed as non-null param:
+                    id_lookup (..., NULL, ...)
+cweave.w:512:1: Return value (type name_pointer) ignored: id_lookup("void"...
+cweave.w:513:27: Function id_lookup expects arg 3 to be char gets int: 50
+cweave.w:513:22: Null storage passed as non-null param:
+                    id_lookup (..., NULL, ...)
+cweave.w:513:1: Return value (type name_pointer) ignored: id_lookup("volat...
+cweave.w:514:26: Function id_lookup expects arg 3 to be char gets int: 51
+cweave.w:514:21: Null storage passed as non-null param:
+                    id_lookup (..., NULL, ...)
+cweave.w:514:1: Return value (type name_pointer) ignored: id_lookup("wchar...
+cweave.w:515:24: Function id_lookup expects arg 3 to be char gets int: 45
+cweave.w:515:19: Null storage passed as non-null param:
+                    id_lookup (..., NULL, ...)
+cweave.w:515:1: Return value (type name_pointer) ignored: id_lookup("while...
+cweave.w:516:22: Function id_lookup expects arg 3 to be char gets int: 22
+cweave.w:516:17: Null storage passed as non-null param:
+                    id_lookup (..., NULL, ...)
+cweave.w:516:1: Return value (type name_pointer) ignored: id_lookup("xor",...
+cweave.w:517:25: Function id_lookup expects arg 3 to be char gets int: 22
+cweave.w:517:20: Null storage passed as non-null param:
+                    id_lookup (..., NULL, ...)
+cweave.w:517:1: Return value (type name_pointer) ignored: id_lookup("xor_e...
+cweave.w:518:22: Function id_lookup expects arg 3 to be char gets int: 5
+cweave.w:518:17: Null storage passed as non-null param:
+                    id_lookup (..., NULL, ...)
+cweave.w:518:1: Return value (type name_pointer) ignored: id_lookup("TeX",...
+cweave.w:519:26: Function id_lookup expects arg 3 to be char gets int: 52
+cweave.w:519:21: Null storage passed as non-null param:
+                    id_lookup (..., NULL, ...)
+cweave.w:519:1: Return value (type name_pointer) ignored: id_lookup("compl...
+cweave.w:520:28: Function id_lookup expects arg 3 to be char gets int: 52
+cweave.w:520:23: Null storage passed as non-null param:
+                    id_lookup (..., NULL, ...)
+cweave.w:520:1: Return value (type name_pointer) ignored: id_lookup("imagi...
+cweave.w:521:28: Function id_lookup expects arg 3 to be char gets int: 4
+cweave.w:521:23: Null storage passed as non-null param:
+                    id_lookup (..., NULL, ...)
+cweave.w:521:1: Return value (type name_pointer) ignored: id_lookup("make_...
+cweave.w:103:17: Array fetch using non-integer, char: flags['p']
+cweave.w:103:28: Return value (type int) ignored: putchar('\n')
+cweave.w: (in function new_xref)
+cweave.w:266:6: Array fetch using non-integer, char: flags['x']
+cweave.w:267:23: Operands of >= have incompatible types (char, int):
+                    (p)->dummy.Ilk >= 5
+cweave.w:276:81: Implicitly only storage xref_ptr->xlink (type struct xref_info
+    *) not released before assignment (q aliases p->equiv_or_xref):
+    xref_ptr->xlink = q
+  A memory leak has been detected. Only-qualified storage is not released
+  before the last reference to it is lost. (Use -mustfreeonly to inhibit
+  warning)
+cweave.w:276:100: Unqualified static storage (void *)xref_ptr assigned to
+                     implicitly only: (p)->equiv_or_xref = (void *)xref_ptr
+  Static storage is transferred in an inconsistent way. (Use -statictrans to
+  inhibit warning)
+cweave.w:277:2: Last reference q to implicitly only storage p->equiv_or_xref
+                   not released before return
+   cweave.w:276:100: Original reference lost
+cweave.w:277:2: Function returns with global xref_ptr referencing kept storage
+  A global variable does not satisfy its annotations when control is
+  transferred. (Use -globstate to inhibit warning)
+   cweave.w:276:100: Storage xref_ptr becomes kept
+cweave.w: (in function new_section_xref)
+cweave.w:302:1: Implicitly only storage xref_ptr->xlink (type struct xref_info
+    *) not released before assignment (q aliases p->equiv_or_xref):
+    xref_ptr->xlink = q
+cweave.w:303:12: Unqualified static storage (void *)xref_ptr assigned to
+                    implicitly only: (p)->equiv_or_xref = (void *)xref_ptr
+   cweave.w:276:100: Storage xref_ptr becomes kept
+cweave.w:304:6: Implicitly only storage r->xlink (type struct xref_info *) not
+                   released before assignment: r->xlink = xref_ptr
+cweave.w:304:6: Unqualified static storage xref_ptr assigned to implicitly
+                   only: r->xlink = xref_ptr
+   cweave.w:276:100: Storage xref_ptr becomes kept
+cweave.w:304:6: Clauses exit with p->equiv_or_xref referencing implicitly only
+                   storage in true branch, kept storage in false branch
+  The state of a variable is different depending on which branch is taken. This
+  means no annotation can sensibly be applied to the storage. (Use -branchstate
+  to inhibit warning)
+   cweave.w:302:1: Storage p->equiv_or_xref becomes kept
+   cweave.w:302:1: Storage p->equiv_or_xref becomes kept
+cweave.w:305:2: Last reference q to implicitly only storage p->equiv_or_xref
+                   not released before return
+   cweave.w:303:12: Original reference lost
+cweave.w:305:2: Storage p->equiv_or_xref reachable from parameter is
+                   unqualified (should be implicitly only)
+  Storage derivable from a parameter does not match the alias kind expected for
+  the formal parameter. (Use -compmempass to inhibit warning)
+   cweave.w:302:1: Storage p->equiv_or_xref becomes kept
+cweave.w:305:2: Function returns with global xref_ptr referencing kept storage
+   cweave.w:304:6: Storage xref_ptr becomes kept
+cweave.w: (in function set_file_flag)
+cweave.w:318:1: Implicitly only storage xref_ptr->xlink (type struct xref_info
+    *) not released before assignment (q aliases p->equiv_or_xref):
+    xref_ptr->xlink = q
+cweave.w:319:1: Unqualified static storage (void *)xref_ptr assigned to
+                   implicitly only: (p)->equiv_or_xref = (void *)xref_ptr
+   cweave.w:304:6: Storage xref_ptr becomes kept
+cweave.w:320:2: Last reference q to implicitly only storage p->equiv_or_xref
+                   not released before return
+   cweave.w:319:1: Original reference lost
+cweave.w:320:2: Function returns with global xref_ptr referencing kept storage
+   cweave.w:319:1: Storage xref_ptr becomes kept
+cweave.w: (in function names_match)
+cweave.w:367:4: Operands of != have incompatible types (char, eight_bits):
+                   p->dummy.Ilk != t
+cweave.w:367:30: Operands of > have incompatible types (char, int):
+                    (p)->dummy.Ilk > 3
+cweave.w:368:8: Operand of ! is non-boolean (int):
+                   !strncmp(first, p->byte_start, l)
+  The operand of a boolean operator is not a boolean. Use +ptrnegate to allow !
+  to be used on pointers. (Use -boolops to inhibit warning)
+cweave.w: (in function init_p)
+cweave.w:376:1: Assignment of eight_bits to char: p->dummy.Ilk = t
+cweave.w: (in function init_node)
+cweave.w:383:1: Implicitly only storage p->equiv_or_xref (type void *) not
+                   released before assignment: p->equiv_or_xref = (void *)xmem
+cweave.w:383:1: Unqualified static storage (void *)xmem assigned to implicitly
+                   only: p->equiv_or_xref = (void *)xmem
+cweave.w:384:2: Function returns with global xmem referencing kept storage
+   cweave.w:383:1: Storage xmem becomes kept
+cweave.w: (in function skip_limbo)
+cweave.w:1263:32: Function id_lookup expects arg 3 to be char gets int: 0
+cweave.w:1263:1: Only storage assigned to unqualified static:
+                    lhs = id_lookup(id_first, id_loc, 0)
+  The only reference to this storage is transferred to another reference (e.g.,
+  by returning it) that does not have the only annotation. This may lead to a
+  memory leak, since the new reference is not necessarily released. (Use
+  -onlytrans to inhibit warning)
+cweave.w:1268:32: Function id_lookup expects arg 3 to be char gets int: 0
+cweave.w:1268:1: Only storage assigned to unqualified static:
+                    rhs = id_lookup(id_first, id_loc, 0)
+cweave.w: (in function skip_TeX)
+cweave.w:653:22: Return value type char does not match declared type
+                    eight_bits: '|'
+cweave.w: (in function get_next)
+cweave.w:713:1: Assignment of char to eight_bits: c = *(loc++)
+cweave.w:714:13: Function isdigit expects arg 1 to be int gets eight_bits:
+                    (eight_bits)(c)
+cweave.w:714:62: Operands of == have incompatible types (eight_bits, char):
+                    c == '.'
+cweave.w:839:29: Function isdigit expects arg 1 to be int gets eight_bits:
+                    (eight_bits)(*loc)
+cweave.w:867:18: Function isxdigit expects arg 1 to be int gets eight_bits:
+                    (eight_bits)(*loc)
+cweave.w:843:18: Function isdigit expects arg 1 to be int gets eight_bits:
+                    (eight_bits)(*loc)
+cweave.w:878:32: Function isdigit expects arg 1 to be int gets eight_bits:
+                    (eight_bits)(*loc)
+cweave.w:846:17: Function isdigit expects arg 1 to be int gets eight_bits:
+                    (eight_bits)(*loc)
+cweave.w:856:17: Function isdigit expects arg 1 to be int gets eight_bits:
+                    (eight_bits)(*loc)
+cweave.w:860:35: Function toupper expects arg 1 to be int gets eight_bits:
+                    (eight_bits)*loc
+cweave.w:715:9: Operands of == have incompatible types (eight_bits, char):
+                   c == '\''
+cweave.w:715:18: Operands of == have incompatible types (eight_bits, char):
+                    c == '"'
+cweave.w:716:5: Operands of == have incompatible types (eight_bits, char):
+                   c == 'L'
+cweave.w:716:13: Operands of == have incompatible types (eight_bits, char):
+                    c == 'u'
+cweave.w:716:21: Operands of == have incompatible types (eight_bits, char):
+                    c == 'U'
+cweave.w:717:5: Operands of == have incompatible types (eight_bits, char):
+                   c == 'u'
+cweave.w:718:4: Operands of == have incompatible types (eight_bits, char):
+                   c == '<'
+cweave.w:718:12: Use of == with boolean variables (risks inconsistency because
+                    of multiple true values): sharp_include_line == true
+  Two bool values are compared directly using a C primitive. This may produce
+  unexpected results since all non-zero values are considered true, so
+  different true values may not be equal. The file bool.h (included in
+  splint/lib) provides bool_equal for safe bool comparisons. (Use -boolcompare
+  to inhibit warning)
+cweave.w:888:13: Variable delim initialized to type eight_bits, expects char: c
+cweave.w:907:5: Assignment of char to eight_bits: c = *loc++
+cweave.w:907:4: Operands of == have incompatible types (eight_bits, char):
+                   (c = *loc++) == delim
+cweave.w:908:31: Assignment of eight_bits to char: *id_loc = c
+cweave.w:911:4: Operands of == have incompatible types (eight_bits, char):
+                   c == '\\'
+cweave.w:915:15: Assignment of char to eight_bits: c = *loc++
+cweave.w:919:31: Assignment of eight_bits to char: *id_loc = c
+cweave.w:922:1: Return value (type int) ignored: fputs("\n! Strin...
+cweave.w:720:17: Function isalpha expects arg 1 to be int gets eight_bits: c
+cweave.w:720:22: Operands of == have incompatible types (eight_bits, char):
+                    (c) == '_'
+cweave.w:720:33: Operands of == have incompatible types (eight_bits, char):
+                    (c) == '$'
+cweave.w:814:15: Function isalpha expects arg 1 to be int gets eight_bits:
+                    (eight_bits)*loc
+cweave.w:814:42: Function isdigit expects arg 1 to be int gets eight_bits:
+                    (eight_bits)*loc
+cweave.w:815:4: Operands of == have incompatible types (eight_bits, char):
+                   ((eight_bits)*loc) == '_'
+cweave.w:815:30: Operands of == have incompatible types (eight_bits, char):
+                    ((eight_bits)*loc) == '$'
+cweave.w:722:9: Operands of == have incompatible types (eight_bits, char):
+                   c == '@'
+cweave.w:940:27: Assignment of char to eight_bits: c = *loc++
+cweave.w:944:20: Incompatible types for - (eight_bits, char): c - '0'
+  A character constant is used as an int. Use +charintliteral to allow
+  character constants to be used as ints.  (This is safe since the actual type
+  of a char constant is int.)
+cweave.w:983:1: Assignment of char to eight_bits: c = *loc
+cweave.w:1000:4: Operands of == have incompatible types (eight_bits, char):
+                    c == '@'
+cweave.w:1001:1: Assignment of char to eight_bits: c = *(loc + 1)
+cweave.w:1002:4: Operands of == have incompatible types (eight_bits, char):
+                    c == '>'
+cweave.w:1009:4: Operands of != have incompatible types (eight_bits, char):
+                    c != '@'
+cweave.w:986:13: Function isspace expects arg 1 to be int gets eight_bits:
+                    (eight_bits)(c)
+cweave.w:987:1: Assignment of char to eight_bits: c = ' '
+cweave.w:989:1: Assignment of eight_bits to char: *k = c
+cweave.w:992:1: Return value (type int) ignored: fputs("\n! Secti...
+cweave.w:962:1: Only storage assigned to unqualified static:
+                   cur_section = section_lookup(section_text + 1, k - 3, true)
+cweave.w:964:6: Only storage assigned to unqualified static:
+                   cur_section = section_lookup(section_text + 1, k, false)
+cweave.w:907:4: Incompatible types for == (eight_bits, char):
+                   (c = *loc++) == delim
+cweave.w:911:4: Incompatible types for == (eight_bits, char): c == '\\'
+cweave.w:951:9: Fall through case (no preceding break)
+  Execution falls through from the previous case (use /*@fallthrough@*/ to mark
+  fallthrough cases). (Use -casebreak to inhibit warning)
+cweave.w:723:18: Function isspace expects arg 1 to be int gets eight_bits:
+                    (eight_bits)(c)
+cweave.w:724:4: Operands of == have incompatible types (eight_bits, char):
+                   c == '#'
+cweave.w:763:35: Function isspace expects arg 1 to be int gets eight_bits:
+                    (eight_bits)(*loc)
+cweave.w:787:47: Return value type char does not match declared type
+                    eight_bits: '\t'
+cweave.w:728:2: Path with no return in function declared to return eight_bits
+  There is a path through a function declared to return a value on which there
+  is no return statement. This means the execution may fall through without
+  returning a meaningful result to the caller. (Use -noret to inhibit warning)
+cweave.w: (in function phase_one)
+cweave.w:1087:19: Array fetch using non-integer, char: flags['p']
+cweave.w:1088:14: Format argument 1 to printf (%d) expects int gets
+                     sixteen_bits: section_count
+  To allow arbitrary integral types to match any integral type, use
+  +matchanyintegral.
+   cweave.w:1088:11: Corresponding format code
+cweave.w:1089:1: Return value (type int) ignored: fflush(stdout)
+cweave.w:1176:11: Assignment of char to int: tracing = *(loc - 1) - '0'
+cweave.w:1183:36: Function id_lookup expects arg 3 to be char gets arbitrary
+                     unsigned integral type: next_control - 0202
+cweave.w:1183:10: New fresh storage (type name_pointer) passed as implicitly
+    temp (not released): id_lookup(id_first, id_loc, next_control - 0202)
+  A memory leak has been detected. Storage allocated locally is not released
+  before the last reference to it is lost. (Use -mustfreefresh to inhibit
+  warning)
+cweave.w:1236:32: Function id_lookup expects arg 3 to be char gets int: 0
+cweave.w:1236:1: Only storage assigned to unqualified static:
+                    lhs = id_lookup(id_first, id_loc, 0)
+cweave.w:1236:35: Assignment of int to char: lhs->dummy.Ilk = 0
+cweave.w:1237:4: Test expression for if not boolean, type sixteen_bits:
+                    xref_switch
+  Test expression type is not boolean or int. (Use -predboolint to inhibit
+  warning)
+cweave.w:1240:32: Function id_lookup expects arg 3 to be char gets int: 0
+cweave.w:1240:1: Only storage assigned to unqualified static:
+                    rhs = id_lookup(id_first, id_loc, 0)
+cweave.w:1242:24: Operands of >= have incompatible types (char, int):
+                     (lhs)->dummy.Ilk >= 5
+cweave.w:1246:6: Implicitly only storage r->xlink (type struct xref_info *) not
+                    released before assignment: r->xlink = q->xlink
+cweave.w:1247:6: Storage lhs->equiv_or_xref->xlink is kept in one path, but
+                    live in another.
+   cweave.w:1246:6: Storage lhs->equiv_or_xref->xlink becomes kept
+cweave.w:1247:6: Clauses exit with q referencing local storage in true branch,
+                    implicitly only storage in false branch
+   cweave.w:1247:6: Storage q becomes implicitly only (through alias
+   lhs->equiv_or_xref)
+cweave.w:1248:6: Storage q->xlink is kept in one path, but live in another.
+   cweave.w:1247:6: Storage q->xlink becomes kept
+cweave.w:1329:23: Arrow access of non-pointer (name_info []): name_dir->dummy
+cweave.w: (in function C_xref)
+cweave.w:1130:36: Function id_lookup expects arg 3 to be char gets arbitrary
+                     unsigned integral type: next_control - 0202
+cweave.w:1130:10: New fresh storage (type name_pointer) passed as implicitly
+    temp (not released): id_lookup(id_first, id_loc, next_control - 0202)
+cweave.w:1137:4: Operands of == have incompatible types (eight_bits, char):
+                    next_control == '|'
+cweave.w:1137:23: Operands of == have incompatible types (eight_bits, char):
+                     next_control == '\t'
+cweave.w: (in function outer_xref)
+cweave.w:1152:4: Operands of != have incompatible types (eight_bits, char):
+                    next_control != '\t'
+cweave.w:1155:27: Operands of == have incompatible types (eight_bits, char):
+                     next_control == '\t'
+cweave.w:1156:38: Assignment of char to eight_bits: next_control = '|'
+cweave.w:1159:4: Operands of == have incompatible types (eight_bits, char):
+                    next_control == '|'
+cweave.w: (in function section_check)
+cweave.w:1310:1: Only storage p->equiv_or_xref assigned to unqualified static:
+                    cur_xref = (xref_pointer)p->equiv_or_xref
+cweave.w:1311:4: Use of == with boolean variables (risks inconsistency because
+    of multiple true values): (an_output = (cur_xref->num == (3 * 10240))) ==
+    true
+cweave.w:1311:50: Only storage cur_xref->xlink assigned to unqualified static:
+                     cur_xref = cur_xref->xlink
+cweave.w:1313:1: Return value (type int) ignored: fputs("\n! Never...
+cweave.w:1314:23: Return value (type int) ignored: putchar('>')
+cweave.w:1317:28: Only storage cur_xref->xlink assigned to unqualified static:
+                     cur_xref = cur_xref->xlink
+cweave.w:1319:1: Return value (type int) ignored: fputs("\n! Never...
+cweave.w:1320:23: Return value (type int) ignored: putchar('>')
+cweave.w: (in function flush_buffer)
+cweave.w:1374:13: Return value (type int) ignored: putc('%', active...
+cweave.w:1375:1: Return value (type int) ignored: putc('\n', activ...
+cweave.w:1381:21: Parameter 1 (out_buf + 1) to function memcpy is declared
+    unique but may be aliased externally by parameter 2 (b + 1)
+  A unique or only parameter may be aliased by some other parameter or visible
+  global. (Use -mayaliasunique to inhibit warning)
+cweave.w: (in function finish_line)
+cweave.w:1401:15: Function isspace expects arg 1 to be int gets eight_bits:
+                     (eight_bits)(*k)
+cweave.w: (in function out_str)
+cweave.w:1434:7: Test expression for while not boolean, type char: *s
+  Test expression type is not boolean. (Use -predboolothers to inhibit warning)
+cweave.w: (in function break_out)
+cweave.w:1474:1: Return value (type int) ignored: putchar('\n')
+cweave.w: (in function out_section)
+cweave.w:1493:1: Buffer overflow possible with sprintf.  Recommend using
+                    snprintf instead: sprintf
+  Use of function that may lead to buffer overflow. (Use -bufferoverflowhigh to
+  inhibit warning)
+cweave.w:1493:16: Format argument 1 to sprintf (%d) expects int gets
+                     sixteen_bits: n
+   cweave.w:1493:13: Corresponding format code
+cweave.w: (in function copy_limbo)
+cweave.w:1551:31: Return value (type eight_bits) ignored: get_next()
+cweave.w:1552:15: Return value (type boolean) ignored: get_line()
+  Result returned by function call is not used. If this is intended, can cast
+  result to (void) to eliminate message. (Use -retvalbool to inhibit warning)
+cweave.w: (in function copy_TeX)
+cweave.w:1579:34: Function isspace expects arg 1 to be int gets eight_bits:
+                     (eight_bits)(c)
+cweave.w:1581:17: Return value type char does not match declared type
+                     eight_bits: '|'
+cweave.w: (in function copy_comment)
+cweave.w:1623:49: Assignment of char to token: *(tok_ptr++) = c
+cweave.w:1651:21: Assignment of char to token: *(tok_ptr - 1) = ' '
+cweave.w:1655:61: Assignment of char to token: *(tok_ptr++) = *(loc++)
+cweave.w:1663:76: Assignment of char to token: *(tok_ptr++) = '}'
+cweave.w: (in function print_text)
+cweave.w:2235:55: Arrow access of non-pointer (name_info []):
+                     ((name_dir + r))->byte_start
+cweave.w:2235:109: Arrow access of non-pointer (name_info []):
+                      ((name_dir + r) + 1)->byte_start
+cweave.w:2235:137: Arrow access of non-pointer (name_info []):
+                      ((name_dir + r))->byte_start
+cweave.w:2235:160: Return value (type int) ignored: putchar('}')
+cweave.w:2238:54: Arrow access of non-pointer (name_info []):
+                     ((name_dir + r))->byte_start
+cweave.w:2238:108: Arrow access of non-pointer (name_info []):
+                      ((name_dir + r) + 1)->byte_start
+cweave.w:2238:136: Arrow access of non-pointer (name_info []):
+                      ((name_dir + r))->byte_start
+cweave.w:2238:159: Return value (type int) ignored: putchar('}')
+cweave.w:2241:1: Return value (type int) ignored: putchar('<')
+cweave.w:2241:47: Return value (type int) ignored: putchar('>')
+cweave.w:2243:32: Format argument 1 to printf (%d) expects int gets
+                     sixteen_bits: r
+   cweave.w:2243:27: Corresponding format code
+cweave.w:2244:34: Format argument 1 to printf (%d) expects int gets
+                     sixteen_bits: r
+   cweave.w:2244:28: Corresponding format code
+cweave.w:2270:17: Function putchar expects arg 1 to be int gets sixteen_bits: r
+cweave.w:2270:9: Return value (type int) ignored: putchar(r)
+cweave.w:2248:1: Return value (type int) ignored: fflush(stdout)
+cweave.w: (in function app_str)
+cweave.w:2364:7: Test expression for while not boolean, type char: *s
+cweave.w:2364:58: Assignment of char to token: *(tok_ptr++) = *s++
+cweave.w: (in function big_app)
+cweave.w:2371:4: Operands of == have incompatible types (token, char): a == ' '
+cweave.w: (in function big_app1)
+cweave.w:2392:1: Assignment of arbitrary unsigned integral type to int:
+                    cur_mathness = a->mathness / 4
+cweave.w:2397:1: Assignment of arbitrary unsigned integral type to int:
+                    cur_mathness = a->mathness / 4
+cweave.w: (in function find_first_ident)
+cweave.w:2535:4: Operands of == have incompatible types (char, int):
+                    name_dir[r].dummy.Ilk == 53
+cweave.w:2536:4: Operands of == have incompatible types (char, int):
+                    name_dir[r].dummy.Ilk == 41
+cweave.w:2537:4: Operands of != have incompatible types (char, int):
+                    name_dir[r].dummy.Ilk != 51
+cweave.w:2538:6: Fall through case (no preceding break)
+cweave.w:2538:17: Released storage *p reachable from parameter at return point
+  Memory is used after it has been released (either by passing as an only param
+  or assigning to an only global). (Use -usereleased to inhibit warning)
+   cweave.w:2538:15: Storage *p released
+cweave.w:2542:9: Fall through case (no preceding break)
+cweave.w:2543:20: Null storage returned as non-null: (token_pointer)0
+  Function returns a possibly null pointer, but is not declared using
+  /*@null@*/ annotation of result.  If function may return NULL, add /*@null@*/
+  annotation to the return value declaration. (Use -nullret to inhibit warning)
+cweave.w:2547:8: Null storage returned as non-null: (token_pointer)0
+cweave.w: (in function make_reserved)
+cweave.w:2562:8: Fresh storage tok_loc not released before return
+   cweave.w:2561:5: Fresh storage tok_loc created
+cweave.w:2565:4: Operands of == have incompatible types (eight_bits, [function
+                    (double) returns double]): p->cat == exp
+cweave.w:2570:43: Arrow access of non-pointer (name_info []):
+                     (name_dir + (sixteen_bits)(tok_value % 10240))->dummy
+cweave.w:2572:2: Fresh storage tok_loc not released before return
+   cweave.w:2561:5: Fresh storage tok_loc created
+cweave.w: (in function make_underlined)
+cweave.w:2591:8: Fresh storage tok_loc not released before return
+   cweave.w:2590:5: Fresh storage tok_loc created
+cweave.w:2593:16: Incompatible types for + (token, name_info []):
+                     *tok_loc % 10240 + name_dir
+cweave.w:2594:2: Fresh storage tok_loc not released before return
+   cweave.w:2590:5: Fresh storage tok_loc created
+cweave.w: (in function underline_xref)
+cweave.w:2610:6: Array fetch using non-integer, char: flags['x']
+cweave.w:2633:1: Implicitly only storage xref_ptr->xlink (type struct xref_info
+    *) not released before assignment: xref_ptr->xlink = (xref_pointer)p->equiv_
+    or_xref
+cweave.w:2634:1: Unqualified static storage (void *)xref_ptr assigned to
+                    implicitly only: (p)->equiv_or_xref = (void *)xref_ptr
+   cweave.w:319:1: Storage xref_ptr becomes kept
+cweave.w:2636:1: Variable r used in inconsistent state
+  An rvalue is used that may not be initialized to a value on some execution
+  path. (Use -usedef to inhibit warning)
+   cweave.w:2635:54: Storage r becomes inconsistent (released on one branch)
+cweave.w:2622:2: Function returns with global xref_ptr referencing kept storage
+   cweave.w:2634:1: Storage xref_ptr becomes kept
+cweave.w: (in function reduce)
+cweave.w:3195:11: Unqualified static storage text_ptr assigned to implicitly
+                     only: j->trans_plus.Trans = text_ptr
+cweave.w:3196:1: Assignment of int to eight_bits:
+                    j->mathness = 4 * cur_mathness + init_mathness
+cweave.w:3202:1: Clauses exit with i1->trans_plus.Trans referencing kept
+    storage in for body, implicitly only storage if for loop body does not
+    execute
+   cweave.w:3200:17: Storage i1->trans_plus.Trans becomes kept
+cweave.w:3202:1: Clauses exit with i->trans_plus.Trans referencing kept storage
+    in for body, implicitly only storage if for loop body does not execute
+   cweave.w:3200:17: Storage i->trans_plus.Trans becomes kept
+cweave.w:3202:1: Clauses exit with j->trans_plus.Trans referencing kept storage
+    in for body, implicitly only storage if for loop body does not execute
+   cweave.w:3200:17: Storage j->trans_plus.Trans becomes kept
+cweave.w:3286:15: Variable k shadows outer declaration
+  An outer declaration is shadowed by the local declaration. (Use -shadow to
+  inhibit warning)
+   cweave.w:3190:23: Previous declaration of k: short int
+cweave.w:3289:10: Return value (type int) ignored: putchar('*')
+cweave.w:3289:28: Return value (type int) ignored: putchar(' ')
+cweave.w:3290:21: Return value (type int) ignored: putchar('+')
+cweave.w:3291:26: Return value (type int) ignored: putchar('-')
+cweave.w:3292:1: Return value (type int) ignored: fputs(cat_name[(...
+cweave.w:3293:21: Return value (type int) ignored: putchar('+')
+cweave.w:3294:26: Return value (type int) ignored: putchar('-')
+cweave.w:3208:2: Function returns with global text_ptr referencing kept storage
+   cweave.w:3195:11: Storage text_ptr becomes kept
+cweave.w: (in function translate)
+cweave.w:2428:28: Function squash expects arg 3 to be eight_bits gets [function
+                     (double) returns double]: exp
+cweave.w:2648:37: Function squash expects arg 3 to be eight_bits gets [function
+                     (double) returns double]: exp
+cweave.w:2649:45: Operands of == have incompatible types (eight_bits, [function
+                     (double) returns double]): (pp + 2)->cat == exp
+cweave.w:2650:13: Function squash expects arg 3 to be eight_bits gets [function
+                     (double) returns double]: exp
+cweave.w:2651:27: Operands of == have incompatible types (eight_bits, [function
+                     (double) returns double]): (pp + 2)->cat == exp
+cweave.w:2653:89: Function reduce expects arg 3 to be eight_bits gets [function
+                     (double) returns double]: exp
+cweave.w:2663:25: Function big_app expects arg 1 to be token gets char: ' '
+cweave.w:2666:25: Function big_app expects arg 1 to be token gets char: ' '
+cweave.w:2668:9: Operands of == have incompatible types (eight_bits, [function
+                    (double) returns double]): (pp + 1)->cat == exp
+cweave.w:2668:56: Function squash expects arg 3 to be eight_bits gets [function
+                     (double) returns double]: exp
+cweave.w:2670:23: Function big_app expects arg 1 to be token gets char: ' '
+cweave.w:2670:57: Function reduce expects arg 3 to be eight_bits gets [function
+                     (double) returns double]: exp
+cweave.w:2675:5: Operands of == have incompatible types (eight_bits, [function
+                    (double) returns double]): (pp + 1)->cat == exp
+cweave.w:2675:71: Function squash expects arg 3 to be eight_bits gets [function
+                     (double) returns double]: exp
+cweave.w:2679:13: Function reduce expects arg 3 to be eight_bits gets [function
+                     (double) returns double]: exp
+cweave.w:2683:45: Operands of == have incompatible types (eight_bits, [function
+                     (double) returns double]): (pp + 1)->cat == exp
+cweave.w:2687:39: Function big_app expects arg 1 to be token gets char: ' '
+cweave.w:2691:4: Operands of == have incompatible types (eight_bits, [function
+                    (double) returns double]): (pp + 1)->cat == exp
+cweave.w:2691:52: Function squash expects arg 3 to be eight_bits gets [function
+                     (double) returns double]: exp
+cweave.w:2695:9: Function big_app expects arg 1 to be token gets char: '{'
+cweave.w:2695:36: Function big_app expects arg 1 to be token gets char: '}'
+cweave.w:2697:9: Operands of == have incompatible types (eight_bits, [function
+                    (double) returns double]): (pp + 1)->cat == exp
+cweave.w:2698:9: Function big_app expects arg 1 to be token gets char: '{'
+cweave.w:2698:36: Function big_app expects arg 1 to be token gets char: '}'
+cweave.w:2701:37: Function big_app expects arg 1 to be token gets char: '{'
+cweave.w:2701:67: Function big_app expects arg 1 to be token gets char: '}'
+cweave.w:2702:9: Function big_app expects arg 1 to be token gets char: '}'
+cweave.w:2707:23: Function big_app expects arg 1 to be token gets char: '{'
+cweave.w:2707:49: Function big_app expects arg 1 to be token gets char: '}'
+cweave.w:2708:9: Function big_app expects arg 1 to be token gets char: '{'
+cweave.w:2708:37: Function big_app expects arg 1 to be token gets char: '}'
+cweave.w:2709:9: Function big_app expects arg 1 to be token gets char: '}'
+cweave.w:2714:9: Operands of == have incompatible types (eight_bits, [function
+                    (double) returns double]): (pp + 1)->cat == exp
+cweave.w:2715:23: Function big_app expects arg 1 to be token gets char: ' '
+cweave.w:2715:57: Function reduce expects arg 3 to be eight_bits gets [function
+                     (double) returns double]: exp
+cweave.w:2717:38: Function squash expects arg 3 to be eight_bits gets [function
+                     (double) returns double]: exp
+cweave.w:2720:32: Function squash expects arg 3 to be eight_bits gets [function
+                     (double) returns double]: exp
+cweave.w:2721:9: Operands of == have incompatible types (eight_bits, [function
+                    (double) returns double]): (pp + 1)->cat == exp
+cweave.w:2722:23: Function big_app expects arg 1 to be token gets char: ' '
+cweave.w:2722:57: Function reduce expects arg 3 to be eight_bits gets [function
+                     (double) returns double]: exp
+cweave.w:2727:23: Function big_app expects arg 1 to be token gets char: ' '
+cweave.w:2729:9: Operands of == have incompatible types (eight_bits, [function
+                    (double) returns double]): (pp + 1)->cat == exp
+cweave.w:2731:9: Operands of == have incompatible types (eight_bits, [function
+                    (double) returns double]): (pp + 1)->cat == exp
+cweave.w:2732:22: Function big_app expects arg 1 to be token gets char: ' '
+cweave.w:2741:4: Operands of == have incompatible types (eight_bits, [function
+                    (double) returns double]): (pp + 1)->cat == exp
+cweave.w:2748:39: Function big_app expects arg 1 to be token gets char: ' '
+cweave.w:2751:23: Function big_app expects arg 1 to be token gets char: '{'
+cweave.w:2751:53: Function big_app expects arg 1 to be token gets char: '}'
+cweave.w:2753:9: Operands of == have incompatible types (eight_bits, [function
+                    (double) returns double]): (pp + 1)->cat == exp
+cweave.w:2753:64: Operands of != have incompatible types (eight_bits, [function
+                     (double) returns double]): (pp + 2)->cat != exp
+cweave.w:2756:46: Operands of == have incompatible types (eight_bits, [function
+                     (double) returns double]): (pp + 2)->cat == exp
+cweave.w:2765:23: Function big_app expects arg 1 to be token gets char: ' '
+cweave.w:2777:22: Operands of == have incompatible types (eight_bits, [function
+                     (double) returns double]): (pp + 1)->cat == exp
+cweave.w:2779:22: Function big_app expects arg 1 to be token gets char: ' '
+cweave.w:2783:23: Function big_app expects arg 1 to be token gets char: ' '
+cweave.w:2783:53: Function big_app expects arg 1 to be token gets char: ' '
+cweave.w:2790:23: Function big_app expects arg 1 to be token gets char: ' '
+cweave.w:2792:9: Operands of == have incompatible types (eight_bits, [function
+                    (double) returns double]): (pp + 1)->cat == exp
+cweave.w:2795:23: Function big_app expects arg 1 to be token gets char: ' '
+cweave.w:2798:9: Function big_app expects arg 1 to be token gets char: ' '
+cweave.w:2803:23: Function big_app expects arg 1 to be token gets char: ' '
+cweave.w:2807:23: Function big_app expects arg 1 to be token gets char: ' '
+cweave.w:2810:23: Function big_app expects arg 1 to be token gets char: ' '
+cweave.w:2834:23: Function big_app expects arg 1 to be token gets char: ' '
+cweave.w:2853:9: Operands of == have incompatible types (eight_bits, [function
+                    (double) returns double]): (pp + 1)->cat == exp
+cweave.w:2854:32: Function squash expects arg 3 to be eight_bits gets [function
+                     (double) returns double]: exp
+cweave.w:2855:55: Function squash expects arg 3 to be eight_bits gets [function
+                     (double) returns double]: exp
+cweave.w:2859:4: Operands of == have incompatible types (eight_bits, [function
+                    (double) returns double]): (pp + 1)->cat == exp
+cweave.w:2860:23: Function big_app expects arg 1 to be token gets char: ' '
+cweave.w:2873:22: Operands of == have incompatible types (eight_bits, [function
+                     (double) returns double]): (pp + 1)->cat == exp
+cweave.w:2886:9: Function big_app expects arg 1 to be token gets char: ' '
+cweave.w:2893:23: Function big_app expects arg 1 to be token gets char: ' '
+cweave.w:2897:22: Operands of == have incompatible types (eight_bits, [function
+                     (double) returns double]): (pp + 1)->cat == exp
+cweave.w:2902:9: Function big_app expects arg 1 to be token gets char: ' '
+cweave.w:2919:9: Operands of == have incompatible types (eight_bits, [function
+                    (double) returns double]): (pp + 1)->cat == exp
+cweave.w:2920:23: Function big_app expects arg 1 to be token gets char: ' '
+cweave.w:2920:57: Function reduce expects arg 3 to be eight_bits gets [function
+                     (double) returns double]: exp
+cweave.w:2924:21: Operands of == have incompatible types (eight_bits, [function
+                     (double) returns double]): (pp + 1)->cat == exp
+cweave.w:2949:1: Array fetch using non-integer, char: flags['f']
+cweave.w:2948:23: Function big_app expects arg 1 to be token gets int:
+    ((pp + 1)->cat == 24 || (pp + 1)->cat == 20) ? 0220 : flags['f'] ? 0217 :
+    0216
+cweave.w:2953:9: Function big_app expects arg 1 to be token gets char: ' '
+cweave.w:2961:10: Operands of == have incompatible types (eight_bits, [function
+                     (double) returns double]): (pp + 1)->cat == exp
+cweave.w:2963:53: Function big_app expects arg 1 to be token gets char: ' '
+cweave.w:2966:9: Operands of == have incompatible types (eight_bits, [function
+                    (double) returns double]): (pp + 2)->cat == exp
+cweave.w:2966:46: Operands of == have incompatible types (eight_bits, [function
+                     (double) returns double]): (pp + 1)->cat == exp
+cweave.w:2967:54: Function big_app expects arg 1 to be token gets char: ' '
+cweave.w:2977:18: Function squash expects arg 3 to be eight_bits gets [function
+                     (double) returns double]: exp
+cweave.w:2980:4: Test expression for if not boolean, type eight_bits:
+                    (pp + 1)->cat
+cweave.w:3000:44: Operands of == have incompatible types (eight_bits, [function
+                     (double) returns double]): (pp + 1)->cat == exp
+cweave.w:3007:4: Operands of == have incompatible types (eight_bits, [function
+                    (double) returns double]): (pp + 2)->cat == exp
+cweave.w:3009:26: Array fetch using non-integer, char: flags['t']
+cweave.w:3010:39: Function big_app expects arg 1 to be token gets char: ' '
+cweave.w:3016:4: Operands of == have incompatible types (eight_bits, [function
+                    (double) returns double]): (pp + 1)->cat == exp
+cweave.w:3017:9: Operands of == have incompatible types (eight_bits, [function
+                    (double) returns double]): (pp + 1)->cat == exp
+cweave.w:3018:23: Function big_app expects arg 1 to be token gets char: ' '
+cweave.w:3021:23: Function big_app expects arg 1 to be token gets char: ' '
+cweave.w:3026:22: Operands of == have incompatible types (eight_bits, [function
+                     (double) returns double]): (pp + 2)->cat == exp
+cweave.w:3028:23: Function big_app expects arg 1 to be token gets char: ' '
+cweave.w:3028:57: Function reduce expects arg 3 to be eight_bits gets [function
+                     (double) returns double]: exp
+cweave.w:3034:23: Function big_app expects arg 1 to be token gets char: ' '
+cweave.w:3036:28: Operands of == have incompatible types (eight_bits, [function
+                     (double) returns double]): (pp + 2)->cat == exp
+cweave.w:3037:23: Function big_app expects arg 1 to be token gets char: ' '
+cweave.w:3037:53: Function big_app expects arg 1 to be token gets char: ' '
+cweave.w:3041:23: Function big_app expects arg 1 to be token gets char: '{'
+cweave.w:3041:53: Function big_app expects arg 1 to be token gets char: '}'
+cweave.w:3043:38: Function squash expects arg 3 to be eight_bits gets [function
+                     (double) returns double]: exp
+cweave.w:3044:9: Operands of == have incompatible types (eight_bits, [function
+                    (double) returns double]): (pp + 1)->cat == exp
+cweave.w:3045:22: Function big_app expects arg 1 to be token gets char: ' '
+cweave.w:3045:39: Function reduce expects arg 3 to be eight_bits gets [function
+                     (double) returns double]: exp
+cweave.w:3048:13: Function squash expects arg 3 to be eight_bits gets [function
+                     (double) returns double]: exp
+cweave.w:3052:18: Function squash expects arg 3 to be eight_bits gets [function
+                     (double) returns double]: exp
+cweave.w:3055:4: Operands of == have incompatible types (eight_bits, [function
+                    (double) returns double]): (pp + 1)->cat == exp
+cweave.w:3056:23: Function big_app expects arg 1 to be token gets char: ' '
+cweave.w:3073:38: Function squash expects arg 3 to be eight_bits gets [function
+                     (double) returns double]: exp
+cweave.w:3074:38: Function squash expects arg 3 to be eight_bits gets [function
+                     (double) returns double]: exp
+cweave.w:3080:23: Function big_app expects arg 1 to be token gets char: '{'
+cweave.w:3080:53: Function big_app expects arg 1 to be token gets char: '}'
+cweave.w:3080:70: Function reduce expects arg 3 to be eight_bits gets [function
+                     (double) returns double]: exp
+cweave.w:3083:23: Function big_app expects arg 1 to be token gets char: ' '
+cweave.w:3083:57: Function reduce expects arg 3 to be eight_bits gets [function
+                     (double) returns double]: exp
+cweave.w:3085:38: Function squash expects arg 3 to be eight_bits gets [function
+                     (double) returns double]: exp
+cweave.w:3090:15: Function squash expects arg 3 to be eight_bits gets [function
+                     (double) returns double]: exp
+cweave.w:3092:23: Function big_app expects arg 1 to be token gets char: ' '
+cweave.w:3094:9: Operands of == have incompatible types (eight_bits, [function
+                    (double) returns double]): (pp + 1)->cat == exp
+cweave.w:3094:46: Operands of != have incompatible types (eight_bits, [function
+                     (double) returns double]): (pp + 2)->cat != exp
+cweave.w:3096:23: Function big_app expects arg 1 to be token gets char: ' '
+cweave.w:3099:39: Function big_app expects arg 1 to be token gets char: ' '
+cweave.w:3103:9: Function big_app expects arg 1 to be token gets char: '{'
+cweave.w:3103:38: Function big_app expects arg 1 to be token gets char: '}'
+cweave.w:3112:9: Operands of == have incompatible types (eight_bits, [function
+                    (double) returns double]): (pp + 1)->cat == exp
+cweave.w:3113:23: Function big_app expects arg 1 to be token gets char: ' '
+cweave.w:3113:57: Function reduce expects arg 3 to be eight_bits gets [function
+                     (double) returns double]: exp
+cweave.w:3117:4: Operands of == have incompatible types (eight_bits, [function
+                    (double) returns double]): (pp + 1)->cat == exp
+cweave.w:3124:9: Operands of == have incompatible types (eight_bits, [function
+                    (double) returns double]): (pp + 1)->cat == exp
+cweave.w:3129:51: Function squash expects arg 3 to be eight_bits gets [function
+                     (double) returns double]: exp
+cweave.w:3135:9: Operands of == have incompatible types (eight_bits, [function
+                    (double) returns double]): (pp + 1)->cat == exp
+cweave.w:3136:27: Operands of == have incompatible types (eight_bits, [function
+                     (double) returns double]): (pp + 2)->cat == exp
+cweave.w:3137:39: Function big_app expects arg 1 to be token gets char: ' '
+cweave.w:3137:86: Function big_app expects arg 1 to be token gets char: ' '
+cweave.w:3144:23: Function big_app expects arg 1 to be token gets char: ' '
+cweave.w:3147:23: Function big_app expects arg 1 to be token gets char: ' '
+cweave.w:3151:23: Function big_app expects arg 1 to be token gets char: ' '
+cweave.w:3154:23: Function big_app expects arg 1 to be token gets char: ' '
+cweave.w:3157:23: Function big_app expects arg 1 to be token gets char: ' '
+cweave.w:3160:23: Function big_app expects arg 1 to be token gets char: ' '
+cweave.w:3165:18: Function squash expects arg 3 to be eight_bits gets [function
+                     (double) returns double]: exp
+cweave.w:3344:54: Format argument 1 to printf (%d) expects int gets
+                     sixteen_bits: section_count
+   cweave.w:3344:50: Corresponding format code
+cweave.w:3348:1: Return value (type int) ignored: putchar(' ')
+cweave.w:3348:14: Return value (type int) ignored: fputs(cat_name[(...
+cweave.w:3340:33: Unqualified static storage text_ptr - 1 returned as
+                     implicitly only: text_ptr - 1
+   cweave.w:3195:11: Storage text_ptr becomes kept
+cweave.w:3340:44: Function returns with global max_text_ptr referencing
+                     released storage
+   cweave.w:3340:33: Storage max_text_ptr released
+cweave.w: (in function C_parse)
+cweave.w:3407:31: Unqualified static storage text_ptr assigned to implicitly
+                     only: scrap_ptr->trans_plus.Trans = text_ptr
+   cweave.w:3195:11: Storage text_ptr becomes kept
+cweave.w:3408:4: Assignment of [function (double) returns double] to
+                    eight_bits: (++scrap_ptr)->cat = (exp)
+cweave.w:3408:32: Kept storage text_ptr assigned to implicitly only:
+                     scrap_ptr->trans_plus.Trans = text_ptr
+  storage is transferred to a non-temporary reference after being passed as
+  keep parameter. The storage may be released or new aliases created. (Use
+  -kepttrans to inhibit warning)
+   cweave.w:3407:31: Storage text_ptr becomes kept
+cweave.w:3573:49: Assignment of char to token: *(tok_ptr++) = *id_first++
+cweave.w:3578:4: Assignment of [function (double) returns double] to
+                    eight_bits: (++scrap_ptr)->cat = (exp)
+cweave.w:3578:32: Unqualified static storage text_ptr assigned to implicitly
+                     only: scrap_ptr->trans_plus.Trans = text_ptr
+   cweave.w:3195:11: Storage text_ptr becomes kept
+cweave.w:3606:49: Assignment of char to token: *(tok_ptr++) = *id_first++
+cweave.w:3415:69: Unqualified static storage text_ptr assigned to implicitly
+                     only: scrap_ptr->trans_plus.Trans = text_ptr
+   cweave.w:3195:11: Storage text_ptr becomes kept
+cweave.w:3416:59: Unqualified static storage text_ptr assigned to implicitly
+                     only: scrap_ptr->trans_plus.Trans = text_ptr
+   cweave.w:3195:11: Storage text_ptr becomes kept
+cweave.w:3418:59: Unqualified static storage text_ptr assigned to implicitly
+                     only: scrap_ptr->trans_plus.Trans = text_ptr
+   cweave.w:3195:11: Storage text_ptr becomes kept
+cweave.w:3420:53: Unqualified static storage text_ptr assigned to implicitly
+                     only: scrap_ptr->trans_plus.Trans = text_ptr
+   cweave.w:3195:11: Storage text_ptr becomes kept
+cweave.w:3422:54: Unqualified static storage text_ptr assigned to implicitly
+                     only: scrap_ptr->trans_plus.Trans = text_ptr
+   cweave.w:3195:11: Storage text_ptr becomes kept
+cweave.w:3424:55: Unqualified static storage text_ptr assigned to implicitly
+                     only: scrap_ptr->trans_plus.Trans = text_ptr
+   cweave.w:3195:11: Storage text_ptr becomes kept
+cweave.w:3426:55: Unqualified static storage text_ptr assigned to implicitly
+                     only: scrap_ptr->trans_plus.Trans = text_ptr
+   cweave.w:3195:11: Storage text_ptr becomes kept
+cweave.w:3428:53: Unqualified static storage text_ptr assigned to implicitly
+                     only: scrap_ptr->trans_plus.Trans = text_ptr
+   cweave.w:3195:11: Storage text_ptr becomes kept
+cweave.w:3430:54: Unqualified static storage text_ptr assigned to implicitly
+                     only: scrap_ptr->trans_plus.Trans = text_ptr
+   cweave.w:3195:11: Storage text_ptr becomes kept
+cweave.w:3432:85: Unqualified static storage text_ptr assigned to implicitly
+                     only: scrap_ptr->trans_plus.Trans = text_ptr
+   cweave.w:3195:11: Storage text_ptr becomes kept
+cweave.w:3433:78: Unqualified static storage text_ptr assigned to implicitly
+                     only: scrap_ptr->trans_plus.Trans = text_ptr
+   cweave.w:3195:11: Storage text_ptr becomes kept
+cweave.w:3434:56: Unqualified static storage text_ptr assigned to implicitly
+                     only: scrap_ptr->trans_plus.Trans = text_ptr
+   cweave.w:3195:11: Storage text_ptr becomes kept
+cweave.w:3436:53: Unqualified static storage text_ptr assigned to implicitly
+                     only: scrap_ptr->trans_plus.Trans = text_ptr
+   cweave.w:3195:11: Storage text_ptr becomes kept
+cweave.w:3438:53: Unqualified static storage text_ptr assigned to implicitly
+                     only: scrap_ptr->trans_plus.Trans = text_ptr
+   cweave.w:3195:11: Storage text_ptr becomes kept
+cweave.w:3442:78: Unqualified static storage text_ptr assigned to implicitly
+                     only: scrap_ptr->trans_plus.Trans = text_ptr
+   cweave.w:3195:11: Storage text_ptr becomes kept
+cweave.w:3443:78: Unqualified static storage text_ptr assigned to implicitly
+                     only: scrap_ptr->trans_plus.Trans = text_ptr
+   cweave.w:3195:11: Storage text_ptr becomes kept
+cweave.w:3444:78: Unqualified static storage text_ptr assigned to implicitly
+                     only: scrap_ptr->trans_plus.Trans = text_ptr
+   cweave.w:3195:11: Storage text_ptr becomes kept
+cweave.w:3445:78: Unqualified static storage text_ptr assigned to implicitly
+                     only: scrap_ptr->trans_plus.Trans = text_ptr
+   cweave.w:3195:11: Storage text_ptr becomes kept
+cweave.w:3446:53: Unqualified static storage text_ptr assigned to implicitly
+                     only: scrap_ptr->trans_plus.Trans = text_ptr
+   cweave.w:3195:11: Storage text_ptr becomes kept
+cweave.w:3448:53: Unqualified static storage text_ptr assigned to implicitly
+                     only: scrap_ptr->trans_plus.Trans = text_ptr
+   cweave.w:3195:11: Storage text_ptr becomes kept
+cweave.w:3450:69: Unqualified static storage text_ptr assigned to implicitly
+                     only: scrap_ptr->trans_plus.Trans = text_ptr
+   cweave.w:3195:11: Storage text_ptr becomes kept
+cweave.w:3451:69: Unqualified static storage text_ptr assigned to implicitly
+                     only: scrap_ptr->trans_plus.Trans = text_ptr
+   cweave.w:3195:11: Storage text_ptr becomes kept
+cweave.w:3452:69: Unqualified static storage text_ptr assigned to implicitly
+                     only: scrap_ptr->trans_plus.Trans = text_ptr
+   cweave.w:3195:11: Storage text_ptr becomes kept
+cweave.w:3494:54: Unqualified static storage text_ptr assigned to implicitly
+                     only: scrap_ptr->trans_plus.Trans = text_ptr
+   cweave.w:3195:11: Storage text_ptr becomes kept
+cweave.w:3496:54: Unqualified static storage text_ptr assigned to implicitly
+                     only: scrap_ptr->trans_plus.Trans = text_ptr
+   cweave.w:3195:11: Storage text_ptr becomes kept
+cweave.w:3498:54: Unqualified static storage text_ptr assigned to implicitly
+                     only: scrap_ptr->trans_plus.Trans = text_ptr
+   cweave.w:3195:11: Storage text_ptr becomes kept
+cweave.w:3500:54: Unqualified static storage text_ptr assigned to implicitly
+                     only: scrap_ptr->trans_plus.Trans = text_ptr
+   cweave.w:3195:11: Storage text_ptr becomes kept
+cweave.w:3502:53: Unqualified static storage text_ptr assigned to implicitly
+                     only: scrap_ptr->trans_plus.Trans = text_ptr
+   cweave.w:3195:11: Storage text_ptr becomes kept
+cweave.w:3504:54: Unqualified static storage text_ptr assigned to implicitly
+                     only: scrap_ptr->trans_plus.Trans = text_ptr
+   cweave.w:3195:11: Storage text_ptr becomes kept
+cweave.w:3506:55: Unqualified static storage text_ptr assigned to implicitly
+                     only: scrap_ptr->trans_plus.Trans = text_ptr
+   cweave.w:3195:11: Storage text_ptr becomes kept
+cweave.w:3508:54: Unqualified static storage text_ptr assigned to implicitly
+                     only: scrap_ptr->trans_plus.Trans = text_ptr
+   cweave.w:3195:11: Storage text_ptr becomes kept
+cweave.w:3510:55: Unqualified static storage text_ptr assigned to implicitly
+                     only: scrap_ptr->trans_plus.Trans = text_ptr
+   cweave.w:3195:11: Storage text_ptr becomes kept
+cweave.w:3512:55: Unqualified static storage text_ptr assigned to implicitly
+                     only: scrap_ptr->trans_plus.Trans = text_ptr
+   cweave.w:3195:11: Storage text_ptr becomes kept
+cweave.w:3514:55: Unqualified static storage text_ptr assigned to implicitly
+                     only: scrap_ptr->trans_plus.Trans = text_ptr
+   cweave.w:3195:11: Storage text_ptr becomes kept
+cweave.w:3516:65: Unqualified static storage text_ptr assigned to implicitly
+                     only: scrap_ptr->trans_plus.Trans = text_ptr
+   cweave.w:3195:11: Storage text_ptr becomes kept
+cweave.w:3520:55: Unqualified static storage text_ptr assigned to implicitly
+                     only: scrap_ptr->trans_plus.Trans = text_ptr
+   cweave.w:3195:11: Storage text_ptr becomes kept
+cweave.w:3522:55: Unqualified static storage text_ptr assigned to implicitly
+                     only: scrap_ptr->trans_plus.Trans = text_ptr
+   cweave.w:3195:11: Storage text_ptr becomes kept
+cweave.w:3524:56: Unqualified static storage text_ptr assigned to implicitly
+                     only: scrap_ptr->trans_plus.Trans = text_ptr
+   cweave.w:3195:11: Storage text_ptr becomes kept
+cweave.w:3454:56: Unqualified static storage text_ptr assigned to implicitly
+                     only: scrap_ptr->trans_plus.Trans = text_ptr
+   cweave.w:3195:11: Storage text_ptr becomes kept
+cweave.w:3457:31: Unqualified static storage text_ptr assigned to implicitly
+                     only: scrap_ptr->trans_plus.Trans = text_ptr
+   cweave.w:3195:11: Storage text_ptr becomes kept
+cweave.w:3458:72: Unqualified static storage text_ptr assigned to implicitly
+                     only: scrap_ptr->trans_plus.Trans = text_ptr
+   cweave.w:3195:11: Storage text_ptr becomes kept
+cweave.w:3460:31: Unqualified static storage text_ptr assigned to implicitly
+                     only: scrap_ptr->trans_plus.Trans = text_ptr
+   cweave.w:3195:11: Storage text_ptr becomes kept
+cweave.w:3462:72: Unqualified static storage text_ptr assigned to implicitly
+                     only: scrap_ptr->trans_plus.Trans = text_ptr
+   cweave.w:3195:11: Storage text_ptr becomes kept
+cweave.w:3463:72: Unqualified static storage text_ptr assigned to implicitly
+                     only: scrap_ptr->trans_plus.Trans = text_ptr
+   cweave.w:3195:11: Storage text_ptr becomes kept
+cweave.w:3466:31: Unqualified static storage text_ptr assigned to implicitly
+                     only: scrap_ptr->trans_plus.Trans = text_ptr
+   cweave.w:3195:11: Storage text_ptr becomes kept
+cweave.w:3467:41: Unqualified static storage text_ptr assigned to implicitly
+                     only: scrap_ptr->trans_plus.Trans = text_ptr
+   cweave.w:3195:11: Storage text_ptr becomes kept
+cweave.w:3468:41: Unqualified static storage text_ptr assigned to implicitly
+                     only: scrap_ptr->trans_plus.Trans = text_ptr
+   cweave.w:3195:11: Storage text_ptr becomes kept
+cweave.w:3469:41: Unqualified static storage text_ptr assigned to implicitly
+                     only: scrap_ptr->trans_plus.Trans = text_ptr
+   cweave.w:3195:11: Storage text_ptr becomes kept
+cweave.w:3470:56: Unqualified static storage text_ptr assigned to implicitly
+                     only: scrap_ptr->trans_plus.Trans = text_ptr
+   cweave.w:3195:11: Storage text_ptr becomes kept
+cweave.w:3473:31: Unqualified static storage text_ptr assigned to implicitly
+                     only: scrap_ptr->trans_plus.Trans = text_ptr
+   cweave.w:3195:11: Storage text_ptr becomes kept
+cweave.w:3476:31: Unqualified static storage text_ptr assigned to implicitly
+                     only: scrap_ptr->trans_plus.Trans = text_ptr
+   cweave.w:3195:11: Storage text_ptr becomes kept
+cweave.w:3477:1: Clauses exit with scrap_ptr->trans_plus.Trans referencing kept
+    storage in one possible execution, implicitly only storage in other
+    possible execution
+   cweave.w:3408:32: Storage scrap_ptr->trans_plus.Trans becomes kept
+cweave.w:3386:4: Operands of == have incompatible types (eight_bits, char):
+                    next_control == '|'
+cweave.w:3386:23: Operands of == have incompatible types (eight_bits, char):
+                     next_control == '\t'
+cweave.w:3387:25: Storage scrap_ptr->trans_plus.Trans reachable from global is
+                     unqualified (should be implicitly only)
+cweave.w:3387:25: Function returns with global text_ptr referencing kept
+                     storage
+   cweave.w:3476:31: Storage text_ptr becomes kept
+cweave.w:3387:25: Function returns with global max_text_ptr referencing kept
+                     storage
+   cweave.w:3476:31: Storage max_text_ptr becomes kept
+cweave.w:3389:2: Function returns with global text_ptr referencing kept storage
+   cweave.w:3388:1: Storage text_ptr becomes kept
+cweave.w:3389:2: Function returns with global max_text_ptr referencing kept
+                    storage
+   cweave.w:3388:1: Storage max_text_ptr becomes kept
+cweave.w: (in function app_cur_id)
+cweave.w:3623:43: Function id_lookup expects arg 3 to be char gets int: 0
+cweave.w:3624:4: Operands of <= have incompatible types (char, int):
+                    p->dummy.Ilk <= 5
+cweave.w:3626:39: Operands of == have incompatible types (char, int):
+                     p->dummy.Ilk == 4
+cweave.w:3626:55: Conditional clauses are not of same type:
+                     63 (int), exp ([function (double) returns double])
+cweave.w:3626:64: Unqualified static storage text_ptr assigned to implicitly
+                     only: scrap_ptr->trans_plus.Trans = text_ptr
+   cweave.w:3388:1: Storage text_ptr becomes kept
+cweave.w:3627:1: Operands of == have incompatible types (char, int):
+                    p->dummy.Ilk == 5
+cweave.w:3626:103: Assignment of int to eight_bits:
+                      scrap_ptr->mathness = 5 * (p->dummy.Ilk == 5 ? 1 : 0)
+cweave.w:3632:4: Operands of == have incompatible types (char, int):
+                    p->dummy.Ilk == 22
+cweave.w:3632:50: Unqualified static storage text_ptr assigned to implicitly
+                     only: scrap_ptr->trans_plus.Trans = text_ptr
+   cweave.w:3388:1: Storage text_ptr becomes kept
+cweave.w:3633:9: Assignment of char to eight_bits:
+                    (++scrap_ptr)->cat = (p->dummy.Ilk)
+cweave.w:3633:46: Unqualified static storage text_ptr assigned to implicitly
+                     only: scrap_ptr->trans_plus.Trans = text_ptr
+   cweave.w:3388:1: Storage text_ptr becomes kept
+cweave.w:3636:2: Fresh storage p not released before return
+   cweave.w:3623:46: Fresh storage p created
+cweave.w:3636:2: Function returns with global text_ptr referencing kept storage
+   cweave.w:3634:1: Storage text_ptr becomes kept
+cweave.w: (in function C_translate)
+cweave.w:3651:4: Operands of != have incompatible types (eight_bits, char):
+                    next_control != '|'
+cweave.w:3653:101: Unqualified static storage text_ptr assigned to implicitly
+                      only: scrap_ptr->trans_plus.Trans = text_ptr
+   cweave.w:3634:1: Storage text_ptr becomes kept
+cweave.w:3658:10: Function returns with global text_ptr referencing kept
+                     storage
+   cweave.w:3653:101: Storage text_ptr becomes kept
+cweave.w: (in function outer_parse)
+cweave.w:3682:4: Operands of != have incompatible types (eight_bits, char):
+                    next_control != '\t'
+cweave.w:3685:27: Operands of == have incompatible types (eight_bits, char):
+                     next_control == '\t'
+cweave.w:3697:4: Array fetch using non-integer, char: flags['e']
+cweave.w:3700:4: Array fetch using non-integer, char: flags['e']
+cweave.w:3700:63: Assignment of char to token: *(tok_ptr++) = '}'
+cweave.w:3701:4: Operands of == have incompatible types (eight_bits, char):
+                    next_control == '|'
+cweave.w:3707:62: Unqualified static storage text_ptr assigned to implicitly
+                     only: scrap_ptr->trans_plus.Trans = text_ptr
+   cweave.w:3653:101: Storage text_ptr becomes kept
+cweave.w:3710:2: Fresh storage q not released before return
+   cweave.w:3694:38: Fresh storage q created
+cweave.w:3710:2: Function returns with global text_ptr referencing kept storage
+   cweave.w:3709:1: Storage text_ptr becomes kept
+cweave.w:3710:2: Function returns with global max_text_ptr referencing kept
+                    storage
+   cweave.w:3709:1: Storage max_text_ptr becomes kept
+cweave.w: (in function push_level)
+cweave.w:3793:1: Implicitly only storage stack_ptr->end_field (type
+    token_pointer) not released before assignment:
+    stack_ptr->end_field = cur_state.end_field
+cweave.w:3794:1: Implicitly only storage stack_ptr->tok_field (type
+    token_pointer) not released before assignment:
+    stack_ptr->tok_field = cur_state.tok_field
+cweave.w:3796:1: Storage cur_state.end_field is kept in one path, but live in
+                    another.
+   cweave.w:3793:1: Storage cur_state.end_field becomes kept
+cweave.w:3796:1: Storage cur_state.tok_field is kept in one path, but live in
+                    another.
+   cweave.w:3794:1: Storage cur_state.tok_field becomes kept
+cweave.w:3799:1: Unqualified storage *p assigned to implicitly only:
+                    cur_state.tok_field = *p
+  Unqualified storage is transferred in an inconsistent way. (Use
+  -unqualifiedtrans to inhibit warning)
+cweave.w:3799:25: Kept storage *p assigned to implicitly only:
+                     cur_state.end_field = *(p + 1)
+   cweave.w:3799:1: Storage *p becomes kept
+cweave.w:3800:2: Storage *p reachable from parameter is kept (should be
+                    unqualified)
+   cweave.w:3799:1: Storage *p becomes kept
+cweave.w:3800:2: Storage cur_state.tok_field reachable from global is kept
+                    (should be implicitly only)
+   cweave.w:3799:25: Storage cur_state.tok_field becomes kept
+cweave.w: (in function pop_level)
+cweave.w:3810:1: Implicitly only storage cur_state.end_field (type
+    token_pointer) not released before assignment:
+    cur_state.end_field = (--stack_ptr)->end_field
+cweave.w:3811:1: Implicitly only storage cur_state.tok_field (type
+    token_pointer) not released before assignment:
+    cur_state.tok_field = stack_ptr->tok_field
+cweave.w:3812:2: Storage stack_ptr->tok_field reachable from global is kept
+                    (should be implicitly only)
+   cweave.w:3811:1: Storage stack_ptr->tok_field becomes kept
+cweave.w: (in function get_output)
+cweave.w:3841:11: Incompatible types for + (sixteen_bits, name_info []):
+                     a % 10240 + name_dir
+cweave.w:3845:19: Incompatible types for + (sixteen_bits, token_pointer
+                     [4000]): a % 10240 + tok_start
+cweave.w:3847:19: Incompatible types for + (sixteen_bits, token_pointer
+                     [4000]): a % 10240 + tok_start
+cweave.w: (in function output_C)
+cweave.w:3880:4: Array fetch using non-integer, char: flags['e']
+cweave.w:3888:2: Fresh storage p not released before return
+   cweave.w:3878:18: Fresh storage p created
+cweave.w: (in function make_output)
+cweave.w:3957:4: Operands of == have incompatible types (char, int):
+                    cur_name->dummy.Ilk == 5
+cweave.w:3967:13: Function islower expects arg 1 to be int gets eight_bits:
+                     (eight_bits)(*p)
+cweave.w:3975:9: Operands of == have incompatible types (char, int):
+                    cur_name->dummy.Ilk == 22
+cweave.w:4066:1: Only storage cur_name->equiv_or_xref assigned to unqualified
+                    static: cur_xref = (xref_pointer)cur_name->equiv_or_xref
+cweave.w:4067:4: Use of == with boolean variables (risks inconsistency because
+    of multiple true values): (an_output = (cur_xref->num == (3 * 10240))) ==
+    true
+cweave.w:4067:50: Only storage cur_xref->xlink assigned to unqualified static:
+                     cur_xref = cur_xref->xlink
+cweave.w:4071:1: Only storage cur_xref->xlink assigned to unqualified static:
+                    cur_xref = cur_xref->xlink
+cweave.w:4075:1: Only storage cur_xref->xlink->xlink assigned to unqualified
+                    static: cur_xref = cur_xref->xlink
+cweave.w:4088:21: Passed storage scratch not completely defined (*scratch is
+                     undefined): sprint_section_name (scratch, ...)
+  Storage derivable from a parameter, return value or global is not defined.
+  Use /*@out@*/ to denote passed or returned storage which need not be defined.
+  (Use -compdef to inhibit warning)
+cweave.w:4093:1: Assignment of char to eight_bits: b = *(k++)
+cweave.w:4094:4: Operands of == have incompatible types (eight_bits, char):
+                    b == '@'
+cweave.w:4125:1: Return value (type int) ignored: fputs("\n! Illeg...
+cweave.w:4111:9: Fall through case (no preceding break)
+cweave.w:4111:49: Assignment of eight_bits to char: *(++out_ptr) = b
+cweave.w:4114:4: Operands of != have incompatible types (eight_bits, char):
+                    b != '|'
+cweave.w:4114:51: Assignment of eight_bits to char: *(++out_ptr) = b
+cweave.w:4137:20: Assignment of int to char: delim = 0
+cweave.w:4140:1: Return value (type int) ignored: fputs("\n! C tex...
+cweave.w:4144:1: Assignment of char to eight_bits: b = *(k++)
+cweave.w:4145:4: Operands of == have incompatible types (eight_bits, char):
+                    b == '@'
+cweave.w:4145:13: Operands of == have incompatible types (eight_bits, char):
+                     b == '\\'
+cweave.w:4145:22: Operands of != have incompatible types (char, int):
+                     delim != 0
+cweave.w:4161:1: Assignment of eight_bits to char: *(++j) = b
+cweave.w:4148:4: Operands of == have incompatible types (eight_bits, char):
+                    b == '\''
+cweave.w:4148:13: Operands of == have incompatible types (eight_bits, char):
+                     b == '"'
+cweave.w:4149:4: Operands of == have incompatible types (char, int): delim == 0
+cweave.w:4149:13: Assignment of eight_bits to char: delim = b
+cweave.w:4150:9: Operands of == have incompatible types (char, eight_bits):
+                    delim == b
+cweave.w:4150:18: Assignment of int to char: delim = 0
+cweave.w:4151:4: Operands of != have incompatible types (eight_bits, char):
+                    b != '|'
+cweave.w:4151:12: Operands of != have incompatible types (char, int):
+                     delim != 0
+cweave.w:4153:1: Assignment of eight_bits to char: *(++j) = b
+cweave.w:3918:6: Fall through case (no preceding break)
+cweave.w:3923:24: Operands of == have incompatible types (eight_bits, char):
+                     a == ' '
+cweave.w:3939:6: Fall through case (no preceding break)
+cweave.w:3993:4: Operands of == have incompatible types (boolean, int):
+                    cur_state.mode_field == 1
+cweave.w:3994:118: Incompatible types for + (arbitrary unsigned integral type,
+                      char): a - 0211 + '0'
+cweave.w:4002:4: Operands of != have incompatible types (eight_bits, char):
+                    b != '0'
+cweave.w:4002:12: Array fetch using non-integer, char: flags['f']
+cweave.w:4002:70: Assignment of eight_bits to char: *(++out_ptr) = b
+cweave.w:4027:5: Operands of != have incompatible types (eight_bits, char):
+                    a != ' '
+cweave.w:4029:4: Operands of == have incompatible types (boolean, int):
+                    save_mode == 1
+cweave.w:4033:118: Incompatible types for + (arbitrary unsigned integral type,
+                      char): b - 0211 + '0'
+cweave.w:3942:51: Assignment of token to char:
+                     *(++out_ptr) = *(cur_state.tok_field++)
+cweave.w:3943:6: Fall through case (no preceding break)
+cweave.w:3944:49: Assignment of eight_bits to char: *(++out_ptr) = a
+cweave.w: (in function phase_two)
+cweave.w:4175:4: Array fetch using non-integer, char: flags['p']
+cweave.w:4175:15: Return value (type int) ignored: fputs("\nWriting...
+cweave.w:4236:27: Function isdigit expects arg 1 to be int gets eight_bits:
+                     (eight_bits)(*loc)
+cweave.w:4237:12: Incompatible types for + (int, char): sec_depth * 10 + (*loc)
+cweave.w:4243:13: Buffer overflow possible with sprintf.  Recommend using
+                     snprintf instead: sprintf
+cweave.w:4244:4: Array fetch using non-integer, char: flags['p']
+cweave.w:4245:14: Format argument 1 to printf (%d) expects int gets
+                     sixteen_bits: section_count
+   cweave.w:4245:11: Corresponding format code
+cweave.w:4245:29: Return value (type int) ignored: fflush(stdout)
+cweave.w:4254:26: Assignment of int to boolean: cur_state.mode_field = 1
+cweave.w:4277:18: Assignment of int to boolean: cur_state.mode_field = 1
+cweave.w:4349:31: Unqualified static storage text_ptr assigned to implicitly
+                     only: scrap_ptr->trans_plus.Trans = text_ptr
+   cweave.w:3709:1: Storage text_ptr becomes kept
+cweave.w:4350:4: Operands of == have incompatible types (eight_bits, char):
+                    (next_control = get_next()) == ')'
+cweave.w:4353:8: Clauses exit with text_ptr referencing unqualified static
+                    storage in one case, kept storage in other case
+   cweave.w:4349:31: Storage text_ptr becomes kept
+   cweave.w:3709:1: Storage text_ptr becomes kept
+cweave.w:4353:9: Fall through case (no preceding break)
+cweave.w:4359:31: Unqualified static storage text_ptr assigned to implicitly
+                     only: scrap_ptr->trans_plus.Trans = text_ptr
+   cweave.w:3709:1: Storage text_ptr becomes kept
+cweave.w:4371:65: Function id_lookup expects arg 3 to be char gets int: 0
+cweave.w:4375:65: Function id_lookup expects arg 3 to be char gets int: 0
+cweave.w:4376:4: Assignment of [function (double) returns double] to
+                    eight_bits: (++scrap_ptr)->cat = (exp)
+cweave.w:4376:32: Unqualified static storage text_ptr assigned to implicitly
+                     only: scrap_ptr->trans_plus.Trans = text_ptr
+   cweave.w:3709:1: Storage text_ptr becomes kept
+cweave.w:4376:158: Kept storage text_ptr assigned to implicitly only:
+                      scrap_ptr->trans_plus.Trans = text_ptr
+   cweave.w:4376:32: Storage text_ptr becomes kept
+cweave.w:4394:102: Assignment of int to boolean: cur_state.mode_field = 1
+cweave.w:4413:7: Operands of == have incompatible types (eight_bits, char):
+                    next_control == '+'
+cweave.w:4414:4: Operands of != have incompatible types (eight_bits, char):
+                    next_control != '='
+cweave.w:4422:1: Only storage this_section->equiv_or_xref assigned to
+    unqualified static: cur_xref = (xref_pointer)this_section->equiv_or_xref
+cweave.w:4423:29: Only storage cur_xref->xlink assigned to unqualified static:
+                     cur_xref = cur_xref->xlink
+cweave.w:4432:62: Kept storage text_ptr assigned to implicitly only:
+                     scrap_ptr->trans_plus.Trans = text_ptr
+   cweave.w:4282:1: Storage text_ptr becomes kept
+cweave.w:4443:31: Kept storage text_ptr assigned to implicitly only:
+                     scrap_ptr->trans_plus.Trans = text_ptr
+   cweave.w:4282:1: Storage text_ptr becomes kept
+cweave.w:4452:1: Only storage this_section->equiv_or_xref assigned to
+    unqualified static: cur_xref = (xref_pointer)this_section->equiv_or_xref
+cweave.w:4453:4: Use of == with boolean variables (risks inconsistency because
+    of multiple true values): (an_output = (cur_xref->num == (3 * 10240))) ==
+    true
+cweave.w:4453:50: Only storage cur_xref->xlink assigned to unqualified static:
+                     cur_xref = cur_xref->xlink
+cweave.w:4455:1: Only storage cur_xref->xlink assigned to unqualified static:
+                    cur_xref = cur_xref->xlink
+cweave.w:4181:2: Function returns with global text_ptr referencing kept storage
+   cweave.w:4217:1: Storage text_ptr becomes kept
+cweave.w: (in function finish_C)
+cweave.w:4301:116: Unqualified static storage text_ptr assigned to implicitly
+                      only: scrap_ptr->trans_plus.Trans = text_ptr
+   cweave.w:4217:1: Storage text_ptr becomes kept
+cweave.w:4320:2: Fresh storage p not released before return
+   cweave.w:4302:1: Fresh storage p created
+cweave.w: (in function footnote)
+cweave.w:4497:1: Only storage cur_xref->xlink assigned to unqualified static:
+                    cur_xref = cur_xref->xlink
+cweave.w: (in function phase_three)
+cweave.w:4522:6: Array fetch using non-integer, char: flags['x']
+cweave.w:4529:13: Array fetch using non-integer, char: flags['p']
+cweave.w:4529:24: Return value (type int) ignored: fputs("\nWriting...
+cweave.w:4532:5: Dependent storage assigned to unqualified:
+                    idx_file = fopen(idx_file_name, "wb")
+  Dependent storage is transferred to a non-dependent reference. (Use
+  -dependenttrans to inhibit warning)
+cweave.w:4611:21: Only storage cur_name->link assigned to unqualified static:
+                     next_name = cur_name->link
+cweave.w:4613:1: Assignment of eight_bits to int:
+                    c = (eight_bits)((cur_name->byte_start)[0])
+cweave.w:4614:13: Function isupper expects arg 1 to be int gets eight_bits:
+                     (eight_bits)(c)
+cweave.w:4757:1: Only storage scrap_ptr->trans_plus.Head assigned to
+                    unqualified static: cur_name = scrap_ptr->trans_plus.Head
+cweave.w:4774:13: Function islower expects arg 1 to be int gets eight_bits:
+                     (eight_bits)(*j)
+cweave.w:4786:6: Fall through case (no preceding break)
+cweave.w:4769:36: Statement after switch is not a case: char * j
+  The first statement after a switch is not a case. (Use -firstcase to inhibit
+  warning)
+cweave.w:4822:1: Only storage cur_name->equiv_or_xref assigned to unqualified
+                    static: this_xref = (xref_pointer)cur_name->equiv_or_xref
+cweave.w:4824:1: Only storage this_xref->xlink assigned to unqualified static:
+                    next_xref = this_xref->xlink
+cweave.w:4824:29: Unqualified static storage cur_xref assigned to implicitly
+                     only: this_xref->xlink = cur_xref
+cweave.w:4825:21: Only storage next_xref assigned to unqualified static:
+                     this_xref = next_xref
+   cweave.w:4824:29: Storage next_xref becomes implicitly only (through alias
+   this_xref->xlink)
+cweave.w:4809:1: Only storage cur_xref->xlink assigned to unqualified static:
+                    cur_xref = cur_xref->xlink
+cweave.w:4742:1: Only storage scrap_ptr->trans_plus.Head assigned to
+                    unqualified static: next_name = scrap_ptr->trans_plus.Head
+cweave.w:4749:13: Function isupper expects arg 1 to be int gets eight_bits:
+                     (eight_bits)(c)
+cweave.w:4749:72: Function tolower expects arg 1 to be int gets eight_bits: c
+cweave.w:4749:61: Assignment of char to eight_bits: c = tolower(c)
+cweave.w:4754:1: Variable xmem is kept in true branch, but not kept in false
+                    branch.
+   cweave.w:4754:1: in true branch:
+   cweave.w:4824:29: Storage xmem becomes kept
+   cweave.w:4754:1: in false branch:
+   cweave.w:383:1: Storage xmem becomes kept
+cweave.w:4754:1: Clauses exit with next_xref referencing implicitly only
+    storage in true branch, unqualified static storage in false branch
+   cweave.w:4824:29: Storage next_xref becomes implicitly only (through alias
+   this_xref->xlink)
+cweave.w:4543:22: Possibly null storage active_file passed as non-null param:
+                     fclose (active_file)
+   cweave.w:4540:14: Storage active_file may become null
+cweave.w:4543:15: Return value (type int) ignored: fclose(active_file)
+cweave.w:4547:5: Dependent storage assigned to unqualified:
+                    scn_file = fopen(scn_file_name, "wb")
+cweave.w:4851:23: Arrow access of non-pointer (name_info []): name_dir->dummy
+cweave.w:4552:22: Possibly null storage active_file passed as non-null param:
+                     fclose (active_file)
+   cweave.w:4550:14: Storage active_file may become null
+cweave.w:4552:15: Return value (type int) ignored: fclose(active_file)
+cweave.w:4558:1: Return value (type int) ignored: fclose(active_file)
+cweave.w:4560:4: Array fetch using non-integer, char: flags['h']
+cweave.w:4561:4: Array fetch using non-integer, char: flags['p']
+cweave.w:4561:15: Return value (type int) ignored: putchar('\n')
+cweave.w:4562:1: Return value (type int) ignored: fputs("Done.", s...
+cweave.w:4565:2: Function returns with non-null global idx_file referencing
+                    null storage
+   cweave.w:4532:15: Storage idx_file may become null
+cweave.w:4565:2: Function returns with non-null global next_name referencing
+                    null storage
+   cweave.w:4609:12: Storage next_name becomes null
+cweave.w:4565:2: Function returns with non-null global scn_file referencing
+                    null storage
+   cweave.w:4547:15: Storage scn_file may become null
+cweave.w: (in function unbucket)
+cweave.w:4725:1: Unqualified storage bucket[collate[c]] assigned to implicitly
+                    only: scrap_ptr->trans_plus.Head = bucket[collate[c]]
+cweave.w: (in function section_print)
+cweave.w:4840:81: Assignment of int to boolean: cur_state.mode_field = 1
+cweave.w: (in function print_stats)
+cweave.w:4859:1: Return value (type int) ignored: puts("\nMemory u...
+cweave.w:4862:1: Format argument 1 to printf (%ld) expects long int gets
+                    ptrdiff_t: (ptrdiff_t)(name_ptr - name_dir)
+  To allow arbitrary integral types to match long unsigned, use +longintegral.
+   cweave.w:4861:11: Corresponding format code
+cweave.w:4864:1: Format argument 1 to printf (%ld) expects long int gets
+                    ptrdiff_t: (ptrdiff_t)(xref_ptr - xmem)
+   cweave.w:4863:11: Corresponding format code
+cweave.w:4866:1: Format argument 1 to printf (%ld) expects long int gets
+                    ptrdiff_t: (ptrdiff_t)(byte_ptr - byte_mem)
+   cweave.w:4865:11: Corresponding format code
+cweave.w:4867:1: Return value (type int) ignored: puts("Parsing:")
+cweave.w:4869:1: Format argument 1 to printf (%ld) expects long int gets
+                    ptrdiff_t: (ptrdiff_t)(max_scr_ptr - scrap_info)
+   cweave.w:4868:11: Corresponding format code
+cweave.w:4871:1: Format argument 1 to printf (%ld) expects long int gets
+                    ptrdiff_t: (ptrdiff_t)(max_text_ptr - tok_start)
+   cweave.w:4870:11: Corresponding format code
+cweave.w:4873:1: Format argument 1 to printf (%ld) expects long int gets
+                    ptrdiff_t: (ptrdiff_t)(max_tok_ptr - tok_mem)
+   cweave.w:4872:11: Corresponding format code
+cweave.w:4875:1: Format argument 1 to printf (%ld) expects long int gets
+                    ptrdiff_t: (ptrdiff_t)(max_stack_ptr - stack)
+   cweave.w:4874:11: Corresponding format code
+cweave.w:4876:1: Return value (type int) ignored: puts("Sorting:")
+cweave.w:4878:1: Format argument 1 to printf (%ld) expects long int gets
+                    ptrdiff_t: (ptrdiff_t)(max_sort_ptr - scrap_info)
+   cweave.w:4877:11: Corresponding format code
+cweave.w:2251:13: File static function print_text declared but not used
+  A function is declared but not used. Use /*@unused@*/ in front of function
+  header to suppress message. (Use -fcnuse to inhibit warning)
+   cweave.w:2249:1: Definition of print_text
+cweave.w:261: Function exported but not used outside cweave: exp
+  A declaration is exported, but not used outside this module. Declaration can
+  use static qualifier. (Use -exportlocal to inhibit warning)
+
