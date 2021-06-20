@@ -762,16 +762,16 @@ are null-terminated, and we keep an eye open for prefixes and extensions.
 @d extension 4 /* the first name is a proper extension of the second */
 
 @<Predecl...@>=
-static int web_strcmp(char *,int,char *,int);@/
+static int web_strcmp(char *,size_t,char *,size_t);@/
 static name_pointer add_section_name(name_pointer,int,char *,char *,boolean);@/
 static void extend_section_name(name_pointer,char *,char *,boolean);
 
 @ @c
 static int web_strcmp( /* fuller comparison than |strcmp| */
   char *j, /* beginning of first string */
-  int j_len, /* length of first string */
+  size_t j_len, /* length of first string */
   char *k, /* beginning of second string */
-  int k_len) /* length of second string */
+  size_t k_len) /* length of second string */
 {
   char *j1=j+j_len, *k1=k+k_len;
   while (k<k1 && j<j1 && *j==*k) k++, j++;
@@ -806,7 +806,7 @@ boolean ispref) /* are we adding a prefix or a full name? */
 {
   name_pointer p=name_ptr; /* new node */
   char *s=first_chunk(p);
-  int name_len=(int)(last-first)+(int)ispref; /* length of section name */
+  size_t name_len=(size_t)(last-first+(int)ispref); /* length of section name */
   if (s+name_len>byte_mem_end) overflow("byte memory");
   if (name_ptr+1>=name_dir_end) overflow("name");
   (++name_ptr)->byte_start=byte_ptr=s+name_len;
@@ -833,7 +833,7 @@ boolean ispref) /* are we adding a prefix or a full name? */
 {
   char *s;
   name_pointer q=p+1;
-  int name_len=(int)(last-first)+(int)ispref;
+  size_t name_len=(size_t)(last-first+(int)ispref);
   if (name_ptr>=name_dir_end) overflow("name");
   while (q->link!=name_dir) q=q->link;
   q->link=name_ptr;
@@ -863,7 +863,7 @@ boolean ispref) /* is the new name a prefix or a full name? */
   name_pointer r=NULL; /* where a match has been found */
   name_pointer par=NULL; /* parent of |p|, if |r| is |NULL|;
             otherwise parent of |r| */
-  int name_len=(int)(last-first)+1;
+  size_t name_len=(size_t)(last-first+1);
   @<Look for matches for new name among shortest prefixes, complaining
         if more than one is found@>@;
   @<If no match found, add new name to tree@>@;
@@ -877,7 +877,7 @@ the need for chunk-chasing at this stage.
 
 @<Look for matches for new name among...@>=
 while (p) { /* compare shortest prefix of |p| with new name */
-  c=web_strcmp(first,name_len,first_chunk(p),(int)prefix_length(p));
+  c=web_strcmp(first,name_len,first_chunk(p),prefix_length(p));
   if (c==less || c==greater) { /* new name does not match |p| */
     if (r==NULL) /* no previous matches have been found */
       par=p;
@@ -959,7 +959,7 @@ us to regard \.{@@<foo...@@>} as an ``extension'' of itself.
 @c
 static int section_name_cmp(
 char **pfirst, /* pointer to beginning of comparison string */
-int len, /* length of string */
+size_t len, /* length of string */
 name_pointer r) /* section name being compared */
 {
   char *first=*pfirst; /* beginning of comparison string */
@@ -971,7 +971,7 @@ name_pointer r) /* section name being compared */
     ss=(r+1)->byte_start-1;
     if (*ss==' ' && ss>=r->byte_start) ispref=true,q=q->link;
     else ispref=false,ss++,q=name_dir;
-    switch(c=web_strcmp(first,len,s,ss-s)) {
+    switch(c=web_strcmp(first,len,s,(size_t)(ss-s))) {
     case equal: if (q==name_dir)
         if (ispref) {
           *pfirst=first+(ptrdiff_t)(ss-s);
@@ -988,7 +988,7 @@ name_pointer r) /* section name being compared */
   }
 }
 
-@ @<Predec...@>=@+static int section_name_cmp(char **,int,name_pointer);
+@ @<Predec...@>=@+static int section_name_cmp(char **,size_t,name_pointer);
 
 @** Reporting errors to the user.
 A global variable called |history| will contain one of four values

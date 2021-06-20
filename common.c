@@ -382,13 +382,13 @@ static void check_change(void);
 /*:33*//*55:*/
 #line 764 "common.w"
 
-static int web_strcmp(char*,int,char*,int);
+static int web_strcmp(char*,size_t,char*,size_t);
 static name_pointer add_section_name(name_pointer,int,char*,char*,boolean);
 static void extend_section_name(name_pointer,char*,char*,boolean);
 
 /*:55*//*64:*/
 #line 991 "common.w"
-static int section_name_cmp(char**,int,name_pointer);
+static int section_name_cmp(char**,size_t,name_pointer);
 
 /*:64*//*76:*/
 #line 1186 "common.w"
@@ -881,9 +881,9 @@ if(s+l<(p+1)->byte_start)term_write("...",3);
 
 static int web_strcmp(
 char*j,
-int j_len,
+size_t j_len,
 char*k,
-int k_len)
+size_t k_len)
 {
 char*j1= j+j_len,*k1= k+k_len;
 while(k<k1&&j<j1&&*j==*k)k++,j++;
@@ -907,7 +907,7 @@ boolean ispref)
 {
 name_pointer p= name_ptr;
 char*s= first_chunk(p);
-int name_len= (int)(last-first)+(int)ispref;
+size_t name_len= (size_t)(last-first+(int)ispref);
 if(s+name_len> byte_mem_end)overflow("byte memory");
 if(name_ptr+1>=name_dir_end)overflow("name");
 (++name_ptr)->byte_start= byte_ptr= s+name_len;
@@ -936,7 +936,7 @@ boolean ispref)
 {
 char*s;
 name_pointer q= p+1;
-int name_len= (int)(last-first)+(int)ispref;
+size_t name_len= (size_t)(last-first+(int)ispref);
 if(name_ptr>=name_dir_end)overflow("name");
 while(q->link!=name_dir)q= q->link;
 q->link= name_ptr;
@@ -962,12 +962,12 @@ name_pointer q= NULL;
 name_pointer r= NULL;
 name_pointer par= NULL;
 
-int name_len= (int)(last-first)+1;
+size_t name_len= (size_t)(last-first+1);
 /*60:*/
 #line 878 "common.w"
 
 while(p){
-c= web_strcmp(first,name_len,first_chunk(p),(int)prefix_length(p));
+c= web_strcmp(first,name_len,first_chunk(p),prefix_length(p));
 if(c==less||c==greater){
 if(r==NULL)
 par= p;
@@ -1046,7 +1046,7 @@ return r;
 
 static int section_name_cmp(
 char**pfirst,
-int len,
+size_t len,
 name_pointer r)
 {
 char*first= *pfirst;
@@ -1058,7 +1058,7 @@ while(true){
 ss= (r+1)->byte_start-1;
 if(*ss==' '&&ss>=r->byte_start)ispref= true,q= q->link;
 else ispref= false,ss++,q= name_dir;
-switch(c= web_strcmp(first,len,s,ss-s)){
+switch(c= web_strcmp(first,len,s,(size_t)(ss-s))){
 case equal:if(q==name_dir)
 if(ispref){
 *pfirst= first+(ptrdiff_t)(ss-s);

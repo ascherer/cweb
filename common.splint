@@ -27,12 +27,7 @@ common.w:666:7: Left operand of && is non-boolean (name_pointer):
   The operand of a boolean operator is not a boolean. Use +ptrnegate to allow !
   to be used on pointers. (Use -boolops to inhibit warning)
 common.w: (in function add_section_name)
-common.w:820:17: Function strncpy expects arg 3 to be size_t gets int: name_len
-  To allow arbitrary integral types to match any integral type, use
-  +matchanyintegral.
 common.w:823:27: Arrow access of non-pointer (name_info []): name_dir->dummy
-common.w: (in function extend_section_name)
-common.w:844:17: Function strncpy expects arg 3 to be size_t gets int: name_len
 common.w: (in function section_lookup)
 common.w:861:25: Arrow access of non-pointer (name_info []): name_dir->dummy
 common.w:905:25: Null storage par passed as non-null param:
@@ -42,9 +37,6 @@ common.w:905:25: Null storage par passed as non-null param:
   parameter, add a /*@null@*/ annotation to the function parameter declaration.
   (Use -nullpass to inhibit warning)
    common.w:864:19: Storage par becomes null
-common.w:921:9: Operands of < have incompatible types (int, size_t):
-    name_len < (size_t)((eight_bits)*((r)->byte_start) * 256 +
-    (eight_bits)*((r)->byte_start + 1))
 common.w:923:6: Fall through case (no preceding break)
   Execution falls through from the previous case (use /*@fallthrough@*/ to mark
   fallthrough cases). (Use -casebreak to inhibit warning)
