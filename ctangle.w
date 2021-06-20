@@ -390,11 +390,12 @@ get_output(void) /* sends next token to |out_char| */
   else {
     a=(a-0200)*0400+*cur_byte++;
     switch (a/024000) { /* |024000==(0250-0200)*0400| */
-      case 0: cur_val=a; out_char(identifier); break;
+      case 0: cur_val=(int)a; out_char(identifier); break;
       case 1: if (a==output_defs_flag) output_defs();
         else @<Expand section |a-024000|, |goto restart|@>@;
         break;
-      default: cur_val=a-050000; if (cur_val>0) cur_section=cur_val;
+      default: cur_val=(int)a-050000;
+        if (cur_val>0) cur_section=(sixteen_bits)cur_val;
         out_char(section_number);
     }
   }
@@ -619,11 +620,12 @@ output_defs(void)
         else {
           a=(a-0200)*0400+*cur_byte++;
           if (a<024000) { /* |024000==(0250-0200)*0400| */
-            cur_val=a; out_char(identifier);
+            cur_val=(int)a; out_char(identifier);
           }
           else if (a<050000) confusion("macro defs have strange char");
           else {
-            cur_val=a-050000; cur_section=cur_val; out_char(section_number);
+            cur_val=(int)a-050000; cur_section=(sixteen_bits)cur_val;
+            out_char(section_number);
           }
       /* no other cases */
         }

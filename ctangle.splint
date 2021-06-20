@@ -17,20 +17,20 @@ ctangle.w:141:23: Unqualified static storage tok_mem assigned to implicitly
   inhibit warning)
 ctangle.w:203:34: Arrow access of non-pointer (text [2500]):
                      text_info->text_link
-ctangle.w:707:20: Buffer overflow possible with sprintf.  Recommend using
+ctangle.w:709:20: Buffer overflow possible with sprintf.  Recommend using
                      snprintf instead: sprintf
   Use of function that may lead to buffer overflow. (Use -bufferoverflowhigh to
   inhibit warning)
-ctangle.w:784:1: Array fetch using non-integer, char: ccode[' ']
+ctangle.w:786:1: Array fetch using non-integer, char: ccode[' ']
   To allow char types to index arrays, use +charindex. (Use +charindex to
   inhibit warning)
-ctangle.w:784:13: Array fetch using non-integer, char: ccode['\t']
-ctangle.w:784:26: Array fetch using non-integer, char: ccode['\n']
-ctangle.w:784:39: Array fetch using non-integer, char: ccode['\v']
-ctangle.w:784:52: Array fetch using non-integer, char: ccode['\r']
-ctangle.w:784:65: Array fetch using non-integer, char: ccode['\f']
-ctangle.w:785:3: Array fetch using non-integer, char: ccode['*']
-ctangle.w:785:3: Expression has undefined behavior (value of left operand
+ctangle.w:786:13: Array fetch using non-integer, char: ccode['\t']
+ctangle.w:786:26: Array fetch using non-integer, char: ccode['\n']
+ctangle.w:786:39: Array fetch using non-integer, char: ccode['\v']
+ctangle.w:786:52: Array fetch using non-integer, char: ccode['\r']
+ctangle.w:786:65: Array fetch using non-integer, char: ccode['\f']
+ctangle.w:787:3: Array fetch using non-integer, char: ccode['*']
+ctangle.w:787:3: Expression has undefined behavior (value of left operand
     ccode['\f'] is modified by right operand ccode['*'] = 0312):
     ccode['\f'] = ccode['*'] = 0312
   Code has unspecified behavior. Order of evaluation of function parameters or
@@ -38,110 +38,110 @@ ctangle.w:785:3: Expression has undefined behavior (value of left operand
   different places not separated by a sequence point constraining evaluation
   order, then the result of the expression is unspecified. (Use -evalorder to
   inhibit warning)
-ctangle.w:784:65: Expression has undefined behavior (value of left operand
+ctangle.w:786:65: Expression has undefined behavior (value of left operand
     ccode['\r'] is modified by right operand ccode['\f'] = ccode['*'] = 0312):
     ccode['\r'] = ccode['\f'] = ccode['*'] = 0312
-ctangle.w:784:52: Expression has undefined behavior (value of left operand
+ctangle.w:786:52: Expression has undefined behavior (value of left operand
     ccode['\v'] is modified by right operand ccode['\r'] = ccode['\f'] =
     ccode['*'] = 0312): ccode['\v'] = ccode['\r'] = ccode['\f'] = ccode['*'] =
     0312
-ctangle.w:784:39: Expression has undefined behavior (value of left operand
+ctangle.w:786:39: Expression has undefined behavior (value of left operand
     ccode['\n'] is modified by right operand ccode['\v'] = ccode['\r'] =
     ccode['\f'] = ccode['*'] = 0312): ccode['\n'] = ccode['\v'] = ccode['\r'] =
     ccode['\f'] = ccode['*'] = 0312
-ctangle.w:784:26: Expression has undefined behavior (value of left operand
+ctangle.w:786:26: Expression has undefined behavior (value of left operand
     ccode['\t'] is modified by right operand ccode['\n'] = ccode['\v'] =
     ccode['\r'] = ccode['\f'] = ccode['*'] = 0312):
     ccode['\t'] = ccode['\n'] = ccode['\v'] = ccode['\r'] = ccode['\f'] =
     ccode['*'] = 0312
-ctangle.w:784:13: Expression has undefined behavior (value of left operand
+ctangle.w:786:13: Expression has undefined behavior (value of left operand
     ccode[' '] is modified by right operand ccode['\t'] = ccode['\n'] =
     ccode['\v'] = ccode['\r'] = ccode['\f'] = ccode['*'] = 0312):
     ccode[' '] = ccode['\t'] = ccode['\n'] = ccode['\v'] = ccode['\r'] =
     ccode['\f'] = ccode['*'] = 0312
-ctangle.w:786:1: Array fetch using non-integer, char: ccode['@']
-ctangle.w:786:1: Assignment of char to eight_bits: ccode['@'] = '@'
-ctangle.w:786:17: Array fetch using non-integer, char: ccode['=']
-ctangle.w:787:1: Array fetch using non-integer, char: ccode['d']
-ctangle.w:787:13: Array fetch using non-integer, char: ccode['D']
-ctangle.w:787:13: Expression has undefined behavior (value of left operand
+ctangle.w:788:1: Array fetch using non-integer, char: ccode['@']
+ctangle.w:788:1: Assignment of char to eight_bits: ccode['@'] = '@'
+ctangle.w:788:17: Array fetch using non-integer, char: ccode['=']
+ctangle.w:789:1: Array fetch using non-integer, char: ccode['d']
+ctangle.w:789:13: Array fetch using non-integer, char: ccode['D']
+ctangle.w:789:13: Expression has undefined behavior (value of left operand
     ccode['d'] is modified by right operand ccode['D'] = 0307):
     ccode['d'] = ccode['D'] = 0307
-ctangle.w:788:1: Array fetch using non-integer, char: ccode['f']
-ctangle.w:788:13: Array fetch using non-integer, char: ccode['F']
-ctangle.w:788:25: Array fetch using non-integer, char: ccode['s']
-ctangle.w:788:37: Array fetch using non-integer, char: ccode['S']
-ctangle.w:788:37: Expression has undefined behavior (value of left operand
+ctangle.w:790:1: Array fetch using non-integer, char: ccode['f']
+ctangle.w:790:13: Array fetch using non-integer, char: ccode['F']
+ctangle.w:790:25: Array fetch using non-integer, char: ccode['s']
+ctangle.w:790:37: Array fetch using non-integer, char: ccode['S']
+ctangle.w:790:37: Expression has undefined behavior (value of left operand
     ccode['s'] is modified by right operand ccode['S'] = 0306):
     ccode['s'] = ccode['S'] = 0306
-ctangle.w:788:25: Expression has undefined behavior (value of left operand
+ctangle.w:790:25: Expression has undefined behavior (value of left operand
     ccode['F'] is modified by right operand ccode['s'] = ccode['S'] = 0306):
     ccode['F'] = ccode['s'] = ccode['S'] = 0306
-ctangle.w:788:13: Expression has undefined behavior (value of left operand
+ctangle.w:790:13: Expression has undefined behavior (value of left operand
     ccode['f'] is modified by right operand ccode['F'] = ccode['s'] =
     ccode['S'] = 0306): ccode['f'] = ccode['F'] = ccode['s'] = ccode['S'] =
     0306
-ctangle.w:789:1: Array fetch using non-integer, char: ccode['c']
-ctangle.w:789:13: Array fetch using non-integer, char: ccode['C']
-ctangle.w:789:25: Array fetch using non-integer, char: ccode['p']
-ctangle.w:789:37: Array fetch using non-integer, char: ccode['P']
-ctangle.w:789:37: Expression has undefined behavior (value of left operand
+ctangle.w:791:1: Array fetch using non-integer, char: ccode['c']
+ctangle.w:791:13: Array fetch using non-integer, char: ccode['C']
+ctangle.w:791:25: Array fetch using non-integer, char: ccode['p']
+ctangle.w:791:37: Array fetch using non-integer, char: ccode['P']
+ctangle.w:791:37: Expression has undefined behavior (value of left operand
     ccode['p'] is modified by right operand ccode['P'] = 0310):
     ccode['p'] = ccode['P'] = 0310
-ctangle.w:789:25: Expression has undefined behavior (value of left operand
+ctangle.w:791:25: Expression has undefined behavior (value of left operand
     ccode['C'] is modified by right operand ccode['p'] = ccode['P'] = 0310):
     ccode['C'] = ccode['p'] = ccode['P'] = 0310
-ctangle.w:789:13: Expression has undefined behavior (value of left operand
+ctangle.w:791:13: Expression has undefined behavior (value of left operand
     ccode['c'] is modified by right operand ccode['C'] = ccode['p'] =
     ccode['P'] = 0310): ccode['c'] = ccode['C'] = ccode['p'] = ccode['P'] =
     0310
-ctangle.w:790:1: Array fetch using non-integer, char: ccode['^']
-ctangle.w:790:13: Array fetch using non-integer, char: ccode[':']
-ctangle.w:790:25: Array fetch using non-integer, char: ccode['.']
-ctangle.w:790:37: Array fetch using non-integer, char: ccode['t']
-ctangle.w:790:49: Array fetch using non-integer, char: ccode['T']
-ctangle.w:791:1: Array fetch using non-integer, char: ccode['q']
-ctangle.w:791:13: Array fetch using non-integer, char: ccode['Q']
-ctangle.w:791:13: Expression has undefined behavior (value of left operand
+ctangle.w:792:1: Array fetch using non-integer, char: ccode['^']
+ctangle.w:792:13: Array fetch using non-integer, char: ccode[':']
+ctangle.w:792:25: Array fetch using non-integer, char: ccode['.']
+ctangle.w:792:37: Array fetch using non-integer, char: ccode['t']
+ctangle.w:792:49: Array fetch using non-integer, char: ccode['T']
+ctangle.w:793:1: Array fetch using non-integer, char: ccode['q']
+ctangle.w:793:13: Array fetch using non-integer, char: ccode['Q']
+ctangle.w:793:13: Expression has undefined behavior (value of left operand
     ccode['q'] is modified by right operand ccode['Q'] = 0303):
     ccode['q'] = ccode['Q'] = 0303
-ctangle.w:791:1: Expression has undefined behavior (value of left operand
+ctangle.w:793:1: Expression has undefined behavior (value of left operand
     ccode['T'] is modified by right operand ccode['q'] = ccode['Q'] = 0303):
     ccode['T'] = ccode['q'] = ccode['Q'] = 0303
-ctangle.w:790:49: Expression has undefined behavior (value of left operand
+ctangle.w:792:49: Expression has undefined behavior (value of left operand
     ccode['t'] is modified by right operand ccode['T'] = ccode['q'] =
     ccode['Q'] = 0303): ccode['t'] = ccode['T'] = ccode['q'] = ccode['Q'] =
     0303
-ctangle.w:790:37: Expression has undefined behavior (value of left operand
+ctangle.w:792:37: Expression has undefined behavior (value of left operand
     ccode['.'] is modified by right operand ccode['t'] = ccode['T'] =
     ccode['q'] = ccode['Q'] = 0303): ccode['.'] = ccode['t'] = ccode['T'] =
     ccode['q'] = ccode['Q'] = 0303
-ctangle.w:790:25: Expression has undefined behavior (value of left operand
+ctangle.w:792:25: Expression has undefined behavior (value of left operand
     ccode[':'] is modified by right operand ccode['.'] = ccode['t'] =
     ccode['T'] = ccode['q'] = ccode['Q'] = 0303): ccode[':'] = ccode['.'] =
     ccode['t'] = ccode['T'] = ccode['q'] = ccode['Q'] = 0303
-ctangle.w:790:13: Expression has undefined behavior (value of left operand
+ctangle.w:792:13: Expression has undefined behavior (value of left operand
     ccode['^'] is modified by right operand ccode[':'] = ccode['.'] =
     ccode['t'] = ccode['T'] = ccode['q'] = ccode['Q'] = 0303):
     ccode['^'] = ccode[':'] = ccode['.'] = ccode['t'] = ccode['T'] = ccode['q']
     = ccode['Q'] = 0303
-ctangle.w:792:1: Array fetch using non-integer, char: ccode['h']
-ctangle.w:792:13: Array fetch using non-integer, char: ccode['H']
-ctangle.w:792:13: Expression has undefined behavior (value of left operand
+ctangle.w:794:1: Array fetch using non-integer, char: ccode['h']
+ctangle.w:794:13: Array fetch using non-integer, char: ccode['H']
+ctangle.w:794:13: Expression has undefined behavior (value of left operand
     ccode['h'] is modified by right operand ccode['H'] = 0305):
     ccode['h'] = ccode['H'] = 0305
-ctangle.w:793:1: Array fetch using non-integer, char: ccode['l']
-ctangle.w:793:13: Array fetch using non-integer, char: ccode['L']
-ctangle.w:793:13: Expression has undefined behavior (value of left operand
+ctangle.w:795:1: Array fetch using non-integer, char: ccode['l']
+ctangle.w:795:13: Array fetch using non-integer, char: ccode['L']
+ctangle.w:795:13: Expression has undefined behavior (value of left operand
     ccode['l'] is modified by right operand ccode['L'] = 0304):
     ccode['l'] = ccode['L'] = 0304
-ctangle.w:794:1: Array fetch using non-integer, char: ccode['&']
-ctangle.w:795:1: Array fetch using non-integer, char: ccode['<']
-ctangle.w:795:13: Array fetch using non-integer, char: ccode['(']
-ctangle.w:795:13: Expression has undefined behavior (value of left operand
+ctangle.w:796:1: Array fetch using non-integer, char: ccode['&']
+ctangle.w:797:1: Array fetch using non-integer, char: ccode['<']
+ctangle.w:797:13: Array fetch using non-integer, char: ccode['(']
+ctangle.w:797:13: Expression has undefined behavior (value of left operand
     ccode['<'] is modified by right operand ccode['('] = 0311):
     ccode['<'] = ccode['('] = 0311
-ctangle.w:796:1: Array fetch using non-integer, char: ccode['\'']
+ctangle.w:798:1: Array fetch using non-integer, char: ccode['\'']
 ctangle.w:90:4: Array fetch using non-integer, char: flags['b']
 ctangle.w:90:15: Return value (type int) ignored: puts("This is CT...
   Result returned by function call is not used. If this is intended, can cast
@@ -236,25 +236,18 @@ ctangle.w: (in function get_output)
 ctangle.w:387:32: Operands of != have incompatible types (sixteen_bits, char):
                      a != '\n'
 ctangle.w:388:1: Return value (type int) ignored: putc((int)(a), C...
-ctangle.w:393:8: Assignment of sixteen_bits to int: cur_val = a
-  To allow arbitrary integral types to match any integral type, use
-  +matchanyintegral.
-ctangle.w:411:5: Incompatible types for + (sixteen_bits, name_info []):
+ctangle.w:412:5: Incompatible types for + (sixteen_bits, name_info []):
                     a + name_dir
-ctangle.w:411:61: Incompatible types for + (sixteen_bits, name_info []):
+ctangle.w:412:61: Incompatible types for + (sixteen_bits, name_info []):
                      a + name_dir
-ctangle.w:413:1: Return value (type int) ignored: fputs("\n! Not p...
-ctangle.w:414:20: Incompatible types for + (sixteen_bits, name_info []):
+ctangle.w:414:1: Return value (type int) ignored: fputs("\n! Not p...
+ctangle.w:415:20: Incompatible types for + (sixteen_bits, name_info []):
                      a + name_dir
-ctangle.w:397:9: Assignment of arbitrary unsigned integral type to int:
-                    cur_val = a - 050000
-ctangle.w:397:41: Assignment of int to sixteen_bits:
-                     cur_state.section_field = cur_val
 ctangle.w: (in function flush_buffer)
-ctangle.w:470:1: Return value (type int) ignored: putc((int)('\n')...
-ctangle.w:471:32: Array fetch using non-integer, char: flags['p']
-ctangle.w:472:1: Return value (type int) ignored: putchar('.')
-ctangle.w:474:1: Return value (type int) ignored: fflush(stdout)
+ctangle.w:471:1: Return value (type int) ignored: putc((int)('\n')...
+ctangle.w:472:32: Array fetch using non-integer, char: flags['p']
+ctangle.w:473:1: Return value (type int) ignored: putchar('.')
+ctangle.w:475:1: Return value (type int) ignored: fflush(stdout)
 ctangle.w: (in function phase_two)
 ctangle.w:305:20: Implicitly only storage cur_state.name_field (type
     name_pointer) not released before assignment:
@@ -274,322 +267,319 @@ ctangle.w:306:1: Implicitly only storage cur_state.byte_field (type eight_bits
 ctangle.w:306:55: Implicitly only storage cur_state.end_field (type eight_bits
     *) not released before assignment: cur_state.end_field =
     (cur_state.repl_field + 1)->tok_start
-ctangle.w:526:13: Arrow access of non-pointer (text [2500]):
+ctangle.w:527:13: Arrow access of non-pointer (text [2500]):
                      text_info->text_link
-ctangle.w:527:1: Return value (type int) ignored: fputs("\n! No pr...
-ctangle.w:532:4: Array fetch using non-integer, char: flags['p']
-ctangle.w:534:1: Return value (type int) ignored: fflush(stdout)
-ctangle.w:538:4: Array fetch using non-integer, char: flags['p']
-ctangle.w:539:1: Return value (type int) ignored: fputs("\nWriting...
-ctangle.w:542:1: Return value (type int) ignored: fflush(stdout)
-ctangle.w:544:13: Arrow access of non-pointer (text [2500]):
+ctangle.w:528:1: Return value (type int) ignored: fputs("\n! No pr...
+ctangle.w:533:4: Array fetch using non-integer, char: flags['p']
+ctangle.w:535:1: Return value (type int) ignored: fflush(stdout)
+ctangle.w:539:4: Array fetch using non-integer, char: flags['p']
+ctangle.w:540:1: Return value (type int) ignored: fputs("\nWriting...
+ctangle.w:543:1: Return value (type int) ignored: fflush(stdout)
+ctangle.w:545:13: Arrow access of non-pointer (text [2500]):
                      text_info->text_link
-ctangle.w:566:1: Return value (type int) ignored: fclose(C_file)
-ctangle.w:567:5: Dependent storage assigned to unqualified:
+ctangle.w:567:1: Return value (type int) ignored: fclose(C_file)
+ctangle.w:568:5: Dependent storage assigned to unqualified:
                     C_file = fopen(output_file_name, "wb")
   Dependent storage is transferred to a non-dependent reference. (Use
   -dependenttrans to inhibit warning)
-ctangle.w:570:4: Array fetch using non-integer, char: flags['p']
-ctangle.w:570:50: Return value (type int) ignored: fflush(stdout)
-ctangle.w:573:1: Implicitly only storage cur_state.name_field (type
+ctangle.w:571:4: Array fetch using non-integer, char: flags['p']
+ctangle.w:571:50: Return value (type int) ignored: fflush(stdout)
+ctangle.w:574:1: Implicitly only storage cur_state.name_field (type
     name_pointer) not released before assignment:
     cur_state.name_field = *an_output_file
-ctangle.w:573:1: Unqualified storage *an_output_file assigned to implicitly
+ctangle.w:574:1: Unqualified storage *an_output_file assigned to implicitly
                     only: cur_state.name_field = *an_output_file
-ctangle.w:574:1: Implicitly only storage cur_state.repl_field (type
+ctangle.w:575:1: Implicitly only storage cur_state.repl_field (type
     text_pointer) not released before assignment:
     cur_state.repl_field = (text_pointer)cur_state.name_field->equiv_or_xref
-ctangle.w:579:1: Storage *an_output_file->equiv_or_xref is kept in one path,
+ctangle.w:580:1: Storage *an_output_file->equiv_or_xref is kept in one path,
                     but live in another.
-   ctangle.w:574:1: Storage *an_output_file->equiv_or_xref becomes kept
-ctangle.w:579:1: Storage cur_state.name_field->equiv_or_xref is kept in one
+   ctangle.w:575:1: Storage *an_output_file->equiv_or_xref becomes kept
+ctangle.w:580:1: Storage cur_state.name_field->equiv_or_xref is kept in one
                     path, but live in another.
-   ctangle.w:574:1: Storage cur_state.name_field->equiv_or_xref becomes kept
-ctangle.w:579:1: Clauses exit with cur_state.end_field referencing kept storage
+   ctangle.w:575:1: Storage cur_state.name_field->equiv_or_xref becomes kept
+ctangle.w:580:1: Clauses exit with cur_state.end_field referencing kept storage
     in for body, implicitly only storage if for loop body does not execute
-   ctangle.w:576:1: Storage cur_state.end_field becomes kept
-ctangle.w:579:1: Clauses exit with *end_output_files->equiv_or_xref referencing
+   ctangle.w:577:1: Storage cur_state.end_field becomes kept
+ctangle.w:580:1: Clauses exit with *end_output_files->equiv_or_xref referencing
     kept storage in for body, implicitly only storage if for loop body does not
     execute
-   ctangle.w:574:1: Storage *end_output_files->equiv_or_xref becomes kept
-ctangle.w:549:4: Array fetch using non-integer, char: flags['h']
-ctangle.w:550:4: Array fetch using non-integer, char: flags['p']
-ctangle.w:550:15: Return value (type int) ignored: putchar('\n')
-ctangle.w:551:1: Return value (type int) ignored: fputs("Done.", s...
-ctangle.w:553:1: Storage *end_output_files is kept in one path, but live in
+   ctangle.w:575:1: Storage *end_output_files->equiv_or_xref becomes kept
+ctangle.w:550:4: Array fetch using non-integer, char: flags['h']
+ctangle.w:551:4: Array fetch using non-integer, char: flags['p']
+ctangle.w:551:15: Return value (type int) ignored: putchar('\n')
+ctangle.w:552:1: Return value (type int) ignored: fputs("Done.", s...
+ctangle.w:554:1: Storage *end_output_files is kept in one path, but live in
                     another.
-   ctangle.w:573:1: Storage *end_output_files becomes kept
-ctangle.w:553:1: Storage *an_output_file is kept in one path, but live in
+   ctangle.w:574:1: Storage *end_output_files becomes kept
+ctangle.w:554:1: Storage *an_output_file is kept in one path, but live in
                     another.
-   ctangle.w:573:1: Storage *an_output_file becomes kept
-ctangle.w:554:2: Global storage *(cur_state.name_field) contains 1 undefined
+   ctangle.w:574:1: Storage *an_output_file becomes kept
+ctangle.w:555:2: Global storage *(cur_state.name_field) contains 1 undefined
                     field when call returns: equiv_or_xref
-ctangle.w:554:2: Storage cur_state.repl_field->tok_start reachable from global
+ctangle.w:555:2: Storage cur_state.repl_field->tok_start reachable from global
                     is kept (should be implicitly only)
    ctangle.w:306:1: Storage cur_state.repl_field->tok_start becomes kept
-ctangle.w:554:2: Storage cur_state.byte_field reachable from global is kept
+ctangle.w:555:2: Storage cur_state.byte_field reachable from global is kept
                     (should be implicitly only)
    ctangle.w:306:55: Storage cur_state.byte_field becomes kept
-ctangle.w:554:2: Function returns with global name_dir referencing kept storage
+ctangle.w:555:2: Function returns with global name_dir referencing kept storage
    ctangle.w:305:20: Storage name_dir becomes kept
-ctangle.w:554:2: Function returns with non-null global C_file referencing null
+ctangle.w:555:2: Function returns with non-null global C_file referencing null
                     storage
-   ctangle.w:567:13: Storage C_file may become null
+   ctangle.w:568:13: Storage C_file may become null
 ctangle.w: (in function output_defs)
-ctangle.w:604:12: Null storage passed as non-null param: push_level (NULL)
+ctangle.w:605:12: Null storage passed as non-null param: push_level (NULL)
   A possibly null pointer is passed as a parameter corresponding to a formal
   parameter with no /*@null@*/ annotation.  If NULL may be used for this
   parameter, add a /*@null@*/ annotation to the function parameter declaration.
   (Use -nullpass to inhibit warning)
-ctangle.w:607:1: Implicitly only storage cur_state.byte_field (type eight_bits
+ctangle.w:608:1: Implicitly only storage cur_state.byte_field (type eight_bits
     *) not released before assignment: cur_state.byte_field =
     cur_text->tok_start
-ctangle.w:608:1: Implicitly only storage cur_state.end_field (type eight_bits
+ctangle.w:609:1: Implicitly only storage cur_state.end_field (type eight_bits
     *) not released before assignment: cur_state.end_field = (cur_text +
     1)->tok_start
-ctangle.w:608:1: Kept storage cur_text->tok_start assigned to implicitly only:
+ctangle.w:609:1: Kept storage cur_text->tok_start assigned to implicitly only:
                     cur_state.end_field = (cur_text + 1)->tok_start
   storage is transferred to a non-temporary reference after being passed as
   keep parameter. The storage may be released or new aliases created. (Use
   -kepttrans to inhibit warning)
-   ctangle.w:607:1: Storage cur_text->tok_start becomes kept
-ctangle.w:614:47: Operands of == have incompatible types (sixteen_bits, char):
+   ctangle.w:608:1: Storage cur_text->tok_start becomes kept
+ctangle.w:615:47: Operands of == have incompatible types (sixteen_bits, char):
                      a == '\n'
-ctangle.w:615:32: Operands of != have incompatible types (sixteen_bits, char):
+ctangle.w:616:32: Operands of != have incompatible types (sixteen_bits, char):
                      a != '\n'
-ctangle.w:616:1: Return value (type int) ignored: putc((int)(a), C...
-ctangle.w:622:1: Assignment of sixteen_bits to int: cur_val = a
-ctangle.w:626:1: Assignment of arbitrary unsigned integral type to int:
-                    cur_val = a - 050000
-ctangle.w:626:19: Assignment of int to sixteen_bits:
-                     cur_state.section_field = cur_val
-ctangle.w:633:1: Storage cur_text->tok_start is kept in one path, but live in
+ctangle.w:617:1: Return value (type int) ignored: putc((int)(a), C...
+ctangle.w:635:1: Storage cur_text->tok_start is kept in one path, but live in
                     another.
-   ctangle.w:607:1: Storage cur_text->tok_start becomes kept
-ctangle.w:633:1: Clauses exit with text_info->tok_start referencing kept
+   ctangle.w:608:1: Storage cur_text->tok_start becomes kept
+ctangle.w:635:1: Clauses exit with text_info->tok_start referencing kept
     storage in true branch, implicitly only storage in continuation
-   ctangle.w:607:1: Storage text_info->tok_start becomes kept
-ctangle.w:633:1: Storage cur_state.byte_field is kept in one path, but live in
+   ctangle.w:608:1: Storage text_info->tok_start becomes kept
+ctangle.w:635:1: Storage cur_state.byte_field is kept in one path, but live in
                     another.
-   ctangle.w:608:1: Storage cur_state.byte_field becomes kept
-ctangle.w:635:2: Storage text_info->tok_start reachable from global is
+   ctangle.w:609:1: Storage cur_state.byte_field becomes kept
+ctangle.w:637:2: Storage text_info->tok_start reachable from global is
                     unqualified (should be implicitly only)
 ctangle.w: (in function out_char)
-ctangle.w:650:35: Return value (type int) ignored: putc((int)(' '),...
-ctangle.w:651:26: Return value (type int) ignored: putc((int)('\\')...
-ctangle.w:712:17: Return value (type int) ignored: putc((int)(' '),...
-ctangle.w:713:9: Incompatible types for + (int, name_info []):
+ctangle.w:652:35: Return value (type int) ignored: putc((int)(' '),...
+ctangle.w:653:26: Return value (type int) ignored: putc((int)('\\')...
+ctangle.w:714:17: Return value (type int) ignored: putc((int)(' '),...
+ctangle.w:715:9: Incompatible types for + (int, name_info []):
                     cur_val + name_dir
-ctangle.w:713:43: Incompatible types for + (int, name_info []):
+ctangle.w:715:43: Incompatible types for + (int, name_info []):
                      cur_val + name_dir
-ctangle.w:715:26: Return value (type int) ignored: putc((int)(*j), ...
-ctangle.w:726:1: Assignment of char to eight_bits: cur_char = '\n'
-ctangle.w:732:32: Format argument 1 to fprintf (%d) expects int gets
+ctangle.w:717:26: Return value (type int) ignored: putc((int)(*j), ...
+ctangle.w:728:1: Assignment of char to eight_bits: cur_char = '\n'
+ctangle.w:734:32: Format argument 1 to fprintf (%d) expects int gets
                      sixteen_bits: a
-   ctangle.w:732:26: Corresponding format code
-ctangle.w:734:1: Assignment of arbitrary unsigned integral type to int:
+  To allow arbitrary integral types to match any integral type, use
+  +matchanyintegral.
+   ctangle.w:734:26: Corresponding format code
+ctangle.w:736:1: Assignment of arbitrary unsigned integral type to int:
                     cur_val = (*cur_state.byte_field++ - 0200) * 0400
-ctangle.w:736:9: Incompatible types for + (int, name_info []):
+ctangle.w:738:9: Incompatible types for + (int, name_info []):
                     cur_val + name_dir
-ctangle.w:736:43: Incompatible types for + (int, name_info []):
+ctangle.w:738:43: Incompatible types for + (int, name_info []):
                      cur_val + name_dir
-ctangle.w:738:22: Return value (type int) ignored: putc((int)('\\')...
-ctangle.w:739:1: Return value (type int) ignored: putc((int)(*j), ...
-ctangle.w:741:1: Return value (type int) ignored: putc((int)('"'),...
-ctangle.w:741:27: Return value (type int) ignored: putc((int)('\n')...
-ctangle.w:673:10: Return value (type int) ignored: putc((int)('+'),...
-ctangle.w:673:36: Return value (type int) ignored: putc((int)('+'),...
-ctangle.w:674:9: Return value (type int) ignored: putc((int)('-'),...
-ctangle.w:674:35: Return value (type int) ignored: putc((int)('-'),...
-ctangle.w:675:10: Return value (type int) ignored: putc((int)('-'),...
-ctangle.w:675:36: Return value (type int) ignored: putc((int)('>'),...
-ctangle.w:676:10: Return value (type int) ignored: putc((int)('>'),...
-ctangle.w:676:36: Return value (type int) ignored: putc((int)('>'),...
-ctangle.w:677:10: Return value (type int) ignored: putc((int)('='),...
-ctangle.w:677:36: Return value (type int) ignored: putc((int)('='),...
-ctangle.w:678:10: Return value (type int) ignored: putc((int)('<'),...
-ctangle.w:678:36: Return value (type int) ignored: putc((int)('<'),...
-ctangle.w:679:10: Return value (type int) ignored: putc((int)('>'),...
+ctangle.w:740:22: Return value (type int) ignored: putc((int)('\\')...
+ctangle.w:741:1: Return value (type int) ignored: putc((int)(*j), ...
+ctangle.w:743:1: Return value (type int) ignored: putc((int)('"'),...
+ctangle.w:743:27: Return value (type int) ignored: putc((int)('\n')...
+ctangle.w:675:10: Return value (type int) ignored: putc((int)('+'),...
+ctangle.w:675:36: Return value (type int) ignored: putc((int)('+'),...
+ctangle.w:676:9: Return value (type int) ignored: putc((int)('-'),...
+ctangle.w:676:35: Return value (type int) ignored: putc((int)('-'),...
+ctangle.w:677:10: Return value (type int) ignored: putc((int)('-'),...
+ctangle.w:677:36: Return value (type int) ignored: putc((int)('>'),...
+ctangle.w:678:10: Return value (type int) ignored: putc((int)('>'),...
+ctangle.w:678:36: Return value (type int) ignored: putc((int)('>'),...
+ctangle.w:679:10: Return value (type int) ignored: putc((int)('='),...
 ctangle.w:679:36: Return value (type int) ignored: putc((int)('='),...
 ctangle.w:680:10: Return value (type int) ignored: putc((int)('<'),...
-ctangle.w:680:36: Return value (type int) ignored: putc((int)('='),...
-ctangle.w:681:10: Return value (type int) ignored: putc((int)('!'),...
+ctangle.w:680:36: Return value (type int) ignored: putc((int)('<'),...
+ctangle.w:681:10: Return value (type int) ignored: putc((int)('>'),...
 ctangle.w:681:36: Return value (type int) ignored: putc((int)('='),...
-ctangle.w:682:9: Return value (type int) ignored: putc((int)('&'),...
-ctangle.w:682:35: Return value (type int) ignored: putc((int)('&'),...
-ctangle.w:683:10: Return value (type int) ignored: putc((int)('|'),...
-ctangle.w:683:36: Return value (type int) ignored: putc((int)('|'),...
-ctangle.w:684:10: Return value (type int) ignored: putc((int)('.'),...
-ctangle.w:684:36: Return value (type int) ignored: putc((int)('.'),...
-ctangle.w:684:62: Return value (type int) ignored: putc((int)('.'),...
-ctangle.w:686:9: Return value (type int) ignored: putc((int)(':'),...
-ctangle.w:686:35: Return value (type int) ignored: putc((int)(':'),...
-ctangle.w:687:10: Return value (type int) ignored: putc((int)('.'),...
-ctangle.w:687:36: Return value (type int) ignored: putc((int)('*'),...
-ctangle.w:688:10: Return value (type int) ignored: putc((int)('-'),...
-ctangle.w:688:36: Return value (type int) ignored: putc((int)('>'),...
-ctangle.w:688:62: Return value (type int) ignored: putc((int)('*'),...
-ctangle.w:656:17: Return value (type int) ignored: putc((int)(cur_c...
-ctangle.w:656:48: Return value (type int) ignored: putc((int)(' '),...
-ctangle.w:662:17: Return value (type int) ignored: putc((int)(' '),...
-ctangle.w:665:9: Return value (type int) ignored: putc((int)('/'),...
-ctangle.w:666:25: Return value (type int) ignored: putc((int)(' '),...
-ctangle.w:668:9: Fall through case (no preceding break)
+ctangle.w:682:10: Return value (type int) ignored: putc((int)('<'),...
+ctangle.w:682:36: Return value (type int) ignored: putc((int)('='),...
+ctangle.w:683:10: Return value (type int) ignored: putc((int)('!'),...
+ctangle.w:683:36: Return value (type int) ignored: putc((int)('='),...
+ctangle.w:684:9: Return value (type int) ignored: putc((int)('&'),...
+ctangle.w:684:35: Return value (type int) ignored: putc((int)('&'),...
+ctangle.w:685:10: Return value (type int) ignored: putc((int)('|'),...
+ctangle.w:685:36: Return value (type int) ignored: putc((int)('|'),...
+ctangle.w:686:10: Return value (type int) ignored: putc((int)('.'),...
+ctangle.w:686:36: Return value (type int) ignored: putc((int)('.'),...
+ctangle.w:686:62: Return value (type int) ignored: putc((int)('.'),...
+ctangle.w:688:9: Return value (type int) ignored: putc((int)(':'),...
+ctangle.w:688:35: Return value (type int) ignored: putc((int)(':'),...
+ctangle.w:689:10: Return value (type int) ignored: putc((int)('.'),...
+ctangle.w:689:36: Return value (type int) ignored: putc((int)('*'),...
+ctangle.w:690:10: Return value (type int) ignored: putc((int)('-'),...
+ctangle.w:690:36: Return value (type int) ignored: putc((int)('>'),...
+ctangle.w:690:62: Return value (type int) ignored: putc((int)('*'),...
+ctangle.w:658:17: Return value (type int) ignored: putc((int)(cur_c...
+ctangle.w:658:48: Return value (type int) ignored: putc((int)(' '),...
+ctangle.w:664:17: Return value (type int) ignored: putc((int)(' '),...
+ctangle.w:667:9: Return value (type int) ignored: putc((int)('/'),...
+ctangle.w:668:25: Return value (type int) ignored: putc((int)(' '),...
+ctangle.w:670:9: Fall through case (no preceding break)
   Execution falls through from the previous case (use /*@fallthrough@*/ to mark
   fallthrough cases). (Use -casebreak to inhibit warning)
-ctangle.w:668:9: Return value (type int) ignored: putc((int)(cur_c...
+ctangle.w:670:9: Return value (type int) ignored: putc((int)(cur_c...
 ctangle.w: (in function get_next)
-ctangle.w:895:12: Return value type char does not match declared type
+ctangle.w:897:12: Return value type char does not match declared type
                      eight_bits: '\n'
-ctangle.w:897:1: Assignment of char to eight_bits: c = *loc
-ctangle.w:898:24: Operands of == have incompatible types (eight_bits, char):
+ctangle.w:899:1: Assignment of char to eight_bits: c = *loc
+ctangle.w:900:24: Operands of == have incompatible types (eight_bits, char):
                      c == '/'
-ctangle.w:899:1: Return value (type boolean) ignored: skip_comment(com...
+ctangle.w:901:1: Return value (type boolean) ignored: skip_comment(com...
   Result returned by function call is not used. If this is intended, can cast
   result to (void) to eliminate message. (Use -retvalbool to inhibit warning)
-ctangle.w:901:28: Return value type char does not match declared type
+ctangle.w:903:28: Return value type char does not match declared type
                      eight_bits: '\n'
-ctangle.w:905:55: Operands of == have incompatible types (eight_bits, char):
+ctangle.w:907:55: Operands of == have incompatible types (eight_bits, char):
                      c == '.'
-ctangle.w:906:9: Operands of == have incompatible types (eight_bits, char):
+ctangle.w:908:9: Operands of == have incompatible types (eight_bits, char):
                     c == '\''
-ctangle.w:906:18: Operands of == have incompatible types (eight_bits, char):
+ctangle.w:908:18: Operands of == have incompatible types (eight_bits, char):
                      c == '"'
-ctangle.w:907:5: Operands of == have incompatible types (eight_bits, char):
+ctangle.w:909:5: Operands of == have incompatible types (eight_bits, char):
                     c == 'L'
-ctangle.w:907:13: Operands of == have incompatible types (eight_bits, char):
+ctangle.w:909:13: Operands of == have incompatible types (eight_bits, char):
                      c == 'u'
-ctangle.w:907:21: Operands of == have incompatible types (eight_bits, char):
+ctangle.w:909:21: Operands of == have incompatible types (eight_bits, char):
                      c == 'U'
-ctangle.w:908:5: Operands of == have incompatible types (eight_bits, char):
+ctangle.w:910:5: Operands of == have incompatible types (eight_bits, char):
                     c == 'u'
-ctangle.w:1003:13: Variable delim initialized to type eight_bits, expects char:
+ctangle.w:1005:13: Variable delim initialized to type eight_bits, expects char:
                       c
-ctangle.w:1023:5: Assignment of char to eight_bits: c = *loc++
-ctangle.w:1023:4: Operands of == have incompatible types (eight_bits, char):
+ctangle.w:1025:5: Assignment of char to eight_bits: c = *loc++
+ctangle.w:1025:4: Operands of == have incompatible types (eight_bits, char):
                      (c = *loc++) == delim
-ctangle.w:1024:31: Assignment of eight_bits to char: *id_loc = c
-ctangle.w:1027:4: Operands of == have incompatible types (eight_bits, char):
+ctangle.w:1026:31: Assignment of eight_bits to char: *id_loc = c
+ctangle.w:1029:4: Operands of == have incompatible types (eight_bits, char):
                      c == '\\'
-ctangle.w:1030:1: Assignment of char to eight_bits: c = *loc++
-ctangle.w:1032:31: Assignment of eight_bits to char: *id_loc = c
-ctangle.w:1035:1: Return value (type int) ignored: fputs("\n! Strin...
-ctangle.w:910:27: Operands of == have incompatible types (eight_bits, char):
+ctangle.w:1032:1: Assignment of char to eight_bits: c = *loc++
+ctangle.w:1034:31: Assignment of eight_bits to char: *id_loc = c
+ctangle.w:1037:1: Return value (type int) ignored: fputs("\n! Strin...
+ctangle.w:912:27: Operands of == have incompatible types (eight_bits, char):
                      (c) == '_'
-ctangle.w:910:38: Operands of == have incompatible types (eight_bits, char):
+ctangle.w:912:38: Operands of == have incompatible types (eight_bits, char):
                      (c) == '$'
-ctangle.w:912:9: Operands of == have incompatible types (eight_bits, char):
+ctangle.w:914:9: Operands of == have incompatible types (eight_bits, char):
                     c == '@'
-ctangle.w:1052:17: Operands of == have incompatible types (eight_bits, char):
+ctangle.w:1054:17: Operands of == have incompatible types (eight_bits, char):
                       (c = skip_ahead()) == '@'
-ctangle.w:1121:1: Assignment of char to eight_bits: c = *loc
-ctangle.w:1138:4: Operands of == have incompatible types (eight_bits, char):
-                     c == '@'
-ctangle.w:1139:1: Assignment of char to eight_bits: c = *(loc + 1)
+ctangle.w:1123:1: Assignment of char to eight_bits: c = *loc
 ctangle.w:1140:4: Operands of == have incompatible types (eight_bits, char):
+                     c == '@'
+ctangle.w:1141:1: Assignment of char to eight_bits: c = *(loc + 1)
+ctangle.w:1142:4: Operands of == have incompatible types (eight_bits, char):
                      c == '>'
-ctangle.w:1125:1: Assignment of char to eight_bits: c = ' '
-ctangle.w:1127:1: Assignment of eight_bits to char: *k = c
-ctangle.w:1130:1: Return value (type int) ignored: fputs("\n! Secti...
-ctangle.w:1096:1: Only storage assigned to unqualified static:
+ctangle.w:1127:1: Assignment of char to eight_bits: c = ' '
+ctangle.w:1129:1: Assignment of eight_bits to char: *k = c
+ctangle.w:1132:1: Return value (type int) ignored: fputs("\n! Secti...
+ctangle.w:1098:1: Only storage assigned to unqualified static:
     cur_section_name = section_lookup(section_text + 1, k - 3, true)
   The only reference to this storage is transferred to another reference (e.g.,
   by returning it) that does not have the only annotation. This may lead to a
   memory leak, since the new reference is not necessarily released. (Use
   -onlytrans to inhibit warning)
-ctangle.w:1098:6: Only storage assigned to unqualified static:
+ctangle.w:1100:6: Only storage assigned to unqualified static:
     cur_section_name = section_lookup(section_text + 1, k, false)
-ctangle.w:916:12: Return value type char does not match declared type
+ctangle.w:918:12: Return value type char does not match declared type
                      eight_bits: ' '
-ctangle.w:918:9: Operands of == have incompatible types (eight_bits, char):
+ctangle.w:920:9: Operands of == have incompatible types (eight_bits, char):
                     c == '#'
-ctangle.w:922:2: Path with no return in function declared to return eight_bits
+ctangle.w:924:2: Path with no return in function declared to return eight_bits
   There is a path through a function declared to return a value on which there
   is no return statement. This means the execution may fall through without
   returning a meaningful result to the caller. (Use -noret to inhibit warning)
 ctangle.w: (in function scan_repl)
-ctangle.w:1226:12: Variable a shadows outer declaration
+ctangle.w:1228:12: Variable a shadows outer declaration
   An outer declaration is shadowed by the local declaration. (Use -shadow to
   inhibit warning)
-   ctangle.w:1197:14: Previous definition of a: sixteen_bits
-ctangle.w:1298:34: Array fetch using non-integer, char: flags['k']
-ctangle.w:1300:47: Assignment of char to eight_bits: *(tok_ptr++) = *id_first++
-ctangle.w:1309:8: Variable c initialized to type eight_bits, expects int:
+   ctangle.w:1199:14: Previous definition of a: sixteen_bits
+ctangle.w:1300:34: Array fetch using non-integer, char: flags['k']
+ctangle.w:1302:47: Assignment of char to eight_bits: *(tok_ptr++) = *id_first++
+ctangle.w:1311:8: Variable c initialized to type eight_bits, expects int:
                      (eight_bits)*id_first
-ctangle.w:1310:4: Operands of == have incompatible types (int, char): c == '\\'
+ctangle.w:1312:4: Operands of == have incompatible types (int, char): c == '\\'
   A character constant is used as an int. Use +charintliteral to allow
   character constants to be used as ints.  (This is safe since the actual type
   of a char constant is int.)
-ctangle.w:1311:1: Assignment of char to int: c = *++id_first
+ctangle.w:1313:1: Assignment of char to int: c = *++id_first
   To make char and int types equivalent, use +charint.
-ctangle.w:1312:4: Operands of >= have incompatible types (int, char): c >= '0'
-ctangle.w:1312:12: Operands of <= have incompatible types (int, char): c <= '7'
-ctangle.w:1313:1: Incompatible types for -= (int, char): c -= '0'
-ctangle.w:1315:4: Incompatible types for + (int, char): 8 * c + *(++id_first)
+ctangle.w:1314:4: Operands of >= have incompatible types (int, char): c >= '0'
+ctangle.w:1314:12: Operands of <= have incompatible types (int, char): c <= '7'
+ctangle.w:1315:1: Incompatible types for -= (int, char): c -= '0'
 ctangle.w:1317:4: Incompatible types for + (int, char): 8 * c + *(++id_first)
-ctangle.w:1321:9: Assignment of char to int: c = '\t'
-ctangle.w:1322:9: Assignment of char to int: c = '\n'
-ctangle.w:1323:9: Assignment of char to int: c = '\b'
-ctangle.w:1324:9: Assignment of char to int: c = '\f'
-ctangle.w:1325:9: Assignment of char to int: c = '\v'
-ctangle.w:1326:9: Assignment of char to int: c = '\r'
-ctangle.w:1327:9: Assignment of char to int: c = '\7'
-ctangle.w:1328:9: Assignment of char to int: c = '?'
-ctangle.w:1330:78: Assignment of char to int: c = *(++id_first) - '0'
-ctangle.w:1335:81: Incompatible types for + (int, char): 16 * c + *(++id_first)
-ctangle.w:1338:4: Incompatible types for - (int, char):
+ctangle.w:1319:4: Incompatible types for + (int, char): 8 * c + *(++id_first)
+ctangle.w:1323:9: Assignment of char to int: c = '\t'
+ctangle.w:1324:9: Assignment of char to int: c = '\n'
+ctangle.w:1325:9: Assignment of char to int: c = '\b'
+ctangle.w:1326:9: Assignment of char to int: c = '\f'
+ctangle.w:1327:9: Assignment of char to int: c = '\v'
+ctangle.w:1328:9: Assignment of char to int: c = '\r'
+ctangle.w:1329:9: Assignment of char to int: c = '\7'
+ctangle.w:1330:9: Assignment of char to int: c = '?'
+ctangle.w:1332:78: Assignment of char to int: c = *(++id_first) - '0'
+ctangle.w:1337:81: Incompatible types for + (int, char): 16 * c + *(++id_first)
+ctangle.w:1340:4: Incompatible types for - (int, char):
                      16 * c + toupper((int)*id_first) - 'A'
-ctangle.w:1341:10: Assignment of char to int: c = '\\'
-ctangle.w:1342:10: Assignment of char to int: c = '\''
-ctangle.w:1343:10: Assignment of char to int: c = '\"'
-ctangle.w:1350:72: Incompatible types for + (char, int): '0' + c / 100
-ctangle.w:1351:71: Incompatible types for + (char, int): '0' + (c / 10) % 10
-ctangle.w:1352:62: Incompatible types for + (char, int): '0' + c % 10
-ctangle.w:1205:55: Assignment of char to eight_bits: *(tok_ptr++) = ' '
-ctangle.w:1209:20: Variable a used before definition
+ctangle.w:1343:10: Assignment of char to int: c = '\\'
+ctangle.w:1344:10: Assignment of char to int: c = '\''
+ctangle.w:1345:10: Assignment of char to int: c = '\"'
+ctangle.w:1352:72: Incompatible types for + (char, int): '0' + c / 100
+ctangle.w:1353:71: Incompatible types for + (char, int): '0' + (c / 10) % 10
+ctangle.w:1354:62: Incompatible types for + (char, int): '0' + c % 10
+ctangle.w:1207:55: Assignment of char to eight_bits: *(tok_ptr++) = ' '
+ctangle.w:1211:20: Variable a used before definition
   An rvalue is used that may not be initialized to a value on some execution
   path. (Use -usedef to inhibit warning)
 ctangle.w: (in function scan_section)
-ctangle.w:1374:19: Array fetch using non-integer, char: flags['p']
-ctangle.w:1375:14: Format argument 1 to printf (%d) expects int gets
+ctangle.w:1376:19: Array fetch using non-integer, char: flags['p']
+ctangle.w:1377:14: Format argument 1 to printf (%d) expects int gets
                       sixteen_bits: section_count
-   ctangle.w:1375:11: Corresponding format code
-ctangle.w:1375:29: Return value (type int) ignored: fflush(stdout)
-ctangle.w:1415:7: Operands of == have incompatible types (eight_bits, char):
+   ctangle.w:1377:11: Corresponding format code
+ctangle.w:1377:29: Return value (type int) ignored: fflush(stdout)
+ctangle.w:1417:7: Operands of == have incompatible types (eight_bits, char):
                      (next_control = get_next()) == '\n'
-ctangle.w:1423:113: Assignment of char to eight_bits: *(tok_ptr++) = ' '
-ctangle.w:1437:7: Operands of == have incompatible types (eight_bits, char):
+ctangle.w:1425:113: Assignment of char to eight_bits: *(tok_ptr++) = ' '
+ctangle.w:1439:7: Operands of == have incompatible types (eight_bits, char):
                      (next_control = get_next()) == '+'
-ctangle.w:1438:4: Operands of != have incompatible types (eight_bits, char):
+ctangle.w:1440:4: Operands of != have incompatible types (eight_bits, char):
                      next_control != '='
-ctangle.w:1451:4: Variable p used before definition
-ctangle.w:1454:44: Implicitly only storage p->equiv_or_xref (type void *) not
+ctangle.w:1453:4: Variable p used before definition
+ctangle.w:1456:44: Implicitly only storage p->equiv_or_xref (type void *) not
     released before assignment: p->equiv_or_xref = (void *)cur_text
-ctangle.w:1454:44: Unqualified static storage (void *)cur_text assigned to
+ctangle.w:1456:44: Unqualified static storage (void *)cur_text assigned to
                       implicitly only: p->equiv_or_xref = (void *)cur_text
-ctangle.w:1459:4: Incompatible types for + (sixteen_bits, text [2500]):
+ctangle.w:1461:4: Incompatible types for + (sixteen_bits, text [2500]):
                      q->text_link + text_info
-ctangle.w:1461:1: Variable cur_text is kept in true branch, but not kept in
+ctangle.w:1463:1: Variable cur_text is kept in true branch, but not kept in
                      false branch.
-   ctangle.w:1461:1: in true branch:
-   ctangle.w:1454:44: Storage cur_text becomes kept
+   ctangle.w:1463:1: in true branch:
+   ctangle.w:1456:44: Storage cur_text becomes kept
 ctangle.w: (in function skip_limbo)
-ctangle.w:1521:1: Return value (type int) ignored: sscanf(loc - 3, ...
-ctangle.w:1496:8: Assignment of eight_bits to char: c = skip_ahead()
-ctangle.w:1502:9: Fall through case (no preceding break)
+ctangle.w:1523:1: Return value (type int) ignored: sscanf(loc - 3, ...
+ctangle.w:1498:8: Assignment of eight_bits to char: c = skip_ahead()
+ctangle.w:1504:9: Fall through case (no preceding break)
 ctangle.w: (in function print_stats)
-ctangle.w:1540:1: Return value (type int) ignored: puts("\nMemory u...
-ctangle.w:1542:1: Format argument 1 to printf (%ld) expects long int gets
+ctangle.w:1542:1: Return value (type int) ignored: puts("\nMemory u...
+ctangle.w:1544:1: Format argument 1 to printf (%ld) expects long int gets
                      ptrdiff_t: (ptrdiff_t)(name_ptr - name_dir)
   To allow arbitrary integral types to match long unsigned, use +longintegral.
-   ctangle.w:1541:11: Corresponding format code
-ctangle.w:1544:1: Format argument 1 to printf (%ld) expects long int gets
-                     ptrdiff_t: (ptrdiff_t)(text_ptr - text_info)
    ctangle.w:1543:11: Corresponding format code
 ctangle.w:1546:1: Format argument 1 to printf (%ld) expects long int gets
-                     ptrdiff_t: (ptrdiff_t)(byte_ptr - byte_mem)
+                     ptrdiff_t: (ptrdiff_t)(text_ptr - text_info)
    ctangle.w:1545:11: Corresponding format code
 ctangle.w:1548:1: Format argument 1 to printf (%ld) expects long int gets
-                     ptrdiff_t: (ptrdiff_t)(tok_ptr - tok_mem)
+                     ptrdiff_t: (ptrdiff_t)(byte_ptr - byte_mem)
    ctangle.w:1547:11: Corresponding format code
+ctangle.w:1550:1: Format argument 1 to printf (%ld) expects long int gets
+                     ptrdiff_t: (ptrdiff_t)(tok_ptr - tok_mem)
+   ctangle.w:1549:11: Corresponding format code
 
