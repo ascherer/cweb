@@ -127,9 +127,6 @@ common.w:649:10: Function returns with global name_ptr referencing released
 common.w: (in function print_prefix_name)
 common.w:750:40: Function fwrite expects arg 3 to be size_t gets int: l
 common.w: (in function add_section_name)
-common.w:809:15: Incompatible types for + (int, boolean):
-                    (int)(last - first) + ispref
-  To make bool and int types equivalent, use +boolint.
 common.w:812:27: Only storage name_ptr->byte_start assigned to unqualified (s
                     aliases name_ptr->byte_start): byte_ptr = s + name_len
   The only reference to this storage is transferred to another reference (e.g.,
@@ -172,8 +169,6 @@ common.w:823:87: Function returns with global name_ptr referencing kept storage
 common.w:823:87: Function returns with global name_dir referencing kept storage
    common.w:818:1: Storage name_dir becomes kept
 common.w: (in function extend_section_name)
-common.w:836:15: Incompatible types for + (int, boolean):
-                    (int)(last - first) + ispref
 common.w:839:1: Unqualified storage name_ptr assigned to implicitly only:
                    q->link = name_ptr
    common.w:823:66: Storage name_ptr becomes kept

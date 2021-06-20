@@ -806,7 +806,7 @@ boolean ispref) /* are we adding a prefix or a full name? */
 {
   name_pointer p=name_ptr; /* new node */
   char *s=first_chunk(p);
-  int name_len=(int)(last-first)+ispref; /* length of section name */
+  int name_len=(int)(last-first)+(int)ispref; /* length of section name */
   if (s+name_len>byte_mem_end) overflow("byte memory");
   if (name_ptr+1>=name_dir_end) overflow("name");
   (++name_ptr)->byte_start=byte_ptr=s+name_len;
@@ -833,7 +833,7 @@ boolean ispref) /* are we adding a prefix or a full name? */
 {
   char *s;
   name_pointer q=p+1;
-  int name_len=(int)(last-first)+ispref;
+  int name_len=(int)(last-first)+(int)ispref;
   if (name_ptr>=name_dir_end) overflow("name");
   while (q->link!=name_dir) q=q->link;
   q->link=name_ptr;
