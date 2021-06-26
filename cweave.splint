@@ -1594,8 +1594,6 @@ cweave.w:3918:6: Fall through case (no preceding break)
 cweave.w:3923:24: Operands of == have incompatible types (eight_bits, char):
                      a == ' '
 cweave.w:3939:6: Fall through case (no preceding break)
-cweave.w:3993:4: Operands of == have incompatible types (boolean, int):
-                    cur_state.mode_field == 1
 cweave.w:3994:118: Incompatible types for + (arbitrary unsigned integral type,
                       char): a - 0211 + '0'
 cweave.w:4002:4: Operands of != have incompatible types (eight_bits, char):
@@ -1604,8 +1602,8 @@ cweave.w:4002:12: Array fetch using non-integer, char: flags['f']
 cweave.w:4002:70: Assignment of eight_bits to char: *(++out_ptr) = b
 cweave.w:4027:5: Operands of != have incompatible types (eight_bits, char):
                     a != ' '
-cweave.w:4029:4: Operands of == have incompatible types (boolean, int):
-                    save_mode == 1
+cweave.w:4029:4: Use of == with boolean variables (risks inconsistency because
+                    of multiple true values): save_mode == true
 cweave.w:4033:118: Incompatible types for + (arbitrary unsigned integral type,
                       char): b - 0211 + '0'
 cweave.w:3942:51: Assignment of token to char:
@@ -1620,8 +1618,6 @@ cweave.w:4243:13: Buffer overflow possible with sprintf.  Recommend using
                      snprintf instead: sprintf
 cweave.w:4244:4: Array fetch using non-integer, char: flags['p']
 cweave.w:4245:34: Return value (type int) ignored: fflush(stdout)
-cweave.w:4254:26: Assignment of int to boolean: cur_state.mode_field = 1
-cweave.w:4277:18: Assignment of int to boolean: cur_state.mode_field = 1
 cweave.w:4349:31: Unqualified static storage text_ptr assigned to implicitly
                      only: scrap_ptr->trans_plus.Trans = text_ptr
    cweave.w:3709:1: Storage text_ptr becomes kept
@@ -1645,7 +1641,6 @@ cweave.w:4376:32: Unqualified static storage text_ptr assigned to implicitly
 cweave.w:4376:158: Kept storage text_ptr assigned to implicitly only:
                       scrap_ptr->trans_plus.Trans = text_ptr
    cweave.w:4376:32: Storage text_ptr becomes kept
-cweave.w:4394:102: Assignment of int to boolean: cur_state.mode_field = 1
 cweave.w:4413:7: Operands of == have incompatible types (eight_bits, char):
                     next_control == '+'
 cweave.w:4414:4: Operands of != have incompatible types (eight_bits, char):
@@ -1750,8 +1745,6 @@ cweave.w:4565:2: Function returns with non-null global scn_file referencing
 cweave.w: (in function unbucket)
 cweave.w:4725:1: Unqualified storage bucket[collate[c]] assigned to implicitly
                     only: scrap_ptr->trans_plus.Head = bucket[collate[c]]
-cweave.w: (in function section_print)
-cweave.w:4840:81: Assignment of int to boolean: cur_state.mode_field = 1
 cweave.w: (in function print_stats)
 cweave.w:4859:1: Return value (type int) ignored: puts("\nMemory u...
 cweave.w:4861:10: Unrecognized format code: %td names (out of %ld)\n
