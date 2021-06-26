@@ -734,22 +734,8 @@ cweave.w:653:22: Return value type char does not match declared type
                     eight_bits: '|'
 cweave.w: (in function get_next)
 cweave.w:713:1: Assignment of char to eight_bits: c = *(loc++)
-cweave.w:714:13: Function isdigit expects arg 1 to be int gets eight_bits:
-                    (eight_bits)(c)
-cweave.w:714:62: Operands of == have incompatible types (eight_bits, char):
+cweave.w:714:55: Operands of == have incompatible types (eight_bits, char):
                     c == '.'
-cweave.w:839:29: Function isdigit expects arg 1 to be int gets eight_bits:
-                    (eight_bits)(*loc)
-cweave.w:867:18: Function isxdigit expects arg 1 to be int gets eight_bits:
-                    (eight_bits)(*loc)
-cweave.w:843:18: Function isdigit expects arg 1 to be int gets eight_bits:
-                    (eight_bits)(*loc)
-cweave.w:878:32: Function isdigit expects arg 1 to be int gets eight_bits:
-                    (eight_bits)(*loc)
-cweave.w:846:17: Function isdigit expects arg 1 to be int gets eight_bits:
-                    (eight_bits)(*loc)
-cweave.w:856:17: Function isdigit expects arg 1 to be int gets eight_bits:
-                    (eight_bits)(*loc)
 cweave.w:860:35: Function toupper expects arg 1 to be int gets eight_bits:
                     (eight_bits)*loc
 cweave.w:715:9: Operands of == have incompatible types (eight_bits, char):
@@ -811,8 +797,6 @@ cweave.w:1002:4: Operands of == have incompatible types (eight_bits, char):
                     c == '>'
 cweave.w:1009:4: Operands of != have incompatible types (eight_bits, char):
                     c != '@'
-cweave.w:986:13: Function isspace expects arg 1 to be int gets eight_bits:
-                    (eight_bits)(c)
 cweave.w:987:1: Assignment of char to eight_bits: c = ' '
 cweave.w:989:1: Assignment of eight_bits to char: *k = c
 cweave.w:992:1: Return value (type int) ignored: fputs("\n! Secti...
@@ -826,12 +810,8 @@ cweave.w:911:4: Incompatible types for == (eight_bits, char): c == '\\'
 cweave.w:951:9: Fall through case (no preceding break)
   Execution falls through from the previous case (use /*@fallthrough@*/ to mark
   fallthrough cases). (Use -casebreak to inhibit warning)
-cweave.w:723:18: Function isspace expects arg 1 to be int gets eight_bits:
-                    (eight_bits)(c)
 cweave.w:724:4: Operands of == have incompatible types (eight_bits, char):
                    c == '#'
-cweave.w:763:35: Function isspace expects arg 1 to be int gets eight_bits:
-                    (eight_bits)(*loc)
 cweave.w:787:47: Return value type char does not match declared type
                     eight_bits: '\t'
 cweave.w:728:2: Path with no return in function declared to return eight_bits
@@ -917,9 +897,6 @@ cweave.w:1381:21: Parameter 1 (out_buf + 1) to function memcpy is declared
     unique but may be aliased externally by parameter 2 (b + 1)
   A unique or only parameter may be aliased by some other parameter or visible
   global. (Use -mayaliasunique to inhibit warning)
-cweave.w: (in function finish_line)
-cweave.w:1401:15: Function isspace expects arg 1 to be int gets eight_bits:
-                     (eight_bits)(*k)
 cweave.w: (in function out_str)
 cweave.w:1434:7: Test expression for while not boolean, type char: *s
   Test expression type is not boolean. (Use -predboolothers to inhibit warning)
@@ -939,8 +916,6 @@ cweave.w:1552:15: Return value (type boolean) ignored: get_line()
   Result returned by function call is not used. If this is intended, can cast
   result to (void) to eliminate message. (Use -retvalbool to inhibit warning)
 cweave.w: (in function copy_TeX)
-cweave.w:1579:34: Function isspace expects arg 1 to be int gets eight_bits:
-                     (eight_bits)(c)
 cweave.w:1581:17: Return value type char does not match declared type
                      eight_bits: '|'
 cweave.w: (in function copy_comment)
@@ -1594,8 +1569,6 @@ cweave.w:3888:2: Fresh storage p not released before return
 cweave.w: (in function make_output)
 cweave.w:3957:4: Operands of == have incompatible types (char, int):
                     cur_name->dummy.Ilk == 5
-cweave.w:3967:13: Function islower expects arg 1 to be int gets eight_bits:
-                     (eight_bits)(*p)
 cweave.w:3975:9: Operands of == have incompatible types (char, int):
                     cur_name->dummy.Ilk == 22
 cweave.w:4066:1: Only storage cur_name->equiv_or_xref assigned to unqualified
@@ -1672,8 +1645,6 @@ cweave.w:3944:49: Assignment of eight_bits to char: *(++out_ptr) = a
 cweave.w: (in function phase_two)
 cweave.w:4175:4: Array fetch using non-integer, char: flags['p']
 cweave.w:4175:15: Return value (type int) ignored: fputs("\nWriting...
-cweave.w:4236:27: Function isdigit expects arg 1 to be int gets eight_bits:
-                     (eight_bits)(*loc)
 cweave.w:4237:12: Incompatible types for + (int, char): sec_depth * 10 + (*loc)
 cweave.w:4243:13: Buffer overflow possible with sprintf.  Recommend using
                      snprintf instead: sprintf
@@ -1754,12 +1725,8 @@ cweave.w:4611:21: Only storage cur_name->link assigned to unqualified static:
                      next_name = cur_name->link
 cweave.w:4613:1: Assignment of eight_bits to int:
                     c = (eight_bits)((cur_name->byte_start)[0])
-cweave.w:4614:13: Function isupper expects arg 1 to be int gets eight_bits:
-                     (eight_bits)(c)
 cweave.w:4757:1: Only storage scrap_ptr->trans_plus.Head assigned to
                     unqualified static: cur_name = scrap_ptr->trans_plus.Head
-cweave.w:4774:13: Function islower expects arg 1 to be int gets eight_bits:
-                     (eight_bits)(*j)
 cweave.w:4786:6: Fall through case (no preceding break)
 cweave.w:4769:36: Statement after switch is not a case: char * j
   The first statement after a switch is not a case. (Use -firstcase to inhibit
@@ -1778,10 +1745,8 @@ cweave.w:4809:1: Only storage cur_xref->xlink assigned to unqualified static:
                     cur_xref = cur_xref->xlink
 cweave.w:4742:1: Only storage scrap_ptr->trans_plus.Head assigned to
                     unqualified static: next_name = scrap_ptr->trans_plus.Head
-cweave.w:4749:13: Function isupper expects arg 1 to be int gets eight_bits:
-                     (eight_bits)(c)
-cweave.w:4749:72: Function tolower expects arg 1 to be int gets eight_bits: c
-cweave.w:4749:61: Assignment of char to eight_bits: c = tolower(c)
+cweave.w:4749:65: Function tolower expects arg 1 to be int gets eight_bits: c
+cweave.w:4749:54: Assignment of char to eight_bits: c = tolower(c)
 cweave.w:4754:1: Variable xmem is kept in true branch, but not kept in false
                     branch.
    cweave.w:4754:1: in true branch:
@@ -1824,33 +1789,18 @@ cweave.w: (in function section_print)
 cweave.w:4840:81: Assignment of int to boolean: cur_state.mode_field = 1
 cweave.w: (in function print_stats)
 cweave.w:4859:1: Return value (type int) ignored: puts("\nMemory u...
-cweave.w:4862:1: Format argument 1 to printf (%ld) expects long int gets
-                    ptrdiff_t: (ptrdiff_t)(name_ptr - name_dir)
-  To allow arbitrary integral types to match long unsigned, use +longintegral.
-   cweave.w:4861:11: Corresponding format code
-cweave.w:4864:1: Format argument 1 to printf (%ld) expects long int gets
-                    ptrdiff_t: (ptrdiff_t)(xref_ptr - xmem)
-   cweave.w:4863:11: Corresponding format code
-cweave.w:4866:1: Format argument 1 to printf (%ld) expects long int gets
-                    ptrdiff_t: (ptrdiff_t)(byte_ptr - byte_mem)
-   cweave.w:4865:11: Corresponding format code
+cweave.w:4861:10: Unrecognized format code: %td names (out of %ld)\n
+  Format code in a format string is not valid. (Use -formatcode to inhibit
+  warning)
+cweave.w:4863:10: Unrecognized format code: %td cross-references (out of %ld)\n
+cweave.w:4865:10: Unrecognized format code: %td bytes (out of %ld)\n
 cweave.w:4867:1: Return value (type int) ignored: puts("Parsing:")
-cweave.w:4869:1: Format argument 1 to printf (%ld) expects long int gets
-                    ptrdiff_t: (ptrdiff_t)(max_scr_ptr - scrap_info)
-   cweave.w:4868:11: Corresponding format code
-cweave.w:4871:1: Format argument 1 to printf (%ld) expects long int gets
-                    ptrdiff_t: (ptrdiff_t)(max_text_ptr - tok_start)
-   cweave.w:4870:11: Corresponding format code
-cweave.w:4873:1: Format argument 1 to printf (%ld) expects long int gets
-                    ptrdiff_t: (ptrdiff_t)(max_tok_ptr - tok_mem)
-   cweave.w:4872:11: Corresponding format code
-cweave.w:4875:1: Format argument 1 to printf (%ld) expects long int gets
-                    ptrdiff_t: (ptrdiff_t)(max_stack_ptr - stack)
-   cweave.w:4874:11: Corresponding format code
+cweave.w:4868:10: Unrecognized format code: %td scraps (out of %ld)\n
+cweave.w:4870:10: Unrecognized format code: %td texts (out of %ld)\n
+cweave.w:4872:10: Unrecognized format code: %td tokens (out of %ld)\n
+cweave.w:4874:10: Unrecognized format code: %td levels (out of %ld)\n
 cweave.w:4876:1: Return value (type int) ignored: puts("Sorting:")
-cweave.w:4878:1: Format argument 1 to printf (%ld) expects long int gets
-                    ptrdiff_t: (ptrdiff_t)(max_sort_ptr - scrap_info)
-   cweave.w:4877:11: Corresponding format code
+cweave.w:4877:10: Unrecognized format code: %td levels (out of %ld)\n
 cweave.w:2251:13: File static function print_text declared but not used
   A function is declared but not used. Use /*@unused@*/ in front of function
   header to suppress message. (Use -fcnuse to inhibit warning)
