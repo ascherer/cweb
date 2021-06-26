@@ -768,14 +768,6 @@ cweave.w:720:27: Operands of == have incompatible types (eight_bits, char):
                     (c) == '_'
 cweave.w:720:38: Operands of == have incompatible types (eight_bits, char):
                     (c) == '$'
-cweave.w:814:15: Function isalpha expects arg 1 to be int gets eight_bits:
-                    (eight_bits)*loc
-cweave.w:814:42: Function isdigit expects arg 1 to be int gets eight_bits:
-                    (eight_bits)*loc
-cweave.w:815:4: Operands of == have incompatible types (eight_bits, char):
-                   ((eight_bits)*loc) == '_'
-cweave.w:815:30: Operands of == have incompatible types (eight_bits, char):
-                    ((eight_bits)*loc) == '$'
 cweave.w:722:9: Operands of == have incompatible types (eight_bits, char):
                    c == '@'
 cweave.w:940:27: Assignment of char to eight_bits: c = *loc++

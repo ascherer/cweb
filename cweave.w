@@ -811,8 +811,8 @@ switch(c) {
   id_first=--loc;
   do
     ++loc;
-  while (isalpha((eight_bits)*loc) || isdigit((eight_bits)*loc) @|
-      || isxalpha((eight_bits)*loc) || ishigh((eight_bits)*loc));
+  while (isalpha((int)*loc) || isdigit((int)*loc) @|
+      || isxalpha(*loc) || ishigh(*loc));
   id_loc=loc; return identifier;
 }
 
