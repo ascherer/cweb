@@ -1230,9 +1230,6 @@ cweave.w:3157:23: Function big_app expects arg 1 to be token gets char: ' '
 cweave.w:3160:23: Function big_app expects arg 1 to be token gets char: ' '
 cweave.w:3165:18: Function squash expects arg 3 to be eight_bits gets [function
                      (double) returns double]: exp
-cweave.w:3344:54: Format argument 1 to printf (%d) expects int gets
-                     sixteen_bits: section_count
-   cweave.w:3344:50: Corresponding format code
 cweave.w:3348:1: Return value (type int) ignored: putchar(' ')
 cweave.w:3348:14: Return value (type int) ignored: fputs(cat_name[(...
 cweave.w:3340:33: Unqualified static storage text_ptr - 1 returned as

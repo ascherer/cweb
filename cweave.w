@@ -3341,7 +3341,7 @@ freeze_text; return text_ptr-1;
 
 @ @<If semi-tracing, show the irreducible scraps@>=
 if (lo_ptr>scrap_base && tracing==partly) {
-  printf("\nIrreducible scrap sequence in section %d:",section_count);
+  printf("\nIrreducible scrap sequence in section %d:",(int)section_count);
 @.Irreducible scrap sequence...@>
   mark_harmless;
   for (j=scrap_base; j<=lo_ptr; j++) {
