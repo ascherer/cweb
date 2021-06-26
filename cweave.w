@@ -650,7 +650,7 @@ skip_TeX(void) /* skip past pure \TEX/ code */
     if (loc>limit && get_line()==false) return new_section;
     *(limit+1)='@@';
     while (*loc!='@@' && *loc!='|') loc++;
-    if (*loc++ =='|') return '|';
+    if (*loc++ =='|') return (eight_bits)'|';
     if (loc<=limit) return ccode[(eight_bits)*(loc++)];
   }
 }
@@ -711,13 +711,13 @@ get_next(void) /* produces the next input token */
     @<Check if we're at the end of a preprocessor command@>@;
     if (loc>limit && get_line()==false) return new_section;
     c=*(loc++);
-    if (xisdigit(c) || c=='.') @<Get a constant@>@;
+    if (xisdigit((int)c) || c=='.') @<Get a constant@>@;
     else if (c=='\'' || c=='"'@|
            || ((c=='L' || c=='u' || c=='U')&&(*loc=='\'' || *loc=='"'))@|
            || ((c=='u' && *loc=='8')&&(*(loc+1)=='\'' || *(loc+1)=='"'))@|
            || (c=='<' && sharp_include_line==true))
         @<Get a string@>@;
-    else if (isalpha(c) || isxalpha(c) || ishigh(c))
+    else if (isalpha((int)c) || isxalpha(c) || ishigh(c))
       @<Get an identifier@>@;
     else if (c=='@@') @<Get control code and possible section name@>@;
     else if (xisspace(c)) continue; /* ignore spaces and tabs */
@@ -857,7 +857,7 @@ get_exponent:
 digit_suffix:
   while (*loc=='u' || *loc=='U' || *loc=='l' || *loc=='L'
          || *loc=='f' || *loc=='F') {
-    *id_loc++='$'; *id_loc++=toupper((eight_bits)*loc); loc++;
+    *id_loc++='$'; *id_loc++=toupper((int)*loc); loc++;
   }
   return constant;
 }
@@ -4610,7 +4610,7 @@ for (h=hash; h<=hash_end; h++) {
   while (next_name) {
     cur_name=next_name; next_name=cur_name->link;
     if (cur_name->xref!=(void *)xmem) {
-      c=(eight_bits)((cur_name->byte_start)[0]);
+      c=(cur_name->byte_start)[0];
       if (xisupper(c)) c=tolower(c);
       blink[cur_name-name_dir]=bucket[c]; bucket[c]=cur_name;
     }
@@ -4738,14 +4738,14 @@ while (sort_ptr>scrap_info) {
 }
 
 @ @<Split the list...@>= {
-  eight_bits c;
+  int c;
   next_name=sort_ptr->head;
   do {
     cur_name=next_name; next_name=blink[cur_name-name_dir];
     cur_byte=cur_name->byte_start+cur_depth;
     if (cur_byte==(cur_name+1)->byte_start) c=0; /* hit end of the name */
     else {
-      c=(eight_bits) *cur_byte;
+      c=*cur_byte;
       if (xisupper(c)) c=tolower(c);
     }
   blink[cur_name-name_dir]=bucket[c]; bucket[c]=cur_name;

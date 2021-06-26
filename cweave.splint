@@ -729,15 +729,10 @@ cweave.w:1263:1: Only storage assigned to unqualified static:
 cweave.w:1268:32: Function id_lookup expects arg 3 to be char gets int: 0
 cweave.w:1268:1: Only storage assigned to unqualified static:
                     rhs = id_lookup(id_first, id_loc, 0)
-cweave.w: (in function skip_TeX)
-cweave.w:653:22: Return value type char does not match declared type
-                    eight_bits: '|'
 cweave.w: (in function get_next)
 cweave.w:713:1: Assignment of char to eight_bits: c = *(loc++)
-cweave.w:714:55: Operands of == have incompatible types (eight_bits, char):
+cweave.w:714:65: Operands of == have incompatible types (eight_bits, char):
                     c == '.'
-cweave.w:860:35: Function toupper expects arg 1 to be int gets eight_bits:
-                    (eight_bits)*loc
 cweave.w:715:9: Operands of == have incompatible types (eight_bits, char):
                    c == '\''
 cweave.w:715:18: Operands of == have incompatible types (eight_bits, char):
@@ -769,10 +764,9 @@ cweave.w:911:4: Operands of == have incompatible types (eight_bits, char):
 cweave.w:915:15: Assignment of char to eight_bits: c = *loc++
 cweave.w:919:31: Assignment of eight_bits to char: *id_loc = c
 cweave.w:922:1: Return value (type int) ignored: fputs("\n! Strin...
-cweave.w:720:17: Function isalpha expects arg 1 to be int gets eight_bits: c
-cweave.w:720:22: Operands of == have incompatible types (eight_bits, char):
+cweave.w:720:27: Operands of == have incompatible types (eight_bits, char):
                     (c) == '_'
-cweave.w:720:33: Operands of == have incompatible types (eight_bits, char):
+cweave.w:720:38: Operands of == have incompatible types (eight_bits, char):
                     (c) == '$'
 cweave.w:814:15: Function isalpha expects arg 1 to be int gets eight_bits:
                     (eight_bits)*loc
@@ -1723,8 +1717,7 @@ cweave.w:4532:5: Dependent storage assigned to unqualified:
   -dependenttrans to inhibit warning)
 cweave.w:4611:21: Only storage cur_name->link assigned to unqualified static:
                      next_name = cur_name->link
-cweave.w:4613:1: Assignment of eight_bits to int:
-                    c = (eight_bits)((cur_name->byte_start)[0])
+cweave.w:4613:1: Assignment of char to int: c = (cur_name->byte_start)[0]
 cweave.w:4757:1: Only storage scrap_ptr->trans_plus.Head assigned to
                     unqualified static: cur_name = scrap_ptr->trans_plus.Head
 cweave.w:4786:6: Fall through case (no preceding break)
@@ -1745,8 +1738,7 @@ cweave.w:4809:1: Only storage cur_xref->xlink assigned to unqualified static:
                     cur_xref = cur_xref->xlink
 cweave.w:4742:1: Only storage scrap_ptr->trans_plus.Head assigned to
                     unqualified static: next_name = scrap_ptr->trans_plus.Head
-cweave.w:4749:65: Function tolower expects arg 1 to be int gets eight_bits: c
-cweave.w:4749:54: Assignment of char to eight_bits: c = tolower(c)
+cweave.w:4748:1: Assignment of char to int: c = *cur_byte
 cweave.w:4754:1: Variable xmem is kept in true branch, but not kept in false
                     branch.
    cweave.w:4754:1: in true branch:
