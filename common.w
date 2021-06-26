@@ -211,7 +211,7 @@ so that no further matches will be made.
 Here's a shorthand expression for inequality between the two lines:
 
 @d lines_dont_match (change_limit-change_buffer != limit-buffer @| ||
-  strncmp(buffer, change_buffer, (size_t)(limit-buffer)))
+  strncmp(buffer, change_buffer, (size_t)(limit-buffer)) != 0)
 
 @<Global var...@>=
 static char change_buffer[buf_size]; /* next line of |change_file| */
@@ -246,7 +246,7 @@ while(true) {
   if (!input_ln(change_file)) return;
   if (limit<buffer+2) continue;
   if (buffer[0]!='@@') continue;
-  if (xisupper(buffer[1])) buffer[1]=tolower((eight_bits)buffer[1]);
+  if (xisupper(buffer[1])) buffer[1]=tolower((int)buffer[1]);
   if (buffer[1]=='x') break;
   if (buffer[1]=='y' || buffer[1]=='z' || buffer[1]=='i') {
     loc=buffer+2;
@@ -313,7 +313,7 @@ check_change(void) /* switches to |change_file| if the buffers match */
       return;
     }
     if (limit>buffer+1 && buffer[0]=='@@') {
-      char xyz_code=xisupper(buffer[1])? tolower((eight_bits)buffer[1]): buffer[1];
+      char xyz_code=xisupper(buffer[1])? tolower((int)buffer[1]): buffer[1];
       @<If the current line starts with \.{@@y},
         report any discrepancies and |return|@>@;
     }
@@ -446,7 +446,7 @@ The remainder of the \.{@@i} line after the file name is ignored.
   char temp_file_name[max_file_name_length];
   char *cur_file_name_end=cur_file_name+max_file_name_length-1;
   char *kk, *k=cur_file_name;
-  int l; /* length of file name */
+  size_t l; /* length of file name */
 
   if (*loc=='"') {
     loc++;
@@ -521,7 +521,7 @@ The remainder of the \.{@@i} line after the file name is ignored.
     }
     *limit=' ';
     if (buffer[0]=='@@') {
-      if (xisupper(buffer[1])) buffer[1]=tolower((eight_bits)buffer[1]);
+      if (xisupper(buffer[1])) buffer[1]=tolower((int)buffer[1]);
       if (buffer[1]=='x' || buffer[1]=='y') {
         loc=buffer+2;
         err_print("! Where is the matching @@z?");
@@ -639,10 +639,10 @@ char t) /* the |ilk|; used by \.{CWEAVE} only */
 {
   const char *i=first; /* position in |buffer| */
   int h; /* hash code; shadows |hash_pointer h| */
-  int l; /* length of the given identifier */
+  size_t l; /* length of the given identifier */
   name_pointer p; /* where the identifier is being sought */
   if (last==NULL) for (last=first; *last!='\0'; last++);
-  l=(int)(last-first); /* compute the length */
+  l=(size_t)(last-first); /* compute the length */
   @<Compute the hash code |h|@>@;
   @<Compute the name location |p|@>@;
   if (p==name_ptr) @<Enter a new name into the table at position |p|@>@;
@@ -663,7 +663,7 @@ otherwise |p| will point to its existing location.
 
 @<Compute the name location...@>=
 p=hash[h];
-while (p && !names_match(p,first,l,t)) p=p->link;
+while (p && !names_match(p,first,l,(eight_bits)t)) p=p->link;
 if (p==NULL) {
   p=name_ptr; /* the current identifier is new */
   p->link=hash[h]; hash[h]=p; /* insert |p| at beginning of hash list */
@@ -678,7 +678,7 @@ in a slightly different way in \.{CWEAVE} than in \.{CTANGLE}; hence the
   if (name_ptr>=name_dir_end) overflow("name");
   strncpy(byte_ptr,first,l);
   (++name_ptr)->byte_start=byte_ptr+=l;
-  init_p(p,t);
+  init_p(p,(eight_bits)t);
 }
 
 @ If |p| is a |name_pointer| variable, as we have seen,
@@ -700,10 +700,10 @@ to additional chunks in the same way. Null links are represented by
 |name_dir|.
 
 @d first_chunk(p) ((p)->byte_start+2)
-@d prefix_length(p) (int)((eight_bits)*((p)->byte_start)*256 +
+@d prefix_length(p) (size_t)((eight_bits)*((p)->byte_start)*256 +
                 (eight_bits)*((p)->byte_start+1))
-@d set_prefix_length(p,m) (*((p)->byte_start)=(m)/256,
-                 *((p)->byte_start+1)=(m)%256)
+@d set_prefix_length(p,m) (*((p)->byte_start)=(char)((m)/256),
+                 *((p)->byte_start+1)=(char)((m)%256))
 
 @c
 void
@@ -746,7 +746,7 @@ print_prefix_name(
 name_pointer p)
 {
   char *s = first_chunk(p);
-  int l = prefix_length(p);
+  size_t l = prefix_length(p);
   term_write(s,l);
   if (s+l<(p+1)->byte_start) term_write("...",3);
 }
@@ -762,16 +762,16 @@ are null-terminated, and we keep an eye open for prefixes and extensions.
 @d extension 4 /* the first name is a proper extension of the second */
 
 @<Predecl...@>=
-static int web_strcmp(char *,int,char *,int);@/
+static int web_strcmp(char *,size_t,char *,size_t);@/
 static name_pointer add_section_name(name_pointer,int,char *,char *,boolean);@/
 static void extend_section_name(name_pointer,char *,char *,boolean);
 
 @ @c
 static int web_strcmp( /* fuller comparison than |strcmp| */
   char *j, /* beginning of first string */
-  int j_len, /* length of first string */
+  size_t j_len, /* length of first string */
   char *k, /* beginning of second string */
-  int k_len) /* length of second string */
+  size_t k_len) /* length of second string */
 {
   char *j1=j+j_len, *k1=k+k_len;
   while (k<k1 && j<j1 && *j==*k) k++, j++;
@@ -806,7 +806,7 @@ boolean ispref) /* are we adding a prefix or a full name? */
 {
   name_pointer p=name_ptr; /* new node */
   char *s=first_chunk(p);
-  int name_len=(int)(last-first)+ispref; /* length of section name */
+  size_t name_len=(size_t)(last-first+(int)ispref); /* length of section name */
   if (s+name_len>byte_mem_end) overflow("byte memory");
   if (name_ptr+1>=name_dir_end) overflow("name");
   (++name_ptr)->byte_start=byte_ptr=s+name_len;
@@ -833,7 +833,7 @@ boolean ispref) /* are we adding a prefix or a full name? */
 {
   char *s;
   name_pointer q=p+1;
-  int name_len=(int)(last-first)+ispref;
+  size_t name_len=(size_t)(last-first+(int)ispref);
   if (name_ptr>=name_dir_end) overflow("name");
   while (q->link!=name_dir) q=q->link;
   q->link=name_ptr;
@@ -863,7 +863,7 @@ boolean ispref) /* is the new name a prefix or a full name? */
   name_pointer r=NULL; /* where a match has been found */
   name_pointer par=NULL; /* parent of |p|, if |r| is |NULL|;
             otherwise parent of |r| */
-  int name_len=(int)(last-first)+1;
+  size_t name_len=(size_t)(last-first+1);
   @<Look for matches for new name among shortest prefixes, complaining
         if more than one is found@>@;
   @<If no match found, add new name to tree@>@;
@@ -959,7 +959,7 @@ us to regard \.{@@<foo...@@>} as an ``extension'' of itself.
 @c
 static int section_name_cmp(
 char **pfirst, /* pointer to beginning of comparison string */
-int len, /* length of string */
+size_t len, /* length of string */
 name_pointer r) /* section name being compared */
 {
   char *first=*pfirst; /* beginning of comparison string */
@@ -971,7 +971,7 @@ name_pointer r) /* section name being compared */
     ss=(r+1)->byte_start-1;
     if (*ss==' ' && ss>=r->byte_start) ispref=true,q=q->link;
     else ispref=false,ss++,q=name_dir;
-    switch(c=web_strcmp(first,len,s,ss-s)) {
+    switch(c=web_strcmp(first,len,s,(size_t)(ss-s))) {
     case equal: if (q==name_dir)
         if (ispref) {
           *pfirst=first+(ptrdiff_t)(ss-s);
@@ -988,7 +988,7 @@ name_pointer r) /* section name being compared */
   }
 }
 
-@ @<Predec...@>=@+static int section_name_cmp(char **,int,name_pointer);
+@ @<Predec...@>=@+static int section_name_cmp(char **,size_t,name_pointer);
 
 @** Reporting errors to the user.
 A global variable called |history| will contain one of four values
@@ -1015,7 +1015,7 @@ void
 err_print( /* prints `\..' and location of error message */
 const char *s)
 {
-  printf(*s=='!'? "\n%s" : "%s",s);
+  *s=='!'? printf("\n%s",s) : printf("%s",s);
   if (web_file_open) @<Print error location based on input buffer@>@;
   update_terminal; mark_error;
 }

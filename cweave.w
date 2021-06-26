@@ -650,7 +650,7 @@ skip_TeX(void) /* skip past pure \TEX/ code */
     if (loc>limit && get_line()==false) return new_section;
     *(limit+1)='@@';
     while (*loc!='@@' && *loc!='|') loc++;
-    if (*loc++ =='|') return '|';
+    if (*loc++ =='|') return (eight_bits)'|';
     if (loc<=limit) return ccode[(eight_bits)*(loc++)];
   }
 }
@@ -711,13 +711,13 @@ get_next(void) /* produces the next input token */
     @<Check if we're at the end of a preprocessor command@>@;
     if (loc>limit && get_line()==false) return new_section;
     c=*(loc++);
-    if (xisdigit(c) || c=='.') @<Get a constant@>@;
+    if (xisdigit((int)c) || c=='.') @<Get a constant@>@;
     else if (c=='\'' || c=='"'@|
            || ((c=='L' || c=='u' || c=='U')&&(*loc=='\'' || *loc=='"'))@|
            || ((c=='u' && *loc=='8')&&(*(loc+1)=='\'' || *(loc+1)=='"'))@|
            || (c=='<' && sharp_include_line==true))
         @<Get a string@>@;
-    else if (isalpha(c) || isxalpha(c) || ishigh(c))
+    else if (isalpha((int)c) || isxalpha(c) || ishigh(c))
       @<Get an identifier@>@;
     else if (c=='@@') @<Get control code and possible section name@>@;
     else if (xisspace(c)) continue; /* ignore spaces and tabs */
@@ -811,8 +811,8 @@ switch(c) {
   id_first=--loc;
   do
     ++loc;
-  while (isalpha((eight_bits)*loc) || isdigit((eight_bits)*loc) @|
-      || isxalpha((eight_bits)*loc) || ishigh((eight_bits)*loc));
+  while (isalpha((int)*loc) || isdigit((int)*loc) @|
+      || isxalpha(*loc) || ishigh(*loc));
   id_loc=loc; return identifier;
 }
 
@@ -857,7 +857,7 @@ get_exponent:
 digit_suffix:
   while (*loc=='u' || *loc=='U' || *loc=='l' || *loc=='L'
          || *loc=='f' || *loc=='F') {
-    *id_loc++='$'; *id_loc++=toupper((eight_bits)*loc); loc++;
+    *id_loc++='$'; *id_loc++=toupper((int)*loc); loc++;
   }
   return constant;
 }
@@ -947,7 +947,7 @@ switch(ccode[(eight_bits)(c=*loc++)]) {
   case verbatim: @<Scan a verbatim string@>@;
   case ord: @<Get a string@>@;
   case xref_roman: case xref_wildcard: case xref_typewriter: case noop:
-  case TeX_string: skip_restricted();
+  case TeX_string: skip_restricted(); /* fall through */
   default: return ccode[(eight_bits)c];
 }
 
@@ -1085,7 +1085,7 @@ phase_one(void) {
   changed_section[section_count]=changing;
      /* it will become |true| if any line changes */
   if (*(loc-1)=='*' && show_progress) {
-    printf("*%d",section_count);
+    printf("*%d",(int)section_count);
     update_terminal; /* print a progress report */
   }
   @<Store cross-references in the \TEX/ part of a section@>@;
@@ -1490,7 +1490,7 @@ out_section(
 sixteen_bits n)
 {
   char s[6];
-  sprintf(s,"%d",n); out_str(s);
+  sprintf(s,"%d",(int)n); out_str(s);
   if (changed_section[n]) out_str("\\*");
 @.\\*@>
 }
@@ -2240,8 +2240,8 @@ text_pointer p)
       case section_flag:
         putchar('<'); print_section_name((name_dir+r)); putchar('>');
         break;
-      case tok_flag: printf("[[%d]]",r); break;
-      case inner_tok_flag: printf("|[[%d]]|",r); break;
+      case tok_flag: printf("[[%d]]",(int)r); break;
+      case inner_tok_flag: printf("|[[%d]]|",(int)r); break;
       default: @<Print token |r| in symbolic form@>@;
     }
   }
@@ -2267,7 +2267,7 @@ switch (r) {
   case quoted_char: j++; printf("[%o]",(unsigned int)*j); break;
   case end_translation: printf("[quit]"); break;
   case inserted: printf("[inserted]"); break;
-  default: putchar(r);
+  default: putchar((int)r);
 }
 
 @ The production rules listed above are embedded directly into \.{CWEAVE},
@@ -3341,7 +3341,7 @@ freeze_text; return text_ptr-1;
 
 @ @<If semi-tracing, show the irreducible scraps@>=
 if (lo_ptr>scrap_base && tracing==partly) {
-  printf("\nIrreducible scrap sequence in section %d:",section_count);
+  printf("\nIrreducible scrap sequence in section %d:",(int)section_count);
 @.Irreducible scrap sequence...@>
   mark_harmless;
   for (j=scrap_base; j<=lo_ptr; j++) {
@@ -3748,8 +3748,8 @@ currently in progress. The end of output occurs when an |end_translation|
 token is found, so the stack is never empty except when we first begin the
 output process.
 
-@d inner 0 /* value of |mode| for \CEE/ texts within \TEX/ texts */
-@d outer 1 /* value of |mode| for \CEE/ texts in sections */
+@d inner false /* value of |mode| for \CEE/ texts within \TEX/ texts */
+@d outer true /* value of |mode| for \CEE/ texts in sections */
 
 @<Typed...@>= typedef int mode;
 typedef struct {
@@ -3913,7 +3913,7 @@ make_output(void) /* outputs the equivalents of tokens */
       case end_translation: return;
       case identifier: case res_word: @<Output an identifier@>@; break;
       case section_code: @<Output a section name@>@; break;
-      case math_rel: out_str("\\MRL{"@q}@>);
+      case math_rel: out_str("\\MRL{"@q}@>); /* fall through */
 @.\\MRL@>
       case noop: case inserted: break;
       case cancel: case big_cancel: c=0; b=a;
@@ -3939,7 +3939,7 @@ make_output(void) /* outputs the equivalents of tokens */
       case indent: case outdent: case opt: case backup: case break_space:
       case force: case big_force: case preproc_line: @<Output a control,
         look ahead in case of line breaks, possibly |goto reswitch|@>@; break;
-      case quoted_char: out(*(cur_tok++));
+      case quoted_char: out(*(cur_tok++)); /* fall through */
       case qualifier: break;
       default: out(a); /* otherwise |a| is an ordinary character */
     }
@@ -4242,7 +4242,7 @@ else {
 @.\\N@>
   {@+ char s[32];@+sprintf(s,"{%d}",sec_depth+1);@+out_str(s);@+}
   if (show_progress)
-  printf("*%d",section_count); update_terminal; /* print a progress report */
+  printf("*%d",(int)section_count); update_terminal; /* print a progress report */
 }
 out('{'); out_section(section_count); out('}');
 
@@ -4610,7 +4610,7 @@ for (h=hash; h<=hash_end; h++) {
   while (next_name) {
     cur_name=next_name; next_name=cur_name->link;
     if (cur_name->xref!=(void *)xmem) {
-      c=(eight_bits)((cur_name->byte_start)[0]);
+      c=(cur_name->byte_start)[0];
       if (xisupper(c)) c=tolower(c);
       blink[cur_name-name_dir]=bucket[c]; bucket[c]=cur_name;
     }
@@ -4738,14 +4738,14 @@ while (sort_ptr>scrap_info) {
 }
 
 @ @<Split the list...@>= {
-  eight_bits c;
+  int c;
   next_name=sort_ptr->head;
   do {
     cur_name=next_name; next_name=blink[cur_name-name_dir];
     cur_byte=cur_name->byte_start+cur_depth;
     if (cur_byte==(cur_name+1)->byte_start) c=0; /* hit end of the name */
     else {
-      c=(eight_bits) *cur_byte;
+      c=*cur_byte;
       if (xisupper(c)) c=tolower(c);
     }
   blink[cur_name-name_dir]=bucket[c]; bucket[c]=cur_name;
@@ -4851,30 +4851,30 @@ name_pointer p)
 @ @<Output all the section names@>=section_print(root);
 
 @ Because on some systems the difference between two pointers is a |ptrdiff_t|
-rather than an |int|, we use \.{\%ld} to print these quantities.
+rather than an |int|, we use \.{\%td} to print these quantities.
 
 @c
 void
 print_stats(void) {
   puts("\nMemory usage statistics:");
 @.Memory usage statistics:@>
-  printf("%ld names (out of %ld)\n",
+  printf("%td names (out of %ld)\n",
             (ptrdiff_t)(name_ptr-name_dir),(long)max_names);
-  printf("%ld cross-references (out of %ld)\n",
+  printf("%td cross-references (out of %ld)\n",
             (ptrdiff_t)(xref_ptr-xmem),(long)max_refs);
-  printf("%ld bytes (out of %ld)\n",
+  printf("%td bytes (out of %ld)\n",
             (ptrdiff_t)(byte_ptr-byte_mem),(long)max_bytes);
   puts("Parsing:");
-  printf("%ld scraps (out of %ld)\n",
+  printf("%td scraps (out of %ld)\n",
             (ptrdiff_t)(max_scr_ptr-scrap_info),(long)max_scraps);
-  printf("%ld texts (out of %ld)\n",
+  printf("%td texts (out of %ld)\n",
             (ptrdiff_t)(max_text_ptr-tok_start),(long)max_texts);
-  printf("%ld tokens (out of %ld)\n",
+  printf("%td tokens (out of %ld)\n",
             (ptrdiff_t)(max_tok_ptr-tok_mem),(long)max_toks);
-  printf("%ld levels (out of %ld)\n",
+  printf("%td levels (out of %ld)\n",
             (ptrdiff_t)(max_stack_ptr-stack),(long)stack_size);
   puts("Sorting:");
-  printf("%ld levels (out of %ld)\n",
+  printf("%td levels (out of %ld)\n",
             (ptrdiff_t)(max_sort_ptr-scrap_info),(long)max_scraps);
 }
 
