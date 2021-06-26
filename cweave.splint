@@ -918,8 +918,7 @@ cweave.w:2238:136: Arrow access of non-pointer (name_info []):
 cweave.w:2238:159: Return value (type int) ignored: putchar('}')
 cweave.w:2241:1: Return value (type int) ignored: putchar('<')
 cweave.w:2241:47: Return value (type int) ignored: putchar('>')
-cweave.w:2270:17: Function putchar expects arg 1 to be int gets sixteen_bits: r
-cweave.w:2270:9: Return value (type int) ignored: putchar(r)
+cweave.w:2270:9: Return value (type int) ignored: putchar((int)r)
 cweave.w:2248:1: Return value (type int) ignored: fflush(stdout)
 cweave.w: (in function app_str)
 cweave.w:2364:7: Test expression for while not boolean, type char: *s

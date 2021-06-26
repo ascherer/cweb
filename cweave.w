@@ -2267,7 +2267,7 @@ switch (r) {
   case quoted_char: j++; printf("[%o]",(unsigned int)*j); break;
   case end_translation: printf("[quit]"); break;
   case inserted: printf("[inserted]"); break;
-  default: putchar(r);
+  default: putchar((int)r);
 }
 
 @ The production rules listed above are embedded directly into \.{CWEAVE},
