@@ -806,11 +806,6 @@ cweave.w:728:2: Path with no return in function declared to return eight_bits
   returning a meaningful result to the caller. (Use -noret to inhibit warning)
 cweave.w: (in function phase_one)
 cweave.w:1087:19: Array fetch using non-integer, char: flags['p']
-cweave.w:1088:14: Format argument 1 to printf (%d) expects int gets
-                     sixteen_bits: section_count
-  To allow arbitrary integral types to match any integral type, use
-  +matchanyintegral.
-   cweave.w:1088:11: Corresponding format code
 cweave.w:1089:1: Return value (type int) ignored: fflush(stdout)
 cweave.w:1176:11: Assignment of char to int: tracing = *(loc - 1) - '0'
 cweave.w:1183:36: Function id_lookup expects arg 3 to be char gets arbitrary
@@ -893,9 +888,6 @@ cweave.w:1493:1: Buffer overflow possible with sprintf.  Recommend using
                     snprintf instead: sprintf
   Use of function that may lead to buffer overflow. (Use -bufferoverflowhigh to
   inhibit warning)
-cweave.w:1493:16: Format argument 1 to sprintf (%d) expects int gets
-                     sixteen_bits: n
-   cweave.w:1493:13: Corresponding format code
 cweave.w: (in function copy_limbo)
 cweave.w:1551:31: Return value (type eight_bits) ignored: get_next()
 cweave.w:1552:15: Return value (type boolean) ignored: get_line()
@@ -926,12 +918,6 @@ cweave.w:2238:136: Arrow access of non-pointer (name_info []):
 cweave.w:2238:159: Return value (type int) ignored: putchar('}')
 cweave.w:2241:1: Return value (type int) ignored: putchar('<')
 cweave.w:2241:47: Return value (type int) ignored: putchar('>')
-cweave.w:2243:32: Format argument 1 to printf (%d) expects int gets
-                     sixteen_bits: r
-   cweave.w:2243:27: Corresponding format code
-cweave.w:2244:34: Format argument 1 to printf (%d) expects int gets
-                     sixteen_bits: r
-   cweave.w:2244:28: Corresponding format code
 cweave.w:2270:17: Function putchar expects arg 1 to be int gets sixteen_bits: r
 cweave.w:2270:9: Return value (type int) ignored: putchar(r)
 cweave.w:2248:1: Return value (type int) ignored: fflush(stdout)
@@ -943,6 +929,8 @@ cweave.w:2371:4: Operands of == have incompatible types (token, char): a == ' '
 cweave.w: (in function big_app1)
 cweave.w:2392:1: Assignment of arbitrary unsigned integral type to int:
                     cur_mathness = a->mathness / 4
+  To allow arbitrary integral types to match any integral type, use
+  +matchanyintegral.
 cweave.w:2397:1: Assignment of arbitrary unsigned integral type to int:
                     cur_mathness = a->mathness / 4
 cweave.w: (in function find_first_ident)

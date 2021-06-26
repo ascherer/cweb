@@ -1085,7 +1085,7 @@ phase_one(void) {
   changed_section[section_count]=changing;
      /* it will become |true| if any line changes */
   if (*(loc-1)=='*' && show_progress) {
-    printf("*%d",section_count);
+    printf("*%d",(int)section_count);
     update_terminal; /* print a progress report */
   }
   @<Store cross-references in the \TEX/ part of a section@>@;
@@ -1490,7 +1490,7 @@ out_section(
 sixteen_bits n)
 {
   char s[6];
-  sprintf(s,"%d",n); out_str(s);
+  sprintf(s,"%d",(int)n); out_str(s);
   if (changed_section[n]) out_str("\\*");
 @.\\*@>
 }
@@ -2240,8 +2240,8 @@ text_pointer p)
       case section_flag:
         putchar('<'); print_section_name((name_dir+r)); putchar('>');
         break;
-      case tok_flag: printf("[[%d]]",r); break;
-      case inner_tok_flag: printf("|[[%d]]|",r); break;
+      case tok_flag: printf("[[%d]]",(int)r); break;
+      case inner_tok_flag: printf("|[[%d]]|",(int)r); break;
       default: @<Print token |r| in symbolic form@>@;
     }
   }
