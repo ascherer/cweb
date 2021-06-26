@@ -1619,10 +1619,7 @@ cweave.w:4237:12: Incompatible types for + (int, char): sec_depth * 10 + (*loc)
 cweave.w:4243:13: Buffer overflow possible with sprintf.  Recommend using
                      snprintf instead: sprintf
 cweave.w:4244:4: Array fetch using non-integer, char: flags['p']
-cweave.w:4245:14: Format argument 1 to printf (%d) expects int gets
-                     sixteen_bits: section_count
-   cweave.w:4245:11: Corresponding format code
-cweave.w:4245:29: Return value (type int) ignored: fflush(stdout)
+cweave.w:4245:34: Return value (type int) ignored: fflush(stdout)
 cweave.w:4254:26: Assignment of int to boolean: cur_state.mode_field = 1
 cweave.w:4277:18: Assignment of int to boolean: cur_state.mode_field = 1
 cweave.w:4349:31: Unqualified static storage text_ptr assigned to implicitly

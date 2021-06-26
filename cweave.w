@@ -4242,7 +4242,7 @@ else {
 @.\\N@>
   {@+ char s[32];@+sprintf(s,"{%d}",sec_depth+1);@+out_str(s);@+}
   if (show_progress)
-  printf("*%d",section_count); update_terminal; /* print a progress report */
+  printf("*%d",(int)section_count); update_terminal; /* print a progress report */
 }
 out('{'); out_section(section_count); out('}');
 
