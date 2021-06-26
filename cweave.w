@@ -947,7 +947,7 @@ switch(ccode[(eight_bits)(c=*loc++)]) {
   case verbatim: @<Scan a verbatim string@>@;
   case ord: @<Get a string@>@;
   case xref_roman: case xref_wildcard: case xref_typewriter: case noop:
-  case TeX_string: skip_restricted();
+  case TeX_string: skip_restricted(); /* fall through */
   default: return ccode[(eight_bits)c];
 }
 
@@ -3913,7 +3913,7 @@ make_output(void) /* outputs the equivalents of tokens */
       case end_translation: return;
       case identifier: case res_word: @<Output an identifier@>@; break;
       case section_code: @<Output a section name@>@; break;
-      case math_rel: out_str("\\MRL{"@q}@>);
+      case math_rel: out_str("\\MRL{"@q}@>); /* fall through */
 @.\\MRL@>
       case noop: case inserted: break;
       case cancel: case big_cancel: c=0; b=a;
@@ -3939,7 +3939,7 @@ make_output(void) /* outputs the equivalents of tokens */
       case indent: case outdent: case opt: case backup: case break_space:
       case force: case big_force: case preproc_line: @<Output a control,
         look ahead in case of line breaks, possibly |goto reswitch|@>@; break;
-      case quoted_char: out(*(cur_tok++));
+      case quoted_char: out(*(cur_tok++)); /* fall through */
       case qualifier: break;
       default: out(a); /* otherwise |a| is an ordinary character */
     }
