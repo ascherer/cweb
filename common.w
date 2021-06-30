@@ -635,7 +635,7 @@ name_pointer
 id_lookup( /* looks up a string in the identifier table */
 const char *first, /* first character of string */
 const char *last, /* last character of string plus one */
-char t) /* the |ilk|; used by \.{CWEAVE} only */
+eight_bits t) /* the |ilk|; used by \.{CWEAVE} only */
 {
   const char *i=first; /* position in |buffer| */
   int h; /* hash code; shadows |hash_pointer h| */
@@ -663,7 +663,7 @@ otherwise |p| will point to its existing location.
 
 @<Compute the name location...@>=
 p=hash[h];
-while (p && !names_match(p,first,l,(eight_bits)t)) p=p->link;
+while (p && !names_match(p,first,l,t)) p=p->link;
 if (p==NULL) {
   p=name_ptr; /* the current identifier is new */
   p->link=hash[h]; hash[h]=p; /* insert |p| at beginning of hash list */
@@ -678,7 +678,7 @@ in a slightly different way in \.{CWEAVE} than in \.{CTANGLE}; hence the
   if (name_ptr>=name_dir_end) overflow("name");
   strncpy(byte_ptr,first,l);
   (++name_ptr)->byte_start=byte_ptr+=l;
-  init_p(p,(eight_bits)t);
+  init_p(p,t);
 }
 
 @ If |p| is a |name_pointer| variable, as we have seen,

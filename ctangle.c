@@ -368,7 +368,7 @@ extern void reset_input(void);
 #line 166 "common.h"
 
 extern boolean names_match(name_pointer,const char*,size_t,eight_bits);
-extern name_pointer id_lookup(const char*,const char*,char);
+extern name_pointer id_lookup(const char*,const char*,eight_bits);
 
 extern name_pointer section_lookup(char*,char*,boolean);
 extern void init_node(name_pointer);

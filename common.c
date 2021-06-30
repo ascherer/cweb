@@ -344,7 +344,7 @@ extern void reset_input(void);
 #line 166 "common.h"
 
 extern boolean names_match(name_pointer,const char*,size_t,eight_bits);
-extern name_pointer id_lookup(const char*,const char*,char);
+extern name_pointer id_lookup(const char*,const char*,eight_bits);
 
 extern name_pointer section_lookup(char*,char*,boolean);
 extern void init_node(name_pointer);
@@ -777,7 +777,7 @@ name_pointer
 id_lookup(
 const char*first,
 const char*last,
-char t)
+eight_bits t)
 {
 const char*i= first;
 int h;
@@ -799,7 +799,7 @@ while(++i<last)h= (h+h+(int)((eight_bits)*i))%hash_size;
 #line 664 "common.w"
 
 p= hash[h];
-while(p&&!names_match(p,first,l,(eight_bits)t))p= p->link;
+while(p&&!names_match(p,first,l,t))p= p->link;
 if(p==NULL){
 p= name_ptr;
 p->link= hash[h];hash[h]= p;
@@ -815,7 +815,7 @@ if(byte_ptr+l> byte_mem_end)overflow("byte memory");
 if(name_ptr>=name_dir_end)overflow("name");
 strncpy(byte_ptr,first,l);
 (++name_ptr)->byte_start= byte_ptr+= l;
-init_p(p,(eight_bits)t);
+init_p(p,t);
 }
 
 /*:51*/
