@@ -4024,8 +4024,7 @@ is suppressed (i.e., a line break that follows `\.{\\Y\\B}').
       @<Output saved |indent| or |outdent| tokens@>@;
       goto reswitch; /* |cancel| overrides everything */
     }
-    if ((a!=' ' && a<indent) || a==backup @|
-        || (a>big_force && a!=dindent)) {
+    if ((a!=' ' && a<indent) || a==backup || a>big_force) {
       if (save_mode==outer) {
         if (out_ptr>out_buf+3 && strncmp(out_ptr-3,"\\Y\\B",4)==0)
           goto reswitch;
@@ -4041,7 +4040,6 @@ is suppressed (i.e., a line break that follows `\.{\\Y\\B}').
     }
     if (a==indent) c++;
     else if (a==outdent) c--;
-    else if (a==dindent) c+=2;
     else if (a==opt) a=get_output();
     else if (a>b) b=a; /* if |a==' '| we have |a<b| */
   }
