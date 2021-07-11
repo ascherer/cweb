@@ -1224,7 +1224,7 @@ file name.
 
 @d store_id(a) a=id_lookup(id_first,id_loc,'\0')-name_dir;@/
   app_repl((a / 0400)+0200);
-  app_repl(a % 0400);
+  app_repl(a % 0400)
 
 @<Insert the line...@>=
 {

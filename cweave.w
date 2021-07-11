@@ -245,7 +245,7 @@ If one were careful, one could probably make more changes around section
 115 to avoid a lot of identifier looking up.
 
 @d append_xref(c) if (xref_ptr==xmem_end) overflow("cross-reference");
-  else (++xref_ptr)->num=c;
+  else (++xref_ptr)->num=c
 @d no_xref !make_xrefs
 @d is_tiny(p) length(p)==1
 @d unindexed(a) ((a)<res_wd_end && (a)->ilk>=custom)
@@ -832,7 +832,7 @@ are pointers into the array |section_text|, not into |buffer|.
 @d gather_digits_while(t) while ((t) || *loc=='\'')
   if (*loc=='\'') { /* \CPLUSPLUS/-style digit separator */
     *id_loc++=' '; loc++; /* insert a little bit of space */
-  }@+else *id_loc++=*loc++;
+  }@+else *id_loc++=*loc++
 
 @<Get a constant@>= {
   id_first=id_loc=section_text+1;

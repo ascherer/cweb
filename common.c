@@ -99,7 +99,7 @@ strncmp(buffer,change_buffer,(size_t) (limit-buffer) ) !=0)  \
 *limit= '!'; \
 for(loc= buffer;xisspace(*loc) ;loc++) ; \
 *limit= ' '; \
-if(*loc=='@'&&(xisspace(*(loc+1) ) ||*(loc+1) =='*') ) change_pending= b; \
+if(*loc=='@'&&(xisspace(*(loc+1) ) ||*(loc+1) =='*') ) change_pending= b \
 
 #define too_long() {include_depth--; \
 err_print("! Include file name too long") ;goto restart;} \

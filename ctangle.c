@@ -146,7 +146,7 @@ else*(tok_ptr++) = (eight_bits) c; \
 
 #define store_id(a) a= id_lookup(id_first,id_loc,'\0') -name_dir; \
 app_repl((a/0400) +0200) ; \
-app_repl(a%0400) ; \
+app_repl(a%0400)  \
 
 #define keep_digit_separators flags['k'] \
 

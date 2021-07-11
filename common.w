@@ -290,8 +290,8 @@ current line is nonempty.
 @d if_section_start_make_pending(b)@/
   *limit='!';@+
   for (loc=buffer;xisspace(*loc);loc++) ;@+
-  *limit=' ';
-  if (*loc=='@@' && (xisspace(*(loc+1)) || *(loc+1)=='*')) change_pending=b;
+  *limit=' ';@/
+  if (*loc=='@@' && (xisspace(*(loc+1)) || *(loc+1)=='*')) change_pending=b
 
 @c
 static void
