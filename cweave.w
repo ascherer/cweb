@@ -1126,7 +1126,7 @@ C_xref( /* makes cross-references for \CEE/ identifiers */
 {
   while (next_control<format_code || next_control==spec_ctrl) {
     if (next_control>=identifier && next_control<=xref_typewriter) {
-      if (next_control>identifier) @<Replace |"@@@@"| by |"@@"|@>@;
+      if (next_control>identifier) @<Replace `\.{@@@@}' by `\.{@@}'@>@;
       new_xref(id_lookup(id_first,id_loc,next_control-identifier));
     }
     if (next_control==section_name) {
@@ -1179,7 +1179,7 @@ while (true) {
     case noop: case section_name:
       loc-=2; next_control=get_next(); /* scan to \.{@@>} */
       if (next_control>=xref_roman && next_control<=xref_typewriter) {
-        @<Replace |"@@@@"| by |"@@"|@>@;
+        @<Replace `\.{@@@@}' by `\.{@@}'@>@;
         new_xref(id_lookup(id_first,id_loc,next_control-identifier));
       }
       break;
@@ -1187,7 +1187,7 @@ while (true) {
   if (next_control>=format_code) break;
 }
 
-@ @<Replace |"@@@@"| by |"@@"| @>=
+@ @<Replace `\.{@@@@}' by `\.{@@}'@>=
 {
   char *src=id_first,*dst=id_first;
   while(src<id_loc){
@@ -4393,7 +4393,7 @@ if (next_control<=section_name) {
   if (next_control==begin_C) next_control=get_next();
   else {
     this_section=cur_section;
-    @<Check that '=' or '==' follows this section name, and
+    @<Check that `\.{=}' or `\.{==}' follows this section name, and
       emit the scraps to start the section definition@>@;
   }
   while (next_control<=section_name) {
@@ -4406,7 +4406,7 @@ if (next_control<=section_name) {
 @ The title of the section and an $\E$ or $\mathrel+\E$ are made
 into a scrap that should not take part in the parsing.
 
-@<Check that '='...@>=
+@<Check that `\.{=}'...@>=
 do next_control=get_next();
   while (next_control=='+'); /* allow optional `\.{+=}' */
 if (next_control!='=' && next_control!=eq_eq)
