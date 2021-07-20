@@ -170,7 +170,7 @@ We use \\{in}, \\{out}, \\{back}, \\{bsp}, and \\{din} as shorthands for
 \+& |if_clause| |stmt| |else_like| & |else_like| \hfill
     $|force|\,I\,\\{in}\,\\{bsp}\,S\,\\{out}\,|force|\,E$ &
    $\!\!$|if (x) y; else|\cr
-\+& |if_clause| |stmt| & |else_like| |stmt| & |if (x)|\cr
+\+& |if_clause| |stmt| & |else_like| |stmt| & $\!\!$|if (x) y;|\cr
 \+& |if_head| \alt|stmt| |exp| |else_like| |if_like| & |if_like| \hfill
     $|force|\,I\,\\{bsp}\,|noop|\,|cancel|\,S\,|force|\,E\,\.\ I$ &
      $\!\!$|if (x){y;}else if|\cr
