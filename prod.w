@@ -187,7 +187,7 @@ We use \\{in}, \\{out}, \\{back}, \\{bsp}, and \\{din} as shorthands for
 \+& |case_like| |colon| & |tag| & |default:|\cr
 \+& |case_like| |exp| & |exp| \hfill $C\.\ E$ & |return 0|\cr
 \+& |catch_like| \alt|cast| |exp| & |fn_decl| \hfill
-    $C$\alt $C$ $E$ \\{in}\,\\{in} & |catch (...)|\cr
+    $C$\alt $C$ $E$ \\{din} & |catch (...)|\cr
 \+& |tag| |tag| & |tag| \hfill $T_1\,\\{bsp}\,T_2$ & |case 0: case 1:|\cr
 \+& |tag| \altt|stmt| |decl| |function| & \altt|stmt| |decl| |function|
        \hfill $|force|\,\\{back}\,T\,\\{bsp}\,S$ & $\!\!$|case 0: z=0;|\cr
