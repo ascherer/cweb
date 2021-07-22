@@ -54,7 +54,7 @@ We use \\{in}, \\{out}, \\{back}, \\{bsp}, and \\{din} as shorthands for
 \yskip
 \+& \altt\\{any} {\\{any} \\{any}} {\\{any} \\{any} \\{any}}
 |insert| & \altt\\{any} {\\{any} \\{any}} {\\{any} \\{any} \\{any}}
-& stmt; \ /$\ast\,$comment$\,*$/\cr
+& stmt; \4\4 \C{comment}\cr
 \+& |exp| \altt|lbrace| |int_like| |decl|
     & |fn_decl| \altt|lbrace| |int_like| |decl|
         \hfill $F=E^*\,\\{din}$ & \malt {\\{main}()$\{$}
