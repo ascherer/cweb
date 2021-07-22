@@ -61,7 +61,7 @@ We use \\{in}, \\{out}, \\{back}, \\{bsp}, and \\{din} as shorthands for
            {\\{main}$(\\{ac},\\{av})$ \&{int} \\{ac};} \cr
 \+& |exp| |unop| & |exp| & |x++|\cr
 \+& |exp| \alt |binop| |ubinop| |exp| & |exp| & \malt {|x/y|} {|x+y|} \cr
-\+& |exp| |comma| |exp| & |exp| \hfill $EC\,|opt|9\,E$& |f(x,y)|\cr
+\+& |exp| |comma| |exp| & |exp| \hfill $E_1C\,|opt|9\,E_2$& |f(x,y)|\cr
 \+& |exp| \alt {|lpar| |rpar|} |cast| |colon| &
     |exp| \alt {|lpar| |rpar|} |cast| |base| &
      \malt \&C|()|: {\&C|(int i)|:} \cr
@@ -77,7 +77,7 @@ We use \\{in}, \\{out}, \\{back}, \\{bsp}, and \\{din} as shorthands for
 \+& |lpar| |rpar| & |exp| \hfill $L\.{\\,}R$ & functions, declarations\cr
 \+& |lpar| \altt |decl_head| |int_like| |cast| |rpar| & |cast| & |(char*)|\cr
 \+& |lpar| \altt |decl_head| |int_like| |exp| |comma| & |lpar| \hfill
-     $L$\,\altt $D$ $I$ $E$ $C$\,|opt|9 & |(int,|\cr
+     $L$\,\altt $D$ $I$ $E$ \unskip $C$\,|opt|9 & |(int,|\cr
 \+& |lpar| \alt |stmt| |decl| & |lpar| \hfill \alt {$LS\.\ $} {$LD\.\ $} &
     \malt {|(k=5;|} {|(int k=5;|} \cr
 \+& |unop| \alt |exp| |int_like| & |exp| &
@@ -96,7 +96,7 @@ We use \\{in}, \\{out}, \\{back}, \\{bsp}, and \\{din} as shorthands for
 \+& |sizeof_like| |exp| & |exp| \hfill $S\.\ E$ & |sizeof x|\cr
 \+& |int_like| \alt|int_like| |struct_like| &
         \alt|int_like| |struct_like| \hfill $I\.\ $\alt $I$ $S$
-        \unskip& |extern char|\cr
+        \unskip & |extern char|\cr
 \+& |int_like| |exp| \alt|raw_int| |struct_like| &
          |int_like| \alt|raw_int| |struct_like| & |extern "Ada" int|\cr
 \+& |int_like| \altt|exp| |ubinop| |colon| &
@@ -107,14 +107,14 @@ We use \\{in}, \\{out}, \\{back}, \\{bsp}, and \\{din} as shorthands for
 \+& |public_like| |colon| & |tag| & \&{private}:\cr
 \+& |public_like| & |int_like| & \&{private}\cr
 \+& |colcol| \alt|exp| |int_like| & \alt|exp| |int_like| \hfill
-     |qualifier| $C$ \alt$E$ $I$ & \&C\DC$x$\cr
+     |qualifier| $C$\alt$E$ $I$ & \&C\DC$x$\cr
 \+& |colcol| |colcol| & |colcol| & \&C\DC\&B\DC\cr
 \+& |decl_head| |comma| & |decl_head| \hfill $DC\.\ $ & |int x,|\cr
 \+& |decl_head| |ubinop| & |decl_head| \hfill $D\.\{U\.\}$ & |int *|\cr
 \+\dagit& |decl_head| |exp| & |decl_head| \hfill $DE^*$ & |int x|\cr
 \+& |decl_head| \alt|binop| |colon| |exp| \altt|comma| |semi| |rpar| &
      |decl_head| \altt|comma| |semi| |rpar| \hfill
-     $D=D$\alt $B$ $C$ \unskip$E$ & \malt {\&{int} $f(\&{int}\ x=2)$} |int b:1| \cr
+     $D=D$\alt $B$ $C$ \unskip $E$ & \malt {\&{int} $f(\&{int}\ x=2)$} |int b:1| \cr
 \+& |decl_head| |cast| & |decl_head| & |int f(int)|\cr
 \+& |decl_head| \altt|int_like| |lbrace| |decl| & |fn_decl|
                    \altt|int_like| |lbrace| |decl| \hfill $F=D\,\\{din}$
@@ -122,13 +122,13 @@ We use \\{in}, \\{out}, \\{back}, \\{bsp}, and \\{din} as shorthands for
 \+& |decl_head| |semi| & |decl| & |int n;|\cr
 \+& |decl| |decl| & |decl| \hfill $D_1\,|force|\,D_2$ & |int n;double x;|\cr
 \+& |decl| \alt|stmt| |function| & \alt|stmt| |function|
-        \hfill $D\,|big_force|\,$\alt $S$ $F$ \unskip& \&{extern} $n$;
+        \hfill $D\,|big_force|\,$\alt $S$ $F$ \unskip & \&{extern} $n$;
             \\{main} ()|{}|\cr
 \+& |base| \alt |int_like| |exp| |comma| & |base| \hfill
-     $B$\.\ \alt $I$ $E$ \unskip$C$\,|opt|9
+     $B$\.\ \alt $I$ $E$ \unskip $C$\,|opt|9
  & \malt {: \&{public} \&A,} {: $i(5)$,} \cr
 \+& |base| \alt |int_like| |exp| |lbrace| & |lbrace| \hfill
-     $B$\.\ \alt $I$ $E$ \unskip\.\ $L$ & \&D : \&{public} \&A $\{$\cr
+     $B$\.\ \alt $I$ $E$ \unskip \.\ $L$ & \&D : \&{public} \&A $\{$\cr
 \+& |struct_like| |lbrace| & |struct_head| \hfill $S\.\ L$ & |struct {|\cr
 \+& |struct_like| \alt|exp| |int_like| |semi| & |decl_head| |semi|
      \hfill $S\.\ $\alt $E^{**}$ $I^{**}$ & \&{struct} \&{forward};\cr
@@ -138,9 +138,9 @@ We use \\{in}, \\{out}, \\{back}, \\{bsp}, and \\{din} as shorthands for
 \+& |struct_like| \alt|exp| |int_like| |colon| &
     |struct_like| \alt|exp| |int_like| |base| & |class| \&C :\cr
 \+\dagit& |struct_like| \alt|exp| |int_like| & |int_like|
-        \hfill $S\.\ $\alt$E$ $I$ & \&{struct} \&{name\_info} $z$;\cr
+        \hfill $S\.\ $\alt$E$ $I$ \unskip & \&{struct} \&{name\_info} $z$;\cr
 \+& |struct_head| \altt|decl| |stmt| |function| |rbrace| & |int_like|\hfill
-         $S\,\\{in}\,|force|$\altt$D$ $S$ $F$ $\\{out}\,|force|\,R$ &
+         $S\,\\{in}\,|force|$\altt$D$ $S$ $F$ \unskip $\\{out}\,|force|\,R$ &
                                         |struct {| declaration |}|\cr
 \+& |struct_head| |rbrace| & |int_like|\hfill $S\.{\\,}R$ & |class C{}|\cr
 \+& |fn_decl| |decl| & |fn_decl| \hfill $F\,|force|\,D$
@@ -148,7 +148,7 @@ We use \\{in}, \\{out}, \\{back}, \\{bsp}, and \\{din} as shorthands for
 \+& |fn_decl| |stmt| & |function| \hfill $F\,|out|\,|out|\,|force|\,S$
                                        & \\{main}() {\dots}\cr
 \+& |function| \altt|stmt| |decl| |function| & \altt |stmt| |decl| |function|
-   \hfill $F\,|big_force|\,$\altt $S$ $D$ $F$ & outer block\cr
+   \hfill $F\,|big_force|\,$\altt $S$ $D$ $F$ \unskip & outer block\cr
 \+& |lbrace| |rbrace| & |stmt| \hfill $L\.{\\,}R$ & empty statement\cr
 \advance\midcol35pt
 \+& |lbrace| \altt|stmt| |decl| |function| |rbrace| & |stmt| \hfill
@@ -187,13 +187,13 @@ We use \\{in}, \\{out}, \\{back}, \\{bsp}, and \\{din} as shorthands for
 \+& |case_like| |colon| & |tag| & |default:|\cr
 \+& |case_like| |exp| & |exp| \hfill $C\.\ E$ & |return 0|\cr
 \+& |catch_like| \alt|cast| |exp| & |fn_decl| \hfill
-    $C$\alt $C$ $E$ \\{din} & |catch (...)|\cr
+    $C$\alt $C$ $E$ \unskip \\{din} & |catch (...)|\cr
 \+& |tag| |tag| & |tag| \hfill $T_1\,\\{bsp}\,T_2$ & |case 0: case 1:|\cr
 \+& |tag| \altt|stmt| |decl| |function| & \altt|stmt| |decl| |function|
        \hfill $|force|\,\\{back}\,T\,\\{bsp}\,S$ & $\!\!$|case 0: z=0;|\cr
 \+\dagit& |stmt| \altt|stmt| |decl| |function| &
    \altt|stmt| |decl| |function|
-      \hfill $S\,$\altt$|force|\,S$ $|big_force|\,D$ $|big_force|\,F$ &
+      \hfill $S\,$\altt$|force|\,S$ $|big_force|\,D$ $|big_force|\,F$ \unskip &
       |x=1;y=2;|\cr
 \+& |semi| & |stmt| \hfill \.\ $S$& empty statement\cr
 \+\dagit& |lproc| \altt |if_like| |else_like| |define_like| & |lproc| &
@@ -212,7 +212,7 @@ We use \\{in}, \\{out}, \\{back}, \\{bsp}, and \\{din} as shorthands for
 \+& |langle| \altt|decl_head| |int_like| |exp| |prerangle| & |cast| &
      $\langle\&{class}\,\&C\rangle$\cr
 \+& |langle| \altt|decl_head| |int_like| |exp| |comma| & |langle| \hfill
-     $L$\,\altt $D$ $I$ $E$ $C$\,|opt|9 & $\langle\&{class}\,\&C,$\cr
+     $L$\,\altt $D$ $I$ $E$ \unskip $C$\,|opt|9 & $\langle\&{class}\,\&C,$\cr
 \+& |template_like| |exp| |prelangle| & |template_like| |exp| |langle| &
   \&{template} $a\langle100\rangle$\cr
 \+& |template_like| \alt|exp| |raw_int| & \alt|exp| |raw_int| \hfill
@@ -242,7 +242,7 @@ We use \\{in}, \\{out}, \\{back}, \\{bsp}, and \\{din} as shorthands for
 \+& |raw_int| |lpar| & |exp| |lpar| & \&{complex}$(x,y)$\cr
 \+\dagit& |raw_int| & |int_like|   & \&{complex} |z|\cr
 \+\dagit& |operator_like| \altt|binop| |unop| |ubinop| & |exp|
-    \hfill $O$\.\{\altt $B$ $U$ $U$ \unskip\.\} & |operator+|\cr
+    \hfill $O$\.\{\altt $B$ $U$ $U$ \unskip \.\} & |operator+|\cr
 \+& |operator_like| \alt|new_like| |delete_like| & |exp| \hfill
     $O$\.\ \alt $N$ $S$ & |operator delete|\cr
 \+& |operator_like| |comma| & |exp| & \&{operator},\cr
@@ -277,11 +277,11 @@ We use \\{in}, \\{out}, \\{back}, \\{bsp}, and \\{din} as shorthands for
 \+& |attr_head| |rbrack| |rbrack| & |attr| & $[[\ldots]]$ \cr
 \+& |attr_head| |exp| & |attr_head| & $[[$|deprecated| \cr
 \+& |attr_head| |using_like| |exp| |colon| & |attr_head| & $[[$|using NS:| \cr
-\+& |attr| \alt|lbrace| |stmt| & \alt|lbrace| |stmt| \hfill $A\.\ $ \alt $S$ $L$ &
+\+& |attr| \alt|lbrace| |stmt| & \alt|lbrace| |stmt| \hfill $A$\.\ \alt $S$ $L$ &
   |[[likely]] {|\cr
 \+& |attr| |tag| & |tag| \hfill $A\.\ T$ & |[[likely]] case 0:| \cr
 \+& |attr| |semi| & |stmt| & |[[fallthrough]];| \cr
-\+& |attr| |attr| & |attr| \hfill $A\.\ A$ & |alignas(x)| $[[\ldots]]$ \cr
+\+& |attr| |attr| & |attr| \hfill $A_1\.\ A_2$ & |alignas(x)| $[[\ldots]]$ \cr
 \+& |attr| |decl_head| & |decl_head| & |[[nodiscard]] f()| \cr
 \+& |decl_head| |attr| & |decl_head| & |(int x [[deprecated]])|\cr
 \+& |using_like| & |int_like| & \&{using} not in attributes \cr
@@ -298,14 +298,14 @@ We use \\{in}, \\{out}, \\{back}, \\{bsp}, and \\{din} as shorthands for
   attribute and function \cr
 \+& |default_like| |colon| & |case_like| |colon| & |default:| \cr
 \+& |default_like| & |exp| & |f()=default;| \cr
-\+& |struct_like| |struct_like| & |struct_like| \hfill $S\.\ S$ &
+\+& |struct_like| |struct_like| & |struct_like| \hfill $S_1\.\ S_2$ &
   |enum class| \cr
 \+& |exp| |colcol| |int_like| & |int_like| & $\\{std}\DC\&{atomic}$ \cr
 \advance\midcol-30pt
 \+\dagit& |langle| |struct_like| \alt |exp| |int_like| |comma| &
-  |langle| \hfill $LS$\alt $E^{**}$ $I^{**}$ $C$ & $\langle$\&{typename} $t,$\cr
+  |langle| \hfill $LS$\alt $E^{**}$ $I^{**}$ \unskip $C$ & $\langle$\&{typename} $t,$\cr
 \+\dagit& |langle| |struct_like| \alt |exp| |int_like| |prerangle| &
-  |cast| \hfill $LS$\alt $E^{**}$ $I^{**}$ $P$ &
+  |cast| \hfill $LS$\alt $E^{**}$ $I^{**}$ \unskip $P$ &
   \hbox{$\langle$\&{typename} $t\rangle$} \hss \cr
 \advance\midcol30pt
 \+& |template_like| |cast| |struct_like| & |struct_like| \hfill $T\.\ CS$ &
