@@ -2307,7 +2307,8 @@ translations of two consecutive scraps, |pp->trans| and |(pp+1)->trans|, to
 the current token list. If the entire new translation is formed in this
 way, we write `|squash(j,k,c,d,n)|' instead of `|reduce(j,k,c,d,n)|'. For
 example, `|squash(pp,3,exp,-2,3)|' is an abbreviation for `|big_app3(pp);
-reduce(pp,3,exp,-2,3)|'.
+reduce(pp,3,exp,-2,3)|'. Beware, however, that rules~38 and~77 can \\{not}
+be rewritten with `|squash|'!
 
 A couple more words of explanation:
 Both |big_app| and |app| append a token (while |big_app1| to |big_app4|
