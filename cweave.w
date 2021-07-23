@@ -2958,7 +2958,7 @@ if (cat1==define_like) make_underlined(pp+2);
 if (cat1==else_like || cat1==if_like || cat1==define_like)
   squash(pp,2,lproc,0,78);
 else if (cat1==rproc) {
-  app(inserted); big_app2(pp); reduce(pp,2,insert,-1,79);
+  app(inserted); squash(pp,2,insert,-1,79);
 } else if (cat1==exp || cat1==function) {
   if (cat2==rproc) {
     app(inserted); big_app1(pp); big_app(' '); big_app2(pp+1);
