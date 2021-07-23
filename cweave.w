@@ -3218,7 +3218,6 @@ scrap_pointer j, short k,
 eight_bits c,
 short d, short n)
 {
-  scrap_pointer i; /* pointers into scrap memory */
   if (k==1) {
     j->cat=c; pp=(pp+d<scrap_base? scrap_base: pp+d);
     @<Print a snapshot...@>@;
