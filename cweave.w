@@ -2126,9 +2126,9 @@ identifier&|exp|: \.{\\\\\{}identifier with underlines and
 \.{@@(@q)@>}\thinspace section name\thinspace\.{@@>}&|section_scrap|:
  \.{\\X}$n$\.{:\\.\{}section name with special characters
       quoted\.{\ \}\\X}&maybe\cr
-\.{/*}comment\.{*/}&|insert|: |cancel|
+\.{/*}\thinspace comment\thinspace\.{*/}&|insert|: |cancel|
       \.{\\C\{}translated comment\.\} |force|&no\cr
-\.{//}comment&|insert|: |cancel|
+\.{//}\thinspace comment&|insert|: |cancel|
       \.{\\SHC\{}translated comment\.\} |force|&no\cr
 }
 
