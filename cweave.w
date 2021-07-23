@@ -2323,10 +2323,10 @@ to be printed in a math mode context or not.  It is separate from the
 a fixed |mathness| (as in the original \.{WEAVE}) would multiply the
 number of necessary production rules.
 
-The low two bits (i.e. |mathness % 4|) control the left boundary.
+The low two bits (i.e., |mathness % 4|) control the left boundary.
 (We need two bits because we allow cases |yes_math|, |no_math| and
 |maybe_math|, which can go either way.)
-The next two bits (i.e. |mathness / 4|) control the right boundary.
+The next two bits (i.e., |mathness / 4|) control the right boundary.
 If we combine two scraps and the right boundary of the first has
 a different mathness from the left boundary of the second, we
 insert a \.{\$} in between.  Similarly, if at printing time some
