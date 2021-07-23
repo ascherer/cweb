@@ -3219,7 +3219,7 @@ eight_bits c,
 short d, short n)
 {
   switch (k) {
-  case 1:
+  case 1: /* ultra-compact version of |reduce(j,1,c,d,n)| */
     j->cat=c; pp=(pp+d<scrap_base? scrap_base: pp+d);
     @<Print a snapshot...@>@;
     pp--; /* we next say |pp++| */
