@@ -4839,7 +4839,7 @@ name_pointer p)
     section_print(p->llink); out_str("\\I");
 @.\\I@>
     tok_ptr=tok_mem+1; text_ptr=tok_start+1; scrap_ptr=scrap_info; init_stack;
-    app(p-name_dir+section_flag); make_output();
+    app(section_flag+(int)(p-name_dir)); make_output();
     footnote(cite_flag);
     footnote(0); /* |cur_xref| was set by |make_output| */
     finish_line();@/
