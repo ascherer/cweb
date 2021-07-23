@@ -2302,11 +2302,11 @@ the production just mentioned.
 Before calling |reduce|, the program should have appended the tokens of
 the new translation to the |tok_mem| array. We commonly want to append
 copies of several existing translations, and macros are defined to
-simplify these common cases. For example, \\{app2}|(pp)| will append the
+simplify these common cases. For example, |big_app2(pp)| will append the
 translations of two consecutive scraps, |pp->trans| and |(pp+1)->trans|, to
 the current token list. If the entire new translation is formed in this
 way, we write `|squash(j,k,c,d,n)|' instead of `|reduce(j,k,c,d,n)|'. For
-example, `|squash(pp,3,exp,-2,3)|' is an abbreviation for `\\{app3}|(pp);
+example, `|squash(pp,3,exp,-2,3)|' is an abbreviation for `|big_app3(pp);
 reduce(pp,3,exp,-2,3)|'.
 
 A couple more words of explanation:
