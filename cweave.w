@@ -2398,7 +2398,7 @@ scrap_pointer a)
     break;
   case (maybe_math): /* no changes */ break;
   }
-  app(tok_flag+(int)((a)->trans-tok_start));
+  app1(a);
 }
 
 @ Let us consider the big switch for productions now, before looking
