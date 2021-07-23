@@ -2347,7 +2347,6 @@ productions as they were listed earlier.
 @d big_app4(a) big_app3(a);@+big_app1(a+3)
 @d big_app1_insert(p,c) big_app1(p);@+big_app(c);@+big_app1(p+1)
 @d app(a) *(tok_ptr++)=(token)(a)
-@d app1(a) *(tok_ptr++)=(token)(tok_flag+(int)((a)->trans-tok_start))
 
 @<Private...@>=
 static int cur_mathness, init_mathness;
@@ -3337,7 +3336,7 @@ where appropriate.
 for (j=scrap_base; j<=lo_ptr; j++) {
   if (j!=scrap_base) app(' ');
   if (j->mathness % 4 == yes_math) app('$');
-  app1(j);
+  app(tok_flag+(int)(j->trans-tok_start));
   if (j->mathness / 4 == yes_math) app('$');
   if (tok_ptr+6>tok_mem_end) overflow("token");
 }
