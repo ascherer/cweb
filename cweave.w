@@ -3218,13 +3218,12 @@ scrap_pointer j, short k,
 eight_bits c,
 short d, short n)
 {
-  if (k==1) {
+  switch (k) {
+  case 1:
     j->cat=c; pp=(pp+d<scrap_base? scrap_base: pp+d);
     @<Print a snapshot...@>@;
     pp--; /* we next say |pp++| */
     return;
-  }
-  switch (k) {
   case 2: big_app2(j); break;
   case 3: big_app3(j); break;
   case 4: big_app4(j); break;
