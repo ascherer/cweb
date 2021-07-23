@@ -2310,7 +2310,7 @@ example, `|squash(pp,3,exp,-2,3)|' is an abbreviation for `|big_app3(pp);
 reduce(pp,3,exp,-2,3)|'.
 
 A couple more words of explanation:
-Both |big_app| and |app| append a token (while |big_app1| to |big_app3|
+Both |big_app| and |app| append a token (while |big_app1| to |big_app4|
 append the specified number of scrap translations) to the current token list.
 The difference between |big_app| and |app| is simply that |big_app|
 checks whether there can be a conflict between math and non-math
@@ -2344,6 +2344,7 @@ productions as they were listed earlier.
 @d maybe_math 0 /* works in either horizontal or math mode */
 @d big_app2(a) big_app1(a);@+big_app1(a+1)
 @d big_app3(a) big_app2(a);@+big_app1(a+2)
+@d big_app4(a) big_app3(a);@+big_app1(a+3)
 @d big_app1_insert(p,c) big_app1(p);@+big_app(c);@+big_app1(p+1)
 @d app(a) *(tok_ptr++)=(token)(a)
 @d app1(a) *(tok_ptr++)=(token)(tok_flag+(int)((a)->trans-tok_start))
@@ -3224,7 +3225,12 @@ short d, short n)
     pp--; /* we next say |pp++| */
     return;
   }
-  for (i=j; i<j+k; i++) big_app1(i);
+  switch (k) {
+  case 2: big_app2(j); break;
+  case 3: big_app3(j); break;
+  case 4: big_app4(j); break;
+  default: confusion("squash");
+  }
   reduce(j,k,c,d,n);
 }
 
