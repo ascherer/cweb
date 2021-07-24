@@ -1766,7 +1766,7 @@ same initial letter; these subscripts are assigned from left to right.
 @d attr_head 69 /* denotes beginning of attribute */
 
 @<Private...@>=
-static char cat_name[256][12];
+static char cat_name[256][12]; /* |12==strlen("struct_head")+1| */
 
 @ @<Set in...@>=
 {int c; for (c=0;c<256;c++) strcpy(cat_name[c],"UNKNOWN");}
