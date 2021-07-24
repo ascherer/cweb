@@ -2307,8 +2307,7 @@ translations of two consecutive scraps, |pp->trans| and |(pp+1)->trans|, to
 the current token list. If the entire new translation is formed in this
 way, we write `|squash(j,k,c,d,n)|' instead of `|reduce(j,k,c,d,n)|'. For
 example, `|squash(pp,3,exp,-2,3)|' is an abbreviation for `|big_app3(pp);
-reduce(pp,3,exp,-2,3)|'. Beware, however, that rules~38 and~77 can \\{not}
-be rewritten with `|squash|'!
+reduce(pp,3,exp,-2,3)|'.
 
 A couple more words of explanation:
 Both |big_app| and |app| append a token (while |big_app1| to |big_app4|
@@ -2428,8 +2427,8 @@ code needs to be provided with a proper environment.
 if (cat1==end_arg && lhs_not_simple)
   if (pp->cat==begin_arg) squash(pp,2,exp,-2,124);
   else squash(pp,2,end_arg,-1,125);
-else if (pp->cat==rbrack) squash(pp,1,rpar,-3,130);
-else if (pp->cat==using_like) squash(pp,1,int_like,-3,140);
+else if (pp->cat==rbrack) reduce(pp,0,rpar,-3,130);
+else if (pp->cat==using_like) reduce(pp,0,int_like,-3,140);
 else if (cat1==insert) squash(pp,2,pp->cat,-2,0);
 else if (cat2==insert) squash(pp+1,2,(pp+1)->cat,-1,0);
 else if (cat3==insert) squash(pp+2,2,(pp+2)->cat,0,0);
@@ -2653,13 +2652,13 @@ else if (cat1==comma && cat2==exp) {
   big_app2(pp);
   app(opt); app('9'); big_app1(pp+2); reduce(pp,3,exp,-2,4);
 }
-else if (cat1==lpar && cat2==rpar && cat3==colon) squash(pp+3,1,base,0,5);
-else if (cat1==cast && cat2==colon) squash(pp+2,1,base,0,5);
+else if (cat1==lpar && cat2==rpar && cat3==colon) reduce(pp+3,0,base,0,5);
+else if (cat1==cast && cat2==colon) reduce(pp+2,0,base,0,5);
 else if (cat1==semi) squash(pp,2,stmt,-1,6);
 else if (cat1==colon) {
   make_underlined (pp); squash(pp,2,tag,-1,7);
 }
-else if (cat1==rbrace) squash(pp,1,stmt,-1,8);
+else if (cat1==rbrace) reduce(pp,0,stmt,-1,8);
 else if (cat1==lpar && cat2==rpar && (cat3==const_like || cat3==case_like)) {
   big_app1_insert(pp+2,' '); reduce(pp+2,2,rpar,0,9);
 }
@@ -2715,7 +2714,7 @@ if (cat1==lpar) squash(pp,2,lpar,-1,21);
 else if (cat1==exp) {
   big_app1_insert(pp,' '); reduce(pp,2,exp,-2,21);
 }
-else if (cat1==semi) squash(pp,1,exp,-2,22);
+else if (cat1==semi) reduce(pp,0,exp,-2,22);
 
 @ @<Cases for |sizeof_like|@>=
 if (cat1==cast) squash(pp,2,exp,-2,23);
@@ -2732,11 +2731,11 @@ else if (cat1==exp && (cat2==raw_int||cat2==struct_like))
 else if (cat1==exp || cat1==ubinop || cat1==colon) {
   big_app1(pp); big_app(' '); reduce(pp,1,decl_head,-1,27);
 }
-else if (cat1==semi || cat1==binop) squash(pp,1,decl_head,0,28);
+else if (cat1==semi || cat1==binop) reduce(pp,0,decl_head,0,28);
 
 @ @<Cases for |public_like|@>=
 if (cat1==colon) squash(pp,2,tag,-1,29);
-else squash(pp,1,int_like,-2,30);
+else reduce(pp,0,int_like,-2,30);
 
 @ @<Cases for |colcol|@>=
 if (cat1==exp||cat1==int_like) {
@@ -2759,7 +2758,7 @@ else if ((cat1==binop||cat1==colon) && cat2==exp && (cat3==comma ||
   squash(pp,3,decl_head,-1,36);
 else if (cat1==cast) squash(pp,2,decl_head,-1,37);
 else if (cat1==lbrace || cat1==int_like || cat1==decl) {
-  big_app(dindent); big_app1(pp); reduce(pp,1,fn_decl,0,38);
+  big_app(dindent); squash(pp,1,fn_decl,0,38);
 }
 else if (cat1==semi) squash(pp,2,decl,-1,39);
 else if (cat1==attr) {
@@ -2799,7 +2798,7 @@ else if (cat1==exp||cat1==int_like) {
       big_app(' '); big_app1(pp+2);reduce(pp,3,struct_head,0,46);
     }
   }
-  else if (cat2==colon) squash(pp+2,1,base,2,47);
+  else if (cat2==colon) reduce(pp+2,0,base,2,47);
   else if (cat2!=base) {
     big_app1_insert(pp,' '); reduce(pp,2,int_like,-2,48);
   }
@@ -2862,8 +2861,8 @@ if (cat1==exp) {
 }
 
 @ @<Cases for |else_like|@>=
-if (cat1==colon) squash(pp+1,1,base,1,58);
-else if (cat1==lbrace) squash(pp,1,else_head,0,59);
+if (cat1==colon) reduce(pp+1,0,base,1,58);
+else if (cat1==lbrace) reduce(pp,0,else_head,0,59);
 else if (cat1==stmt) {
   big_app(force); big_app1(pp); big_app(indent); big_app(break_space);
   big_app1(pp+1); big_app(outdent); big_app(force);
@@ -2878,7 +2877,7 @@ if (cat1==stmt || cat1==exp) {
 }
 
 @ @<Cases for |if_clause|@>=
-if (cat1==lbrace) squash(pp,1,if_head,0,62);
+if (cat1==lbrace) reduce(pp,0,if_head,0,62);
 else if (cat1==stmt) {
   if (cat2==else_like) {
     big_app(force); big_app1(pp); big_app(indent); big_app(break_space);
@@ -2888,7 +2887,7 @@ else if (cat1==stmt) {
     }
     else reduce(pp,3,else_like,0,64);
   }
-  else squash(pp,1,else_like,0,65);
+  else reduce(pp,0,else_like,0,65);
 }
 else if (cat1==attr) {
   big_app1_insert(pp,' '); reduce(pp,2,if_head,0,146);
@@ -2904,7 +2903,7 @@ if (cat1==stmt || cat1==exp) {
     }
     else reduce(pp,3,else_like,0,67);
   }
-  else squash(pp,1,else_head,0,68);
+  else reduce(pp,0,else_head,0,68);
 }
 
 @ @<Cases for |do_like|@>=
@@ -2934,7 +2933,7 @@ else if (cat1==stmt||cat1==decl||cat1==function) {
   big_app(force); big_app(backup); big_app1_insert(pp,break_space);
   reduce(pp,2,cat1,-1,75);
 }
-else if (cat1==rbrace) squash(pp,1,decl,-1,156);
+else if (cat1==rbrace) reduce(pp,0,decl,-1,156);
 
 @ The user can decide at run-time whether short statements should be
 grouped together on the same line.
@@ -2951,7 +2950,7 @@ if (cat1==stmt||cat1==decl||cat1==function) {
 }
 
 @ @<Cases for |semi|@>=
-big_app(' '); big_app1(pp); reduce(pp,1,stmt,-1,77);
+big_app(' '); squash(pp,1,stmt,-1,77);
 
 @ @<Cases for |lproc|@>=
 if (cat1==define_like) make_underlined(pp+2);
@@ -2975,7 +2974,7 @@ else if (cat1==rproc) {
 if (cat1==semi) {
   big_app2(pp); big_app(force); reduce(pp,2,stmt,-2,81);
 }
-else squash(pp,1,exp,-2,82);
+else reduce(pp,0,exp,-2,82);
 
 @ @<Cases for |insert|@>=
 if (cat1)
@@ -3014,21 +3013,21 @@ else if ((cat1==struct_like) @|
   }
 
 @ @<Cases for |template_like|@>=
-if (cat1==exp && cat2==prelangle) squash(pp+2,1,langle,2,89);
+if (cat1==exp && cat2==prelangle) reduce(pp+2,0,langle,2,89);
 else if (cat1==exp || cat1==raw_int) {
   big_app1_insert(pp,' '); reduce(pp,2,cat1,-2,90);
 }
 else if (cat1==cast && cat2==struct_like) {
   big_app1_insert(pp,' '); reduce(pp,2,struct_like,0,155);
 }
-else squash(pp,1,raw_int,0,91);
+else reduce(pp,0,raw_int,0,91);
 
 @ @<Cases for |new_like|@>=
 if (cat1==lpar && cat2==exp && cat3==rpar) squash(pp,4,new_like,0,92);
 else if (cat1==cast) {
   big_app1_insert(pp,' '); reduce(pp,2,exp,-2,93);
 }
-else if (cat1!=lpar) squash(pp,1,new_exp,0,94);
+else if (cat1!=lpar) reduce(pp,0,new_exp,0,94);
 
 @ @<Cases for |new_exp|@>=
 if (cat1==int_like || cat1==const_like) {
@@ -3041,16 +3040,16 @@ else if (cat1==struct_like && (cat2==exp || cat2==int_like)) {
 else if (cat1==raw_ubin) {
   big_app1_insert(pp,'{'); big_app('}'); reduce(pp,2,new_exp,0,97);
 }
-else if (cat1==lpar) squash(pp,1,exp,-2,98);
+else if (cat1==lpar) reduce(pp,0,exp,-2,98);
 else if (cat1==exp) {
   big_app1(pp); big_app(' '); reduce(pp,1,exp,-2,98);
 }
 else if (cat1!=raw_int && cat1!=struct_like && cat1!=colcol)
-  squash(pp,1,exp,-2,99);
+  reduce(pp,0,exp,-2,99);
 
 @ @<Cases for |ftemplate|@>=
-if (cat1==prelangle) squash(pp+1,1,langle,1,100);
-else squash(pp,1,exp,-2,101);
+if (cat1==prelangle) reduce(pp+1,0,langle,1,100);
+else reduce(pp,0,exp,-2,101);
 
 @ @<Cases for |for_like|@>=
 if (cat1==exp) {
@@ -3062,18 +3061,18 @@ if (cat1==const_like) {
   big_app2(pp); app_str("\\ "); reduce(pp,2,raw_ubin,0,103);
 @.\\\ @>
 }
-else squash(pp,1,ubinop,-2,104);
+else reduce(pp,0,ubinop,-2,104);
 
 @ @<Cases for |const_like|@>=
-squash(pp,1,int_like,-2,105);
+reduce(pp,0,int_like,-2,105);
 
 @ @<Cases for |raw_int|@>=
-if (cat1==prelangle) squash(pp+1,1,langle,1,106);
+if (cat1==prelangle) reduce(pp+1,0,langle,1,106);
 else if (cat1==colcol) squash(pp,2,colcol,-1,107);
 else if (cat1==cast) squash(pp,2,raw_int,0,108);
-else if (cat1==lpar) squash(pp,1,exp,-2,109);
-else if (cat1==lbrack) squash(pp,1,exp,-2,144);
-else if (cat1!=langle) squash(pp,1,int_like,-3,110);
+else if (cat1==lpar) reduce(pp,0,exp,-2,109);
+else if (cat1==lbrack) reduce(pp,0,exp,-2,144);
+else if (cat1!=langle) reduce(pp,0,int_like,-3,110);
 
 @ @<Cases for |operator_like|@>=
 if (cat1==binop || cat1==unop || cat1==ubinop) {
@@ -3084,11 +3083,11 @@ else if (cat1==new_like || cat1==delete_like) {
   big_app1_insert(pp,' '); reduce(pp,2,exp,-2,112);
 }
 else if (cat1==comma) squash(pp,2,exp,-2,113);
-else if (cat1!=raw_ubin) squash(pp,1,new_exp,0,114);
+else if (cat1!=raw_ubin) reduce(pp,0,new_exp,0,114);
 
 @ @<Cases for |typedef_like|@>=
 if ((cat1==int_like || cat1==cast) && (cat2==comma || cat2==semi))
-  squash(pp+1,1,exp,-1,115);
+  reduce(pp+1,0,exp,-1,115);
 else if (cat1==int_like) {
   big_app1_insert(pp,' '); reduce(pp,2,typedef_like,0,116);
 }
@@ -3129,7 +3128,7 @@ else if (cat1==cast) squash(pp,2,attr,-1,158);
 if (cat1==lbrack)
   if (cat2==rbrack && cat3==rbrack) squash(pp,4,exp,-2,147);
   else squash(pp,2,attr_head,-1,128);
-else squash(pp,1,lpar,-1,129);
+else reduce(pp,0,lpar,-1,129);
 
 @ @<Cases for |attr_head|@>=
 if (cat1==rbrack && cat2==rbrack) squash(pp,3,attr,-1,131);
@@ -3162,10 +3161,11 @@ else if (cat1==function) {
 }
 
 @ @<Cases for |default_like|@>=
-if (cat1==colon) squash(pp,1,case_like,-3,149);
-else squash(pp,1,exp,-2,150);
+if (cat1==colon) reduce(pp,0,case_like,-3,149);
+else reduce(pp,0,exp,-2,150);
 
-@ Now here's the |reduce| procedure used in our code for productions.
+@ Now here's the |reduce| procedure used in our code for productions,
+which takes advantage of the simplification that occurs when |k==0|.
 
 The `|freeze_text|' macro is used to give official status to a token list.
 Before saying |freeze_text|, items are appended to the current token list,
@@ -3193,9 +3193,12 @@ eight_bits c,
 short d, short n)
 {
   scrap_pointer i, i1; /* pointers into scrap memory */
-  j->cat=c; j->trans=text_ptr;
-  j->mathness=4*cur_mathness+init_mathness;
-  freeze_text;
+  j->cat=c;
+  if (k>0) {
+    j->trans=text_ptr;
+    j->mathness=4*cur_mathness+init_mathness;
+    freeze_text;
+  }
   if (k>1) {
     for (i=j+k, i1=j+1; i<=lo_ptr; i++, i1++) {
       i1->cat=i->cat; i1->trans=i->trans;
@@ -3208,8 +3211,7 @@ short d, short n)
   pp--; /* we next say |pp++| */
 }
 
-@ Here's the |squash| procedure, which
-takes advantage of the simplification that occurs when |k==1|.
+@ Here's the |squash| procedure.
 
 @c
 static void
@@ -3219,11 +3221,7 @@ eight_bits c,
 short d, short n)
 {
   switch (k) {
-  case 1: /* ultra-compact version of |reduce(j,1,c,d,n)| */
-    j->cat=c; pp=(pp+d<scrap_base? scrap_base: pp+d);
-    @<Print a snapshot...@>@;
-    pp--; /* we next say |pp++| */
-    return;
+  case 1: big_app1(j); break;
   case 2: big_app2(j); break;
   case 3: big_app3(j); break;
   case 4: big_app4(j); break;
