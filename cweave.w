@@ -2964,7 +2964,7 @@ else if (cat1==rproc) {
     app(inserted); big_app1(pp); big_app(' '); big_app2(pp+1);
     reduce(pp,3,insert,-1,80);
   }
-  else if (cat2==exp && cat3==rproc && cat1==exp) {
+  else if (cat1==exp && cat2==exp && cat3==rproc) {
     app(inserted); big_app1_insert(pp,' '); app_str("\\5");
 @.\\5@>
     big_app2(pp+2); reduce(pp,4,insert,-1,80);
