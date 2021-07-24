@@ -3551,11 +3551,9 @@ while (id_first<id_loc) {
 @q(@>@.\\)@>
   }
 @^high-bit character handling@>
-  if((eight_bits)(*id_first)>0177) {
-    app_tok(quoted_char);
-    app_tok(*id_first++);
-  }
-  else {
+  if((eight_bits)(*id_first)>0177)
+    app_tok(quoted_char)@t;@>@;
+  else
     switch (*id_first) {
       case ' ':case '\\':case '#':case '%':case '$':case '^':
       case '{': case '}': case '~': case '&': case '_': app('\\'); break;
@@ -3574,8 +3572,7 @@ while (id_first<id_loc) {
         else err_print("! Double @@ should be used in strings");
 @.Double @@ should be used...@>
     }
-    app_tok(*id_first++);
-  }
+  app_tok(*id_first++);
   count--;
 }
 app(@q{@>'}');
@@ -3600,15 +3597,13 @@ the \TEX/ string is treated as an expression.
 @<Append a \TEX/ string, without forming a scrap@>=
 app_str("\\hbox{"@q}@>);
 @^high-bit character handling@>
-while (id_first<id_loc)
-  if((eight_bits)(*id_first)>0177) {
-    app_tok(quoted_char);
-    app_tok(*id_first++);
-  }
-  else {
+while (id_first<id_loc) {
+  if((eight_bits)(*id_first)>0177)
+    app_tok(quoted_char)@t;@>@;
+  else
     if (*id_first=='@@') id_first++;
-    app_tok(*id_first++);
-  }
+  app_tok(*id_first++);
+}
 app(@q{@>'}');
 
 @ The function |app_cur_id| appends the current identifier to the
