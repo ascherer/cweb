@@ -2637,7 +2637,7 @@ r->num=m; /* everything from |q| on is left undisturbed */
 
 @ Now comes the code that tries to match each production starting
 with a particular type of scrap. Whenever a match is discovered,
-the |squash| or |reduce| macro will cause the appropriate action
+the |squash| or |reduce| function will cause the appropriate action
 to be performed, followed by |goto found|.
 
 @<Cases for |exp|@>=
@@ -3211,7 +3211,8 @@ short d, short n)
   pp--; /* we next say |pp++| */
 }
 
-@ Here's the |squash| procedure.
+@ Here's the |squash| procedure, which combines |big_app| and |reduce| for
+matching numbers~|k|.
 
 @c
 static void
