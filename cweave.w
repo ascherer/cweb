@@ -3553,7 +3553,7 @@ while (id_first<id_loc) {
 @^high-bit character handling@>
   if((eight_bits)(*id_first)>0177) {
     app_tok(quoted_char);
-    app_tok((eight_bits)(*id_first++));
+    app_tok(*id_first++);
   }
   else {
     switch (*id_first) {
@@ -3603,7 +3603,7 @@ app_str("\\hbox{"@q}@>);
 while (id_first<id_loc)
   if((eight_bits)(*id_first)>0177) {
     app_tok(quoted_char);
-    app_tok((eight_bits)(*id_first++));
+    app_tok(*id_first++);
   }
   else {
     if (*id_first=='@@') id_first++;
