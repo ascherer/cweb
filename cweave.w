@@ -3164,10 +3164,7 @@ else if (cat1==function) {
 if (cat1==colon) reduce(pp,0,case_like,-3,149);
 else reduce(pp,0,exp,-2,150);
 
-@ Now here's the |reduce| procedure used in our code for productions,
-which takes advantage of the simplification that occurs when |k==0|.
-
-The `|freeze_text|' macro is used to give official status to a token list.
+@ The `|freeze_text|' macro is used to give official status to a token list.
 Before saying |freeze_text|, items are appended to the current token list,
 and we know that the eventual number of this token list will be the current
 value of |text_ptr|. But no list of that number really exists as yet,
@@ -3185,7 +3182,10 @@ too large, since it is assumed that this test was done beforehand.
 static void reduce(scrap_pointer,short,eight_bits,short,short);@/
 static void squash(scrap_pointer,short,eight_bits,short,short);
 
-@ @c
+@ Now here's the |reduce| procedure used in our code for productions,
+which takes advantage of the simplification that occurs when |k==0|.
+
+@c
 static void
 reduce(
 scrap_pointer j, short k,
@@ -3211,8 +3211,8 @@ short d, short n)
   pp--; /* we next say |pp++| */
 }
 
-@ Here's the |squash| procedure, which combines |big_app| and |reduce| for
-matching numbers~|k|.
+@ And here's the |squash| procedure, which combines |big_app| and |reduce|
+for matching numbers~|k|.
 
 @c
 static void
