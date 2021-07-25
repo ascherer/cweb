@@ -3536,26 +3536,22 @@ Many of the special characters in a string must be prefixed by `\.\\' so that
 @^special string characters@>
 
 @<Append a string or...@>={@+ int count=-1; /* characters remaining before string break */
-if (next_control==constant) app_str("\\T{"@q}@>);
+switch (next_control) {
+  case constant: app_str("\\T{"@q}@>); break;
 @.\\T@>
-else if (next_control==string) {
-  count=20; app_str("\\.{"@q}@>);
-}
+  case string: count=20; app_str("\\.{"@q}@>); break;
 @.\\.@>
-else app_str("\\vb{"@q}@>);
+  default: app_str("\\vb{"@q}@>);
 @.\\vb@>
+}
 while (id_first<id_loc) {
   if (count==0) { /* insert a discretionary break in a long string */
      app_str(@q(@>@q{@>"}\\)\\.{"@q}@>); count=20;
 @q(@>@.\\)@>
   }
-@^high-bit character handling@>
-  if((eight_bits)(*id_first)>0177)
-    app_tok(quoted_char)@t;@>@;
-  else
-    switch (*id_first) {
-      case ' ':case '\\':case '#':case '%':case '$':case '^':
-      case '{': case '}': case '~': case '&': case '_': app('\\'); break;
+  switch (*id_first) {
+    case ' ':case '\\':case '#':case '%':case '$':case '^':
+    case '{': case '}': case '~': case '&': case '_': app('\\'); break;
 @.\\\ @>
 @.\\\\@>
 @.\\\#@>
@@ -3567,9 +3563,14 @@ while (id_first<id_loc) {
 @.\\\~@>
 @.\\\&@>
 @.\\\_@>
-      case '@@': if (*(id_first+1)=='@@') id_first++;
-        else err_print("! Double @@ should be used in strings");
+    case '@@': if (*(id_first+1)=='@@') id_first++;
+      else err_print("! Double @@ should be used in strings");
 @.Double @@ should be used...@>
+      break;
+    default: /* high-bit character handling */
+@^high-bit character handling@>
+      if((eight_bits)(*id_first)>0177)
+        app_tok(quoted_char)@t;@>@;
     }
   app_tok(*id_first++);
   count--;
