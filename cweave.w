@@ -3211,8 +3211,8 @@ short d, short n)
   pp--; /* we next say |pp++| */
 }
 
-@ And here's the |squash| procedure, which combines |big_app| and |reduce|
-for matching numbers~|k|.
+@ And here's the |squash| procedure, which combines |big_app|${}_k$ and
+|reduce| for matching numbers~|k|.
 
 @c
 static void
