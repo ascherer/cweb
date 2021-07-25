@@ -1535,15 +1535,13 @@ static int copy_comment(boolean,int);
 static void
 copy_limbo(void)
 {
-  char c;
   while (true) {
     if (loc>limit && (finish_line(), get_line()==false)) return;
     *(limit+1)='@@';
     while (*loc!='@@') out(*(loc++));
     if (loc++<=limit) {
-      c=*loc++;
-      if (ccode[(eight_bits)c]==new_section) break;
-      switch (ccode[(eight_bits)c]) {
+      switch (ccode[(eight_bits)*loc++]) {
+        case new_section: return;
         case translit_code: out_str("\\ATL"); break;
 @.\\ATL@>
         case '@@': out('@@'); break;
