@@ -313,14 +313,7 @@ We use \\{in}, \\{out}, \\{back}, \\{bsp}, and \\{din} as shorthands for
 \+& |tag| |rbrace| & |decl| |rbrace| & @q{@>|public: }| \cr
 \+& |fn_decl| |attr| & |fn_decl| \hfill $F\.\ A$ & |void f() noexcept| \cr
 \+& |alignas_like| |cast| & |attr| & |alignas(int)| \cr
-\yskip
-\yskip
-\yskip
-\yskip
-\yskip
-\yskip
-\yskip
-\yskip
+\vfill\break
 \parindent=0pt
 \dag{\bf Notes}
 \yskip
