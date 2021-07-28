@@ -937,7 +937,7 @@ convention, but do not allow the string to be longer than |longest_name|.
 whether there is more work to do.
 
 @<Get control code and possible section name@>=
-switch(ccode[(eight_bits)(c=*loc++)]) {
+switch(ccode[c=*loc++]) {
   case translit_code: err_print("! Use @@l in limbo only"); continue;
 @.Use @@l in limbo...@>
   case underline: xref_switch=def_flag; continue;
@@ -948,7 +948,7 @@ switch(ccode[(eight_bits)(c=*loc++)]) {
   case ord: @<Get a string@>@;
   case xref_roman: case xref_wildcard: case xref_typewriter: case noop:
   case TeX_string: skip_restricted(); /* fall through */
-  default: return ccode[(eight_bits)c];
+  default: return ccode[c];
 }
 
 @ The occurrence of a section name sets |xref_switch| to zero,
@@ -1002,7 +1002,7 @@ if (c=='@@') {
   if (c=='>') {
     loc+=2; break;
   }
-  if (ccode[(eight_bits)c]==new_section) {
+  if (ccode[c]==new_section) {
     err_print("! Section name didn't end"); break;
 @.Section name didn't end@>
   }
@@ -1837,7 +1837,7 @@ static char cat_name[256][12]; /* |12==strlen("struct_head")+1| */
 
 @ This code allows \.{CWEAVE} to display its parsing steps.
 
-@d print_cat(c) fputs(cat_name[(eight_bits)(c)],stdout)
+@d print_cat(c) fputs(cat_name[c],stdout)
 
 @ The token lists for translated \TEX/ output contain some special control
 symbols as well as ordinary characters. These control symbols are
