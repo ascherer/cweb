@@ -865,18 +865,18 @@ digit_suffix:
 @ @<Get a hex...@>={
   *id_loc++='^'; loc++;
   gather_digits_while(xisxdigit(*loc) || *loc=='.');
-  *id_loc++='/'; goto get_exponent;
+  goto get_exponent;
 }
 
 @ @<Get a bin...@>={
   *id_loc++='\\'; loc++;
   gather_digits_while(*loc=='0' || *loc=='1');
-  *id_loc++='/'; goto digit_suffix;
+  goto digit_suffix;
 }
 
 @ @<Get an oct...@>={
   *id_loc++='~'; gather_digits_while(xisdigit(*loc));
-  *id_loc++='/'; goto digit_suffix;
+  goto digit_suffix;
 }
 
 @ \CEE/ strings and character constants, delimited by double and single
