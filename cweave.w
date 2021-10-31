@@ -831,7 +831,8 @@ are pointers into the array |section_text|, not into |buffer|.
 
 @d gather_digits_while(t) while ((t) || *loc=='\'')
   if (*loc=='\'') { /* \CPLUSPLUS/-style digit separator */
-    *id_loc++=' '; loc++; /* insert a little bit of space */
+    *id_loc++=' ';@+ loc++; /* insert a little white space */
+@.\\\ @>
   }@+else *id_loc++=*loc++
 
 @<Get a constant@>= {
@@ -3548,12 +3549,11 @@ while (id_first<id_loc) {
 @q(@>@.\\)@>
   }
   switch (*id_first) {
-    case ' ':case '\\':case '#':case '%':case '$':case '^':
-    case '{': case '}': case '~': case '&': case '_': app('\\'); break;
+    case ' ':case '\\':case '#':case '$':case '^':case '{':case '}':
+    case '~':case '&':case '_': app('\\'); break;
 @.\\\ @>
 @.\\\\@>
 @.\\\#@>
-@.\\\%@>
 @.\\\$@>
 @.\\\^@>
 @.\\\{@>@q}@>
@@ -3561,6 +3561,14 @@ while (id_first<id_loc) {
 @.\\\~@>
 @.\\\&@>
 @.\\\_@>
+    case '%': if (next_control==constant) {
+        app_str("}\\p{"); /* special macro for `hex exponent' */
+        id_first++; /* skip |'%'| */
+      }
+      else app('\\');
+      break;
+@.\\p@>
+@.\\\%@>
     case '@@': if (*(id_first+1)=='@@') id_first++;
       else err_print("! Double @@ should be used in strings");
 @.Double @@ should be used...@>

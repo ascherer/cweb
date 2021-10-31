@@ -1,8 +1,8 @@
 % standard macros for CWEB listings (in addition to plain.tex)
-% Version 4.5 --- July 2021
+% Version 4.5 --- October 2021
 \ifx\renewenvironment\undefined\else\endinput\fi % LaTeX will use other macros
 \xdef\fmtversion{\fmtversion+CWEB4.5}
-\chardef\cwebversion=4 \chardef\cwebrevision=4
+\chardef\cwebversion=4 \chardef\cwebrevision=5
 \newif\ifpdf
 \ifx\pdf+\pdftrue\fi
 % Uncomment the following line if you want PDF goodies to be the default
@@ -344,11 +344,9 @@
 \def\Qs{\note{This code is cited in sections}} % xref for mentions of a section
 \let\R=\lnot % logical not
 % \S is section sign
-\def\digitseparator{\,} % a bit of extra space
-\def\p#1{\cdot 2^{#1}}% power of two (hex exponent)
 \def\T#1{\leavevmode % octal, hex or decimal constant
   \hbox{$\def\?{\kern.2em}%
-    \let\ \digitseparator%
+    \let\ \, % C++ digit separator becomes a little white space
 %    \def\$##1{\egroup_{\,\rm##1}\bgroup}% suffix to constant % versions < 3.67
     \def\$##1{\egroup_{\rm##1}\bgroup}% suffix to constant % in version 3.67
     \def\_{\cdot 10^{\aftergroup}}% power of ten (via dirty trick)
@@ -377,6 +375,7 @@
 \def\vb#1{\leavevmode\hbox{\kern2pt\vrule\vtop{\vbox{\hrule
         \hbox{\strut\kern2pt\.{#1}\kern2pt}}
       \hrule}\vrule\kern2pt}} % verbatim string
+\def\p#1{\cdot 2^{#1}} % power of two (hex exponent)
 
 \def\onmaybe{\let\ifon=\maybe} \let\maybe=\iftrue
 \newif\ifon \newif\iftitle \newif\ifpagesaved
