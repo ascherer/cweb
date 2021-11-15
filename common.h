@@ -12,7 +12,7 @@
 
 % Permission is granted to copy and distribute modified versions of this
 % document under the conditions for verbatim copying, provided that the
-% entire resulting derived work is distributed under the terms of a
+# entire resulting derived work is given a different name and distributed
 % permission notice identical to this one.
 
 % Amendments to 'common.h' resulting in this updated version were created
