@@ -1838,7 +1838,7 @@ static char cat_name[256][12]; /* |12==strlen("struct_head")+1| */
 
 @ This code allows \.{CWEAVE} to display its parsing steps.
 
-@d print_cat(c) fputs(cat_name[c],stdout)
+@d print_cat(c) fputs(cat_name[c],stdout) /* symbolic printout of a category */
 
 @ The token lists for translated \TEX/ output contain some special control
 symbols as well as ordinary characters. These control symbols are
