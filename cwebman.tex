@@ -1241,7 +1241,7 @@ while(true) {
   if (!!input_ln(change_file)) return;
   if (limit<buffer+2) continue;
   if (buffer[0]!!='@@') continue;
-  if (xisupper(buffer[1])) buffer[1]=tolower((eight_bits)buffer[1]);
+  if (xisupper(buffer[1])) buffer[1]=tolower((int)buffer[1]);
   if (buffer[1]=='x') break;
   if (buffer[1]=='y' || buffer[1]=='z' || buffer[1]=='i') {
     loc=buffer+2;
@@ -1293,7 +1293,7 @@ change_line++;
 if(!!input_ln(change_file))return;
 if(limit<buffer+2)continue;
 if(buffer[0]!!='@')continue;
-if(xisupper(buffer[1]))buffer[1]= tolower((eight_bits)buffer[1]);
+if(xisupper(buffer[1]))buffer[1]= tolower((int)buffer[1]);
 if(buffer[1]=='x')break;
 if(buffer[1]=='y'||buffer[1]=='z'||buffer[1]=='i'){
 loc= buffer+2;
@@ -1385,7 +1385,7 @@ ${}\\{change\_line}\PP;{}$\6
 \&{if} ${}(\\{buffer}[\T{0}]\I\.{'@'}){}$\1\5
 \&{continue};\2\6
 \&{if} (\\{xisupper}(\\{buffer}[\T{1}]))\1\5
-${}\\{buffer}[\T{1}]\K\\{tolower}{}$((\&{eight\_bits}) \\{buffer}[\T{1}]);\2\6
+${}\\{buffer}[\T{1}]\K\\{tolower}{}$((\&{int}) \\{buffer}[\T{1}]);\2\6
 \&{if} ${}(\\{buffer}[\T{1}]\E\.{'x'}){}$\1\5
 \&{break};\2\6
 \&{if} ${}(\\{buffer}[\T{1}]\E\.{'y'}\V\\{buffer}[\T{1}]\E\.{'z'}\V\\{buffer}[%
