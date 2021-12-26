@@ -2,7 +2,7 @@
 % This program by Silvio Levy and Donald E. Knuth
 % is based on a program by Knuth.
 % It is distributed WITHOUT ANY WARRANTY, express or implied.
-% Version 4.5 --- July 2021
+% Version 4.6 --- December 2021
 
 % Copyright (C) 1987,1990,1993,2000 Silvio Levy and Donald E. Knuth
 
@@ -27,11 +27,11 @@
 \mathchardef\RA="3221 % right arrow
 \mathchardef\BA="3224 % double arrow
 
-\def\title{CTANGLE (Version 4.5)}
+\def\title{CTANGLE (Version 4.6)}
 \def\topofcontents{\null\vfill
   \centerline{\titlefont The {\ttitlefont CTANGLE} processor}
   \vskip 15pt
-  \centerline{(Version 4.5)}
+  \centerline{(Version 4.6)}
   \vfill}
 \def\botofcontents{\vfill
 \noindent
@@ -61,7 +61,7 @@ Joachim Schrod, Lee Wittenberg, and others who have contributed improvements.
 The ``banner line'' defined here should be changed whenever \.{CTANGLE}
 is modified.
 
-@d banner "This is CTANGLE (Version 4.5)"
+@d banner "This is CTANGLE (Version 4.6)"
 
 @c
 @<Include files@>@/
@@ -75,7 +75,7 @@ is modified.
 two phases: First it reads the source file, saving the \CEE/ code in
 compressed form; then it shuffles and outputs the code.
 
-Please read the documentation for \.{common}, the set of routines common
+Please read the documentation for \.{COMMON}, the set of routines common
 to \.{CTANGLE} and \.{CWEAVE}, before proceeding further.
 
 @c
@@ -1493,8 +1493,8 @@ skip_limbo(void)
     while (*loc!='@@') loc++;
     if (loc++<=limit) {
       char c=*loc++;
-      if (ccode[(eight_bits)c]==new_section) break;
       switch (ccode[(eight_bits)c]) {
+        case new_section: return;
         case translit_code: @<Read in transliteration of a character@>@; break;
         case format_code: case '@@': break;
         case control_text: if (c=='q' || c=='Q') {

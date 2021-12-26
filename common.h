@@ -2,7 +2,7 @@
 % This program by Silvio Levy and Donald E. Knuth
 % is based on a program by Knuth.
 % It is distributed WITHOUT ANY WARRANTY, express or implied.
-% Version 4.5 --- July 2021 (works also with later versions)
+% Version 4.6 --- December 2021 (works also with later versions)
 
 % Copyright (C) 1987,1990,1993 Silvio Levy and Donald E. Knuth
 
@@ -12,8 +12,8 @@
 
 % Permission is granted to copy and distribute modified versions of this
 % document under the conditions for verbatim copying, provided that the
-% entire resulting derived work is distributed under the terms of a
-% permission notice identical to this one.
+% entire resulting derived work is given a different name and distributed
+% under the terms of a permission notice identical to this one.
 
 % Amendments to 'common.h' resulting in this updated version were created
 % by numerous collaborators over the course of many years.
@@ -46,8 +46,8 @@ extern int phase; /* which phase are we in? */
 #include <stdbool.h> /* definition of |@!bool|, |@!true| and |@!false| */
 #include <stddef.h> /* definition of |@!ptrdiff_t| */
 #include <stdint.h> /* definition of |@!uint8_t| and |@!uint16_t| */
-#include <stdlib.h> /* definition of |@!getenv| and |@!exit| */
 #include <stdio.h> /* definition of |@!printf| and friends */
+#include <stdlib.h> /* definition of |@!getenv| and |@!exit| */
 #include <string.h> /* definition of |@!strlen|, |@!strcmp| and so on */
 
 @ Code related to the character set:

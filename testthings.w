@@ -231,6 +231,7 @@ i();
 int main(void)
 {
   int decimal_integer = 100;
+  int hex_integer = 0x42;
   int octal_integer = 0240;
   int binary_integer = 0b10101011;
   int separated_integer = 100'000'000;
