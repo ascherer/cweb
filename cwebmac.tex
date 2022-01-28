@@ -294,7 +294,7 @@
 % These are the top level HINT macros that are used in this file
 % No HINT primitives are used directly.
 \def\HINThome{\HINTdest name {HINT.home}%
-  \HINToutline goto name {HINT.home} depth 1 {Table of Content}}
+  \HINToutline goto name {HINT.home} depth 1 {Table of Contents}}
 \def\HINTlabel{{\let\*=\empty\HINTdest num \secstar top}}
 \def\HINTlink#1#2{\HINTstartlink goto num #1 {#1}\HINTendlink}% #2 not used ???
 \def\HINTcontents#1#2#3{\HINToutline goto num #3 depth #2 {#1}}
@@ -561,7 +561,7 @@
   \pageno=\contentspagenumber
   \def\grouptitle{TABLE OF CONTENTS}
   \message{Table of contents:}
-  \ifHINT\HINThome\fi% Mark the Table of content as home page
+  \ifHINT\HINThome\fi% Mark the Table of contents as home page
   \topofcontents \startpdf
   \line{\hfil Section\ifHINT\else\hbox to3em{\hss Page}\fi}% No Page in HINT
   \let\ZZ=\contentsline
