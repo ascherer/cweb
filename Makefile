@@ -64,9 +64,11 @@ CP= /bin/cp
 
 # uncomment the second line if you use pdftex to bypass .dvi files
 # uncomment the third line if you use xetex to bypass .dvi files
+# uncomment the forth line if you use hitex for HINT output
 PDFTEX = dvipdfm
 #PDFTEX = pdftex
 #PDFTEX = xetex
+#PDFTEX = hitex
 
 ##########  You shouldn't have to change anything after this point #######
 
@@ -108,6 +110,7 @@ ALL =  common.w ctangle.w cweave.w prod.w \
 	 dvipdfm ) tex "\let\pdf+ \input $*"; dvipdfm $* ;; \
 	 pdftex ) pdftex $* ;; \
 	 xetex ) xetex $* ;; \
+	 hitex ) hitex $* ;; \
 	esac
 
 all: ctangle cweave
