@@ -17,8 +17,7 @@
   \def\Blue{\pdfliteral{\pdflinkcolor\space rg \pdflinkcolor\space RG}}
 \fi\fi
 \newif\ifHINT
-\expandafter\ifx\csname HINTversion\endcsname\relax\HINTfalse
-\else\HINTtrue\fi
+\ifx\HINTversion\undefined \HINTfalse \else \HINTtrue \fi
 \newif\ifacro \ifpdf\acrotrue\fi \ifpdftex\acrotrue\fi
 \newif\ifacroHINT \ifacro\acroHINTtrue\fi \ifHINT\acroHINTtrue\fi
 
