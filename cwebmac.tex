@@ -151,8 +151,6 @@
     \special{pdf: ec}}\special{pdf: ann width \thewidth height \theheight
       depth \thedepth << /Type /Annot /Subtype /Link
       /Border [0 0 0] /A << /S /GoTo /D (#2) >> >>}\box0\relax}\fi
-{\catcode`\~=12 \gdef\TILDE/{~}} % ~ in a URL
-{\catcode`\_=12 \gdef\UNDER/{_}} % _ in a URL
 \def\sanitizecommand#1#2{\addtokens\usersanitizer
        {\noexpand\dosanitizecommand\noexpand#1{#2}}}
 \def\dosanitizecommand#1#2{\ifx\nxt#1\addF{#2}\fi}
@@ -304,6 +302,8 @@
       \space depth \thedepth\space << /Border [0 0 0]
       /Type /Action /Subtype /Link /A << /S /URI /URI (#2) >> >>}\box0\relax}%
   \else #1 ({\tt#2})\fi\fi}
+{\catcode`\~=12 \gdef\TILDE/{~}} % ~ in a URL
+{\catcode`\_=12 \gdef\UNDER/{_}} % _ in a URL
 
 \def\lapstar{\rlap{*}}
 \def\stsec{\rightskip=0pt % get out of C mode (cf. \B)
