@@ -1,4 +1,14 @@
-@* If.
+@* If. In this weird little concoction of a \.{CWEB} program, we test the new
+feature of \.{CTANGLE} to allow a wild mixture of preprocessor \.{\#if}---%
+\.{\#elif}---\.{\#else} logic and interspersed \.{@@<section code@@>}, trying to
+keep the \.{\#line} information intact while jumping around in the non-linear
+\.{CWEB} code, for the sake of the preprocessor, the \CEE/ compiler, and the
+debugger.
+
+You can compile this creation with either \.{-DSTAT} or \.{-DDEBUG}, none of
+these, or both.
+
+@d print_where(S) printf( S " in %s line %d\n", __FILE__, __LINE__)
 
 @c
 #include <stdio.h>
@@ -6,33 +16,40 @@
 @;@/
 int main(void)
 {
-	printf("Start %s line %d\n", __FILE__, __LINE__);
+	print_where("Start");
 
 #ifdef STAT
-	printf("Start defined STAT in %s line %d\n", __FILE__, __LINE__);
+	print_where("Start defined STAT");
 	@<Code for defined |STAT|@>@;
-	printf("End defined STAT in %s line %d\n", __FILE__, __LINE__);
-#elif defined DEBUG
-	printf("Start defined DEBUG in %s line %d\n", __FILE__, __LINE__);
+
+#	if defined DEBUG
+	print_where("Start defined DEBUG");
 	@<Code for defined |DEBUG|@>@;
-	printf("End defined DEBUG in %s line %d\n", __FILE__, __LINE__);
+	print_where("End defined DEBUG");
+#	endif
+
+	print_where("End defined STAT");
+#elif defined DEBUG
+	print_where("Start defined DEBUG");
+	@<Code for defined |DEBUG|@>@;
+	print_where("End defined DEBUG");
 #else
-	printf("Start undefined STAT in %s line %d\n", __FILE__, __LINE__);
+	print_where("Start undefined STAT");
 	@<Code for undefined |STAT|@>@;
-	printf("End undefined STAT in %s line %d\n", __FILE__, __LINE__);
+	print_where("End undefined STAT");
 #endif
-	printf("End %s line %d\n", __FILE__, __LINE__);
+	print_where("End");
 
 	return EXIT_SUCCESS;
 }
 
 @ @<Code for defined |STAT|@>=
-	printf("Code for defined STAT in %s line %d\n", __FILE__, __LINE__);
+	print_where("Code for defined STAT");
 
 @ @<Code for undef...@>=
-	printf("Code for undefined STAT in %s line %d\n", __FILE__, __LINE__);
+	print_where("Code for undefined STAT");
 
 @ @<Code for defined |DEBUG|@>=
-	printf("Code for defined DEBUG in %s line %d\n", __FILE__, __LINE__);
+	print_where("Code for defined DEBUG");
 
 @* Index.
