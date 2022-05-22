@@ -329,7 +329,7 @@ We use \\{in}, \\{out}, \\{back}, \\{bsp}, and \\{din} as shorthands for
 \parindent=0pt
 \dag{\bf Notes}
 \yskip
-Rule 35: The |exp| must not be immediately followed by |lpar|, |lbrack|,
+Rules 35, 117: The |exp| must not be immediately followed by |lpar|, |lbrack|,
 |exp|, or~|cast|.
 
 Rule 48: The |exp| or |int_like| must not be immediately followed by |base|.
@@ -351,9 +351,6 @@ must not be immediately followed by a |binop|.
 
 Rule 114: The |operator_like| must not be immediately followed by
 |raw_ubin|.
-
-Rule 117: The |exp| must not be immediately followed by |lpar|, |exp|,
-or |cast|.
 
 Rule 123: The mathness of the |colon| or |base| changes to `yes'.
 
