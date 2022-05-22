@@ -265,7 +265,7 @@ We use \\{in}, \\{out}, \\{back}, \\{bsp}, and \\{din} as shorthands for
 \+& |typedef_like| |comma| & |typedef_like| \hfill $TC\.\ $ &
     \&{typedef} \&{int} \&x,\cr
 \+& |typedef_like| |semi| & |decl| & \&{typedef} \&{int} $\&x,\&y$;\cr
-\+& |typedef_like| |ubinop| \alt |cast| |ubinop| & 
+\+& |typedef_like| |ubinop| \alt |cast| |ubinop| &
     |typedef_like| \alt |cast| |ubinop| \hfill
     \alt $C=\.\{U\.\}C$ $U_2=\.\{U_1\.\}U_2$ \unskip &
     \&{typedef} |*|{}|*|(\&{CPtr})\cr
