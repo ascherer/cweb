@@ -269,7 +269,7 @@ We use \\{in}, \\{out}, \\{back}, \\{bsp}, and \\{din} as shorthands for
     |typedef_like| \alt |cast| |ubinop| \hfill
     \alt $C=\.\{U\.\}C$ $U_2=\.\{U_1\.\}U_2$ \unskip &
     \&{typedef} |*|{}|*|(\&{CPtr})\cr
-\+& |delete_like| |lpar| |rpar| & |delete_like|\hfill $DL\.{\\,}R$
+\+& |delete_like| |lbrack| |rbrack| & |delete_like|\hfill $DL\.{\\,}R$
     & \&{delete}[\,] \cr
 \+& |delete_like| |exp| & |exp| \hfill $D\.\ E$ & \&{delete} $p$ \cr
 \+\dagit& |question| |exp| \alt |colon| |base| & |binop|

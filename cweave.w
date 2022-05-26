@@ -3106,7 +3106,7 @@ else if (cat1==ubinop && (cat2==ubinop || cat2==cast)) {
 }
 
 @ @<Cases for |delete_like|@>=
-if (cat1==lpar && cat2==rpar) {
+if (cat1==lbrack && cat2==rbrack) {
   big_app2(pp); app_str("\\,"); big_app1(pp+2);
 @.\\,@>
   reduce(pp,3,delete_like,0,121);
