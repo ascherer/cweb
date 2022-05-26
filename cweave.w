@@ -2979,8 +2979,8 @@ if (cat1==semi) {
 else reduce(pp,0,exp,-2,82);
 
 @ @<Cases for |insert|@>=
-if (cat1)
-  squash(pp,2,cat1,0,83);
+if (cat1==function)
+  squash(pp,2,function,0,83);
 
 @ @<Cases for |prelangle|@>=
 init_mathness=cur_mathness=yes_math;
