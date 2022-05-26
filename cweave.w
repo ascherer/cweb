@@ -3931,9 +3931,9 @@ make_output(void) /* outputs the equivalents of tokens */
           if ((a<indent && !(b==big_cancel&&a==' ')) @|
             || (a>big_force && a!=dindent)) break;
           switch (a) {
+          case dindent: c++; @=/* fall through */@>@;
           case indent: c++; break;
           case outdent: c--; break;
-          case dindent: c+=2; break;
           case opt: a=get_output();
           }
         }
