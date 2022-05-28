@@ -240,4 +240,30 @@ int main(void)
   int normal_exponent = 123'456e789;
 }
 
+@* Lists amd Enumerations.
+
+@c
+int func(int,int,double); /* Rule 14 */
+
+typedef enum {
+  false, true /* Rule 4 */
+} boolean;
+
+typedef struct {
+  int w, h; /* Rule 33 */
+} area;
+
+typedef int int_t, *intp_t, (&fp)(int,ulong), arr_t[10];
+  /* Rule 118 (and Rule 117) */
+
+int func(int a, int b, double c) /* Rule 14 */
+{
+   int t,u,v; /* Rule 33 */
+   return a;
+}
+
+template<typename Key, typename Value,
+         typename Hash, typename Pred, typename Allocator> /* Rule 153 */
+class hash_map { };
+
 @* Index.
