@@ -2,7 +2,7 @@
 % This program by Silvio Levy and Donald E. Knuth
 % is based on a program by Knuth.
 % It is distributed WITHOUT ANY WARRANTY, express or implied.
-% Version 4.7 --- February 2022
+% Version 4.8 --- June 2022
 
 % Copyright (C) 1987,1990,1993,2000 Silvio Levy and Donald E. Knuth
 
@@ -22,12 +22,12 @@
 
 \def\v{\char'174} % vertical (|) in typewriter font
 
-\def\title{Common code for CTANGLE and CWEAVE (Version 4.7)}
+\def\title{Common code for CTANGLE and CWEAVE (Version 4.8)}
 \def\topofcontents{\null\vfill
   \centerline{\titlefont Common code for {\ttitlefont CTANGLE} and
     {\ttitlefont CWEAVE}}
   \vskip 15pt
-  \centerline{(Version 4.7)}
+  \centerline{(Version 4.8)}
   \vfill}
 \def\botofcontents{\vfill
 \noindent
@@ -66,8 +66,8 @@ The file begins with a few basic definitions.
 @<Global variables@>@/
 @<Predeclaration of procedures@>
 
-@ The details will be filled in due course.  The interface of this module
-is included first.  It is also used by the main programs.
+@ The details will be filled in due course.  The interface |"common.h"| of this
+\.{COMMON} module is included first.  It is also used by the main programs.
 
 @i common.h
 
@@ -919,7 +919,7 @@ switch(section_name_cmp(&first,name_len,r)) {
       err_print(">");
     }
     else if (name_len<prefix_length(r)) set_prefix_length(r,name_len);
-    /* fall through */
+    @=/* fall through */@>@;
   case equal: break;
   case extension: if (!ispref || first<=last)
         extend_section_name(r,first,last+1,ispref);

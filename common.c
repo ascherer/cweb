@@ -732,8 +732,10 @@ else{
 if((l= strlen(CWEBINPUTS))> max_file_name_length-2)too_long();
 strcpy(temp_file_name,CWEBINPUTS);
 #else
-l= 0;
+#line 474 "common.w"
+ l= 0;
 #endif 
+#line 476 "common.w"
 }
 if(l> 0){
 if(k+l+2>=cur_file_name_end)too_long();
@@ -1015,7 +1017,7 @@ print_section_name(r);
 err_print(">");
 }
 else if(name_len<prefix_length(r))set_prefix_length(r,name_len);
-
+/* fall through */
 case equal:break;
 case extension:if(!ispref||first<=last)
 extend_section_name(r,first,last+1,ispref);

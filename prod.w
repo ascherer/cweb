@@ -2,7 +2,7 @@
 % This program by Silvio Levy and Donald E. Knuth
 % is based on a program by Knuth.
 % It is distributed WITHOUT ANY WARRANTY, express or implied.
-% Version 4.7 --- February 2022
+% Version 4.8 --- June 2022
 %
 @ Here is a table of all the productions.  Each production that
 combines two or more consecutive scraps implicitly inserts a {\tt \$}
@@ -56,7 +56,7 @@ We use \\{in}, \\{out}, \\{back}, \\{bsp}, and \\{din} as shorthands for
 |insert| & \altt\\{any} {\\{any} \\{any}} {\\{any} \\{any} \\{any}}
 & stmt; \4\4 \C{comment}\cr
 \+& |exp| \altt|lbrace| |int_like| |decl|
-    & |fn_decl| \altt|lbrace| |int_like| |decl| \hfill $F=E^*\,\\{din}$
+    & |fn_decl| \altt|lbrace| |int_like| |decl| \hfill $F=\\{din}\,E^*$
     & \malt {\\{main}(\,) $\{$}
             {$\\{main}(\\{ac},\\{av}){}$ \&{int} \\{ac};} \cr
 \+& |exp| |unop| & |exp| & $x\PP$ \cr
@@ -90,7 +90,7 @@ We use \\{in}, \\{out}, \\{back}, \\{bsp}, and \\{din} as shorthands for
 \+& |binop| |binop| & |binop| \hfill
                         $|math_rel|\,\.\{B_1\.\}\.\{B_2\.\}\.\}$ & |>>=|\cr
 \+& |cast| \alt |lpar| |exp| & \alt |lpar| |exp| \hfill
-  \alt $CL$ $C\.\ E$ & \malt {$(\&{double})(x+2)$} {(\&{double}) $x$} \cr
+  \alt $CL$ $C\.{\\,}E$ & \malt {$(\&{double})(x+2)$} {(\&{double})\,$x$} \cr
 \+& |cast| |semi| & |exp| |semi| & |(int);|\cr
 \+& |sizeof_like| |cast| & |exp| & |sizeof (double)|\cr
 \+& |sizeof_like| |exp| & |exp| \hfill $S\.\ E$ & \&{sizeof} $x$\cr
@@ -109,7 +109,7 @@ We use \\{in}, \\{out}, \\{back}, \\{bsp}, and \\{din} as shorthands for
 \+& |colcol| \alt|exp| |int_like| & \alt|exp| |int_like| \hfill
      |qualifier| $C$\alt$E$ $I$ & \&C\DC$x$\cr
 \+& |colcol| |colcol| & |colcol| & \&C\DC\&B\DC\cr
-\+& |decl_head| |comma| & |decl_head| \hfill $DC\.\ $ & \&{int} $x,{}$ \cr
+\+& |decl_head| |comma| & |decl_head| \hfill $DC$\,|opt|9 & \&{int} $x,{}$ \cr
 \+& |decl_head| |ubinop| & |decl_head| \hfill $D\.\{U\.\}$ & |int *|\cr
 \+\dagit& |decl_head| |exp| & |decl_head| \hfill $DE^*$ & \&{int} $x$ \cr
 \+& |decl_head| \alt|binop| |colon| |exp| \altt|comma| |semi| |rpar| &
@@ -118,7 +118,7 @@ We use \\{in}, \\{out}, \\{back}, \\{bsp}, and \\{din} as shorthands for
     & \malt {\&{int} $f(\&{int}\ x=2)$} {\&{int} $b$ : 1} \cr
 \+& |decl_head| |cast| & |decl_head| & \&{int} $f$(\&{int})\cr
 \+& |decl_head| \altt|int_like| |lbrace| |decl| & |fn_decl|
-                   \altt|int_like| |lbrace| |decl| \hfill $F=D\,\\{din}$
+                   \altt|int_like| |lbrace| |decl| \hfill $F=\\{din}\,D$
     & \&{long} \\{time}(\,) $\{$\cr
 \+& |decl_head| |semi| & |decl| & \&{int} $n$;\cr
 \+& |decl| |decl| & |decl| \hfill $D_1\,|force|\,D_2$
@@ -166,7 +166,7 @@ We use \\{in}, \\{out}, \\{back}, \\{bsp}, and \\{din} as shorthands for
        $|force|\,E\,\\{in}\,\\{bsp}\,S\,\\{out}\,|force|$
     & \&{else} $x=0;$\cr
 \+& |else_head| \alt|stmt| |exp| & |stmt| \hfill
-       $|force|\,E\,\\{bsp}\,|noop|\,|cancel|\,S\,\\{bsp}$
+       $|force|\,E\,\\{bsp}\,|noop|\,|cancel|\,S\,\\{force}$
     & $\!\!$ \&{else} $\{x=0;\}$\cr
 \+& |if_clause| |lbrace| & |if_head| |lbrace| & \&{if} ($x$) $\{$\cr
 \+& |if_clause| |stmt| |else_like| |if_like| & |if_like| \hfill
@@ -193,7 +193,7 @@ We use \\{in}, \\{out}, \\{back}, \\{bsp}, and \\{din} as shorthands for
 \+& |case_like| |colon| & |tag| & |default:|\cr
 \+& |case_like| |exp| & |exp| \hfill $C\.\ E$ & |return 0|\cr
 \+& |catch_like| \alt|cast| |exp| & |fn_decl| \hfill
-    $C$\alt $C$ $E$ \unskip \\{din} & |catch (...)|\cr
+    $C$\,\\{din}\,\alt $C$ $E$ & |catch (...)|\cr
 \+& |tag| |tag| & |tag| \hfill $T_1\,\\{bsp}\,T_2$ & |case 0: case 1:|\cr
 \+& |tag| \altt|stmt| |decl| |function| & \altt|stmt| |decl| |function|
        \hfill $|force|\,\\{back}\,T\,\\{bsp}\,S$
@@ -212,7 +212,7 @@ We use \\{in}, \\{out}, \\{back}, \\{bsp}, and \\{din} as shorthands for
 \+& |section_scrap| |semi| & |stmt|\hfill $MS$ |force|
    &$\langle\,$section name$\,\rangle$;\cr
 \+& |section_scrap| & |exp| &$\langle\,$section name$\,\rangle$\cr
-\+& |insert| \\{any} & \\{any} & \.{\v\#include\v}\cr
+\+& |insert| |function| & |function| & \#\&{include} before \\{main}\cr
 \+& |prelangle| & |binop| \hfill \.< & $<$ not in template\cr
 \+& |prerangle| & |binop| \hfill \.> & $>$ not in template\cr
 \+& |langle| |prerangle| & |cast| \hfill $L\.{\\,}P$ & $\langle\,\rangle$\cr
@@ -262,14 +262,14 @@ We use \\{in}, \\{out}, \\{back}, \\{bsp}, and \\{din} as shorthands for
     \&{typedef} \&{char}\cr
 \+\dagit& |typedef_like| |exp| & |typedef_like| \hfill $T\.\ E^{**}$ &
     \&{typedef} \&I \.{@@[@@]} (|*|\&P)\cr
-\+& |typedef_like| |comma| & |typedef_like| \hfill $TC\.\ $ &
+\+& |typedef_like| |comma| & |typedef_like| \hfill $TC$ &
     \&{typedef} \&{int} \&x,\cr
-\+& |typedef_like| |semi| & |decl| & \&{typedef} \&{int} $\&x,\&y$;\cr
-\+& |typedef_like| |ubinop| \alt |cast| |ubinop| & 
+\+& |typedef_like| |semi| & |decl| & \&{typedef} \&{int} $\&x,{}$ $\&y$;\cr
+\+& |typedef_like| |ubinop| \alt |cast| |ubinop| &
     |typedef_like| \alt |cast| |ubinop| \hfill
     \alt $C=\.\{U\.\}C$ $U_2=\.\{U_1\.\}U_2$ \unskip &
     \&{typedef} |*|{}|*|(\&{CPtr})\cr
-\+& |delete_like| |lpar| |rpar| & |delete_like|\hfill $DL\.{\\,}R$
+\+& |delete_like| |lbrack| |rbrack| & |delete_like|\hfill $DL\.{\\,}R$
     & \&{delete}[\,] \cr
 \+& |delete_like| |exp| & |exp| \hfill $D\.\ E$ & \&{delete} $p$ \cr
 \+\dagit& |question| |exp| \alt |colon| |base| & |binop|
@@ -296,7 +296,7 @@ We use \\{in}, \\{out}, \\{back}, \\{bsp}, and \\{din} as shorthands for
 \+& |using_like| & |int_like| & \&{using} not in attributes \cr
 \+& |struct_like| |attr| & |struct_like| \hfill $S\.\ A$
     & \&{struct} [[\\{deprecated}]]\cr
-\+& |exp| |attr| & |attr| \hfill $E\.\ A$ & \&{enum} $\{x\ [[\ldots]]\}$ \cr
+\+& |exp| |attr| & |exp| \hfill $E\.\ A$ & \&{enum} $\{x\ [[\ldots]]\}$ \cr
 \+& |attr| |typedef_like| & |typedef_like| \hfill $A\.\ T$
     & |[[deprecated]] typedef| \cr
 \+& |raw_int| |lbrack| & |exp| & |int[3]| \cr
@@ -313,10 +313,10 @@ We use \\{in}, \\{out}, \\{back}, \\{bsp}, and \\{din} as shorthands for
 \+& |exp| |colcol| |int_like| & |int_like| & $\\{std}\DC\&{atomic}$ \cr
 \advance\midcol-30pt
 \+\dagit& |langle| |struct_like| \alt |exp| |int_like| |comma| &
-  |langle| \hfill $LS$\alt $E^{**}$ $I^{**}$ \unskip $C$
+  |langle| \hfill $LS$\.\ \alt $E^{**}$ $I^{**}$ \unskip $C$\,\\{opt}9
    & $\langle$\&{typename} $t,$\cr
 \+\dagit& |langle| |struct_like| \alt |exp| |int_like| |prerangle| &
-  |cast| \hfill $LS$\alt $E^{**}$ $I^{**}$ \unskip $P$
+  |cast| \hfill $LS$\.\ \alt $E^{**}$ $I^{**}$ \unskip $P$
     & $\langle$\&{typename} $t\rangle$ \cr
 \advance\midcol30pt
 \+& |template_like| |cast| |struct_like| & |struct_like| \hfill $T\.\ CS$ &
@@ -329,7 +329,7 @@ We use \\{in}, \\{out}, \\{back}, \\{bsp}, and \\{din} as shorthands for
 \parindent=0pt
 \dag{\bf Notes}
 \yskip
-Rule 35: The |exp| must not be immediately followed by |lpar|, |lbrack|,
+Rules 35, 117: The |exp| must not be immediately followed by |lpar|, |lbrack|,
 |exp|, or~|cast|.
 
 Rule 48: The |exp| or |int_like| must not be immediately followed by |base|.
@@ -351,9 +351,6 @@ must not be immediately followed by a |binop|.
 
 Rule 114: The |operator_like| must not be immediately followed by
 |raw_ubin|.
-
-Rule 117: The |exp| must not be immediately followed by |lpar|, |exp|,
-or |cast|.
 
 Rule 123: The mathness of the |colon| or |base| changes to `yes'.
 

@@ -2,7 +2,7 @@
 % This program by Silvio Levy and Donald E. Knuth
 % is based on a program by Knuth.
 % It is distributed WITHOUT ANY WARRANTY, express or implied.
-% Version 4.7 --- February 2022
+% Version 4.8 --- June 2022
 
 % Copyright (C) 1987,1990,1993,2000 Silvio Levy and Donald E. Knuth
 
@@ -27,11 +27,11 @@
 \mathchardef\RA="3221 % right arrow
 \mathchardef\BA="3224 % double arrow
 
-\def\title{CTANGLE (Version 4.7)}
+\def\title{CTANGLE (Version 4.8)}
 \def\topofcontents{\null\vfill
   \centerline{\titlefont The {\ttitlefont CTANGLE} processor}
   \vskip 15pt
-  \centerline{(Version 4.7)}
+  \centerline{(Version 4.8)}
   \vfill}
 \def\botofcontents{\vfill
 \noindent
@@ -61,7 +61,7 @@ Joachim Schrod, Lee Wittenberg, and others who have contributed improvements.
 The ``banner line'' defined here should be changed whenever \.{CTANGLE}
 is modified.
 
-@d banner "This is CTANGLE (Version 4.7)"
+@d banner "This is CTANGLE (Version 4.8)"
 
 @c
 @<Include files@>@/
@@ -666,7 +666,7 @@ restart:
         else out_state=verbatim; break;
       case '/': C_putc('/'); out_state=post_slash; break;
       case '*': if (out_state==post_slash) C_putc(' ');
-        /* fall through */
+        @=/* fall through */@>@;
       default: C_putc(cur_char); out_state=normal; break;
     }
 }
@@ -1242,7 +1242,14 @@ file name.
 }
 
 @ @<In cases that |a| is...@>=@t\1\quad@>
-case identifier: store_id(a); break;
+case identifier: store_id(a);
+  if (*buffer=='#' && @| (
+      ( id_loc-id_first==5 && strncmp("endif",id_first,5)==0 ) || @|
+      ( id_loc-id_first==4 && strncmp("else",id_first,4)==0 ) || @|
+      ( id_loc-id_first==4 && strncmp("elif",id_first,4)==0 ) ) )
+      /* Avoid preprocessor calamities */
+    print_where=true;
+  break;
 case section_name: if (t!=section_name) goto done;
   else {
     @<Was an `\.{@@}' missed here?@>@;
@@ -1503,7 +1510,7 @@ skip_limbo(void)
             err_print("! Double @@ should be used in control text");
 @.Double @@ should be used...@>
           break;
-          } /* otherwise fall through */
+          } @=/* otherwise fall through */@>@;
         default: err_print("! Double @@ should be used in limbo");
 @.Double @@ should be used...@>
       }

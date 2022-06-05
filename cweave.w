@@ -2,7 +2,7 @@
 % This program by Silvio Levy and Donald E. Knuth
 % is based on a program by Knuth.
 % It is distributed WITHOUT ANY WARRANTY, express or implied.
-% Version 4.7 --- February 2022
+% Version 4.8 --- June 2022
 
 % Copyright (C) 1987,1990,1993,2000 Silvio Levy and Donald E. Knuth
 
@@ -32,11 +32,11 @@
 \def\skipxTeX{\\{skip\_\TEX/}}
 \def\copyxTeX{\\{copy\_\TEX/}}
 
-\def\title{CWEAVE (Version 4.7)}
+\def\title{CWEAVE (Version 4.8)}
 \def\topofcontents{\null\vfill
   \centerline{\titlefont The {\ttitlefont CWEAVE} processor}
   \vskip 15pt
-  \centerline{(Version 4.7)}
+  \centerline{(Version 4.8)}
   \vfill}
 \def\botofcontents{\vfill
 \noindent
@@ -67,7 +67,7 @@ Crusius, and others who have contributed improvements.
 The ``banner line'' defined here should be changed whenever \.{CWEAVE}
 is modified.
 
-@d banner "This is CWEAVE (Version 4.7)"
+@d banner "This is CWEAVE (Version 4.8)"
 
 @c
 @<Include files@>@/
@@ -948,7 +948,7 @@ switch(ccode[c=*loc++]) {
   case verbatim: @<Scan a verbatim string@>@;
   case ord: @<Get a string@>@;
   case xref_roman: case xref_wildcard: case xref_typewriter: case noop:
-  case TeX_string: skip_restricted(); /* fall through */
+  case TeX_string: skip_restricted(); @=/* fall through */@>@;
   default: return ccode[c];
 }
 
@@ -2317,10 +2317,14 @@ tokens, and intercalates a `\.{\$}' token if necessary.  When in
 doubt what to use, use |big_app|.
 
 @d app(a) *(tok_ptr++)=(token)(a)
+@#
 @d big_app2(a) big_app1(a);@+big_app1(a+1)
 @d big_app3(a) big_app2(a);@+big_app1(a+2)
 @d big_app4(a) big_app3(a);@+big_app1(a+3)
+@#
 @d big_app1_insert(p,c) big_app1(p);@+big_app(c);@+big_app1(p+1)
+@d big_app1_insert_str(p,s) big_app1(p);@+app_str(s);@+big_app1(p+1)
+@d big_app2_insert(p,c) big_app2(p);@+big_app(c);@+big_app2(p+2)
 
 @<Predecl...@>=
 static void app_str(const char *);@/
@@ -2356,6 +2360,11 @@ static int cur_mathness, init_mathness;
 understanding the format by comparing the code with the symbolic
 productions as they were listed earlier.
 
+@d begin_math if (cur_mathness==maybe_math) init_mathness=yes_math;
+              else if (cur_mathness==no_math) app_str("${}")
+@d end_math   if (cur_mathness==maybe_math) init_mathness=no_math;
+              else if (cur_mathness==yes_math) app_str("{}$")
+
 @c
 static void
 app_str(
@@ -2370,12 +2379,10 @@ token a)
 {
         if (a==' ' || (a>=big_cancel && a<=big_force) || a==dindent)
             /* non-math token */ {
-                if (cur_mathness==maybe_math) init_mathness=no_math;
-                else if (cur_mathness==yes_math) app_str("{}$");
+                end_math;
                 cur_mathness=no_math;
         } else {
-                if (cur_mathness==maybe_math) init_mathness=yes_math;
-                else if (cur_mathness==no_math) app_str("${}");
+                begin_math;
                 cur_mathness=yes_math;
         }
         app(a);
@@ -2387,13 +2394,11 @@ scrap_pointer a)
 {
   switch (a->mathness % 4) { /* left boundary */
   case (no_math):
-    if (cur_mathness==maybe_math) init_mathness=no_math;
-    else if (cur_mathness==yes_math) app_str("{}$");
+    end_math;
     cur_mathness=a->mathness / 4; /* right boundary */
     break;
   case (yes_math):
-    if (cur_mathness==maybe_math) init_mathness=yes_math;
-    else if (cur_mathness==no_math) app_str("${}");
+    begin_math;
     cur_mathness=a->mathness / 4; /* right boundary */
     break;
   case (maybe_math): /* no changes */ break;
@@ -2535,10 +2540,12 @@ text_pointer p)
         if (name_dir[r].ilk==case_like) return case_found;
         if (name_dir[r].ilk==operator_like) return operator_found;
         if (name_dir[r].ilk!=raw_int) break;
+        @=/* else fall through */@>@;
       case 1: return j;
       case 4: case 5: /* |tok_flag| or |inner_tok_flag| */
         if ((q=find_first_ident(tok_start+r))!=no_ident_found)
           return q;
+        @=/* else fall through */@>@;
       default: ; /* char, |section_flag|, fall thru: move on to next token */
         if (*j==inserted) return no_ident_found; /* ignore inserts */
         else if (*j==qualifier) j++; /* bypass namespace qualifier */
@@ -2642,15 +2649,14 @@ to be performed.
 
 @<Cases for |exp|@>=
 if (cat1==lbrace || cat1==int_like || cat1==decl) {
-  make_underlined(pp); big_app1(pp); big_app(dindent);
+  make_underlined(pp); big_app(dindent); big_app1(pp);
   reduce(pp,1,fn_decl,0,1);
 }
 else if (cat1==unop) squash(pp,2,exp,-2,2);
 else if ((cat1==binop || cat1==ubinop) && cat2==exp)
         squash(pp,3,exp,-2,3);
 else if (cat1==comma && cat2==exp) {
-  big_app2(pp);
-  app(opt); app('9'); big_app1(pp+2); reduce(pp,3,exp,-2,4);
+  big_app2(pp); app(opt); app('9'); big_app1(pp+2); reduce(pp,3,exp,-2,4);
 }
 else if (cat1==lpar && cat2==rpar && cat3==colon) reduce(pp+3,0,base,0,5);
 else if (cat1==cast && cat2==colon) reduce(pp+2,0,base,0,5);
@@ -2674,7 +2680,7 @@ else if (cat1==colcol && cat2==int_like) squash(pp,3,int_like,-2,152);
 @ @<Cases for |lpar|@>=
 if ((cat1==exp||cat1==ubinop) && cat2==rpar) squash(pp,3,exp,-2,11);
 else if (cat1==rpar) {
-  big_app1(pp); app_str("\\,"); big_app1(pp+1);
+  big_app1_insert_str(pp,"\\,");
 @.\\,@>
   reduce(pp,2,exp,-2,12);
 }
@@ -2712,7 +2718,9 @@ if (cat1==binop) {
 @ @<Cases for |cast|@>=
 if (cat1==lpar) squash(pp,2,lpar,-1,21);
 else if (cat1==exp) {
-  big_app1_insert(pp,' '); reduce(pp,2,exp,-2,21);
+  big_app1_insert_str(pp,"\\,");
+@.\\,@>
+  reduce(pp,2,exp,-2,21);
 }
 else if (cat1==semi) reduce(pp,0,exp,-2,22);
 
@@ -2745,7 +2753,7 @@ else if (cat1==colcol) squash(pp,2,colcol,-1,32);
 
 @ @<Cases for |decl_head|@>=
 if (cat1==comma) {
-  big_app2(pp); big_app(' '); reduce(pp,2,decl_head,-1,33);
+  big_app2(pp); app(opt); app('9'); reduce(pp,2,decl_head,-1,33);
 }
 else if (cat1==ubinop) {
   big_app1_insert(pp,'{'); big_app('}'); reduce(pp,2,decl_head,-1,34);
@@ -2757,7 +2765,7 @@ else if ((cat1==binop||cat1==colon) && cat2==exp && (cat3==comma ||
     cat3==semi || cat3==rpar))
   squash(pp,3,decl_head,-1,36);
 else if (cat1==cast) squash(pp,2,decl_head,-1,37);
-else if (cat1==lbrace || cat1==int_like || cat1==decl) {
+else if (cat1==int_like || cat1==lbrace || cat1==decl) {
   big_app(dindent); squash(pp,1,fn_decl,0,38);
 }
 else if (cat1==semi) squash(pp,2,decl,-1,39);
@@ -2776,7 +2784,7 @@ else if (cat1==stmt || cat1==function) {
 @ @<Cases for |base|@>=
 if (cat1==int_like || cat1==exp) {
   if (cat2==comma) {
-    big_app1(pp); big_app(' '); big_app2(pp+1);
+    big_app1_insert(pp,' '); big_app1(pp+2);
     app(opt); app('9'); reduce(pp,3,base,0,42);
   }
   else if (cat2==lbrace) {
@@ -2795,7 +2803,7 @@ else if (cat1==exp||cat1==int_like) {
     big_app1_insert(pp,' ');
     if (cat2==semi) reduce(pp,2,decl_head,0,45);
     else {
-      big_app(' '); big_app1(pp+2);reduce(pp,3,struct_head,0,46);
+      big_app(' '); big_app1(pp+2); reduce(pp,3,struct_head,0,46);
     }
   }
   else if (cat2==colon) reduce(pp+2,0,base,2,47);
@@ -2817,7 +2825,7 @@ if ((cat1==decl || cat1==stmt || cat1==function) && cat2==rbrace) {
   reduce(pp,3,int_like,-2,49);
 }
 else if (cat1==rbrace) {
-  big_app1(pp); app_str("\\,"); big_app1(pp+1);
+  big_app1_insert_str(pp,"\\,");
 @.\\,@>
   reduce(pp,2,int_like,-2,50);
 }
@@ -2835,13 +2843,13 @@ else if (cat1==attr) {
 }
 
 @ @<Cases for |function|@>=
-if (cat1==function || cat1==decl || cat1==stmt) {
+if (cat1==stmt || cat1==decl || cat1==function) {
   big_app1_insert(pp,big_force); reduce(pp,2,cat1,-1,53);
 }
 
 @ @<Cases for |lbrace|@>=
 if (cat1==rbrace) {
-  big_app1(pp); app_str("\\,"); big_app1(pp+1);
+  big_app1_insert_str(pp,"\\,");
 @.\\,@>
   reduce(pp,2,stmt,-1,54);
 }
@@ -2944,8 +2952,8 @@ grouped together on the same line.
 force_lines=true;
 
 @ @<Cases for |stmt|@>=
-if (cat1==stmt||cat1==decl||cat1==function) {
-  big_app1_insert(pp, (cat1==function || cat1==decl) ? big_force :
+if (cat1==stmt || cat1==decl || cat1==function) {
+  big_app1_insert(pp, (cat1==decl || cat1==function) ? big_force :
      force_lines ? force : break_space); reduce(pp,2,cat1,-1,76);
 }
 
@@ -2954,13 +2962,13 @@ big_app(' '); squash(pp,1,stmt,-1,77);
 
 @ @<Cases for |lproc|@>=
 if (cat1==define_like) make_underlined(pp+2);
-if (cat1==else_like || cat1==if_like || cat1==define_like)
+if (cat1==if_like || cat1==else_like || cat1==define_like)
   squash(pp,2,lproc,0,78);
 else if (cat1==rproc) {
   app(inserted); squash(pp,2,insert,-1,79);
 } else if (cat1==exp || cat1==function) {
   if (cat2==rproc) {
-    app(inserted); big_app1(pp); big_app(' '); big_app2(pp+1);
+    app(inserted); big_app1_insert(pp,' '); big_app1(pp+2);
     reduce(pp,3,insert,-1,80);
   }
   else if (cat1==exp && cat2==exp && cat3==rproc) {
@@ -2977,8 +2985,8 @@ if (cat1==semi) {
 else reduce(pp,0,exp,-2,82);
 
 @ @<Cases for |insert|@>=
-if (cat1)
-  squash(pp,2,cat1,0,83);
+if (cat1==function)
+  squash(pp,2,function,0,83);
 
 @ @<Cases for |prelangle|@>=
 init_mathness=cur_mathness=yes_math;
@@ -2993,7 +3001,7 @@ app('>'); reduce(pp,1,binop,-2,85);
 
 @<Cases for |langle|@>=
 if (cat1==prerangle) {
-  big_app1(pp); app_str("\\,"); big_app1(pp+1);
+  big_app1_insert_str(pp,"\\,");
 @.\\,@>
   reduce(pp,2,cast,-1,86);
 }
@@ -3007,8 +3015,10 @@ else if ((cat1==struct_like) @|
   && (cat2==exp || cat2==int_like) @|
   && (cat3==comma || cat3==prerangle)) {
     make_underlined(pp+2); if (reserve_typenames) make_reserved(pp+2);
-    big_app2(pp); big_app(' '); big_app2(pp+2);
-    if (cat3==comma) reduce(pp,4,langle,0,153);
+    big_app2_insert(pp,' ');
+    if (cat3==comma) {
+      app(opt); app('9'); reduce(pp,4,langle,0,153);
+    }
     else reduce(pp,4,cast,-1,154);
   }
 
@@ -3091,21 +3101,19 @@ if ((cat1==int_like || cat1==cast) && (cat2==comma || cat2==semi))
 else if (cat1==int_like) {
   big_app1_insert(pp,' '); reduce(pp,2,typedef_like,0,116);
 }
-else if (cat1==exp && cat2!=lpar && cat2!=exp && cat2!=cast) {
+else if (cat1==exp && cat2!=lpar && cat2!=lbrack && cat2!=exp && cat2!=cast) {
   make_underlined(pp+1); make_reserved(pp+1);
   big_app1_insert(pp,' '); reduce(pp,2,typedef_like,0,117);
 }
-else if (cat1==comma) {
-  big_app2(pp); big_app(' '); reduce(pp,2,typedef_like,0,118);
-}
+else if (cat1==comma) squash(pp,2,typedef_like,0,118);
 else if (cat1==semi) squash(pp,2,decl,-1,119);
 else if (cat1==ubinop && (cat2==ubinop || cat2==cast)) {
   big_app('{'); big_app1_insert(pp+1,'}'); reduce(pp+1,2,cat2,0,120);
 }
 
 @ @<Cases for |delete_like|@>=
-if (cat1==lpar && cat2==rpar) {
-  big_app2(pp); app_str("\\,"); big_app1(pp+2);
+if (cat1==lbrack && cat2==rbrack) {
+  big_app1(pp); big_app1_insert_str(pp+1,"\\,");
 @.\\,@>
   reduce(pp,3,delete_like,0,121);
 }
@@ -3134,7 +3142,7 @@ else reduce(pp,0,lpar,-1,129);
 if (cat1==rbrack && cat2==rbrack) squash(pp,3,attr,-1,131);
 else if (cat1==exp) squash(pp,2,attr_head,0,132);
 else if (cat1==using_like && cat2==exp && cat3==colon) {
-  big_app2(pp); big_app(' '); big_app2(pp+2); big_app(' ');
+  big_app2_insert(pp,' '); big_app(' ');
   reduce(pp,4,attr_head,0,133);
 }
 else if (cat1==comma) squash(pp,2,attr_head,0,145);
@@ -3594,7 +3602,7 @@ section, it will be made into a scrap when |finish_C| is called.
 There's a known bug here, in cases where an adjacent scrap is
 |prelangle| or |prerangle|. Then the \TEX/ string can disappear
 when the \.{\\langle} or \.{\\rangle} becomes \.{<} or \.{>}.
-For example, if the user writes \.{\v x<@@ty@@>\v}, the \TEX/ string
+For example, if the user writes \.{\v x<@@ty@@><42\v}, the \TEX/ string
 \.{\\hbox\{y\}} eventually becomes part of an |insert| scrap, which is combined
 with a |prelangle| scrap and eventually lost. The best way to work around
 this bug is probably to enclose the \.{@@t...@@>} in \.{@@[...@@]} so that
@@ -3919,7 +3927,7 @@ make_output(void) /* outputs the equivalents of tokens */
       case end_translation: return;
       case identifier: case res_word: @<Output an identifier@>@; break;
       case section_code: @<Output a section name@>@; break;
-      case math_rel: out_str("\\MRL{"@q}@>); /* fall through */
+      case math_rel: out_str("\\MRL{"@q}@>); @=/* fall through */@>@;
 @.\\MRL@>
       case noop: case inserted: break;
       case cancel: case big_cancel: c=0; b=a;
@@ -3929,9 +3937,9 @@ make_output(void) /* outputs the equivalents of tokens */
           if ((a<indent && !(b==big_cancel&&a==' ')) @|
             || (a>big_force && a!=dindent)) break;
           switch (a) {
+          case dindent: c++; @=/* fall through */@>@;
           case indent: c++; break;
           case outdent: c--; break;
-          case dindent: c+=2; break;
           case opt: a=get_output();
           }
         }
@@ -3941,11 +3949,11 @@ make_output(void) /* outputs the equivalents of tokens */
         if (a!=big_force) {
           out_str("\\1\\1"); goto reswitch;
         }
-        else dindent_pending=true; /* fall through */
+        else dindent_pending=true; @=/* fall through */@>@;
       case indent: case outdent: case opt: case backup: case break_space:
       case force: case big_force: case preproc_line: @<Output a control,
         look ahead in case of line breaks, possibly |goto reswitch|@>@; break;
-      case quoted_char: out(*(cur_tok++)); /* fall through */
+      case quoted_char: out(*(cur_tok++)); @=/* fall through */@>@;
       case qualifier: break;
       default: out(a); /* otherwise |a| is an ordinary character */
     }
@@ -4100,7 +4108,7 @@ while (k<k_limit) {
     switch (b) {
     case ' ': case '\\': case '#': case '%': case '$': case '^':
     case '{': case '}': case '~': case '&': case '_':
-      out('\\'); /* falls through */
+      out('\\'); @=/* falls through */@>@;
 @.\\\ @>
 @.\\\\@>
 @.\\\#@>
@@ -4353,7 +4361,7 @@ it starts after we scan the matching `\.)'.
         app_scrap(raw_int,no_math);
         if ((next_control=get_next())==')') {
           app(next_control); next_control=get_next(); break;
-        } /* otherwise fall through */
+        } @=/* otherwise fall through */@>@;
       default: err_print("! Improper macro definition"); break;
       }
       app('$');
@@ -4786,6 +4794,7 @@ lowcase: out_str("\\\\");
   case wildcard: out_str("\\9");@+ goto not_an_identifier;
 @.\\9@>
   case typewriter: out_str("\\.");
+  @=/* fall through */@>@;
 @.\\.@>
   case roman: not_an_identifier: out_name(cur_name,false); goto name_done;
   case custom:

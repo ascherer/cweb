@@ -1,6 +1,6 @@
 # This file is part of CWEB.
 # It is distributed WITHOUT ANY WARRANTY, express or implied.
-# Version 4.7 --- February 2022
+# Version 4.8 --- June 2022
 
 # Copyright (C) 1987,1990,1993,2000 Silvio Levy and Donald E. Knuth
 
@@ -13,7 +13,7 @@
 # entire resulting derived work is given a different name and distributed
 # under the terms of a permission notice identical to this one.
 
-# 
+#
 # Read the README file, then edit this file to reflect local conditions
 #
 
@@ -50,7 +50,7 @@ TCHANGES=
 WCHANGES=
 
 # We keep debugging info around, for fun, but most users don't need it
-CFLAGS = -g
+CFLAGS = -g # -Wall -Wextra -Wimplicit-fallthrough=2 # check compiler warnings
 #CFLAGS = -O
 LINKFLAGS = -g
 #LINKFLAGS = -s # for smaller (stripped) executables on many UNIX systems
@@ -138,7 +138,7 @@ common.o: common.c
 	$(CC) $(CFLAGS) -DCWEBINPUTS=\"$(CWEBINPUTS)\" -c common.c
 
 ctangle: ctangle.o common.o
-	$(CC) $(LINKFLAGS) -o ctangle ctangle.o common.o 
+	$(CC) $(LINKFLAGS) -o ctangle ctangle.o common.o
 
 ctangle.c: ctangle.w $(TCHANGES) common.h
 	$(CTANGLE) ctangle $(TCHANGES)
