@@ -135,7 +135,7 @@
 \newtoks\toksA \newtoks\toksB \newtoks\toksC \newtoks\toksD
 \newtoks\toksE \newtoks\toksF \newtoks\usersanitizer
 \newcount\countA \countA=0 \newcount\countB \countB=0
-\newcount\countC \countC=0
+\newcount\countC \countC=0 \newcount\countD \countD=0
 \newif\iftokprocessed \newif\ifTnum \newif\ifinstr
 {\def\\{\global\let\spacechar= }\\ }
 
@@ -495,7 +495,7 @@
 \def\fin{\par\vfill\eject % this is done when we are ending the index
   \ifpagesaved\null\vfill\eject\fi % output a null index column
   \if L\lr\else\null\vfill\eject\fi % finish the current page
-  \ifpdftex \makebookmarks \fi % added in Version 3.68
+  \ifpdftex \makebookmarks \countsections \fi % added in Version 3.68 and 4.9
   \parfillskip 0pt plus 1fil
   \def\grouptitle{NAMES OF THE SECTIONS}
   \let\topsecno=\nullsec
@@ -511,7 +511,7 @@
   \ifacro \def\outsecname{Names of the sections} \let\Xpdf\X
 %  \ifpdftex \makebookmarks \pdfdest name {NOS} fitb % in versions < 3.68
   \ifpdftex \pdfdest name {NOS} fith % changed in version 3.69
-    \pdfoutline goto name {NOS} count -\secno {\outsecname}
+    \pdfoutline goto name {NOS} count -\the\countD {\outsecname}
     \def\X##1:##2\X{\Xpdf##1:##2\X \firstsecno##1.%
       {\toksF={}\makeoutlinetoks##2\outlinedone\outlinedone}%
       \pdfoutline goto num \the\toksA \expandafter{\the\toksE}}
@@ -524,6 +524,10 @@
   \fi\fi
   \readsections}
 \def\makebookmarks{\let\ZZ=\writebookmarkline \readcontents\relax}
+\def\countsections{\message{Number of named sections:}
+  {\def\I{\global\advance\countD by 1}\def\X##1\X{\relax}
+  \def\Q##1.{\relax}\def\Qs##1.{\relax}\def\U##1.{\relax}\def\Us##1.{\relax}
+  \readsections\relax}\message{\the\countD}}
 \def\expnumber#1{\expandafter\ifx\csname#1\endcsname\relax 0%
   \else \csname#1\endcsname \fi} % Petr Olsak's macros from texinfo.tex
 \def\advancenumber#1{\countA=\expnumber{#1}\relax \advance\countA by1
