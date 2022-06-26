@@ -205,6 +205,6 @@ tarball:
 	tar zcvhf /tmp/cweb.tgz $(ALL) examples
 
 ctan:
-	git archive -o ~/cweb-4.8.zip --prefix=cweb/ cweb-4.8
+	git archive -o ~/cweb-4.8.1.zip --prefix=cweb/ cweb-4.8.1
 	make PDF=pdf usermanual
-	cd ..; zip -r ~/cweb-4.8.zip cweb/cwebman.pdf
+	cd ..; zip -r ~/cweb-4.8.1.zip cweb/cwebman.pdf
