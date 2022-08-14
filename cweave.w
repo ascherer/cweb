@@ -541,8 +541,6 @@ scanning routines.
 
 @d ignore 00 /* control code of no interest to \.{CWEAVE} */
 @d verbatim 02 /* takes the place of ASCII \.{STX} */
-@d begin_short_comment 03 /* \CPLUSPLUS/ short comment */
-@d begin_comment '\t' /* tab marks will not appear */
 @d underline '\n' /* this code will be intercepted without confusion */
 @d noop 0177 /* takes the place of ASCII \.{DEL} */
 @d xref_roman 0203 /* control code for `\.{@@\^}' */
@@ -775,47 +773,6 @@ the last character was a \.\\.
     return right_preproc;
   }
 
-@ The following code assigns values to the combinations \.{++},
-\.{--}, \.{->}, \.{>=}, \.{<=}, \.{==}, \.{<<}, \.{>>}, \.{!=}, %\.{||}
-\.{\v\v} and~\.{\&\&}, and to the \CPLUSPLUS/
-combinations \.{...}, \.{::}, \.{.*} and \.{->*}.
-The compound assignment operators (e.g., \.{+=}) are
-treated as separate tokens.
-
-@<Compress tw...@>=
-switch(c) {
-  case '/': if (*loc=='*') {@+compress(begin_comment);@+}
-    else if (*loc=='/') compress(begin_short_comment); break;
-  case '+': if (*loc=='+') compress(plus_plus); break;
-  case '-': if (*loc=='-') {@+compress(minus_minus);@+}
-            else if (*loc=='>') {
-              if (*(loc+1)=='*') {loc++;@+compress(minus_gt_ast);}
-              else compress(minus_gt);
-            } break;
-  case '.': if (*loc=='*') {@+compress(period_ast);@+}
-            else if (*loc=='.' && *(loc+1)=='.') {
-              loc++;@+compress(dot_dot_dot);
-            } break;
-  case ':': if (*loc==':') compress(colon_colon); break;
-  case '=': if (*loc=='=') compress(eq_eq); break;
-  case '>': if (*loc=='=') {@+compress(gt_eq);@+}
-    else if (*loc=='>') compress(gt_gt); break;
-  case '<': if (*loc=='=') {@+compress(lt_eq);@+}
-    else if (*loc=='<') compress(lt_lt); break;
-  case '&': if (*loc=='&') compress(and_and); break;
-  case '|': if (*loc=='|') compress(or_or); break;
-  case '!': if (*loc=='=') compress(non_eq); break;
-}
-
-@ @<Get an identifier@>= {
-  id_first=--loc;
-  do
-    ++loc;
-  while (isalpha((int)*loc) || isdigit((int)*loc) @|
-      || isxalpha(*loc) || ishigh(*loc));
-  id_loc=loc; return identifier;
-}
-
 @ Different conventions are followed by \TEX/ and \CEE/ to express octal
 and hexadecimal numbers; it is reasonable to stick to each convention
 within its realm.  Thus the \CEE/ part of a \.{CWEB} file has octals
@@ -964,54 +921,6 @@ because the section name might (for example) follow \&{int}.
           /* |true| indicates a prefix */
   else cur_section=section_lookup(section_text+1,k,false);
   xref_switch=0; return section_name;
-}
-
-@ Section names are placed into the |section_text| array with consecutive spaces,
-tabs, and carriage-returns replaced by single spaces. There will be no
-spaces at the beginning or the end. (We set |section_text[0]=' '| to facilitate
-this, since the |section_lookup| routine uses |section_text[1]| as the first
-character of the name.)
-
-@<Set init...@>=section_text[0]=' ';
-
-@ @<Put section name...@>=
-while (true) {
-  if (loc>limit && get_line()==false) {
-    err_print("! Input ended in section name");
-@.Input ended in section name@>
-    loc=buffer+1; break;
-  }
-  c=*loc;
-  @<If end of name or erroneous control code, |break|@>@;
-  loc++; if (k<section_text_end) k++;
-  if (xisspace(c)) {
-    c=' '; if (*(k-1)==' ') k--;
-  }
-*k=c;
-}
-if (k>=section_text_end) {
-  fputs("\n! Section name too long: ",stdout);
-@.Section name too long@>
-  term_write(section_text+1,25);
-  printf("..."); mark_harmless;
-}
-if (*k==' ' && k>section_text) k--;
-
-@ @<If end of name...@>=
-if (c=='@@') {
-  c=*(loc+1);
-  if (c=='>') {
-    loc+=2; break;
-  }
-  if (ccode[c]==new_section) {
-    err_print("! Section name didn't end"); break;
-@.Section name didn't end@>
-  }
-  if (c!='@@') {
-    err_print("! Control codes are forbidden in section name"); break;
-@.Control codes are forbidden...@>
-  }
-  *(++k)='@@'; loc++; /* now |c==*loc| again */
 }
 
 @ This function skips over a restricted context at relatively high speed.
