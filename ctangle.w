@@ -1533,7 +1533,7 @@ skip_limbo(void)
     sscanf(loc-3,"%x",&i);
     while(xisspace(*loc)&&loc<limit) loc++;
     beg=loc;
-    while(loc<limit&&(xisalpha(*loc)||xisdigit(*loc)||*loc=='_')) loc++;
+    while(loc<limit&&(xisalpha(*loc)||xisdigit(*loc)||isxalpha(*loc))) loc++;
     if (loc-beg>=translit_length)
       err_print("! Replacement string in @@l too long");
 @.Replacement string in @@l...@>
