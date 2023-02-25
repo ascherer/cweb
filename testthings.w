@@ -240,7 +240,7 @@ int main(void)
   int normal_exponent = 123'456e789;
 }
 
-@* Lists amd Enumerations.
+@* Lists and Enumerations.
 
 @c
 int func(int,int,double); /* Rule 14 */
