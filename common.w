@@ -2,7 +2,7 @@
 % This program by Silvio Levy and Donald E. Knuth
 % is based on a program by Knuth.
 % It is distributed WITHOUT ANY WARRANTY, express or implied.
-% Version 4.8 --- June 2022
+% Version 4.9 --- May 2023
 
 % Copyright (C) 1987,1990,1993,2000 Silvio Levy and Donald E. Knuth
 
@@ -22,12 +22,12 @@
 
 \def\v{\char'174} % vertical (|) in typewriter font
 
-\def\title{Common code for CTANGLE and CWEAVE (Version 4.8)}
+\def\title{Common code for CTANGLE and CWEAVE (Version 4.9)}
 \def\topofcontents{\null\vfill
   \centerline{\titlefont Common code for {\ttitlefont CTANGLE} and
     {\ttitlefont CWEAVE}}
   \vskip 15pt
-  \centerline{(Version 4.8)}
+  \centerline{(Version 4.9)}
   \vfill}
 \def\botofcontents{\vfill
 \noindent
@@ -157,8 +157,8 @@ support |feof|, |getc|, and |ungetc| you may have to change things here.
 static boolean input_ln( /* copies a line into |buffer| or returns |false| */
 FILE *fp) /* what file to read from */
 {
-  register int c=EOF; /* character read; initialized so some compilers won't complain */
-  register char *k; /* where next character goes */
+  int c=EOF; /* character read; initialized so some compilers won't complain */
+  char *k; /* where next character goes */
   if (feof(fp)) return false; /* we have hit end-of-file */
   limit = k = buffer; /* beginning of buffer */
   while (k<=buffer_end && (c=getc(fp)) != EOF && c!='\n')
@@ -1160,7 +1160,7 @@ scan_args(void)
 {
   char *dot_pos; /* position of |'.'| in the argument */
   char *name_pos; /* file name beginning, sans directory */
-  register char *s; /* register for scanning strings */
+  char *s; /* pointer for scanning strings */
   boolean found_web=false,found_change=false,found_out=false;
              /* have these names been seen? */
 
