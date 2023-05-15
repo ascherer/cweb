@@ -1,4 +1,4 @@
-# cweb 4.8
+# cweb 4.9
 
 people have been accumulating several decades of experience with
 [cweb](http://www-cs-faculty.stanford.edu/~uno/cweb.html), and we know that
@@ -15,7 +15,7 @@ details in the
 [releases description](https://github.com/ascherer/cweb/releases).
 
 you can either compile these sources as directed in the
-[readme file](README) or stick the recent version “cweb-4.8” into my
+[readme file](README) or stick the recent version “cweb-4.9” into my
 [cwebbin](https://github.com/ascherer/cwebbin), which introduces convenient
 extensions and prepares cweb for inclusion in the “tex live” distribution.
 
