@@ -3763,10 +3763,10 @@ currently in progress. The end of output occurs when an |end_translation|
 token is found, so the stack is never empty except when we first begin the
 output process.
 
-@d inner false /* value of |mode| for \CEE/ texts within \TEX/ texts */
-@d outer true /* value of |mode| for \CEE/ texts in sections */
+@d inner false /* mode value for \CEE/ texts within \TEX/ texts */
+@d outer true /* mode value for \CEE/ texts in sections */
 
-@<Typed...@>= typedef int mode;
+@<Typed...@>=
 typedef struct {
   token_pointer end_field; /* ending location of token list */
   token_pointer tok_field; /* present location within token list */
