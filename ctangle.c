@@ -107,6 +107,8 @@
 #define output_defs_flag (2*024000-1)  \
 
 #define stack_size 50
+#define cur_state stack[stack_size+1] \
+
 #define cur_byte cur_state.byte_field
 #define cur_name cur_state.name_field
 #define cur_repl cur_state.repl_field
@@ -296,11 +298,9 @@ static eight_bits*tok_ptr;
 static text_pointer last_unnamed;
 
 /*:26*//*32:*/
-#line 287 "ctangle.w"
+#line 289 "ctangle.w"
 
-static output_state cur_state;
-
-static output_state stack[stack_size+1];
+static output_state stack[stack_size+2];
 static stack_pointer stack_end= stack+stack_size;
 static stack_pointer stack_ptr;
 

@@ -260,9 +260,9 @@ at a particular level;
 \hang |section_field| is the section number, or zero if this is a macro.
 
 \yskip\noindent The current values of these four quantities are referred to
-quite frequently, so they are stored in a separate place instead of in
-the |stack| array. We call the current values |cur_byte|, |cur_name|,
-|cur_repl|, and |cur_section|.
+quite frequently, so they are stored in an extra slot at the very end of the
+|stack| array.  We call the current values |cur_byte|, |cur_name|, |cur_repl|,
+and |cur_section|.
 
 The global variable |stack_ptr| tells how many levels of output are
 currently in progress. The end of all output occurs when the stack is
@@ -278,6 +278,8 @@ typedef struct {
 typedef output_state *stack_pointer;
 
 @ @d stack_size 50 /* number of simultaneous levels of macro expansion */
+@d cur_state stack[stack_size+1] /* |cur_byte|, |cur_name|, |cur_repl|,
+  and |cur_section| */
 @d cur_byte cur_state.byte_field /* location of next output byte in |tok_mem|*/
 @d cur_name cur_state.name_field /* pointer to current name being expanded */
 @d cur_repl cur_state.repl_field /* pointer to current replacement text */
@@ -285,9 +287,7 @@ typedef output_state *stack_pointer;
 @d cur_end (cur_repl+1)->tok_start /* current ending location in |tok_mem| */
 
 @<Private...@>=
-static output_state cur_state; /* |cur_byte|, |cur_name|, |cur_repl|,
-  and |cur_section| */
-static output_state stack[stack_size+1]; /* info for non-current levels */
+static output_state stack[stack_size+2]; /* info for non-current levels */
 static stack_pointer stack_end=stack+stack_size; /* end of |stack| */
 static stack_pointer stack_ptr; /* first unused location in the output state stack */
 

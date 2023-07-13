@@ -3754,8 +3754,8 @@ on a particular level will be read;
 \yskip\hang |mode_field| is the current mode, either |inner| or |outer|.
 
 \yskip\noindent The current values of these quantities are referred to
-quite frequently, so they are stored in a separate place instead of in the
-|stack| array. We call the current values |cur_end|, |cur_tok|, and
+quite frequently, so they are stored in an extra slot at the very end of
+the |stack| array.  We call the current values |cur_end|, |cur_tok|, and
 |cur_mode|.
 
 The global variable |stack_ptr| tells how many levels of output are
@@ -3775,14 +3775,14 @@ typedef struct {
 typedef output_state *stack_pointer;
 
 @ @d stack_size 2000 /* number of simultaneous output levels */
+@d cur_state stack[stack_size] /* |cur_end|, |cur_tok|, |cur_mode| */
 @d cur_end cur_state.end_field /* current ending location in |tok_mem| */
 @d cur_tok cur_state.tok_field /* location of next output token in |tok_mem| */
 @d cur_mode cur_state.mode_field /* current mode of interpretation */
 @d init_stack stack_ptr=stack;cur_mode=outer /* initialize the stack */
 
 @<Private...@>=
-static output_state cur_state; /* |cur_end|, |cur_tok|, |cur_mode| */
-static output_state stack[stack_size]; /* info for non-current levels */
+static output_state stack[stack_size+1]; /* info for non-current levels */
 static stack_pointer stack_end=stack+stack_size-1; /* end of |stack| */
 static stack_pointer stack_ptr; /* first unused location in the output state stack */
 static stack_pointer max_stack_ptr; /* largest value assumed by |stack_ptr| */
