@@ -6,3 +6,5 @@ testthings.w export-ignore
 indentation.w export-ignore
 if.w export-ignore
 grün.w export-ignore
+out_buf-overflow.w export-ignore
+section_depth.w export-ignore

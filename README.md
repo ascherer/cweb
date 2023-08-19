@@ -1,4 +1,4 @@
-# cweb 4.9
+# cweb 4.10
 
 people have been accumulating several decades of experience with
 [cweb](http://www-cs-faculty.stanford.edu/~uno/cweb.html), and we know that
@@ -15,7 +15,7 @@ details in the
 [releases description](https://github.com/ascherer/cweb/releases).
 
 you can either compile these sources as directed in the
-[readme file](README) or stick the recent version “cweb-4.9” into my
+[readme file](README) or stick the recent version “cweb-4.10” into my
 [cwebbin](https://github.com/ascherer/cwebbin), which introduces convenient
 extensions and prepares cweb for inclusion in the “tex live” distribution.
 
@@ -27,8 +27,11 @@ incomplete – repository of original release versions of levy/knuth
 
 ## call for help
 
-recently i spotted versions 2.7 and 2.8 in
-[utah](http://ftp.math.utah.edu/pub/tex/pub/cweb/) – and there's even "the"
+recently i spotted versions 0.5, 2.7, and 2.8 in
+[utah](http://ftp.math.utah.edu/pub/tex/pub/cweb/),
+version 2.0/2.1 in
+[Fred Fish's Disk 551](https://ftp.funet.fi/pub/amiga/fish/501-600/ff551/),
+– and there's even "the"
 [original cweb 2.8](http://ftp.cs.stanford.edu/pub/cweb2.8) in stanford –, but
 the intermediate versions 3.0 and 3.1 are still missing in my collection. i
 could scrape them from
