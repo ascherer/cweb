@@ -134,7 +134,7 @@
 \newif\iftokprocessed \newif\ifTnum \newif\ifinstr
 {\def\\{\global\let\spacechar= }\\ }
 
-\ifacrohint \input cwebacromac \fi
+\ifacrohint \input cwebacromac \fi % load hypertext macros
 
 \def\pdfURL#1#2{\ifpdf \ifpdftex\pdfannotlink height \theheight depth \thedepth
     attr {/Border [0 0 0]} user { /Type /Annot /Subtype /Link /A
