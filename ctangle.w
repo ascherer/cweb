@@ -294,8 +294,17 @@ code; if there are no such sections, there is nothing to output, and an
 error message will have been generated before we do any of the initialization.
 
 @<Initialize the output stacks@>=
-stack_ptr=stack+1; cur_name=name_dir; cur_repl=text_info->text_link+text_info;
-cur_byte=cur_repl->tok_start; cur_section=0;
+stack_ptr=stack+1;
+cur_name=name_dir;
+cur_repl=text_info->text_link+text_info;
+cur_byte=cur_repl->tok_start;
+cur_section=0;
+
+@ @<Initialize the stack for secondary output@>=
+stack_ptr=stack+1;
+cur_name=*an_output_file;
+cur_repl=(text_pointer)cur_name->equiv;
+cur_byte=cur_repl->tok_start;
 
 @ When the replacement text for name |p| is to be inserted into the output,
 the following subroutine is called to save the old level of output and get
@@ -526,10 +535,8 @@ phase_two (void) {
 @.Writing the output...@>
       update_terminal();
     }
-    if (text_info->text_link!=macro) {
-      while (stack_ptr>stack) get_output();
-      flush_buffer();
-    }
+    if (text_info->text_link!=macro)
+      @<Output material...@>@;
     @<Write all the named output files@>@;
     if (show_happiness) {
       if (show_progress) new_line();
@@ -554,12 +561,8 @@ for (an_output_file=end_output_files; an_output_file>cur_out_file;) {
 @.Cannot open output file@>
     if (show_progress) { printf("\n(%s)",output_file_name); update_terminal(); }
     cur_line=1;
-    stack_ptr=stack+1;
-    cur_name=*an_output_file;
-    cur_repl=(text_pointer)cur_name->equiv;
-    cur_byte=cur_repl->tok_start;
-    while (stack_ptr > stack) get_output();
-    flush_buffer();
+    @<Initialize the stack for secondary output@>@;
+    @<Output material...@>@;
 }
 
 @ If a \.{@@h} was not encountered in the input,
@@ -569,6 +572,11 @@ that refer to macros, preceded by the \.{\#define} preprocessor command.
 @<Output macro definitions if appropriate@>=
   if (!output_defs_seen)
     output_defs();
+
+@ @<Output material from the stack@>= {
+  while (stack_ptr>stack) get_output();
+  flush_buffer();
+}
 
 @ @<Private...@>=
 static boolean output_defs_seen=false;
