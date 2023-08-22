@@ -323,7 +323,7 @@ char scn_file_name[max_file_name_length];
 boolean flags[128];
 
 /*:73*//*83:*/
-#line 1266 "common.w"
+#line 1268 "common.w"
 
 FILE*C_file;
 FILE*tex_file;
@@ -432,7 +432,7 @@ show_banner= show_happiness= show_progress= make_xrefs= true;
 #line 100 "common.w"
 
 /*84:*/
-#line 1273 "common.w"
+#line 1275 "common.w"
 
 scan_args();
 if(program==ctangle){
@@ -1179,7 +1179,7 @@ boolean found_web= false,found_change= false,found_out= false;
 strcpy(change_file_name,"/dev/null");
 while(--argc> 0){
 if((**(++argv)=='-'||**argv=='+')&&*(*argv+1))/*80:*/
-#line 1244 "common.w"
+#line 1246 "common.w"
 
 for(dot_pos= *argv+1;*dot_pos> '\0';dot_pos++)
 flags[(eight_bits)*dot_pos]= flag_change;
@@ -1199,7 +1199,7 @@ if(!found_web)/*77:*/
 {
 if(s-*argv> max_file_name_length-5)
 /*82:*/
-#line 1260 "common.w"
+#line 1262 "common.w"
 fatal("! Filename too long\n",*argv);
 
 
@@ -1214,8 +1214,10 @@ strcpy(web_file_name,*argv);
 }
 sprintf(alt_web_file_name,"%s.web",*argv);
 sprintf(tex_file_name,"%s.tex",name_pos);
+if(make_xrefs){
 sprintf(idx_file_name,"%s.idx",name_pos);
 sprintf(scn_file_name,"%s.scn",name_pos);
+}
 sprintf(C_file_name,"%s.c",name_pos);
 found_web= true;
 }
@@ -1224,18 +1226,18 @@ found_web= true;
 #line 1176 "common.w"
 
 else if(!found_change)/*78:*/
-#line 1212 "common.w"
+#line 1214 "common.w"
 
 {
 if(strcmp(*argv,"-")!=0){
 if(s-*argv> max_file_name_length-4)
 /*82:*/
-#line 1260 "common.w"
+#line 1262 "common.w"
 fatal("! Filename too long\n",*argv);
 
 
 /*:82*/
-#line 1216 "common.w"
+#line 1218 "common.w"
 
 if(dot_pos==NULL)
 sprintf(change_file_name,"%s.ch",*argv);
@@ -1248,17 +1250,17 @@ found_change= true;
 #line 1177 "common.w"
 
 else if(!found_out)/*79:*/
-#line 1224 "common.w"
+#line 1226 "common.w"
 
 {
 if(s-*argv> max_file_name_length-5)
 /*82:*/
-#line 1260 "common.w"
+#line 1262 "common.w"
 fatal("! Filename too long\n",*argv);
 
 
 /*:82*/
-#line 1227 "common.w"
+#line 1229 "common.w"
 
 if(dot_pos==NULL){
 sprintf(tex_file_name,"%s.tex",*argv);
@@ -1279,7 +1281,7 @@ found_out= true;
 #line 1178 "common.w"
 
 else/*81:*/
-#line 1248 "common.w"
+#line 1250 "common.w"
 
 {
 if(program==ctangle)
@@ -1298,7 +1300,7 @@ else fatal(
 }
 }
 if(!found_web)/*81:*/
-#line 1248 "common.w"
+#line 1250 "common.w"
 
 {
 if(program==ctangle)

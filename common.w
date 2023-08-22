@@ -1203,8 +1203,10 @@ after the dot.  We must check that there is enough room in
   }
   sprintf(alt_web_file_name,"%s.web",*argv);
   sprintf(tex_file_name,"%s.tex",name_pos); /* strip off directory name */
-  sprintf(idx_file_name,"%s.idx",name_pos);
-  sprintf(scn_file_name,"%s.scn",name_pos);
+  if (make_xrefs) { /* indexes will be generated */
+    sprintf(idx_file_name,"%s.idx",name_pos);
+    sprintf(scn_file_name,"%s.scn",name_pos);
+  }
   sprintf(C_file_name,"%s.c",name_pos);
   found_web=true;
 }
