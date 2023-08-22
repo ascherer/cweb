@@ -646,7 +646,7 @@ skip_TeX(void) /* skip past pure \TEX/ code */
   }
 }
 
-@*1 Inputting the next token.
+@* Inputting the next token.
 As stated above, \.{CWEAVE}'s most interesting lexical scanning routine is the
 |get_next| function that inputs the next token of \CEE/ input. However,
 |get_next| is not especially complicated.
