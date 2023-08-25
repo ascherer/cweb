@@ -1087,7 +1087,7 @@ void
 err_print(
 const char*s)
 {
-*s=='!'?printf("\n%s",s):printf("%s",s);
+printf(*s=='!'?"\n%s":"%s",s);
 if(web_file_open)/*67:*/
 #line 1031 "common.w"
 
@@ -1119,7 +1119,7 @@ update_terminal();mark_error();
 #line 1064 "common.w"
 
 int wrap_up(void){
-if(show_progress)new_line();
+if(show_progress||show_happiness)new_line();
 if(show_stats)
 print_stats();
 /*69:*/
@@ -1149,7 +1149,7 @@ void
 fatal(
 const char*s,const char*t)
 {
-if(*s)err_print(s);
+if(*s)printf("%s",s);
 err_print(t);
 history= fatal_message;exit(wrap_up());
 }

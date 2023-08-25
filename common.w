@@ -1014,7 +1014,7 @@ void
 err_print( /* prints `\..' and location of error message */
 const char *s)
 {
-  *s=='!'? printf("\n%s",s) : printf("%s",s);
+  printf(*s=='!' ? "\n%s" : "%s",s);
   if (web_file_open) @<Print error location based on input buffer@>@;
   update_terminal(); mark_error();
 }
@@ -1063,7 +1063,7 @@ a status of |EXIT_SUCCESS| if and only if only harmless messages were printed.
 
 @c
 int wrap_up(void) {
-  if (show_progress) new_line();
+  if (show_progress || show_happiness) new_line();
   if (show_stats)
     print_stats(); /* print statistics about memory usage */
   @<Print the job |history|@>@;
@@ -1093,7 +1093,7 @@ concatenated to print the final error message.
 fatal(
   const char *s,const char *t)
 {
-  if (*s) err_print(s);
+  if (*s) printf("%s",s);
   err_print(t);
   history=fatal_message; exit(wrap_up());
 }
