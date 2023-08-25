@@ -4249,8 +4249,10 @@ else {
   out_str("\\N");
 @.\\N@>
   {@+ char s[32];@+snprintf(s,32,"{%d}",sec_depth+1);@+out_str(s);@+}
-  if (show_progress)
-  printf("*%d",(int)section_count); update_terminal(); /* print a progress report */
+  if (show_progress) {
+    printf("*%d",(int)section_count);
+    update_terminal(); /* print a progress report */
+  }
 }
 out('{'); out_section(section_count); out('}');
 
