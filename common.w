@@ -883,10 +883,10 @@ while (p) { /* compare shortest prefix of |p| with new name */
     p=(c==less?p->llink:p->rlink);
   } else { /* new name matches |p| */
     if (r!=NULL) { /* and also |r|: illegal */
-      fputs("\n! Ambiguous prefix: matches <",stdout);
+      printf("%s","\n! Ambiguous prefix: matches <");
 @.Ambiguous prefix ... @>
       print_prefix_name(p);
-      fputs(">\n and <",stdout);
+      printf("%s",">\n and <");
       print_prefix_name(r);
       err_print(">");
       return name_dir; /* the unsection */
@@ -912,7 +912,7 @@ switch(section_name_cmp(&first,name_len,r)) {
               /* compare all of |r| with new name */
   case prefix:
     if (!ispref) {
-      fputs("\n! New name is a prefix of <",stdout);
+      printf("%s","\n! New name is a prefix of <");
 @.New name is a prefix...@>
       print_section_name(r);
       err_print(">");
@@ -924,16 +924,16 @@ switch(section_name_cmp(&first,name_len,r)) {
         extend_section_name(r,first,last+1,ispref);
       break;
   case bad_extension:
-      fputs("\n! New name extends <",stdout);
+      printf("%s","\n! New name extends <");
 @.New name extends...@>
       print_section_name(r);
       err_print(">");
     break;
   default: /* no match: illegal */
-    fputs("\n! Section name incompatible with <",stdout);
+    printf("%s","\n! Section name incompatible with <");
 @.Section name incompatible...@>
     print_prefix_name(r);
-    fputs(">,\n which abbreviates <",stdout);
+    printf("%s",">,\n which abbreviates <");
     print_section_name(r);
     err_print(">");
 }

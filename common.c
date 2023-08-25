@@ -979,10 +979,10 @@ par= p;
 p= (c==less?p->llink:p->rlink);
 }else{
 if(r!=NULL){
-fputs("\n! Ambiguous prefix: matches <",stdout);
+printf("%s","\n! Ambiguous prefix: matches <");
 
 print_prefix_name(p);
-fputs(">\n and <",stdout);
+printf("%s",">\n and <");
 print_prefix_name(r);
 err_print(">");
 return name_dir;
@@ -1014,7 +1014,7 @@ switch(section_name_cmp(&first,name_len,r)){
 
 case prefix:
 if(!ispref){
-fputs("\n! New name is a prefix of <",stdout);
+printf("%s","\n! New name is a prefix of <");
 
 print_section_name(r);
 err_print(">");
@@ -1026,16 +1026,16 @@ case extension:if(!ispref||first<=last)
 extend_section_name(r,first,last+1,ispref);
 break;
 case bad_extension:
-fputs("\n! New name extends <",stdout);
+printf("%s","\n! New name extends <");
 
 print_section_name(r);
 err_print(">");
 break;
 default:
-fputs("\n! Section name incompatible with <",stdout);
+printf("%s","\n! Section name incompatible with <");
 
 print_prefix_name(r);
-fputs(">,\n which abbreviates <",stdout);
+printf("%s",">,\n which abbreviates <");
 print_section_name(r);
 err_print(">");
 }
