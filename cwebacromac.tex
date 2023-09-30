@@ -1,7 +1,16 @@
 % hypertext macros for CWEB listings (in addition to cwebmac.tex)
-% Version 1.0 --- August 2023
+% Version 1.1 --- September 2023
 \ifx\acrohint\undefined\else\endinput\fi % these are not standalone macros
-\ifacro % The following are pdf macros
+\ifluatex % LuaTeX is almost like pdfTeX
+\protected\def\pdfliteral   {\pdfextension literal}
+\protected\def\pdfstartlink {\pdfextension startlink\space}
+\protected\def\pdfendlink   {\pdfextension endlink}
+\protected\def\pdfoutline   {\pdfextension outline\space}
+\protected\def\pdfdest      {\pdfextension dest\space}
+\protected\def\pdfcatalog   {\pdfextension catalog}
+\fi % end of LuaTeX->pdfTeX redirection macros
+
+\ifacro % The following are general pdf macros
 \def\thewidth{\the\wd0 \space}
 \def\theheight{\the\ht\strutbox\space}
 \def\thedepth{\the\dp\strutbox\space}
