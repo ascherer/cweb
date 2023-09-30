@@ -8,6 +8,10 @@
 \protected\def\pdfoutline   {\pdfextension outline\space}
 \protected\def\pdfdest      {\pdfextension dest\space}
 \protected\def\pdfcatalog   {\pdfextension catalog}
+\edef\pdfhorigin {\pdfvariable horigin}
+\edef\pdfvorigin {\pdfvariable vorigin}
+\let\pdfpagewidth=\pagewidth
+\let\pdfpageheight=\pageheight
 \fi % end of LuaTeX->pdfTeX redirection macros
 
 \ifacro % The following are general pdf macros
