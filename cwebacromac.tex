@@ -14,7 +14,7 @@
 \def\thewidth{\the\wd0 \space}
 \def\theheight{\the\ht\strutbox\space}
 \def\thedepth{\the\dp\strutbox\space}
-\ifpdftex
+\ifpdflua
   \ifx\pdfannotlink\undefined\let\pdfannotlink\pdfstartlink\fi% for pdfTeX 0.14
   \def\pdflink#1#2{\hbox{\pdfannotlink height \theheight depth \thedepth
     attr{/Border [0 0 0]} goto num #1 \Blue #1\Black\pdfendlink}} % changed 3.69
