@@ -4746,11 +4746,8 @@ while (sort_ptr>scrap_info) {
     cur_name=next_name; next_name=blink[cur_name-name_dir];
     cur_byte=cur_name->byte_start+cur_depth;
     if (cur_byte==(cur_name+1)->byte_start) c=0; /* hit end of the name */
-    else {
-      c=*cur_byte;
-      if (xisupper(c)) c=tolower(c);
-    }
-  blink[cur_name-name_dir]=bucket[c]; bucket[c]=cur_name;
+    else if (xisupper(c=*cur_byte)) c=tolower(c);
+    blink[cur_name-name_dir]=bucket[c]; bucket[c]=cur_name;
   } while (next_name);
   --sort_ptr; unbucket(cur_depth+1);
 }
