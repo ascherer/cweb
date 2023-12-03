@@ -2,7 +2,7 @@
 % This program by Silvio Levy and Donald E. Knuth
 % is based on a program by Knuth.
 % It is distributed WITHOUT ANY WARRANTY, express or implied.
-% Version 4.10 --- August 2023 (works also with later versions)
+% Version 4.11 --- December 2023 (works also with later versions)
 
 % Copyright (C) 1987,1990,1993 Silvio Levy and Donald E. Knuth
 
@@ -41,7 +41,7 @@ extern int phase; /* which phase are we in? */
 
 @ The procedure that gets everything rolling:
 @<Predecl...@>=
-extern void common_init(void);@/
+extern void common_init(void);
 
 @ Interface to the standard \CEE/ library:
 
@@ -166,7 +166,7 @@ extern name_pointer name_dir_end; /* end of |name_dir| */
 extern name_pointer name_ptr; /* first unused position in |name_dir| */
 extern name_pointer hash[]; /* heads of hash lists */
 extern hash_pointer hash_end; /* end of |hash| */
-extern hash_pointer h; /* index into hash-head array */
+extern hash_pointer hash_ptr; /* index into hash-head array */
 
 @ @<Predecl...@>=
 extern name_pointer id_lookup(const char *,const char *,eight_bits);
