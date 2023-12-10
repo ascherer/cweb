@@ -84,7 +84,7 @@ The files *-w32.ch use __fastcall conventions on win32 systems.
 The file comm-mac.ch is for Macintosh conventions.
 The other files named *.ch are sample change files for local customization.
 
-IMPORTANT: Please touch *.c before proceeding.
+IMPORTANT:
 Then edit the opening lines of Makefile so that it has the proper
 directory information for your local system.
 

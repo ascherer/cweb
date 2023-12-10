@@ -143,16 +143,19 @@ SAVEcommon.c:
 common.c: common.w $(CCHANGES) common.h
 	$(CTANGLE) common $(CCHANGES)
 
+touchdone:
+	touch *.c touchdone
+
 common.o: common.c
 	$(CC) $(CFLAGS) -DCWEBINPUTS=\"$(CWEBINPUTS)\" -c common.c
 
-ctangle: ctangle.o common.o
+ctangle: touchdone ctangle.o common.o
 	$(CC) $(LINKFLAGS) -o ctangle ctangle.o common.o
 
 ctangle.c: ctangle.w $(TCHANGES) common.h
 	$(CTANGLE) ctangle $(TCHANGES)
 
-cweave: cweave.o common.o
+cweave: touchdone cweave.o common.o
 	$(CC) $(LINKFLAGS) -o cweave cweave.o common.o
 
 cweave.c: cweave.w $(WCHANGES) common.h prod.w
@@ -175,7 +178,7 @@ fullmanual: usermanual $(SOURCES) comm-man.ch ctang-man.ch cweav-man.ch
 # be sure to leave ctangle.c and common.c for bootstrapping
 clean:
 	$(RM) -f -r *~ *.o common.tex cweave.tex cweave.c ctangle.tex \
-	  *.log *.dvi *.toc *.idx *.scn *.pdf *.hnt core cweave ctangle
+	  *.log *.dvi *.toc *.idx *.scn *.pdf *.hnt core cweave ctangle touchdone
 
 install: all
 	- mkdir $(DESTDIR)
