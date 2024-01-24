@@ -2917,9 +2917,12 @@ if (cat1==stmt || cat1==exp) {
 
 @ @<Cases for |do_like|@>=
 if (cat1==stmt && cat2==else_like && cat3==semi) {
+  if (!force_lines) big_app(force);
   big_app1(pp); big_app(break_space); app(noop); big_app(cancel);
   big_app1(pp+1); big_app(cancel); app(noop); big_app(break_space);
-  big_app2(pp+2); reduce(pp,4,stmt,-1,69);
+  big_app2(pp+2);
+  if (!force_lines) big_app(force);
+  reduce(pp,4,stmt,-1,69);
 }
 
 @ @<Cases for |case_like|@>=
