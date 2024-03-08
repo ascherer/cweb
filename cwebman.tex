@@ -1034,7 +1034,8 @@ options \.f and \.b; `\.{+s}' turns on option \.s. Options can be
 specified before the file names, after the file names, or both. The following
 options are currently implemented:
 
-\yskip
+\vfill\break
+
 \def\option#1 {\textindent{\.#1}\hangindent2\parindent}
 
 \option b Print a banner line at the beginning of execution. (On
@@ -1047,6 +1048,10 @@ brackets \.{\\PB\{...\}}, so that special hooks can be used.
 \option f Force line breaks after each \CEE/ statement formatted
 by \.{CWEAVE}. (On by default; \.{-f} saves paper but looks less \CEE/-like
 to some people.) (Has no effect on \.{CTANGLE}.)
+
+\option F Force the first statement in a `compound statement' (a.k.a.\
+`block') on a line of its own. (On by default; \.{-F} implies option \.{-f}
+and saves even more paper.) (Has no effect on \.{CTANGLE}.)
 
 \option h Print a happy message at the conclusion of a successful
 run. (On by default.)
