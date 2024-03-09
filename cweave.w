@@ -94,7 +94,6 @@ char **av) /* argument values */
   program=cweave;
   @<Set initial values@>@;
   common_init();
-  if (!force_first) force_lines=false; /* executive override */
   @<Start \TEX/ output@>@;
   if (show_banner) puts(banner); /* print a ``banner line'' */
   @<Store all the reserved words@>@;
