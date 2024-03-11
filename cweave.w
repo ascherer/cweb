@@ -2916,17 +2916,6 @@ if (cat1==stmt || cat1==exp) {
   else reduce(pp,0,else_head,0,68);
 }
 
-@ The user can decide at run-time whether short statements should be
-grouped together on the same line. Another form of compaction places
-the first line of a `compound statement', a.k.a.\ `block', next to
-the opening curly brace.
-
-@d force_lines flags['f'] /* should each statement be on its own line? */
-@d force_first flags['F'] /* should compound statement start on new line? */
-
-@<Set init...@>=
-force_lines=force_first=true;
-
 @ @<Cases for |do_like|@>=
 if (cat1==stmt && cat2==else_like && cat3==semi) {
   if (!force_lines) big_app(force);
@@ -2958,6 +2947,17 @@ else if (cat1==stmt||cat1==decl||cat1==function) {
   reduce(pp,2,cat1,-1,75);
 }
 else if (cat1==rbrace) reduce(pp,0,decl,-1,156);
+
+@ The user can decide at run-time whether short statements should be
+grouped together on the same line. Another form of compaction places
+the first line of a `compound statement', a.k.a.\ `block', next to
+the opening curly brace.
+
+@d force_lines flags['f'] /* should each statement be on its own line? */
+@d force_first flags['F'] /* should compound statement start on new line? */
+
+@<Set init...@>=
+force_lines=force_first=true;
 
 @ @<Cases for |stmt|@>=
 if (cat1==stmt || cat1==decl || cat1==function) {
