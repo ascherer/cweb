@@ -7,6 +7,6 @@
 typedef void @[@] (*print_func) (MP mp, mp_number A);
 
 @ @c
-typedef char * (*tostring_func) (MP mp, mp_number A);
+typedef @[char *@] (*tostring_func) (MP mp, mp_number A);
 
 @* Index.
