@@ -355,16 +355,14 @@
 %  \ifpdflua \makebookmarks \pdfdest name {NOS} fitb % in versions < 3.68
   \ifpdflua \pdfdest name {NOS} fith % changed in version 3.69
     \pdfoutline goto name {NOS} count -\the\countNOS {\outsecname}
-    \def\X##1:##2\X{\Xpdf##1:##2\X \firstsecno##1.%
-      {\makeoutlinetoks##2\outlinedone}%
-      \pdfoutline goto num \the\toksA \expandafter{\the\toksE}}
   \else \special{pdf: outline -1 << /Title (\outsecname)
-      /Dest [ @thispage /FitH @ypos ] >>}
-    \def\X##1:##2\X{\Xpdf##1:##2\X \firstsecno##1.%
-      {\makeoutlinetoks##2\outlinedone}%
-      \special{pdf: outline 0 << /Title (\the\toksE)
-        /A << /S /GoTo /D (\romannumeral\the\toksA) >> >>}}
-  \fi\fi
+      /Dest [ @thispage /FitH @ypos ] >>}\fi
+  \def\X##1:##2\X{\Xpdf##1:##2\X \firstsecno##1.%
+    {\makeoutlinetoks##2\outlinedone}%
+    \ifpdflua \pdfoutline goto num \the\toksA \expandafter{\the\toksE}
+    \else \special{pdf: outline 0 << /Title (\the\toksE)
+        /A << /S /GoTo /D (\romannumeral\the\toksA) >> >>}\fi}
+  \fi % \ifacro
   \readsections}
 \def\makebookmarks{\let\ZZ=\writebookmarkline \readcontents\relax}
 \def\countsections{\message{Number of named sections:}
