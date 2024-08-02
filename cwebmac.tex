@@ -392,9 +392,9 @@
     \line{\consetup{#2}#1
       \rm\leaders\hbox to .5em{.\hfil}\hfil
       \ \ifhint
-          \HINTlink{#3}{\romannumeral#3}% No page numbers in HINT
+          \HINTlink{#3}% No page numbers in HINT
           \HINTcontents{#1}{#2}{#3}%
-        \else\ifacro\pdflink{#3}{\romannumeral#3}\else#3\fi
+        \else\ifacro\pdflink{#3}\else#3\fi
           \hbox to3em{\hss#4}\fi}}
 \def\consetup#1{\ifcase#1 \bf % depth -1 (@**)
   \or % depth 0 (@*)
