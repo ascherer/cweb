@@ -45,15 +45,15 @@
 \def\poptoks#1#2|ENDTOKS|{\let\first=#1\toksD={#1}%
   \ifcat\noexpand\first0\countB=`#1\else\countB=0\fi\toksA={#2}}
 \def\maketoks{\expandafter\poptoks\the\toksA|ENDTOKS|%
+  \let\next=\maketoks % continue processing by default
   \ifnum\countB>`9 \countB=0 \fi
   \ifnum\countB<`0
-    \ifnum0=\countC\else\makenote\fi
-    \ifx\first.\let\next=\maketoksdone\else
-        \let\next=\maketoks
-        \addtokens\toksB{\the\toksD}
-        \ifx\first,\addtokens\toksB{\space}\fi
+    \ifnum\countC=0\else\makenote\fi
+    \ifx\first.\let\next=\maketoksdone % fullstop
+    \else \addtokens\toksB{\the\toksD}
+      \ifx\first,\addtokens\toksB{\space}\fi
     \fi
-  \else \addtokens\toksC{\the\toksD}\global\countC=1\let\next=\maketoks
+  \else \addtokens\toksC{\the\toksD}\global\countC=1
   \fi
   \next
 }
