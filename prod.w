@@ -2,7 +2,7 @@
 % This program by Silvio Levy and Donald E. Knuth
 % is based on a program by Knuth.
 % It is distributed WITHOUT ANY WARRANTY, express or implied.
-% Version 4.11 --- December 2023
+% Version 4.12 --- August 2024
 %
 @ Here is a table of all the productions.  Each production that
 combines two or more consecutive scraps implicitly inserts a {\tt \$}
@@ -154,7 +154,7 @@ We use \\{in}, \\{out}, \\{back}, \\{bsp}, and \\{din} as shorthands for
    \hfill $F\,|big_force|\,$\altt $S$ $D$ $F$ \unskip & outer block\cr
 \+& |lbrace| |rbrace| & |stmt| \hfill $L\.{\\,}R$ & empty statement\cr
 \advance\midcol35pt
-\+& |lbrace| \altt|stmt| |decl| |function| |rbrace| & |stmt| \hfill
+\+\dagit& |lbrace| \altt|stmt| |decl| |function| |rbrace| & |stmt| \hfill
      $|force|\,L\,\\{in}\,|force|\,S\,
                 |force|\,\\{back}\,R\,\\{out}\,|force|$ & compound statement\cr
 \advance\midcol-20pt
@@ -185,7 +185,7 @@ We use \\{in}, \\{out}, \\{back}, \\{bsp}, and \\{din} as shorthands for
 \+& |if_head| \alt|stmt| |exp| & |else_head| \alt|stmt| |exp|
     & $\!\!$ \&{if} ($x$) ${}\{\,y\,\}{}$\cr
 \advance\midcol20pt
-\+& |do_like| |stmt| |else_like| |semi| & |stmt| \hfill
+\+\dagit& |do_like| |stmt| |else_like| |semi| & |stmt| \hfill
       $D\,\\{bsp}\,|noop|\,|cancel|\,S\,|cancel|\,|noop|\,\\{bsp}\,ES$%
       & \&{do} $f$($x$); \&{while} ($g$($x$));\cr
 \advance\midcol-20pt
@@ -333,6 +333,11 @@ Rules 35, 117: The |exp| must not be immediately followed by |lpar|, |lbrack|,
 |exp|, or~|cast|.
 
 Rule 48: The |exp| or |int_like| must not be immediately followed by |base|.
+
+Rule 55: The second |force| becomes \\{bsp} if \.{CWEAVE} has been invoked
+with the \.{-F} option.
+
+Rule 69: The $|do|\ldots|while|$ loop is wrapped in |force| if \.{CWEAVE} is invoked with the \.{-f} option.
 
 Rule 76: The |force| in the |stmt| line becomes \\{bsp} if \.{CWEAVE} has
 been invoked with the \.{-f} option.
