@@ -141,7 +141,7 @@
   \else\ifx\nxt\TEX\addF{TeX}\let\next\makeolgobbletok % \TEX/
   \else\ifx\nxt\TeX\addF{TeX}\else\ifx\nxt\LaTeX\addF{LaTeX}%
   \else\ifx\nxt\CPLUSPLUS\addF{C++}\let\next\makeolgobbletok % \CPLUSPLUS/
-  \else\ifx\nxt\Cee\addF{C}%
+  \else\ifx\nxt\Cee\addF{C}\else\ifx\nxt\dots\addF{...\space}%
   \else\ifx\nxt\PB \let\next\makeolgobbletok \tokprocessedtrue % \PB{...}
   \else\ifx\nxt\9 \expandafter\nxt\relax \let\next\makeolgobbletokk % \9{#1}
   \else\ifx\nxt\.\tokprocessedtrue\instrtrue % \.{...}
@@ -158,7 +158,7 @@
   \else\ifx\nxt\PP\addF{++}\else\ifx\nxt\MM\addF{--}%
   \fi\fi\fi\fi\fi \fi\fi\fi\fi\fi
   \fi\fi\fi\fi\fi \fi\fi\fi\fi\fi
-  \fi\fi\fi
+  \fi\fi\fi\fi
 }
 \def\makeolproctokctlii{%
   \ifx\nxt\MG\addF{->}\else\ifx\nxt\GG\addF{>>}%
