@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t -*-
+
 ;; This file contains extensions to GNU-Emacs, to wit:
 ; (1) some WEB-oriented functions that are also of general use
 ; (2) changes to the GNU-distributed TeX mode
@@ -105,7 +107,7 @@ otherwise do an ordinary Meta-y."
     (while (> arg 0)
       (setq temporary-goal-column (current-column))
       (save-excursion
-        (previous-line 1)
+        (forward-line -1)
         (setq ch (following-char)))
       (insert ch)
       (setq arg (1- arg)))))
@@ -120,7 +122,8 @@ otherwise do an ordinary Meta-y."
 ; works nicely for both TeX and WEB (Pascal or C code).
 ; I made RET check for unmatched delimiters if it ends a paragraph.
 ; Otherwise TeX mode remains as it was before.
-
+(defvar TeX-mode-hook)
+(defvar TeX-mode-map)
 (setq TeX-mode-map (make-sparse-keymap))
 (define-key TeX-mode-map "\C-c\C-k" 'TeX-kill-job)
 (define-key TeX-mode-map "\C-c\C-l" 'TeX-recenter-output-buffer)
@@ -200,6 +203,7 @@ for relative module movement. The automatic \" feature is disabled."
   (run-hooks 'web-mode-hook))
 (setq auto-mode-alist (cons '("\\.web$" . web-mode) auto-mode-alist))
 
+(defvar tex-fontify-script)
 (defun cweb-mode ()
   "Major mode like TeX mode plus \\[forward-module] and \\[backward-module]
 for relative module movement. The automatic \" feature is disabled."
