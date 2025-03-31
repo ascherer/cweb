@@ -601,7 +601,7 @@ output_defs(void)
       C_printf("%s","#define ");
       out_state=normal;
       protect=true; /* newlines should be preceded by |'\\'| */
-      while (isspace(*last_char)) last_char--; /* discard trailing whitespace */
+      while ('\n'==*last_char||' '==*last_char) last_char--; /* discard trailing whitespace */
       while (cur_byte<=last_char) {
         a=*cur_byte++;
         if (out_state==verbatim && a!=string && a!=constant && a!='\n')

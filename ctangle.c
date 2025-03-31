@@ -722,7 +722,7 @@ cur_byte= cur_text->tok_start;last_char= macro_end-1;
 C_printf("%s","#define ");
 out_state= normal;
 protect= true;
-while(isspace(*last_char))last_char--;
+while('\n'==*last_char||' '==*last_char)last_char--;
 while(cur_byte<=last_char){
 a= *cur_byte++;
 if(out_state==verbatim&&a!=string&&a!=constant&&a!='\n')
