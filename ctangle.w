@@ -600,8 +600,8 @@ output_defs(void)
       C_printf("%s","#define ");
       out_state=normal;
       protect=true; /* newlines should be preceded by |'\\'| */
-      do macro_end--; while ('\n'==*macro_end||' '==*macro_end);
-        /* discard trailing whitespace */
+      do macro_end--; while (isspace(*macro_end)&&plus_plus!=*macro_end);
+        /* discard trailing whitespace; |plus_plus=='\v'| */
       while (cur_byte<=macro_end) {
         a=*cur_byte++;
         if (out_state==verbatim && a!=string && a!=constant && a!='\n')

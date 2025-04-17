@@ -721,7 +721,7 @@ macro_end= (cur_text+1)->tok_start;
 C_printf("%s","#define ");
 out_state= normal;
 protect= true;
-do macro_end--;while('\n'==*macro_end||' '==*macro_end);
+do macro_end--;while(isspace(*macro_end)&&plus_plus!=*macro_end);
 
 while(cur_byte<=macro_end){
 a= *cur_byte++;
