@@ -1,6 +1,6 @@
 # This file is part of CWEB.
 # It is distributed WITHOUT ANY WARRANTY, express or implied.
-# Version 4.12.1 --- January 2025
+# Version 4.12.2 --- July 2025
 
 # Copyright (C) 1987,1990,1993,2000 Silvio Levy and Donald E. Knuth
 
@@ -56,7 +56,7 @@ LINKFLAGS = -g
 #LINKFLAGS = -s # for smaller (stripped) executables on many UNIX systems
 
 # What C compiler are you using?
-CC = cc
+#CC = cc
 
 # RM and CP are used below in case rm and cp are aliased
 RM= /bin/rm
@@ -216,6 +216,6 @@ tarball:
 	tar zcvhf /tmp/cweb.tgz $(ALL) examples
 
 ctan:
-	git archive -o ~/cweb-4.12.1.zip --prefix=cweb/ cweb-4.12.1
+	git archive -o ~/cweb-4.12.2.zip --prefix=cweb/ cweb-4.12.2
 	make PDF=pdf usermanual
-	cd ..; zip -r ~/cweb-4.12.1.zip cweb/cwebman.pdf
+	cd ..; zip -r ~/cweb-4.12.2.zip cweb/cwebman.pdf

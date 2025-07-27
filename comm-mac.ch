@@ -4,9 +4,9 @@ No changes to CTANGLE or CWEAVE are needed.
 (Contributed 13 Oct 2000 by AndPio@aol.com; slightly edited by Don Knuth)
 
 @x in limbo, change the title page document to specify Mac version
-  \centerline{(Version 4.12.1)}
+  \centerline{(Version 4.12.2)}
 @y
-  \centerline{(Version 4.12.1 for MacOS)}
+  \centerline{(Version 4.12.2 for MacOS)}
 @z
 
 @x section 23: Make input_ln accept \n, \r, \n\r, or \r\n as line endings
@@ -15,7 +15,7 @@ support |feof| and |getc| you may have to change things here.
 @^system dependencies@>
 
 @c
-static boolean input_ln( /* copies a line into |buffer| or returns |false| */
+static bool input_ln( /* copies a line into |buffer| or returns |false| */
 FILE *fp) /* what file to read from */
 {
   int c=EOF; /* character read; initialized so some compilers won't complain */
@@ -43,7 +43,7 @@ line endings, so that \.{CWEB} will works with ASCII files stored in
 @^system dependencies@>
 
 @c
-static boolean input_ln( /* copies a line into |buffer| or returns |false| */
+static bool input_ln( /* copies a line into |buffer| or returns |false| */
 FILE *fp) /* what file to read from */
 {
   int  c=EOF; /* character read; initialized so some compilers won't complain */

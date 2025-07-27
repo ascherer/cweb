@@ -2,7 +2,7 @@
 % This program by Silvio Levy and Donald E. Knuth
 % is based on a program by Knuth.
 % It is distributed WITHOUT ANY WARRANTY, express or implied.
-% Version 4.12.1 --- January 2025
+% Version 4.12.2 --- July 2025
 
 % Copyright (C) 1987,1990,1993,2000 Silvio Levy and Donald E. Knuth
 
@@ -27,11 +27,11 @@
 \mathchardef\RA="3221 % right arrow
 \mathchardef\BA="3224 % double arrow
 
-\def\title{CTANGLE (Version 4.12.1)}
+\def\title{CTANGLE (Version 4.12.2)}
 \def\topofcontents{\null\vfill
   \centerline{\titlefont The {\ttitlefont CTANGLE} processor}
   \vskip 15pt
-  \centerline{(Version 4.12.1)}
+  \centerline{(Version 4.12.2)}
   \vfill}
 \def\botofcontents{\vfill
 \noindent
@@ -61,7 +61,7 @@ Joachim Schrod, Lee Wittenberg, and others who have contributed improvements.
 The ``banner line'' defined here should be changed whenever \.{CTANGLE}
 is modified.
 
-@d banner "This is CTANGLE (Version 4.12.1)"
+@d banner "This is CTANGLE (Version 4.12.2)"
 
 @c
 @<Include files@>@/
@@ -153,7 +153,7 @@ init_node(name_dir); /* the undefined section has no replacement text */
 starting at position |first| equals the identifier pointed to by |p|:
 
 @c
-boolean names_match(
+bool names_match(
 name_pointer p, /* points to the proposed match */
 const char *first, /* position of first character of string */
 size_t l, /* length of identifier */
@@ -334,7 +334,7 @@ text or returns the state to the most recently stacked level.
 @c
 static void
 pop_level( /* do this when |cur_byte| reaches |cur_end| */
-boolean flag) /* |flag==false| means we are in |output_defs| */
+bool flag) /* |flag==false| means we are in |output_defs| */
 {
   if (flag && cur_repl->text_link<section_flag) { /* link to a continuation */
     cur_repl=cur_repl->text_link+text_info; /* stay on the same level */
@@ -346,7 +346,7 @@ boolean flag) /* |flag==false| means we are in |output_defs| */
 
 @ @<Predecl...@>=
 static void push_level(name_pointer);@/
-static void pop_level(boolean);@/
+static void pop_level(bool);@/
 static void get_output(void);
 
 @ The heart of the output procedure is the function |get_output|,
@@ -456,7 +456,7 @@ are preceded by a `\.\\'.
 
 @<Private...@>=
 static eight_bits out_state; /* current status of partial output */
-static boolean protect; /* should newline characters be quoted? */
+static bool protect; /* should newline characters be quoted? */
 
 @ Here is a routine that is invoked when we want to output the current line.
 During the output process, |cur_line| equals the number of the next line
@@ -582,28 +582,28 @@ that refer to macros, preceded by the \.{\#define} preprocessor command.
     output_defs();
 
 @ @<Private...@>=
-static boolean output_defs_seen=false;
+static bool output_defs_seen=false;
 
-@ @d macro_end (cur_text+1)->tok_start /* end of |macro| replacement text */
-@#
-@d C_printf(c,a) fprintf(C_file,c,a)
+@ @d C_printf(c,a) fprintf(C_file,c,a)
 @d C_putc(c) fputc((int)(c),C_file) /* isn't \CEE/ wonderfully consistent? */
 
 @c
 static void
 output_defs(void)
 {
-  sixteen_bits a;
+  sixteen_bits a; eight_bits *macro_end;
   push_level(NULL);
   for (cur_text=text_info+1; cur_text<text_ptr; cur_text++)
     if (cur_text->text_link==macro) { /* |cur_text| is the text for a |macro| */
       cur_byte=cur_text->tok_start;
+      macro_end=(cur_text+1)->tok_start; /* end of |macro| replacement text */
       C_printf("%s","#define ");
       out_state=normal;
       protect=true; /* newlines should be preceded by |'\\'| */
-      while (cur_byte<macro_end) {
+      do macro_end--; while (isspace(*macro_end)&&plus_plus!=*macro_end);
+        /* discard trailing whitespace; |plus_plus=='\v'| */
+      while (cur_byte<=macro_end) {
         a=*cur_byte++;
-        if (cur_byte==macro_end && a=='\n') break; /* disregard a final newline */
         if (out_state==verbatim && a!=string && a!=constant && a!='\n')
           C_putc(a); /* a high-bit character can occur in a string */
 @^high-bit character handling@>
@@ -705,9 +705,9 @@ case identifier:
   if (out_state==num_or_id) C_putc(' ');
   for (j=(cur_val+name_dir)->byte_start;
        j<(cur_val+name_dir+1)->byte_start; j++)
-    if ((eight_bits)(*j)<0200) C_putc(*j);
+    if (ishigh(*j)) C_printf("%s",translit[(eight_bits)(*j)-0200]);
 @^high-bit character handling@>
-    else C_printf("%s",translit[(eight_bits)(*j)-0200]);
+    else C_putc(*j);
   out_state=num_or_id; break;
 
 @ @<Case of a sec...@>=@t\1\quad@>
@@ -806,7 +806,7 @@ skip_ahead(void) /* skip to next control code */
 
 @ @<Predecl...@>=
 static eight_bits skip_ahead(void);@/
-static boolean skip_comment(boolean);
+static bool skip_comment(bool);
 
 @ The |skip_comment| procedure reads through the input at somewhat high
 speed in order to pass over comments, which \.{CTANGLE} does not transmit
@@ -825,11 +825,11 @@ If |skip_comment| comes to the end of the section, it prints an error message.
 No comment, long or short, is allowed to contain `\.{@@\ }' or `\.{@@*}'.
 
 @<Private...@>=
-static boolean comment_continues=false; /* are we scanning a comment? */
+static bool comment_continues=false; /* are we scanning a comment? */
 
 @ @c
-static boolean skip_comment( /* skips over comments */
-boolean is_long_comment)
+static bool skip_comment( /* skips over comments */
+bool is_long_comment)
 {
   char c; /* current character */
   while (true) {
@@ -863,7 +863,7 @@ boolean is_long_comment)
 
 @<Private...@>=
 static name_pointer cur_section_name; /* name of section just scanned */
-static boolean no_where; /* suppress |print_where|? */
+static bool no_where; /* suppress |print_where|? */
 
 @ As one might expect, |get_next| consists mostly of a big switch
 that branches to the various special cases that can arise.
@@ -872,7 +872,7 @@ that branches to the various special cases that can arise.
 static eight_bits
 get_next(void) /* produces the next input token */
 {
-  static boolean preprocessing=false;
+  static bool preprocessing=false;
   eight_bits c; /* the current character */
   while (true) {
     if (loc>limit) {
@@ -954,7 +954,7 @@ switch(c) {
 }
 
 @ @<Get a constant@>= {
-  boolean hex_flag = false; /* are we reading a hexadecimal literal? */
+  bool hex_flag = false; /* are we reading a hexadecimal literal? */
   id_first=loc-1;
   if (*id_first=='.' && !xisdigit(*loc)) goto mistake; /* not a constant */
   if (*id_first=='0') {

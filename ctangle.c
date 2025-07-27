@@ -2,7 +2,7 @@
 #line 66 "ctangle.w"
 
 /*5:*/
-#line 48 "common.h"
+#line 47 "common.h"
 
 #include <ctype.h>  
 #include <stdbool.h>  
@@ -15,11 +15,9 @@
 /*:5*/
 #line 67 "ctangle.w"
 
-#define banner "This is CTANGLE (Version 4.12.1)" \
-
+#define banner "This is CTANGLE (Version 4.12.2)"
 #define ctangle false
-#define cweave true \
-
+#define cweave true
 #define and_and 04
 #define lt_lt 020
 #define gt_gt 021
@@ -34,105 +32,77 @@
 #define dot_dot_dot 016
 #define colon_colon 06
 #define period_ast 026
-#define minus_gt_ast 027 \
-
-#define compress(c) if(loc++<=limit) return c \
-
-#define xisalpha(c) (isalpha((int) (c) ) &&((eight_bits) (c) <0200) ) 
-#define xisdigit(c) (isdigit((int) (c) ) &&((eight_bits) (c) <0200) ) 
-#define xisspace(c) (isspace((int) (c) ) &&((eight_bits) (c) <0200) ) 
-#define xislower(c) (islower((int) (c) ) &&((eight_bits) (c) <0200) ) 
-#define xisupper(c) (isupper((int) (c) ) &&((eight_bits) (c) <0200) ) 
-#define xisxdigit(c) (isxdigit((int) (c) ) &&((eight_bits) (c) <0200) ) 
-#define isxalpha(c) ((c) =='_'||(c) =='$')  \
-
-#define ishigh(c) ((eight_bits) (c) > 0177)  \
- \
-
-#define max_include_depth 10 \
-
+#define minus_gt_ast 027
+#define compress(c) if(loc++<=limit) return c
+#define xisalpha(c) (isalpha((int) (c) ) &&!ishigh(c) )
+#define xisdigit(c) (isdigit((int) (c) ) &&!ishigh(c) )
+#define xisspace(c) (isspace((int) (c) ) &&!ishigh(c) )
+#define xislower(c) (islower((int) (c) ) &&!ishigh(c) )
+#define xisupper(c) (isupper((int) (c) ) &&!ishigh(c) )
+#define xisxdigit(c) (isxdigit((int) (c) ) &&!ishigh(c) )
+#define isxalpha(c) ((c) =='_'||(c) =='$')
+#define ishigh(c) ((eight_bits) (c) > 0177)
+#define max_include_depth 10
 #define max_file_name_length 60
 #define cur_file file[include_depth]
 #define cur_file_name file_name[include_depth]
 #define cur_line line[include_depth]
 #define web_file file[0]
-#define web_file_name file_name[0] \
-
-#define length(c) (size_t) ((c+1) ->byte_start-(c) ->byte_start) 
-#define print_id(c) term_write((c) ->byte_start,length(c) ) 
+#define web_file_name file_name[0]
+#define length(c) (size_t) ((c+1) ->byte_start-(c) ->byte_start)
+#define print_id(c) term_write((c) ->byte_start,length(c) )
 #define llink link
 #define rlink dummy.Rlink
-#define root name_dir->rlink \
-
-#define ilk dummy.Ilk \
-
+#define root name_dir->rlink
+#define ilk dummy.Ilk
 #define spotless 0
 #define harmless_message 1
 #define error_message 2
 #define fatal_message 3
 #define mark_harmless() if(history==spotless) history= harmless_message
 #define mark_error() history= error_message
-#define confusion(s) fatal("! This can't happen: ",s)  \
- \
-
+#define confusion(s) fatal("! This can't happen: ",s)
 #define show_banner flags['b']
 #define show_progress flags['p']
 #define show_happiness flags['h']
 #define show_stats flags['s']
-#define make_xrefs flags['x'] \
-
-#define update_terminal() fflush(stdout) 
-#define new_line() putchar('\n') 
-#define term_write(a,b) fflush(stdout) ,fwrite(a,sizeof(char) ,b,stdout)  \
-
+#define make_xrefs flags['x']
+#define update_terminal() fflush(stdout)
+#define new_line() putchar('\n')
+#define term_write(a,b) fflush(stdout) ,fwrite(a,sizeof(char) ,b,stdout)
 #define buf_size 200
-#define longest_name 10000 \
-
-#define long_buf_size (buf_size+longest_name) 
-#define max_bytes 100000 \
-
-#define max_names 5000 \
-
-#define max_sections 2000 \
-
+#define longest_name 10000
+#define long_buf_size (buf_size+longest_name)
+#define max_bytes 100000
+#define max_names 5000
+#define max_sections 2000
 #define max_texts 4000
 #define max_toks 270000
-#define equiv equiv_or_xref \
-
+#define equiv equiv_or_xref
 #define macro 0
-#define section_flag max_texts \
-
+#define section_flag max_texts
 #define string 02
 #define constant 03
 #define join 0177
-#define output_defs_flag (2*024000-1)  \
-
+#define output_defs_flag (2*024000-1)
 #define stack_size 50
-#define cur_state stack[stack_size+1] \
-
+#define cur_state stack[stack_size+1]
 #define cur_byte cur_state.byte_field
 #define cur_name cur_state.name_field
 #define cur_repl cur_state.repl_field
 #define cur_section cur_state.section_field
-#define cur_end (cur_repl+1) ->tok_start \
-
+#define cur_end (cur_repl+1) ->tok_start
 #define section_number 0201
-#define identifier 0202 \
-
+#define identifier 0202
 #define normal 0
 #define num_or_id 1
 #define post_slash 2
 #define unbreakable 3
-#define verbatim 4 \
-
+#define verbatim 4
 #define max_files 256
-#define macro_end (cur_text+1) ->tok_start \
-
-#define C_printf(c,a) fprintf(C_file,c,a) 
-#define C_putc(c) fputc((int) (c) ,C_file)  \
-
-#define translit_length 10 \
-
+#define C_printf(c,a) fprintf(C_file,c,a)
+#define C_putc(c) fputc((int) (c) ,C_file)
+#define translit_length 10
 #define ignore 00
 #define ord 0302
 #define control_text 0303
@@ -142,33 +112,28 @@
 #define definition 0307
 #define begin_C 0310
 #define section_name 0311
-#define new_section 0312 \
-
+#define new_section 0312
 #define app_repl(c) { \
 if(tok_ptr==tok_mem_end) overflow("token") ; \
 else*(tok_ptr++) = (eight_bits) c; \
-} \
-
+}
 #define store_id(a) a= id_lookup(id_first,id_loc,'\0') -name_dir; \
 app_repl((a/0400) +0200) ; \
-app_repl(a%0400)  \
-
-#define keep_digit_separators flags['k'] \
-
+app_repl(a%0400)
+#define keep_digit_separators flags['k']
 
 #line 68 "ctangle.w"
 
 /*3:*/
 #line 35 "common.h"
 
-typedef bool boolean;
 typedef uint8_t eight_bits;
 typedef uint16_t sixteen_bits;
-extern boolean program;
+extern bool program;
 extern int phase;
 
 /*:3*//*6:*/
-#line 78 "common.h"
+#line 92 "common.h"
 
 extern char section_text[];
 extern char*section_text_end;
@@ -176,7 +141,7 @@ extern char*id_first;
 extern char*id_loc;
 
 /*:6*//*7:*/
-#line 96 "common.h"
+#line 110 "common.h"
 
 extern char buffer[];
 extern char*buffer_end;
@@ -184,7 +149,7 @@ extern char*loc;
 extern char*limit;
 
 /*:7*//*8:*/
-#line 113 "common.h"
+#line 127 "common.h"
 
 extern int include_depth;
 extern FILE*file[];
@@ -195,20 +160,20 @@ extern char change_file_name[];
 extern int line[];
 extern int change_line;
 extern int change_depth;
-extern boolean input_has_ended;
-extern boolean changing;
-extern boolean web_file_open;
+extern bool input_has_ended;
+extern bool changing;
+extern bool web_file_open;
 
 /*:8*//*10:*/
-#line 133 "common.h"
+#line 147 "common.h"
 
 extern sixteen_bits section_count;
-extern boolean changed_section[];
-extern boolean change_pending;
-extern boolean print_where;
+extern bool changed_section[];
+extern bool change_pending;
+extern bool print_where;
 
 /*:10*//*11:*/
-#line 148 "common.h"
+#line 162 "common.h"
 
 typedef struct name_info{
 char*byte_start;
@@ -233,12 +198,12 @@ extern hash_pointer hash_end;
 extern hash_pointer hash_ptr;
 
 /*:11*//*13:*/
-#line 193 "common.h"
+#line 207 "common.h"
 
 extern int history;
 
 /*:13*//*15:*/
-#line 211 "common.h"
+#line 225 "common.h"
 
 extern int argc;
 extern char**argv;
@@ -246,10 +211,10 @@ extern char C_file_name[];
 extern char tex_file_name[];
 extern char idx_file_name[];
 extern char scn_file_name[];
-extern boolean flags[];
+extern bool flags[];
 
 /*:15*//*16:*/
-#line 225 "common.h"
+#line 239 "common.h"
 
 extern FILE*C_file;
 extern FILE*tex_file;
@@ -314,7 +279,7 @@ static int cur_val;
 #line 457 "ctangle.w"
 
 static eight_bits out_state;
-static boolean protect;
+static bool protect;
 
 /*:42*//*45:*/
 #line 488 "ctangle.w"
@@ -327,7 +292,7 @@ static char output_file_name[longest_name+1];
 /*:45*//*53:*/
 #line 584 "ctangle.w"
 
-static boolean output_defs_seen= false;
+static bool output_defs_seen= false;
 
 /*:53*//*57:*/
 #line 694 "ctangle.w"
@@ -342,13 +307,13 @@ static eight_bits ccode[256]= {ignore};
 /*:62*//*66:*/
 #line 827 "ctangle.w"
 
-static boolean comment_continues= false;
+static bool comment_continues= false;
 
 /*:66*//*68:*/
 #line 864 "ctangle.w"
 
 static name_pointer cur_section_name;
-static boolean no_where;
+static bool no_where;
 
 /*:68*//*82:*/
 #line 1182 "ctangle.w"
@@ -360,33 +325,33 @@ static eight_bits next_control;
 #line 71 "ctangle.w"
 
 /*4:*/
-#line 43 "common.h"
+#line 42 "common.h"
 
 extern void common_init(void);
 
 /*:4*//*9:*/
-#line 127 "common.h"
+#line 141 "common.h"
 
-extern boolean get_line(void);
+extern bool get_line(void);
 extern void check_complete(void);
 extern void reset_input(void);
 
 /*:9*//*12:*/
-#line 171 "common.h"
+#line 185 "common.h"
 
 extern name_pointer id_lookup(const char*,const char*,eight_bits);
 
-extern name_pointer section_lookup(char*,char*,boolean);
+extern name_pointer section_lookup(char*,char*,bool);
 extern void print_prefix_name(name_pointer);
 extern void print_section_name(name_pointer);
 extern void sprint_section_name(char*,name_pointer);
 
-extern boolean names_match(name_pointer,const char*,size_t,eight_bits);
+extern bool names_match(name_pointer,const char*,size_t,eight_bits);
 
 extern void init_node(name_pointer);
 
 /*:12*//*14:*/
-#line 196 "common.h"
+#line 210 "common.h"
 
 extern int wrap_up(void);
 extern void err_print(const char*);
@@ -403,7 +368,7 @@ static void store_two_bytes(sixteen_bits);
 #line 347 "ctangle.w"
 
 static void push_level(name_pointer);
-static void pop_level(boolean);
+static void pop_level(bool);
 static void get_output(void);
 
 /*:37*//*44:*/
@@ -421,7 +386,7 @@ static void out_char(eight_bits);
 #line 807 "ctangle.w"
 
 static eight_bits skip_ahead(void);
-static boolean skip_comment(boolean);
+static bool skip_comment(bool);
 
 /*:65*//*70:*/
 #line 915 "ctangle.w"
@@ -519,7 +484,7 @@ return wrap_up();
 /*:2*//*24:*/
 #line 155 "ctangle.w"
 
-boolean names_match(
+bool names_match(
 name_pointer p,
 const char*first,
 size_t l,
@@ -572,7 +537,7 @@ cur_byte= cur_repl->tok_start;cur_section= 0;
 
 static void
 pop_level(
-boolean flag)
+bool flag)
 {
 if(flag&&cur_repl->text_link<section_flag){
 cur_repl= cur_repl->text_link+text_info;
@@ -742,22 +707,24 @@ printf("%s","Done.");
 }
 
 /*:48*//*54:*/
-#line 592 "ctangle.w"
+#line 590 "ctangle.w"
 
 static void
 output_defs(void)
 {
-sixteen_bits a;
+sixteen_bits a;eight_bits*macro_end;
 push_level(NULL);
 for(cur_text= text_info+1;cur_text<text_ptr;cur_text++)
 if(cur_text->text_link==macro){
 cur_byte= cur_text->tok_start;
+macro_end= (cur_text+1)->tok_start;
 C_printf("%s","#define ");
 out_state= normal;
 protect= true;
-while(cur_byte<macro_end){
+do macro_end--;while(isspace(*macro_end)&&plus_plus!=*macro_end);
+
+while(cur_byte<=macro_end){
 a= *cur_byte++;
-if(cur_byte==macro_end&&a=='\n')break;
 if(out_state==verbatim&&a!=string&&a!=constant&&a!='\n')
 C_putc(a);
 
@@ -801,9 +768,9 @@ case identifier:
 if(out_state==num_or_id)C_putc(' ');
 for(j= (cur_val+name_dir)->byte_start;
 j<(cur_val+name_dir+1)->byte_start;j++)
-if((eight_bits)(*j)<0200)C_putc(*j);
+if(ishigh(*j))C_printf("%s",translit[(eight_bits)(*j)-0200]);
 
-else C_printf("%s",translit[(eight_bits)(*j)-0200]);
+else C_putc(*j);
 out_state= num_or_id;break;
 
 /*:59*/
@@ -900,8 +867,8 @@ if(c!=ignore||*(loc-1)=='>')return c;
 /*:64*//*67:*/
 #line 830 "ctangle.w"
 
-static boolean skip_comment(
-boolean is_long_comment)
+static bool skip_comment(
+bool is_long_comment)
 {
 char c;
 while(true){
@@ -937,7 +904,7 @@ else loc++;
 static eight_bits
 get_next(void)
 {
-static boolean preprocessing= false;
+static bool preprocessing= false;
 eight_bits c;
 while(true){
 if(loc> limit){
@@ -978,7 +945,7 @@ loc++;
 if(xisdigit(c)||c=='.')/*73:*/
 #line 956 "ctangle.w"
 {
-boolean hex_flag= false;
+bool hex_flag= false;
 id_first= loc-1;
 if(*id_first=='.'&&!xisdigit(*loc))goto mistake;
 if(*id_first=='0'){

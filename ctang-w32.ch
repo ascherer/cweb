@@ -4,19 +4,19 @@ This is the change file for CWEB's CTANGLE under Win32
 Changes necessary for compiling with Borland C/C++
 
 @x section 1
-@d banner "This is CTANGLE (Version 4.12.1)"
+@d banner "This is CTANGLE (Version 4.12.2)"
 @y
-@d banner "This is CTANGLE (Version 4.12.1win32)"
+@d banner "This is CTANGLE (Version 4.12.2win32)"
 @z
 
 @x section 24
-boolean names_match(
+bool names_match(
 name_pointer p, /* points to the proposed match */
 const char *first, /* position of first character of string */
 size_t l, /* length of identifier */
 eight_bits t) /* not used by \.{CTANGLE} */
 @y
-boolean __cdecl names_match(
+bool __cdecl names_match(
 name_pointer p, /* points to the proposed match */
 const char *first, /* position of first character of string */
 size_t l, /* length of identifier */
