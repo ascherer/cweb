@@ -334,7 +334,7 @@ skip_C_prime: skipping=1;
   C_switch: switch(c) {
    case '/': c=get();
      if (c!='*') goto C_switch;
-     comment=1; /* fall through to the next case, returning to \TEX/ mode */
+     comment=1; @+@=/* fall through */@>@; /* to the next case, returning to \TEX/ mode */
    case '|': if (save_skipping==2) continue; /* |'|'| as \CEE/ operator */
      skipping=save_skipping;@+goto restart; /* |'|'| as \.{CWEB} delimiter */
    case '@@': c=getchar();
