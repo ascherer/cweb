@@ -19,10 +19,10 @@
 
 % searchable underscore in PDF/HINT
 \def\\#1{\leavevmode\hbox{\it
-  \ifacrohint\def\_{\hbox{\tt\char`\_}}\fi
+  \ifacrohint\def\_{\hbox{\kern.04em\tt\char`\_\kern.02em}}\fi
   #1\/\kern.05em}} % italic type for identifiers
 \def\&#1{\leavevmode\hbox{\bf
-  \ifacrohint\def\_{\hbox{\tt\char`\_}}\else
+  \ifacrohint\def\_{\hbox{\kern.04em\tt\char`\_\kern.02em}}\else
   \def\_{\kern.04em\vbox{\hrule width.3em height .6pt}\kern.08em}\fi
   #1\/\kern.05em}} % boldface type for reserved words
 
