@@ -1,6 +1,6 @@
 % hypertext macros for CWEB listings (in addition to cwebmac.tex)
 % Used in cwebmac.tex, pdfctwimac.tex, pdfproofmac.tex
-% Version 3.1 --- January 2025
+% Version 3.2 --- April 2026
 \ifx\ifacrohint\undefined\endinput\fi % these are not standalone macros
 
 \ifluatex % LuaTeX is almost like pdfTeX
@@ -16,6 +16,15 @@
 \let\pdfpageheight=\pageheight
 \let\pdfoutput=\outputmode
 \fi % end of LuaTeX->pdfTeX redirection macros
+
+% searchable underscore in PDF/HINT
+\def\\#1{\leavevmode\hbox{\it
+  \ifacrohint\def\_{\hbox{\tt\char`\_}}\fi
+  #1\/\kern.05em}} % italic type for identifiers
+\def\&#1{\leavevmode\hbox{\bf
+  \ifacrohint\def\_{\hbox{\tt\char`\_}}\else
+  \def\_{\kern.04em\vbox{\hrule width.3em height .6pt}\kern.08em}\fi
+  #1\/\kern.05em}} % boldface type for reserved words
 
 \def\pdfURL#1#2{\ifpdf \ifpdflua\pdfannotlink height \theheight depth \thedepth
     attr {/Border [0 0 0]} user { /Type /Annot /Subtype /Link /A
