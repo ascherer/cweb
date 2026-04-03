@@ -18,11 +18,11 @@
 \fi % end of LuaTeX->pdfTeX redirection macros
 
 % searchable underscore in PDF/HINT
-\def\\#1{\leavevmode\hbox{\it
-  \ifacrohint\def\_{\hbox{\kern.04em\tt\char`\_\kern.02em}}\fi
+\def\\#1{\leavevmode\hbox{\it % 5.24995-3.67998=1.56997
+  \ifacrohint\def\_{\kern-.785pt\hbox{\tt\char`\_}\kern-.785pt}\fi
   #1\/\kern.05em}} % italic type for identifiers
-\def\&#1{\leavevmode\hbox{\bf
-  \ifacrohint\def\_{\hbox{\kern.04em\tt\char`\_\kern.02em}}\else
+\def\&#1{\leavevmode\hbox{\bf % 4.82994-3.67998=1.14996
+  \ifacrohint\def\_{\kern-.575pt\hbox{\tt\char`\_}\kern-.575pt}\else
   \def\_{\kern.04em\vbox{\hrule width.3em height .6pt}\kern.08em}\fi
   #1\/\kern.05em}} % boldface type for reserved words
 
